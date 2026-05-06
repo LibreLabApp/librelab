@@ -1,0 +1,14 @@
+import 'package:meta/meta.dart';
+
+@immutable
+final class MdnsServiceConfig {
+  const MdnsServiceConfig({
+    required this.instanceName,
+    required this.port,
+    required this.serviceType,
+  });
+
+  final String instanceName;
+  final int port;
+  final String serviceType;
+}

@@ -1,0 +1,12 @@
+emailIdp:
+  - login:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+  - hasAccount:
+jwtRefresh:
+  - refreshAccessToken:
+handshake:
+  - check:

@@ -1,0 +1,10 @@
+name: pg_create_db_if_missing
+description: Creates a PostgreSQL database if it does not already exist.
+version: 1.0.0
+resolution: workspace
+environment:
+  sdk: ^3.11.5
+
+# pg_create_db_if_missing exists to avoid exposing all postgres APIs to the project (conflicts with serverpod)
+dependencies:
+  postgres: ^3.5.9

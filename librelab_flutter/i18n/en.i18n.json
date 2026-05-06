@@ -1,0 +1,39 @@
+{
+  "@@locale": "en",
+  "initialSetupPage": {
+    "title": "Initial Setup",
+    "@title": "Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server connection, and account setup.",
+    "steps": {
+      "preferences": {
+        "title": "Preferences",
+        "subtitle": "Choose your preferences"
+      },
+      "server": {
+        "title": "Server",
+        "subtitle": "Configure your server connection"
+      },
+      "account": {
+        "title": "Account",
+        "subtitle": "Login using your credentials"
+      },
+      "complete": {
+        "title": "Complete",
+        "subtitle": "Finish setup"
+      }
+    },
+    "next": "Next",
+    "back": "Back"
+  },
+  "confirmProgramExitDialog": {
+    "title": "Confirm Exit",
+    "@title": "The title displayed in the confirmation dialog when the user tries to close the application.",
+    "message": "Are you sure you want to exit? Unsaved changes may be lost.",
+    "@message": "The body text of the exit confirmation dialog.",
+    "backupCheckbox": "Backup data before closing",
+    "@backupCheckbox": "Label for the checkbox to trigger a data backup on exit.",
+    "cancelButton": "Cancel",
+    "@cancelButton": "Secondary button text to stay in the app and not close.",
+    "confirmButton": "Exit",
+    "@confirmButton": "Primary button text to confirm closing the application."
+  }
+}

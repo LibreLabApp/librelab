@@ -1,0 +1,16 @@
+name: win32_registry_value_reader
+description: Reads values from the Microsoft Windows registry
+version: 1.0.0
+
+resolution: workspace
+
+environment:
+  sdk: ^3.11.5
+
+# win32_registry_value_reader exists to avoid exposing all win32_registry APIs to the project
+dependencies:
+  win32_registry: ^2.1.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6

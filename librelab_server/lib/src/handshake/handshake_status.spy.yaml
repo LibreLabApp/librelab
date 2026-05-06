@@ -1,0 +1,5 @@
+enum: HandshakeStatus
+serialized: byName
+values:
+  - ok
+  - updateClient

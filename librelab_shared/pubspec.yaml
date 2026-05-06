@@ -1,0 +1,16 @@
+name: librelab_shared
+description: Shared code between server and Flutter app
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.5
+
+resolution: workspace
+
+dependencies:
+  email_validator: ^3.0.0
+  meta: ^1.17.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6

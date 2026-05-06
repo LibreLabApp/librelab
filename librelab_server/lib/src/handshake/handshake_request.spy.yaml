@@ -1,0 +1,3 @@
+class: HandshakeRequest
+fields:
+  clientBuildNumber: int

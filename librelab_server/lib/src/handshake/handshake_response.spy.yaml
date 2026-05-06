@@ -1,0 +1,5 @@
+class: HandshakeResponse
+fields:
+  status: HandshakeStatus
+  serverBuildNumber: int
+  serverVersion: String

@@ -1,0 +1,7 @@
+analyzer:
+  exclude:
+    - lib/src/protocol/**
+
+# Intentionally left to prevent "dart format ." from making changes to the package after running "serverpod generate"
+formatter:
+  trailing_commas: preserve
