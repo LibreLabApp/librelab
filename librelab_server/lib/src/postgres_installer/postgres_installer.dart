@@ -54,18 +54,25 @@ Future<void> tryInstallPostgresWithPrompt({
     return;
   }
 
-  // The super password is not stored anywhere outside of memory (for security reasons).
-  // Users will have to either edit "pg_hba.conf" rules
-  // or re-install PostgreSQL to reset it. Typically the target audience of this project
-  // don't need admin access to PostgreSQL.
-  //
-  // Technically, the macOS version supports setting the superpassword during the installation, but this approach is still only used on Windows.
-  final tempSuperPassword =
-      platformInstaller is PostgresPlatformPackageManagerInstaller
-      ? null
-      : generateSecureRandomString();
+  String? tempSuperPassword;
 
-  await platformInstaller.performInstall(superPassword: tempSuperPassword);
+  switch (platformInstaller) {
+    case PostgresPlatformPackageManagerInstaller():
+      tempSuperPassword = null;
+      await platformInstaller.performInstall();
+
+    case PostgresPlatformFileInstaller():
+
+      // The super password is not stored anywhere outside of memory (for security reasons).
+      // Users will have to either edit "pg_hba.conf" rules
+      // or re-install PostgreSQL to reset it. Typically the target audience of this project
+      // don't need admin access to PostgreSQL.
+      //
+      // Technically, the macOS version supports setting the superpassword during the installation, but this approach is still only used on Windows.
+      tempSuperPassword = generateSecureRandomString();
+
+      await platformInstaller.performInstall(superPassword: tempSuperPassword);
+  }
 
   await _createAppUser(
     appUser: appUser,
@@ -251,10 +258,23 @@ bool _promptPostgresInstall({required bool hasPostgresInDocker}) {
   const dockerMessage =
       '\n\nNote: A Docker container that appears to contain PostgreSQL was detected.\n'
       'You can reject the system installation and instead manually configure the connection\n'
-      'to use the PostgreSQL instance running inside Docker (host, port, username, and password).';
+      'to use the PostgreSQL instance running inside Docker (host, port, db, username, and password).';
   const unixMessage = '''
 \n\nThis will use your system package manager to automate the process,
-and will run "sudo" commands, which may require password authentication.''';
+and will run "sudo" commands, which may require password authentication.
+
+Important: In some Unix-like systems, such as Fedora Linux (not applicable to Ubuntu, Linux Mint, or PopOS),
+the default pg_hba.conf rules provided by your system package manager/distribution
+may force Ident authentication, which causes the app connection to fail.
+
+Fix: In pg_hba.conf, replace TCP authentication from "ident" to "scram-sha-256" (file location varies by OS).
+For example, on Fedora: /var/lib/pgsql/data/pg_hba.conf
+Then restart PostgreSQL service for the fix to take affect
+
+More details:
+
+- https://stackoverflow.com/questions/50098688/postgresql-ident-authentication-failed-on-fedora
+- https://docs.fedoraproject.org/en-US/quick-docs/postgresql/#pg_hba.conf''';
 
   stdout.writeln('''
 \nPostgreSQL was not detected on the system.${hasPostgresInDocker ? dockerMessage : ''}

@@ -31,7 +31,7 @@ final class LinuxPostgresInstaller
   }
 
   @override
-  Future<void> runCommands() async {
+  Future<void> performInstall() async {
     switch (_packageManager) {
       case LinuxPackageManager.apt:
         await _installUsingApt();

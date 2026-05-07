@@ -3,34 +3,16 @@ import 'dart:io';
 import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
 
-// TODO: Need a cleaner approach!
-abstract interface class PostgresPlatformInstaller {
-  Future<void> performInstall({required String? superPassword});
-}
+abstract interface class PostgresPlatformInstaller {}
 
 abstract class PostgresPlatformPackageManagerInstaller
     implements PostgresPlatformInstaller {
-  @override
-  Future<void> performInstall({required String? superPassword}) async {
-    if (superPassword != null) {
-      throw ArgumentError(
-        'superPassword must be null when installing PostgreSQL via package manager',
-      );
-    }
-    await runCommands();
-  }
-
-  Future<void> runCommands();
+  Future<void> performInstall();
 }
 
 abstract class PostgresPlatformFileInstaller
     implements PostgresPlatformInstaller {
-  @override
-  Future<void> performInstall({required String? superPassword}) async {
-    if (superPassword == null) {
-      throw ArgumentError.notNull('superPassword');
-    }
-
+  Future<void> performInstall({required String superPassword}) async {
     final downloadUrl = buildDownloadUrl(version: PostgresConstants.version);
 
     final installerFile = await downloadInstallerFile(downloadUrl);
