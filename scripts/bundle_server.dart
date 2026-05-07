@@ -5,10 +5,9 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:io/io.dart';
 import 'package:librelab_server/generated/pubspec.g.dart' show Pubspec;
-import 'package:librelab_server/src/config/config_files.dart';
 import 'package:librelab_server/src/constants/constants.dart';
+import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
-import 'package:librelab_shared/src/constants/project_constants.dart';
 import 'package:path/path.dart';
 
 import '_utils.dart';
@@ -17,6 +16,13 @@ import 'packages.dart';
 const _package = Packages.server;
 
 void main() async {
+  if (!(await isCommandAvailable('zip'))) {
+    stderr.writeln(
+      'Please install "zip" using your system package manager.\nE.g., sudo apt install zip',
+    );
+    exit(1);
+  }
+
   ensureWorkingDirectory(_package);
 
   final buildDirectory = Directory(join(Directory.current.path, 'build'));
@@ -52,8 +58,6 @@ void main() async {
     executableFileName: executableFileName,
     runScriptFile: runScriptFile,
   );
-
-  await _createConfigFiles(targetDirectory.path);
 
   await _copyMigrationFiles(targetDirectory.path);
 
@@ -163,51 +167,6 @@ echo Done
   if (isUnixLike) {
     await makeExecutable(file.path);
   }
-}
-
-Future<void> _createConfigFiles(String targetDirectory) async {
-  final configDirectory = Directory(
-    join(targetDirectory, ConfigFileNames.configRoot),
-  );
-  await configDirectory.create();
-
-  final productionConfigFile = File(
-    join(configDirectory.path, ConfigFileNames.production),
-  );
-
-  await productionConfigFile.writeAsString('''
-# Important: When deploying the server to the cloud (not required for local networks):
-#
-# 1. Route traffic through a reverse proxy or load balancer to provide SSL security (HTTPS), e.g.,
-# 2. Update host, port, and scheme values for both the API server and database.
-# 3. Set requireSsl to true
-
-apiServer:
-  port: ${ProjectConstants.defaultApiPort}
-  publicHost: localhost
-  publicPort: ${ProjectConstants.defaultApiPort}
-  publicScheme: http
-
-# insightsServer:
-#   port: ${ProjectConstants.defaultInsightsPort}
-#   publicHost: localhost
-#   publicPort: ${ProjectConstants.defaultInsightsPort}
-#   publicScheme: http
-
-database:
-  host: localhost
-  port: ${PostgresConstants.defaultPort}
-  name: ${ProjectConstants.defaultDbName}
-  user: ${ProjectConstants.defaultUsername}
-  requireSsl: false
-
-# The maximum size of requests allowed in bytes
-maxRequestSize: 524288 # 512 KB
-
-sessionLogs:
-  consoleEnabled: false
-# persistentEnabled: true
-''');
 }
 
 Future<void> _copyMigrationFiles(String targetDirectory) async {

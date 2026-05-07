@@ -7,30 +7,37 @@ import 'package:librelab_server/src/utils/utils.dart';
 const _serverpodPasswordPrefix = 'SERVERPOD_PASSWORD_';
 
 Future<void> ensureHasConfigSecrets() async {
-  final passwordsFoundInEnv = Platform.environment.entries
-      .where((e) => e.key.startsWith(_serverpodPasswordPrefix))
-      .isNotEmpty;
-  if (passwordsFoundInEnv) {
-    // If any SERVERPOD_PASSWORD_* environment variable is present, assume external management
-    // and skip automatic password file generation.
+  if (_hasConfiguredAllSecretsViaEnv) {
+    // If all required SERVERPOD_PASSWORD_* environment variables are provided,
+    // assume external management and skip automatic password file generation.
     //
-    // If none are present and no config file exists, it generates a default file for local setup.
+    // Technically, generating this file has no effect since environment
+    // variables already override these values, but skipping it keeps the setup cleaner.
+    //
     // Missing individual values are handled by Serverpod via clear runtime error messages.
     return;
   }
 
   final passwordsFile = ConfigFiles.passwords;
-  await passwordsFile.parent.create();
 
   if (passwordsFile.existsSync()) {
     return;
   }
 
+  await _write(passwordsFile);
+}
+
+Future<void> _write(File passwordsFile) async {
+  final parent = passwordsFile.parent;
+  if (!parent.existsSync()) {
+    await parent.create();
+  }
+
   final securityMessage =
       'SECURITY: Prefer providing secrets via environment variables,\n'
       'especially in cloud deployments.\n'
-      'Use this format: "SERVERPOD_PASSWORD_*",\n'
-      'e.g., SERVERPOD_PASSWORD_database=... \n\n'
+      'Use this format: "$_serverpodPasswordPrefix*",\n'
+      'e.g., ${_serverpodPasswordPrefix}database=... \n\n'
       'Environment variables override values in the config file ("${passwordsFile.path}").\n'
       'If all required secrets are provided via environment variables,\n'
       'this file can be removed.';
@@ -64,4 +71,20 @@ production:
 
   stdout.writeln('Press Enter to continue...');
   stdin.readLineSync();
+}
+
+final List<String> _requiredSecretKeys = List.unmodifiable([
+  'database',
+  'serviceSecret',
+  'emailSecretHashPepper',
+  'jwtHmacSha512PrivateKey',
+  'jwtRefreshTokenHashPepper',
+]);
+
+bool get _hasConfiguredAllSecretsViaEnv {
+  final providedEnvKeys = Platform.environment.keys.toSet();
+
+  return _requiredSecretKeys
+      .map((key) => '$_serverpodPasswordPrefix$key')
+      .every(providedEnvKeys.contains);
 }

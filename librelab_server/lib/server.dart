@@ -5,6 +5,7 @@ import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/src/auth/ensure_has_admin_user.dart';
 import 'package:librelab_server/src/config/app_config.dart';
 import 'package:librelab_server/src/config/app_config_repository.dart';
+import 'package:librelab_server/src/config/ensure_config.dart';
 import 'package:librelab_server/src/config/ensure_config_secrets.dart';
 import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/generated/endpoints.dart';
@@ -31,6 +32,7 @@ Future<void> run(List<String> args) async {
     _AppArgument.forceCreateAdmin.argument,
   );
 
+  await ensureHasConfig();
   await ensureHasConfigSecrets();
 
   // Workaround: This app supports custom arguments. Serverpod fails

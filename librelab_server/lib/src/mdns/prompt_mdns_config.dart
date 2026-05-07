@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:librelab_server/src/config/app_config.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
+import 'package:librelab_shared/librelab_shared.dart';
 
 MdnsConfig promptMdnsConfig() {
   stdout.writeln('''
@@ -26,8 +27,14 @@ Disable if:
   if (!advertise) {
     return const MdnsConfig(advertise: false, instanceName: '');
   }
+
+  const instanceNameDefault = ProjectConstants.displayName;
   final instanceName = promptInput(
-    'Enter mDNS instance name (used for local network label only, has no effect on functionality, can be your lab lab)',
+    'Enter mDNS instance name (used for local network label only, has no effect on functionality) [Default: $instanceNameDefault]',
+    allowEmpty: true,
   );
-  return MdnsConfig(advertise: advertise, instanceName: instanceName);
+  return MdnsConfig(
+    advertise: advertise,
+    instanceName: instanceName.isEmpty ? instanceNameDefault : instanceName,
+  );
 }
