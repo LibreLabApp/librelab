@@ -1,0 +1,78 @@
+PostgreSQL 18
+Usage:
+
+ --help                                      Display the list of valid options
+
+ --version                                   Display product information
+
+ --unattendedmodeui <unattendedmodeui>       Unattended Mode UI
+                                             Default: minimal
+                                             Allowed: none minimal minimalWithDialogs
+
+ --optionfile <optionfile>                   Installation option file
+                                             Default: 
+
+ --debuglevel <debuglevel>                   Debug information level of verbosity
+                                             Default: 2
+                                             Allowed: 0 1 2 3 4
+
+ --mode <mode>                               Installation mode
+                                             Default: qt
+                                             Allowed: qt win32 unattended
+
+ --debugtrace <debugtrace>                   Debug filename
+                                             Default: 
+
+ --enable-components <enable-components>     Comma-separated list of components
+                                             Default: server,pgAdmin,stackbuilder,commandlinetools
+                                             Allowed: server pgAdmin stackbuilder commandlinetools
+
+ --disable-components <disable-components>   Comma-separated list of components
+                                             Default: 
+                                             Allowed: server pgAdmin stackbuilder commandlinetools
+
+ --installer-language <installer-language>   Language selection
+                                             Default: en
+                                             Allowed: en es fr
+
+ --extract-only <extract-only>               
+                                             Default: 0
+
+ --superaccount <superaccount>               Sets the user name of the database superuser. Defaults to 'postgres'.
+                                             Default: postgres
+
+ --servicename <servicename>                 Sets the name of the database service.
+                                             Default: 
+
+ --serviceaccount <serviceaccount>           Sets the operating system user account that owns the server process. Defaults to 'postgres'.
+                                             Default: 
+
+ --servicepassword <servicepassword>         Sets the password for the operating system user account that owns server process. Defaults to superuser password.
+                                             Default: 
+
+ --install_runtimes <install_runtimes>       Specifies whether or not install the Microsoft Visual C++ runtimes before the installation proceeds.
+                                             Default: 1
+
+ --enable_acledit <enable_acledit>           Check and give the read permissions on the complete data directory path for the service account.
+                                             Default: 0
+
+ --create_shortcuts <create_shortcuts>       Specifies whether or not menu shortcuts should be created.
+                                             Default: 1
+
+ --prefix <prefix>                           Installation Directory
+                                             Default: C:\Program Files\PostgreSQL\18
+
+ --datadir <datadir>                         Data Directory
+                                             Default: C:\Program Files\PostgreSQL\18\data
+
+ --superpassword <superpassword>             Password
+                                             Default: 
+
+ --serverport <serverport>                   Port
+                                             Default: 5433
+
+ --locale <locale>                           Long name locale, ex: "English, United States" or BCP47 code, ex: "en-US"
+                                             Default: DEFAULT
+
+ --errortrace <errortrace>                   Error trace filename
+                                             Default:

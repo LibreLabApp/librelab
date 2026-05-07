@@ -12,8 +12,8 @@ import 'package:librelab_server/src/mdns/mdns_driver.dart';
 import 'package:librelab_server/src/mdns/mdns_service_advertiser.dart';
 import 'package:librelab_server/src/mdns/prompt_mdns_config.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_installer.dart';
+import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
-import 'package:librelab_shared/librelab_shared.dart';
 import 'package:pg_create_db_if_missing/pg_create_db_if_missing.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
@@ -66,13 +66,15 @@ Future<void> run(List<String> args) async {
 
   if (!appConfig.postgresInstallDeclined) {
     await tryInstallPostgresWithPrompt(
-      superPassword: dbConfig.password,
-      databaseName: dbConfig.name,
+      appUser: dbConfig.user,
+      appPassword: dbConfig.password,
+      appDatabaseName: dbConfig.name,
       onDeclined: () =>
           appConfigRepository.update(postgresInstallDeclined: true),
     );
   }
 
+  // TODO: Remove this fully!
   // "createDbIfMissing" should be called after [tryInstallPostgresWithPrompt]
   // for a lower failure probability since it creates the db using createdb
   // binary provided with the PostgreSQL installation instead of connecting as

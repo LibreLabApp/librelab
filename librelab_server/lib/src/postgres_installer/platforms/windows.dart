@@ -1,16 +1,16 @@
 import 'dart:io';
 
+import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_platform_installer.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
-import 'package:librelab_shared/librelab_shared.dart';
 import 'package:path/path.dart';
 import 'package:win32_registry_value_reader/win32_registry_value_reader.dart'
     as win32;
 
 final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
   static String get _installDir =>
-      'C:\\Program Files\\PostgreSQL\\${Constants.postgresMajorVersion}';
+      'C:\\Program Files\\PostgreSQL\\${PostgresConstants.majorVersion}';
   static String get _binDir => join(_installDir, 'bin');
 
   static String binExePath(String fileName) {
@@ -31,7 +31,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
         ) ??
         win32.readStringValueFromLocalMachine(
           keyPath:
-              'SOFTWARE\\PostgreSQL\\Installations\\postgresql-x64-${Constants.postgresMajorVersion}',
+              'SOFTWARE\\PostgreSQL\\Installations\\postgresql-x64-${PostgresConstants.majorVersion}',
           valueName: 'Base Directory',
         );
   }
@@ -59,13 +59,13 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
       );
     } on Exception catch (e) {
       stderr.writeln('Failed to download PostgreSQL installer: $e');
-    } finally {
-      if (file.existsSync()) {
-        stdout.writeln(
-          'Deleting corrupted/incomplete installer file: ${file.path}',
-        );
-        await file.delete();
-      }
+    }
+
+    if (file.existsSync()) {
+      stdout.writeln(
+        'Deleting corrupted/incomplete installer file: ${file.path}',
+      );
+      await file.delete();
     }
 
     await shutdown();

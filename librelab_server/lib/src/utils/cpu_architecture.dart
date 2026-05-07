@@ -11,6 +11,10 @@ String getPlatformArchitecture() {
   };
 }
 
+bool isWindowsX64() {
+  return getPlatformArchitecture().toLowerCase() == 'AMD64'.toLowerCase();
+}
+
 String _unix() {
   final result = Process.runSync('uname', ['-m']);
   final arch = (result.stdout as String).trim();

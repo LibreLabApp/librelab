@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:librelab_server/src/config/config_files.dart';
+import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/postgres_installer/platforms/linux.dart';
 import 'package:librelab_server/src/postgres_installer/platforms/windows.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_platform_installer.dart';
@@ -9,11 +10,21 @@ import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
-import 'package:librelab_shared/librelab_shared.dart';
+import 'package:librelab_server/src/utils/utils.dart';
 
+/// Prompts the user to install PostgreSQL if not already installed
+/// and supported on the current OS, unless the user previously declined.
+///
+/// During installation, a temporary random PostgreSQL superuser password
+/// is generated automatically.
+///
+/// After setup, a new PostgreSQL role named [appUser] is created with
+/// the password [appPassword], and a database named [appDatabaseName]
+/// owned by [appUser] is created.
 Future<void> tryInstallPostgresWithPrompt({
-  required String superPassword,
-  required String databaseName,
+  required String appUser,
+  required String appPassword,
+  required String appDatabaseName,
   required void Function() onDeclined,
 }) async {
   final PostgresPlatformInstaller? platformInstaller =
@@ -43,77 +54,193 @@ Future<void> tryInstallPostgresWithPrompt({
     return;
   }
 
-  await platformInstaller.performInstall(superPassword: superPassword);
+  // The super password is not stored anywhere outside of memory (for security reasons).
+  // Users will have to either edit "pg_hba.conf" rules
+  // or re-install PostgreSQL to reset it. Typically the target audience of this project
+  // don't need admin access to PostgreSQL.
+  //
+  // Technically, the macOS version supports setting the superpassword during the installation, but this approach is still only used on Windows.
+  final tempSuperPassword =
+      platformInstaller is PostgresPlatformPackageManagerInstaller
+      ? null
+      : generateSecureRandomString();
 
-  await _createDb(
-    user: Constants.defaultDbUser,
-    password: superPassword,
-    databaseName: databaseName,
+  await platformInstaller.performInstall(superPassword: tempSuperPassword);
+
+  await _createAppUser(
+    appUser: appUser,
+    appPassword: appPassword,
+    superPassword: tempSuperPassword,
+  );
+
+  await _createAppDb(
+    appDatabaseName,
+    ownedBy: appUser,
+    superPassword: tempSuperPassword,
   );
 }
 
-/// Creates a database using the locally installed PostgreSQL `createdb` CLI utility.
+/// Runs SQL [command] command using `psql`.
 ///
-/// Uses the system-installed PostgreSQL binary (not a TCP client connection).
-/// Relies on local installation availability (PATH on Linux/macOS, known install dir on Windows).
+/// Unix (Linux/macOS, [superPassword] is irrelevant):
 ///
-/// Technically, this post-installation step is not strictly required
-/// since this program ensures the database exists before starting the server.
-/// However, this approach does not use a client connection (host, port)
-/// and has a lower failure probability.
-Future<void> _createDb({
-  required String user,
-  required String password,
-  required String databaseName,
+/// sudo -u postgres psql -c [command]
+///
+/// Others (Windows, [superPassword] is required to set PGPASSWORD):
+///
+/// psql -U postgres -c [command]
+///
+/// Note: Technically, the second command can be run on Unix OSs,
+/// but depending on the default `pg_hba.conf` rules (differ from distro/package manager to another), it may not work
+/// or requires some workarounds.
+///
+/// For example, with Ubuntu/Apt default installation, it requires forcing
+/// TCP by passing `-h 127.0.0.1` to avoid peer authentication.
+///
+/// With Fedora/Dnf default installation, the TCP approach does not work
+/// and will require modifying `pg_hba.conf` rules (https://stackoverflow.com/questions/50098688/postgresql-ident-authentication-failed-on-fedora).
+Future<ProcessResult> _executeSql({
+  required String command,
+  required String? superPassword,
+  required String Function(String humanReadableCommand) onLogBeforeExecuting,
 }) async {
-  final executable = isWindows
-      ? WindowsPostgresInstaller.binExePath('createdb')
-      : 'createdb';
+  final isSudo = isUnixLike;
 
-  try {
-    final args = [
-      // TODO: Workaround does not work on Fedora, instead create a dedicated database user + database owned by that user
-      // Important: Forces TCP authentication instead of using a Unix socket
-      // to bypass peer authentication (at least for Ubuntu's default pg_hba.conf rules, but not Fedora).
-      // Peer auth requires the current Linux/macOS logged-in user to match
-      // the PostgreSQL user.
-      if (isUnixLike) ...['-h', '127.0.0.1'],
-      '-U',
-      user,
-      databaseName,
+  if (isSudo && superPassword != null) {
+    throw ArgumentError('superPassword must be null on Unix OSs');
+  }
+
+  final psqlExecutable = isWindows
+      ? WindowsPostgresInstaller.binExePath('psql')
+      : 'psql';
+
+  final executable = isSudo ? 'sudo' : psqlExecutable;
+
+  final args = _buildPsqlArgs(
+    isSudo: isSudo,
+    psqlExecutable: psqlExecutable,
+    sqlCommand: command,
+  );
+
+  final environment = isSudo
+      ? null
+      : {
+          'PGPASSWORD':
+              superPassword ??
+              (throw ArgumentError.value(
+                null,
+                'superPassword',
+                'must not be null on non-Unix OSs',
+              )),
+        };
+
+  stdout.writeln(
+    onLogBeforeExecuting(
+      buildHumanReadableCommand(executable: executable, args: args),
+    ),
+  );
+
+  final result = await Process.run(executable, args, environment: environment);
+
+  return result;
+}
+
+List<String> _buildPsqlArgs({
+  required String sqlCommand,
+  required bool isSudo,
+  required String psqlExecutable,
+}) {
+  if (isSudo) {
+    return [
+      '-u',
+      PostgresConstants.defaultOsUser,
+      psqlExecutable,
+      '-c',
+      sqlCommand,
     ];
+  }
 
-    stdout.writeln(
-      'Running "${buildHumanReadableCommand(executable: executable, args: args)}}" to create the database.',
+  return ['-U', PostgresConstants.defaultDbUser, '-c', sqlCommand];
+}
+
+Future<void> _createAppUser({
+  required String appUser,
+  required String appPassword,
+  required String? superPassword,
+}) async {
+  try {
+    final result = await _executeSql(
+      command: "CREATE USER $appUser WITH PASSWORD '$appPassword';",
+      superPassword: superPassword,
+      onLogBeforeExecuting: (humanReadableCommand) {
+        final regex = RegExp(r"WITH PASSWORD\s+'([^']*)'");
+
+        final censoredCommand = humanReadableCommand.replaceAllMapped(
+          regex,
+          (match) => "WITH PASSWORD '****'",
+        );
+        return 'Running "$censoredCommand" (CENSORED) to create the app user.';
+      },
     );
 
-    final result = await Process.run(
-      executable,
-      args,
-      environment: {'PGPASSWORD': password},
-    );
     if (result.exitCode == 0) {
-      stdout.writeln(
-        'Database "$databaseName" created successfully (using createdb binary).',
-      );
+      stdout.writeln('User "$appUser" created successfully.');
       return;
     }
 
     final error = result.stderr.toString();
 
-    // Error Output (might be different if the locale is not English):
-    // createdb: error: database creation failed: ERROR:  database "$databaseName" already exists
+    // Might not be detected if PostgreSQL locale is not en
     if (error.contains('already exists')) {
-      stdout.writeln('Database "$databaseName" already exists.');
+      stdout.writeln('User "$appUser" already exists.');
       return;
     }
 
     stderr.writeln(
-      'Failed to create database "$databaseName". Exit code: ${result.exitCode}\n'
+      'Failed to create user "$appUser". Exit code: ${result.exitCode}\n'
       'PostgreSQL error output: $error',
     );
   } on Exception catch (e) {
-    stderr.writeln('Failed to create "$databaseName" database: $e');
+    stderr.writeln('Failed to create "$appUser" user: $e');
+  }
+
+  await shutdown();
+  throw shutdownInvariantError;
+}
+
+Future<void> _createAppDb(
+  String appDatabase, {
+  required String ownedBy,
+  required String? superPassword,
+}) async {
+  try {
+    final result = await _executeSql(
+      command: 'CREATE DATABASE $appDatabase OWNER $ownedBy;',
+      superPassword: superPassword,
+      onLogBeforeExecuting: (humanReadableCommand) {
+        return 'Running "$humanReadableCommand" to create the app database.';
+      },
+    );
+
+    if (result.exitCode == 0) {
+      stdout.writeln('Database "$appDatabase" created successfully.');
+      return;
+    }
+
+    final error = result.stderr.toString();
+
+    // Might not be detected if PostgreSQL locale is not en
+    if (error.contains('already exists')) {
+      stdout.writeln('Database "$appDatabase" already exists.');
+      return;
+    }
+
+    stderr.writeln(
+      'Failed to create database "$appDatabase". Exit code: ${result.exitCode}\n'
+      'PostgreSQL error output: $error',
+    );
+  } on Exception catch (e) {
+    stderr.writeln('Failed to create "$appDatabase" user: $e');
   }
 
   await shutdown();
@@ -152,11 +279,9 @@ Future<PostgresPlatformInstaller?> _getPlatformInstaller() async {
       return null;
     }(),
     DesktopPlatform.macOS => null,
-    // Windows x86-32 is no longer supported
     DesktopPlatform.windows =>
-      (getPlatformArchitecture().toLowerCase() == 'AMD64'.toLowerCase())
-          ? WindowsPostgresInstaller()
-          : null,
+      // Windows x86-32 is no longer supported
+      (isWindowsX64()) ? WindowsPostgresInstaller() : null,
   };
 }
 

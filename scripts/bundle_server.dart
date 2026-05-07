@@ -6,8 +6,8 @@ import 'package:archive/archive_io.dart';
 import 'package:io/io.dart';
 import 'package:librelab_server/generated/pubspec.g.dart' show Pubspec;
 import 'package:librelab_server/src/config/config_files.dart';
+import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
-import 'package:librelab_shared/src/constants/constants.dart';
 import 'package:librelab_shared/src/constants/project_constants.dart';
 import 'package:path/path.dart';
 
@@ -196,9 +196,9 @@ apiServer:
 
 database:
   host: localhost
-  port: ${Constants.defaultPostgresPort}
+  port: ${PostgresConstants.defaultPort}
   name: ${ProjectConstants.defaultDbName}
-  user: ${Constants.defaultDbUser}
+  user: ${ProjectConstants.defaultUsername}
   requireSsl: false
 
 # The maximum size of requests allowed in bytes

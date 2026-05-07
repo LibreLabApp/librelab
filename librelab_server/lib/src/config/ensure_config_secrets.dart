@@ -1,19 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:librelab_server/src/config/config_files.dart';
-
-/// Generates a secure random string of the specified length.
-///
-/// The [byteLength] parameter specifies the number of random bytes to generate.
-/// The result is base64url-encoded without padding.
-// For consistency with Serverpod, this was copied from: https://github.com/serverpod/serverpod/blob/5affa49285249267d315a6d36148f7608b6eb626/modules/serverpod_auth/serverpod_auth_idp/serverpod_auth_idp_flutter/lib/src/common/utils.dart#L4-L12
-String _generateSecureRandomString([int byteLength = 24]) {
-  final random = Random.secure();
-  final bytes = List<int>.generate(byteLength, (i) => random.nextInt(256));
-  return base64UrlEncode(bytes).replaceAll('=', '');
-}
+import 'package:librelab_server/src/utils/utils.dart';
 
 // https://docs.serverpod.dev/concepts/configuration#2-via-environment-variables
 const _serverpodPasswordPrefix = 'SERVERPOD_PASSWORD_';
@@ -54,12 +42,12 @@ Future<void> ensureHasConfigSecrets() async {
 ${securityMessage.split('\n').map((l) => '# $l').join('\n')}
 
 production:
-  database: '${_generateSecureRandomString()}'
-  serviceSecret: '${_generateSecureRandomString()}'
+  database: '${generateSecureRandomString()}'
+  serviceSecret: '${generateSecureRandomString()}'
 
-  emailSecretHashPepper: '${_generateSecureRandomString()}'
-  jwtHmacSha512PrivateKey: '${_generateSecureRandomString()}'
-  jwtRefreshTokenHashPepper: '${_generateSecureRandomString()}'
+  emailSecretHashPepper: '${generateSecureRandomString()}'
+  jwtHmacSha512PrivateKey: '${generateSecureRandomString()}'
+  jwtRefreshTokenHashPepper: '${generateSecureRandomString()}'
 ''');
 
   stdout.writeln(

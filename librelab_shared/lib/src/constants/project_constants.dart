@@ -8,10 +8,15 @@ abstract final class ProjectConstants {
   static const int defaultApiPort = 8080;
 
   /// This is **only** needed in the scripts/ directory.
-  static const int defaultInsightsPort = 8080;
+  static const int defaultInsightsPort = 8081;
 
-  /// The default name for the PostgreSQL database.
+  /// The default PostgreSQL database name used by the app.
   ///
   /// This is **only** needed in the scripts/ directory.
   static const String defaultDbName = 'librelab';
+
+  /// The default PostgreSQL username used by the app.
+  ///
+  /// This is **only** needed in the scripts/ directory.
+  static const String defaultUsername = 'librelab';
 }

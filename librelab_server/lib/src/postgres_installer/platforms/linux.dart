@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:librelab_server/src/postgres_installer/postgres_platform_installer.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
-import 'package:librelab_shared/librelab_shared.dart';
 
 // I use Arch and GNU/Linux BTW
 enum LinuxPackageManager {
@@ -15,7 +14,8 @@ enum LinuxPackageManager {
   final String executable;
 }
 
-final class LinuxPostgresInstaller implements PostgresPlatformInstaller {
+final class LinuxPostgresInstaller
+    extends PostgresPlatformPackageManagerInstaller {
   LinuxPostgresInstaller({required LinuxPackageManager packageManager})
     : _packageManager = packageManager;
 
@@ -31,7 +31,7 @@ final class LinuxPostgresInstaller implements PostgresPlatformInstaller {
   }
 
   @override
-  Future<void> performInstall({required String superPassword}) async {
+  Future<void> runCommands() async {
     switch (_packageManager) {
       case LinuxPackageManager.apt:
         await _installUsingApt();
@@ -44,20 +44,6 @@ final class LinuxPostgresInstaller implements PostgresPlatformInstaller {
       ['systemctl', 'enable', '--now', 'postgresql'],
       'start PostgreSQL now and enable automatic startup on system boot (service)',
     );
-
-    // Important: This refers to the Linux user (usually "postgres"),
-    // and not the PostgresSQL user.
-    const osUser = Constants.defaultDbUser;
-    // This refers to the PostgresSQL user (also usually "postgres")
-    const dbUser = Constants.defaultDbUser;
-
-    await _runCommand('sudo', [
-      '-u',
-      osUser,
-      'psql',
-      '-c',
-      "ALTER USER $dbUser WITH PASSWORD '$superPassword';",
-    ], 'configure PostgreSQL admin password');
 
     await _runCommand('systemctl', [
       'is-active',
