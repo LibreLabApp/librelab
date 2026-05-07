@@ -14,6 +14,7 @@ import 'package:librelab_server/src/mdns/mdns_service_advertiser.dart';
 import 'package:librelab_server/src/mdns/prompt_mdns_config.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
+import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
@@ -24,6 +25,10 @@ Future<void> run(List<String> args) async {
     'Arguments: $args\n'
     'Current directory: ${Directory.current.absolute.path}\n'
     'Operating system: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}\n',
+  );
+
+  final forceCreateAdminUser = args.contains(
+    _AppArgument.forceCreateAdmin.argument,
   );
 
   await ensureHasConfigSecrets();
@@ -75,7 +80,7 @@ Future<void> run(List<String> args) async {
 
   final mdnsConfig = appConfigRepository.configOrThrow.mdns;
 
-  if (mdnsConfig.advertise) {
+  if (mdnsConfig.advertise && !forceCreateAdminUser) {
     final mdnsServiceAdvertiser = MdnsServiceAdvertiser(
       driver: isMacOS
           ? ProcessMdnsDriver.macOS(
@@ -92,9 +97,7 @@ Future<void> run(List<String> args) async {
     });
   }
 
-  await _initializeAdminUser(
-    forceCreateAdminUser: args.contains(_AppArgument.forceCreateAdmin.argument),
-  );
+  await _initializeAdminUser(forceCreateAdminUser: forceCreateAdminUser);
 }
 
 Future<void> _initializeAdminUser({required bool forceCreateAdminUser}) async {
@@ -108,6 +111,14 @@ Future<void> _initializeAdminUser({required bool forceCreateAdminUser}) async {
     }
   } finally {
     await internalSession.close();
+  }
+
+  // Note: should be outside of the try-catch to ensure that the "internalSession"
+  // is always closed, and the server shutdown is triggered only in case "forceCreateAdminUser"
+  // is true.
+  if (forceCreateAdminUser) {
+    await shutdown();
+    throw shutdownInvariantError;
   }
 }
 
