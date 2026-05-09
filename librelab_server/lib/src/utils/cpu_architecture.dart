@@ -2,22 +2,47 @@ import 'dart:io';
 
 import 'package:librelab_server/src/utils/platform_check.dart';
 
-String getPlatformArchitecture() {
+String getRawPlatformArchitecture() =>
+    _getPlatformArchitecture(normalized: false);
+
+String getNormalizedPlatformArchitecture() =>
+    _getPlatformArchitecture(normalized: true);
+
+String _getPlatformArchitecture({required bool normalized}) {
   return switch (currentDesktopPlatform) {
-    DesktopPlatform.linux => _unix(),
-    DesktopPlatform.macOS => _unix(),
-    DesktopPlatform.windows =>
-      Platform.environment['PROCESSOR_ARCHITECTURE'] ?? 'unknown',
+    DesktopPlatform.linux => _unix(normalized: normalized),
+    DesktopPlatform.macOS => _unix(normalized: normalized),
+    DesktopPlatform.windows => _windows(normalized: normalized),
   };
 }
 
-bool isWindowsX64() {
-  return getPlatformArchitecture().toLowerCase() == 'AMD64'.toLowerCase();
+String _windows({required bool normalized}) {
+  final processorArchitecture = Platform.environment['PROCESSOR_ARCHITECTURE'];
+
+  if (normalized && processorArchitecture == 'AMD64') {
+    return 'x64';
+  }
+
+  return processorArchitecture ?? 'unknown';
 }
 
-String _unix() {
+bool isWindowsX64() {
+  return getRawPlatformArchitecture().toLowerCase() == 'AMD64'.toLowerCase();
+}
+
+String _unix({required bool normalized}) {
   final result = Process.runSync('uname', ['-m']);
-  final arch = (result.stdout as String).trim();
+  final String? output = result.stdout?.toString();
+
+  if (result.exitCode != 0 || output == null) {
+    throw StateError('Failed to detect CPU architecture via "uname -m"');
+  }
+
+  final arch = output.trim();
+
+  if (!normalized) {
+    return arch;
+  }
 
   switch (arch) {
     case 'x86_64':

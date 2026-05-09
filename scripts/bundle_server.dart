@@ -15,8 +15,10 @@ import 'packages.dart';
 
 const _package = Packages.server;
 
+final _usingZipCommand = isUnixLike;
+
 void main() async {
-  if (!(await isCommandAvailable('zip'))) {
+  if (_usingZipCommand && !(await isCommandAvailable('zip'))) {
     stderr.writeln(
       'Please install "zip" using your system package manager.\nE.g., sudo apt install zip',
     );
@@ -187,16 +189,14 @@ Future<void> _buildZipFile({
   required Directory buildDirectory,
   required Directory targetDirectory,
 }) async {
-  final platformArchitecture = getPlatformArchitecture();
-  final normalizedArchitecture = isWindows && platformArchitecture == 'AMD64'
-      ? 'x64'
-      : platformArchitecture;
+  final normalizedArchitecture = getNormalizedPlatformArchitecture();
+
   final platform = '${Platform.operatingSystem}-$normalizedArchitecture';
 
   final outputFileName = '${_package}_${Pubspec.version}_$platform.zip';
   final outputFilePath = join(buildDirectory.path, outputFileName);
 
-  if (isUnixLike) {
+  if (_usingZipCommand) {
     // Uses system "zip" utility to create archive
     // while preserving executable permissions
     final zipResult = await Process.run('zip', [

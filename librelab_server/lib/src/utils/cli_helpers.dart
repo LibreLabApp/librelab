@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:librelab_server/src/utils/platform_check.dart';
+import 'package:path/path.dart';
 
 int humanExitCode(int code) {
   if (!isUnixLike) {
@@ -40,15 +41,15 @@ Future<int> ensureDirectoryInWindowsUserPath(String directory) async {
       'ensureDirectoryInWindowsUserPath() must not be called on non-Windows systems.',
     );
   }
-  final cleanPath = directory
-      .replaceAll('/', r'\')
-      .replaceAll(RegExp(r'\\+$'), '');
+
+  // Normalizes path separators for consistency in PowerShell usage.
+  final windowsPath = windows.normalize(directory);
 
   final script =
       '''
     \$p = [Environment]::GetEnvironmentVariable('Path', 'User');
-    if (\$p -split ';' -notcontains '$cleanPath') {
-      [Environment]::SetEnvironmentVariable('Path', "\$p;$cleanPath", 'User')
+    if (\$p -split ';' -notcontains '$windowsPath') {
+      [Environment]::SetEnvironmentVariable('Path', "\$p;$windowsPath", 'User')
     }
   ''';
 

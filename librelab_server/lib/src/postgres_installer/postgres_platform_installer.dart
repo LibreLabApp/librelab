@@ -1,19 +1,24 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/constants/constants.dart';
+import 'package:librelab_server/src/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
 
-abstract interface class PostgresPlatformInstaller {}
+sealed class PostgresPlatformInstaller {
+  PostgresPlatformInstaller._();
+}
 
-abstract class PostgresPlatformPackageManagerInstaller
+abstract interface class PostgresPlatformPackageManagerInstaller
     implements PostgresPlatformInstaller {
-  Future<void> performInstall();
+  Future<void> performInstall({required PostgresVersionInfo versionInfo});
 }
 
 abstract class PostgresPlatformFileInstaller
     implements PostgresPlatformInstaller {
-  Future<void> performInstall({required String superPassword}) async {
-    final downloadUrl = buildDownloadUrl(version: PostgresConstants.version);
+  Future<void> performInstall({
+    required String superPassword,
+    required PostgresVersionInfo versionInfo,
+  }) async {
+    final downloadUrl = buildDownloadUrl(version: versionInfo.fullVersion);
 
     final installerFile = await downloadInstallerFile(downloadUrl);
     await runSilentInstaller(
@@ -21,7 +26,7 @@ abstract class PostgresPlatformFileInstaller
       superPassword: superPassword,
     );
 
-    await addToPath();
+    await addToPath(majorVersion: versionInfo.majorVersion);
   }
 
   String buildDownloadUrl({required String version}) {
@@ -46,5 +51,5 @@ abstract class PostgresPlatformFileInstaller
     required String superPassword,
   });
 
-  Future<void> addToPath();
+  Future<void> addToPath({required String majorVersion});
 }

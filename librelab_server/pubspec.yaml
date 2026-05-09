@@ -1,6 +1,7 @@
 name: librelab_server
 description: Starting point for a Serverpod server.
 version: 0.0.1+1
+publish_to: 'none'
 
 environment:
   sdk: ^3.11.5

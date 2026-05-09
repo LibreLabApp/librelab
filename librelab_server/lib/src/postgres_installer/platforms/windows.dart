@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_platform_installer.dart';
+import 'package:librelab_server/src/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:path/path.dart';
@@ -9,11 +10,27 @@ import 'package:win32_registry_value_reader/win32_registry_value_reader.dart'
     as win32;
 
 final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
-  static String get _installDir =>
-      'C:\\Program Files\\PostgreSQL\\${PostgresConstants.majorVersion}';
-  static String get _binDir => join(_installDir, 'bin');
+  static String _installDir({required String majorVersion}) {
+    return join('C:', 'Program Files', 'PostgreSQL', majorVersion);
+  }
 
-  static String binExePath(String fileName) {
+  static String _binDir({required String majorVersion}) {
+    return join(_installDir(majorVersion: majorVersion), 'bin');
+  }
+
+  /// Example:
+  ///
+  /// ```dart
+  /// final path = binExePath(
+  ///   'psql',
+  ///   postgresMajorVersion: 18,
+  /// );
+  /// print(path); // C:\Program Files\PostgreSQL\18\psql.exe
+  /// ```
+  static String binExePath(
+    String fileName, {
+    required String postgresMajorVersion,
+  }) {
     if (fileName.endsWith('.exe')) {
       throw ArgumentError.value(
         fileName,
@@ -21,19 +38,26 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
         'must not ends with .exe file extension',
       );
     }
-    return join(_binDir, '$fileName.exe');
+    return join(_binDir(majorVersion: postgresMajorVersion), '$fileName.exe');
   }
 
   static String? windowsRegistryPostgresInstallDir() {
+    for (final version in PostgresVersionInfo.values) {
+      final baseDirectory = win32.readStringValueFromLocalMachine(
+        keyPath:
+            'SOFTWARE\\PostgreSQL\\Installations\\postgresql-x64-${version.majorVersion}',
+        valueName: 'Base Directory',
+      );
+
+      if (baseDirectory != null) {
+        return baseDirectory;
+      }
+    }
+
     return win32.readStringValueFromLocalMachine(
-          keyPath: r'SOFTWARE\PostgreSQL Global Development Group\PostgreSQL',
-          valueName: 'Location',
-        ) ??
-        win32.readStringValueFromLocalMachine(
-          keyPath:
-              'SOFTWARE\\PostgreSQL\\Installations\\postgresql-x64-${PostgresConstants.majorVersion}',
-          valueName: 'Base Directory',
-        );
+      keyPath: r'SOFTWARE\PostgreSQL Global Development Group\PostgreSQL',
+      valueName: 'Location',
+    );
   }
 
   @override
@@ -83,11 +107,16 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
     );
 
     try {
+      // Details about the arguments can be found in: docs/POSTGRES_WINDOWS_INSTALLER_HELP.txt
       final args = <String, String>{
         'mode': 'unattended',
         'unattendedmodeui': 'minimal',
         'superpassword': superPassword,
         'install_runtimes': '1',
+        'locale': 'en-US',
+        'installer-language': 'en',
+        'serverport': '${PostgresConstants.defaultPort}',
+        'superaccount': PostgresConstants.defaultDbUser,
       };
 
       final argsList = args.entries
@@ -122,8 +151,8 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
   }
 
   @override
-  Future<void> addToPath() async {
-    final binDirectory = _binDir;
+  Future<void> addToPath({required String majorVersion}) async {
+    final binDirectory = _binDir(majorVersion: majorVersion);
     stdout.writeln('Adding "$binDirectory" to user PATH...');
 
     try {

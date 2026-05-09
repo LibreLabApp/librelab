@@ -5,6 +5,7 @@ import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/postgres_installer/platforms/linux.dart';
 import 'package:librelab_server/src/postgres_installer/platforms/windows.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_platform_installer.dart';
+import 'package:librelab_server/src/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
@@ -54,42 +55,73 @@ Future<void> tryInstallPostgresWithPrompt({
     return;
   }
 
+  final versionInfo = _promptPostgresVersion();
+
   String? tempSuperPassword;
 
   switch (platformInstaller) {
     case PostgresPlatformPackageManagerInstaller():
       tempSuperPassword = null;
-      await platformInstaller.performInstall();
+      await platformInstaller.performInstall(versionInfo: versionInfo);
 
     case PostgresPlatformFileInstaller():
 
       // The super password is not stored anywhere outside of memory (for security reasons).
-      // Users will have to either edit "pg_hba.conf" rules
+      // Users will have to either temporarily edit "pg_hba.conf" rules
       // or re-install PostgreSQL to reset it. Typically the target audience of this project
       // don't need admin access to PostgreSQL.
       //
-      // Technically, the macOS version supports setting the superpassword during the installation, but this approach is still only used on Windows.
+      // Technically, the macOS version supports setting the superpassword
+      // during the installation, but this approach is still only used on Windows.
       tempSuperPassword = generateSecureRandomString();
 
-      await platformInstaller.performInstall(superPassword: tempSuperPassword);
+      await platformInstaller.performInstall(
+        superPassword: tempSuperPassword,
+        versionInfo: versionInfo,
+      );
   }
 
   await _createAppUser(
     appUser: appUser,
     appPassword: appPassword,
     superPassword: tempSuperPassword,
+    postgresVersionInfo: versionInfo,
   );
 
   await _createAppDb(
     appDatabaseName,
     ownedBy: appUser,
     superPassword: tempSuperPassword,
+    postgresVersionInfo: versionInfo,
   );
+}
+
+PostgresVersionInfo _promptPostgresVersion() {
+  final defaultVersion = PostgresVersionInfo.recommended;
+  const availableVersions = PostgresVersionInfo.values;
+
+  final availableVersionNumbers = availableVersions.map((e) => e.majorVersion);
+
+  final input = promptInput(
+    'Select PostgreSQL version (${availableVersionNumbers.join(', ')}) [Default: ${defaultVersion.majorVersion}]: ',
+    allowEmpty: true,
+    validateInput: (input) {
+      return availableVersionNumbers.contains(input)
+          ? null
+          : 'Invalid PostgreSQL version. Available versions: $availableVersionNumbers';
+    },
+  );
+
+  if (input.isEmpty) {
+    return defaultVersion;
+  }
+
+  return PostgresVersionInfo.fromMajorVersion(input);
 }
 
 /// Runs SQL [command] command using `psql`.
 ///
-/// Unix (Linux/macOS, [superPassword] is irrelevant):
+/// Unix (Linux/macOS, [superPassword] is irrelevant, must be `null`):
 ///
 /// sudo -u postgres psql -c [command]
 ///
@@ -98,8 +130,8 @@ Future<void> tryInstallPostgresWithPrompt({
 /// psql -U postgres -c [command]
 ///
 /// Note: Technically, the second command can be run on Unix OSs,
-/// but depending on the default `pg_hba.conf` rules (differ from distro/package manager to another), it may not work
-/// or requires some workarounds.
+/// but depending on the default `pg_hba.conf` rules (differ from distro/package manager to another),
+/// it may not work, or requires some workarounds.
 ///
 /// For example, with Ubuntu/Apt default installation, it requires forcing
 /// TCP by passing `-h 127.0.0.1` to avoid peer authentication.
@@ -110,6 +142,7 @@ Future<ProcessResult> _executeSql({
   required String command,
   required String? superPassword,
   required String Function(String humanReadableCommand) onLogBeforeExecuting,
+  required PostgresVersionInfo postgresVersionInfo,
 }) async {
   final isSudo = isUnixLike;
 
@@ -118,7 +151,10 @@ Future<ProcessResult> _executeSql({
   }
 
   final psqlExecutable = isWindows
-      ? WindowsPostgresInstaller.binExePath('psql')
+      ? WindowsPostgresInstaller.binExePath(
+          'psql',
+          postgresMajorVersion: postgresVersionInfo.majorVersion,
+        )
       : 'psql';
 
   final executable = isSudo ? 'sudo' : psqlExecutable;
@@ -174,6 +210,7 @@ Future<void> _createAppUser({
   required String appUser,
   required String appPassword,
   required String? superPassword,
+  required PostgresVersionInfo postgresVersionInfo,
 }) async {
   try {
     final result = await _executeSql(
@@ -188,6 +225,7 @@ Future<void> _createAppUser({
         );
         return 'Running "$censoredCommand" (CENSORED) to create the app user.';
       },
+      postgresVersionInfo: postgresVersionInfo,
     );
 
     if (result.exitCode == 0) {
@@ -219,6 +257,7 @@ Future<void> _createAppDb(
   String appDatabase, {
   required String ownedBy,
   required String? superPassword,
+  required PostgresVersionInfo postgresVersionInfo,
 }) async {
   try {
     final result = await _executeSql(
@@ -227,6 +266,7 @@ Future<void> _createAppDb(
       onLogBeforeExecuting: (humanReadableCommand) {
         return 'Running "$humanReadableCommand" to create the app database.';
       },
+      postgresVersionInfo: postgresVersionInfo,
     );
 
     if (result.exitCode == 0) {
@@ -361,8 +401,13 @@ Future<bool> _isPostgresCliAvailable() async {
     // handles the addition.
     final absoluteExecutables = isWindows
         ? _pathExecutables
-              .map(
-                (executable) => WindowsPostgresInstaller.binExePath(executable),
+              .expand(
+                (executable) => PostgresVersionInfo.values.map(
+                  (version) => WindowsPostgresInstaller.binExePath(
+                    executable,
+                    postgresMajorVersion: version.majorVersion,
+                  ),
+                ),
               )
               .toList()
         : <String>[];

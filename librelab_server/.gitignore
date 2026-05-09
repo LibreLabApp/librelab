@@ -18,3 +18,5 @@ config/passwords.yaml
 config/firebase_service_account_key.json
 
 build/
+
+logs/

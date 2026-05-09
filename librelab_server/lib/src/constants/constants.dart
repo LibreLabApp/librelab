@@ -5,8 +5,6 @@ abstract final class Constants {
 
 abstract final class PostgresConstants {
   /// The default PostgreSQL database port.
-  ///
-  /// This is **only** needed in the scripts/ directory.
   static const int defaultPort = 5432;
 
   /// Unix/Linux operating-system user used to execute PostgreSQL commands.
@@ -19,17 +17,4 @@ abstract final class PostgresConstants {
   /// Example:
   /// `psql -U postgres ...`
   static const String defaultDbUser = 'postgres';
-
-  /// {@template postgres_version_doc}
-  /// Used to download the PostgreSQL installer to
-  /// automatically install and configure it.
-  ///
-  /// This is **only** needed on the server package, and specifically
-  /// Microsoft Windows, since by default, the package managers install the
-  /// available latest version.
-  /// {@endtemplate}
-  static const String version = '18.3-3';
-
-  /// {@macro postgres_version_doc}
-  static const String majorVersion = '18';
 }
