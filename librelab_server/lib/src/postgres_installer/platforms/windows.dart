@@ -92,15 +92,14 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
     throw shutdownInvariantError;
   }
 
-  // TODO: This is non-interactive installer, not silent installer! Change logging everywhere!!!
   @override
-  Future<void> runSilentInstaller({
+  Future<void> runInstaller({
     required File installer,
     required String superPassword,
   }) async {
     stdout.writeln(
       'Installer file: ${installer.path}\n'
-      'Starting PostgreSQL silent installation... This may take 1-5 minutes.',
+      'Starting PostgreSQL installation... This may take 1-5 minutes.',
     );
 
     try {
@@ -131,7 +130,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
       }
 
       stderr.writeln(
-        'PostgreSQL silent installation failed with exit code: ${result.exitCode}\n'
+        'PostgreSQL installation failed with exit code: ${result.exitCode}\n'
         'Error Output: ${result.stderr}',
       );
     } on Exception catch (e) {

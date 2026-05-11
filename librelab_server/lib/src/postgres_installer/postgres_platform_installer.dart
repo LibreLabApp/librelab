@@ -21,10 +21,7 @@ abstract class PostgresPlatformFileInstaller
     final downloadUrl = buildDownloadUrl(version: versionInfo.fullVersion);
 
     final installerFile = await downloadInstallerFile(downloadUrl);
-    await runSilentInstaller(
-      installer: installerFile,
-      superPassword: superPassword,
-    );
+    await runInstaller(installer: installerFile, superPassword: superPassword);
 
     await addToPath(majorVersion: versionInfo.majorVersion);
   }
@@ -46,7 +43,7 @@ abstract class PostgresPlatformFileInstaller
 
   Future<File> downloadInstallerFile(String downloadUrl);
 
-  Future<void> runSilentInstaller({
+  Future<void> runInstaller({
     required File installer,
     required String superPassword,
   });
