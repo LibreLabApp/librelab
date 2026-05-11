@@ -9,6 +9,7 @@ import 'package:librelab_server/src/postgres_installer/postgres_version_constant
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
+import 'package:librelab_server/src/utils/linux/linux_os_release.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:librelab_server/src/utils/utils.dart';
@@ -28,8 +29,12 @@ Future<void> tryInstallPostgresWithPrompt({
   required String appDatabaseName,
   required void Function() onDeclined,
 }) async {
+  if (await _isPostgresLikelyAvailable()) {
+    return;
+  }
+
   final PostgresPlatformInstaller? platformInstaller =
-      await _getPlatformInstaller();
+      await _resolvePlatformInstaller();
   final supportsAutomatedInstall = platformInstaller != null;
 
   if (!supportsAutomatedInstall) {
@@ -39,14 +44,14 @@ Future<void> tryInstallPostgresWithPrompt({
     return;
   }
 
-  if (await _isPostgresLikelyAvailable()) {
-    return;
-  }
-
   final hasPostgresInDocker =
       await _isDockerCliAvailable() &&
       await _isPostgresDockerContainerPresent();
-  if (!_promptPostgresInstall(hasPostgresInDocker: hasPostgresInDocker)) {
+
+  final userApproved = _promptPostgresInstall(
+    hasPostgresInDocker: hasPostgresInDocker,
+  );
+  if (!userApproved) {
     stdout.writeln(
       '\nPostgreSQL auto-installer is disabled. This choice will not be prompted again.\n'
       'To change this setting later, edit: ${ConfigFiles.forCurrentRunMode().path}\n',
@@ -299,22 +304,10 @@ bool _promptPostgresInstall({required bool hasPostgresInDocker}) {
       '\n\nNote: A Docker container that appears to contain PostgreSQL was detected.\n'
       'You can reject the system installation and instead manually configure the connection\n'
       'to use the PostgreSQL instance running inside Docker (host, port, db, username, and password).';
+
   const unixMessage = '''
 \n\nThis will use your system package manager to automate the process,
-and will run "sudo" commands, which may require password authentication.
-
-Important: In some Unix-like systems, such as Fedora Linux (not applicable to Ubuntu, Linux Mint, or PopOS),
-the default pg_hba.conf rules provided by your system package manager/distribution
-may force Ident authentication, which causes the app connection to fail.
-
-Fix: In pg_hba.conf, replace TCP authentication from "ident" to "scram-sha-256" (file location varies by OS).
-For example, on Fedora: /var/lib/pgsql/data/pg_hba.conf
-Then restart PostgreSQL service for the fix to take affect
-
-More details:
-
-- https://stackoverflow.com/questions/50098688/postgresql-ident-authentication-failed-on-fedora
-- https://docs.fedoraproject.org/en-US/quick-docs/postgresql/#pg_hba.conf''';
+and will run "sudo" commands, which may require password authentication.''';
 
   stdout.writeln('''
 \nPostgreSQL was not detected on the system.${hasPostgresInDocker ? dockerMessage : ''}
@@ -328,13 +321,16 @@ including download, setup, and adding the installation to the user PATH.${isUnix
   );
 }
 
-Future<PostgresPlatformInstaller?> _getPlatformInstaller() async {
+Future<PostgresPlatformInstaller?> _resolvePlatformInstaller() async {
   return switch (currentDesktopPlatform) {
     DesktopPlatform.linux => await () async {
       final packageManager =
           await LinuxPostgresInstaller.systemPackageManager();
       if (packageManager != null) {
-        return LinuxPostgresInstaller(packageManager: packageManager);
+        return LinuxPostgresInstaller(
+          packageManager: packageManager,
+          linuxOsRelease: LinuxOsRelease(),
+        );
       }
       return null;
     }(),

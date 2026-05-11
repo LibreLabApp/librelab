@@ -10,11 +10,12 @@ import 'package:librelab_server/src/config/ensure_config_secrets.dart';
 import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/generated/endpoints.dart';
 import 'package:librelab_server/src/generated/protocol.dart';
-import 'package:librelab_server/src/mdns/mdns_driver.dart';
+import 'package:librelab_server/src/mdns/installer/mdns_driver_installer.dart';
+import 'package:librelab_server/src/mdns/installer/mdns_driver_installer_resolver.dart';
+import 'package:librelab_server/src/mdns/mdns_driver_resolver.dart';
 import 'package:librelab_server/src/mdns/mdns_service_advertiser.dart';
 import 'package:librelab_server/src/mdns/prompt_mdns_config.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_installer.dart';
-import 'package:librelab_server/src/utils/platform_check.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
@@ -64,6 +65,13 @@ Future<void> run(List<String> args) async {
   final appConfigRepository = AppConfigRepository(runMode: pod.runMode);
   final appConfig = await _loadAppConfig(appConfigRepository);
 
+  final mdnsConfig = appConfigRepository.configOrThrow.mdns;
+
+  await _maybeInstallMdnsDriver(
+    config: mdnsConfig,
+    appConfigRepository: appConfigRepository,
+  );
+
   final dbConfig =
       pod.config.database ??
       (throw Exception('Database connection configuration must be provided'));
@@ -80,23 +88,8 @@ Future<void> run(List<String> args) async {
 
   await pod.start();
 
-  final mdnsConfig = appConfigRepository.configOrThrow.mdns;
-
-  if (mdnsConfig.advertise && !forceCreateAdminUser) {
-    final mdnsServiceAdvertiser = MdnsServiceAdvertiser(
-      driver: isMacOS
-          ? ProcessMdnsDriver.macOS(
-              logStdout: pod.runMode == ServerpodRunMode.development,
-            )
-          : MdnsDriver.dart(),
-    );
-    await mdnsServiceAdvertiser.start(
-      port: pod.server.port,
-      instanceName: mdnsConfig.instanceName,
-    );
-    pod.experimental.shutdownTasks.addTask('stopMdnsAdvertising', () async {
-      await mdnsServiceAdvertiser.stop();
-    });
+  if (!forceCreateAdminUser) {
+    await _maybeAdvertiseMdnsService(pod: pod, config: mdnsConfig);
   }
 
   await _initializeAdminUser(forceCreateAdminUser: forceCreateAdminUser);
@@ -154,4 +147,47 @@ enum _AppArgument {
   const _AppArgument({required this.argument});
 
   final String argument;
+}
+
+Future<void> _maybeInstallMdnsDriver({
+  required MdnsConfig config,
+  required AppConfigRepository appConfigRepository,
+}) async {
+  if (!config.advertise || config.serviceInstallDeclined == true) {
+    return;
+  }
+  final platformInstaller = await resolveMdnsPlatformInstaller();
+  if (platformInstaller == null) {
+    stdout.writeln(
+      'Automatic mDNS service installation is not supported by the program on this system.',
+    );
+    return;
+  }
+  final driverInstaller = MdnsDriverInstaller(
+    platformInstaller: platformInstaller,
+  );
+  await driverInstaller.tryInstallWithPrompt(
+    onDeclined: () => appConfigRepository.update(
+      mdns: config.copyWith(serviceInstallDeclined: true),
+    ),
+  );
+}
+
+Future<void> _maybeAdvertiseMdnsService({
+  required Serverpod pod,
+  required MdnsConfig config,
+}) async {
+  if (!config.advertise) {
+    return;
+  }
+  final mdnsServiceAdvertiser = MdnsServiceAdvertiser(
+    driver: await resolveMdnsDriver(),
+  );
+  await mdnsServiceAdvertiser.start(
+    port: pod.server.port,
+    instanceName: config.instanceName,
+  );
+  pod.experimental.shutdownTasks.addTask('stopMdnsAdvertising', () async {
+    await mdnsServiceAdvertiser.stop();
+  });
 }

@@ -4,27 +4,54 @@ import 'package:librelab_server/src/postgres_installer/postgres_platform_install
 import 'package:librelab_server/src/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
+import 'package:librelab_server/src/utils/linux/linux_os_release.dart';
+import 'package:librelab_server/src/utils/linux/linux_package_manager.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
 
-// I use Arch and GNU/Linux BTW
-enum LinuxPackageManager {
-  apt(executable: 'apt-get'),
-  dnf(executable: 'dnf');
-
-  const LinuxPackageManager({required this.executable});
-
-  final String executable;
-}
-
+/// **Note**: For various reasons, the PostgreSQL package is installed from the
+/// official PGDG repository instead the distribution's one:
+///
+/// 1. Pinning to a specific major version (e.g., 18). The default package version
+///    is coupled to the OS version. This ensures the server will not break
+///    due to an incompatible PostgreSQL version during system updates.
+///
+/// 2. Newer updates and security patches.
+///
+/// 3. Fragmented `pg_hba.conf` rules: In some Linux distributions,
+/// such as Fedora Linux (not applicable to Ubuntu, Linux Mint, or PopOS),
+/// the default pg_hba.conf rules provided by the distribution
+/// may force Ident authentication, which causes the app connection to fail
+///
+/// Workaround: In pg_hba.conf, replace TCP authentication from "ident" to "scram-sha-256"
+/// (file location varies by OS).
+/// For example, on Fedora: /var/lib/pgsql/data/pg_hba.conf
+/// Then restart PostgreSQL service for the fix to take affect.
+///
+/// More details:
+///
+/// - https://stackoverflow.com/questions/50098688/postgresql-ident-authentication-failed-on-fedora
+/// - https://docs.fedoraproject.org/en-US/quick-docs/postgresql/#pg_hba.conf
+///
+/// The above workaround is **not** appropriate for a script.
+/// Instead we rely on the official PostgreSQL repository.
 final class LinuxPostgresInstaller
     implements PostgresPlatformPackageManagerInstaller {
-  LinuxPostgresInstaller({required LinuxPackageManager packageManager})
-    : _packageManager = packageManager;
+  LinuxPostgresInstaller({
+    required LinuxPackageManager packageManager,
+    required LinuxOsRelease linuxOsRelease,
+  }) : _linuxOsRelease = linuxOsRelease,
+       _packageManager = packageManager;
 
   final LinuxPackageManager _packageManager;
+  final LinuxOsRelease _linuxOsRelease;
 
   static Future<LinuxPackageManager?> systemPackageManager() async {
     for (final packageManager in LinuxPackageManager.values) {
+      if (packageManager == .pacman) {
+        // Currently, Arch Linux is unsupported but typically users
+        // prefer to compile from source anyway.
+        continue;
+      }
       if (await isCommandAvailable(packageManager.executable)) {
         return packageManager;
       }
@@ -36,42 +63,72 @@ final class LinuxPostgresInstaller
   Future<void> performInstall({
     required PostgresVersionInfo versionInfo,
   }) async {
+    final majorVersion = versionInfo.majorVersion;
+
     switch (_packageManager) {
-      case LinuxPackageManager.apt:
-        await _installUsingApt(majorVersion: versionInfo.majorVersion);
-      case LinuxPackageManager.dnf:
-        await _installUsingDnf(majorVersion: versionInfo.majorVersion);
+      case .apt:
+        await _installUsingApt(majorVersion: majorVersion);
+      case .dnf:
+        await _installUsingDnf(majorVersion: majorVersion);
+      case .pacman:
+        throw UnsupportedError(
+          'Programming error (should never be thrown!). I use Arch BTW',
+        );
     }
   }
 
   // https://www.postgresql.org/download/linux/ubuntu/
   Future<void> _installUsingApt({required String majorVersion}) async {
-    await _runCommand('sudo', [
-      'apt-get',
-      'update',
-    ], 'refresh package list from repositories');
+    await _runCommand(
+      'sudo',
+      ['apt-get', 'update'],
+      'refresh package list from repositories',
+      environment: LinuxPackageManager.aptNonInteractiveEnv,
+    );
 
-    await _runCommand('sudo', [
-      'apt-get',
-      'install',
-      '-y',
-      'postgresql-common',
-    ], 'install PostgreSQL to run PGDG repository setup script');
+    final codename = await _linuxOsRelease.detectAptBaseCodename();
+
+    if (codename == null) {
+      stderr.writeln(
+        'Unable to determine APT distribution codename from: ${LinuxOsRelease.filePath}',
+      );
+
+      await shutdown();
+      throw shutdownInvariantError;
+    }
+
+    await _runCommand(
+      'sudo',
+      ['apt-get', 'install', '-y', 'postgresql-common'],
+      'install PostgreSQL to run PGDG repository setup script',
+      environment: LinuxPackageManager.aptNonInteractiveEnv,
+    );
 
     // This script runs "apt-get update" internally. No need to re-run for the third time
     await _runCommand(
       'sudo',
-      ['/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh', '-y'],
+      [
+        '/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh',
+        '-y', // IMPORTANT: Positioned argument (must not be after the codename)
+        codename,
+      ],
       'install official PostgreSQL (PGDG) APT repository for access to PostgreSQL versions',
+      // The script uses apt internally
+      environment: LinuxPackageManager.aptNonInteractiveEnv,
     );
 
-    await _runCommand('sudo', [
-      'apt-get',
-      'install',
-      '-y',
-      'postgresql-$majorVersion',
-      'postgresql-contrib-$majorVersion',
-    ], 'install PostgreSQL database server and extensions');
+    await _runCommand(
+      'sudo',
+      [
+        'apt-get',
+        'install',
+        '-y',
+        'postgresql-$majorVersion',
+        'postgresql-contrib-$majorVersion',
+      ],
+      'install PostgreSQL database server and extensions',
+      environment: LinuxPackageManager.aptNonInteractiveEnv,
+    );
 
     await _enablePostgresServiceNow('postgresql@$majorVersion-main');
   }
@@ -127,32 +184,12 @@ final class LinuxPostgresInstaller
   }
 
   Future<String> _buildPgdgRpmUrl() async {
-    final osReleaseFile = File('/etc/os-release');
-    final osReleaseLines = await osReleaseFile.readAsLines();
-
-    String? extract(String key) {
-      for (final line in osReleaseLines) {
-        if (!line.startsWith(key)) {
-          continue;
-        }
-
-        final value = line.replaceFirst('$key=', '');
-        final normalizedValue = value.startsWith('"') && value.endsWith('"')
-            ? value.substring(1, line.length - 1)
-            : value;
-
-        return normalizedValue;
-      }
-
-      return null;
-    }
-
-    final id = extract('ID')?.toLowerCase();
-    final versionId = extract('VERSION_ID');
+    final id = (await _linuxOsRelease.readValue('ID'))?.toLowerCase();
+    final versionId = await _linuxOsRelease.readValue('VERSION_ID');
 
     if (id == null || versionId == null) {
       stderr.writeln(
-        'Failed to detect Linux distribution from "${osReleaseFile.path}".\n'
+        'Failed to detect Red Hat Linux distribution from "${LinuxOsRelease.filePath}".\n'
         'This is needed to build the RPM repository URL, which requires ID and VERSION_ID.',
       );
       await shutdown();
@@ -181,25 +218,12 @@ final class LinuxPostgresInstaller
   Future<Process> _runCommand(
     String executable,
     List<String> args,
-    String goal,
-  ) async {
-    final command = buildHumanReadableCommand(
-      executable: executable,
-      args: args,
-    );
-    stdout.writeln('\nRunning "$command" to $goal\n');
-
-    final process = await runCommandStream(executable, args);
-    final exitCode = await process.exitCode;
-
-    if (exitCode == 0) {
-      return process;
-    }
-
-    stderr.writeln(
-      'Command failed (exit code $exitCode): "$command" while attempting to $goal.',
-    );
-    await shutdown();
-    throw shutdownInvariantError;
-  }
+    String goal, {
+    Map<String, String>? environment,
+  }) => executeAndLogCommandOrShutdown(
+    executable,
+    args,
+    goal,
+    environment: environment,
+  );
 }

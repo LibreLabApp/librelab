@@ -7,21 +7,21 @@ import 'package:librelab_shared/librelab_shared.dart';
 
 MdnsConfig promptMdnsConfig() {
   stdout.writeln('''
-\nEnable local network discovery (mDNS)?
+\nLocal network discovery (mDNS advertising)
 
-This allows devices on your network to find this server automatically, 
-avoiding the need to manually type an IP address that might change.
+Allows other devices on the same network to automatically detect this server,
+instead of manually entering an IP address that may change over time.
 
-Recommended if:
-- Running on a home or office network.
-- Other local devices need easy access.
+Use it when:
+- Running in a home or office network
+- Local devices need automatic access
 
-Disable if:
-- Running in a public or cloud environment.
-- You want to keep the server hidden from discovery.
+Avoid it when:
+- Running in public or cloud environments
+- You want to prevent service discovery on the network
 ''');
   final advertise = promptYesNo(
-    'Enable mDNS advertising?',
+    'Enable local network discovery for this server?',
     defaultValue: !isLikelyHeadlessLinux,
   );
   if (!advertise) {

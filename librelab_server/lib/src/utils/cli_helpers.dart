@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:librelab_server/src/utils/platform_check.dart';
+import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:path/path.dart';
 
 int humanExitCode(int code) {
@@ -57,12 +58,16 @@ Future<int> ensureDirectoryInWindowsUserPath(String directory) async {
   return result.exitCode;
 }
 
-Future<Process> runCommandStream(
+Future<Process> executeCommandStream(
   String executable,
   List<String> args, {
-  bool logStdout = true,
+  Map<String, String>? environment,
 }) async {
-  final process = await Process.start(executable, args);
+  final process = await Process.start(
+    executable,
+    args,
+    environment: environment,
+  );
 
   process.stderr.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (line) {
@@ -70,14 +75,38 @@ Future<Process> runCommandStream(
     },
   );
 
-  if (logStdout) {
-    process.stdout
-        .transform(utf8.decoder)
-        .transform(const LineSplitter())
-        .listen((line) {
-          stdout.writeln('[$executable stdout] $line');
-        });
-  }
+  process.stdout.transform(utf8.decoder).transform(const LineSplitter()).listen(
+    (line) {
+      stdout.writeln('[$executable stdout] $line');
+    },
+  );
 
   return process;
+}
+
+Future<Process> executeAndLogCommandOrShutdown(
+  String executable,
+  List<String> args,
+  String goal, {
+  Map<String, String>? environment,
+}) async {
+  final command = buildHumanReadableCommand(executable: executable, args: args);
+  stdout.writeln('\nRunning "$command" to $goal\n');
+
+  final process = await executeCommandStream(
+    executable,
+    args,
+    environment: environment,
+  );
+  final exitCode = await process.exitCode;
+
+  if (exitCode == 0) {
+    return process;
+  }
+
+  stderr.writeln(
+    'Command failed (exit code $exitCode): "$command" while attempting to $goal.',
+  );
+  await shutdown();
+  throw shutdownInvariantError;
 }

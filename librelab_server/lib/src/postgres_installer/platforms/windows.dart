@@ -4,6 +4,7 @@ import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_platform_installer.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
+import 'package:librelab_server/src/utils/download_file.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:path/path.dart';
 import 'package:win32_registry_value_reader/win32_registry_value_reader.dart'
@@ -64,22 +65,17 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
   Future<File> downloadInstallerFile(String downloadUrl) async {
     stdout.writeln('Downloading "$downloadUrl"... (may take a few minutes)');
 
-    final httpClient = HttpClient();
-    final request = await httpClient.getUrl(Uri.parse(downloadUrl));
-    final response = await request.close();
-
     final savePath = join(Directory.systemTemp.path, basename(downloadUrl));
     final file = File(savePath);
 
     try {
-      if (response.statusCode == 200) {
-        await response.pipe(file.openWrite());
-        stdout.writeln('Download complete: $savePath');
-        return file;
-      }
+      await downloadFile(Uri.parse(downloadUrl), file);
+      stdout.writeln('Download complete: $savePath');
 
+      return file;
+    } on DownloadFileException catch (e) {
       stderr.writeln(
-        'Failed to download PostgreSQL installer. HTTP Status: ${response.statusCode}',
+        'Failed to download PostgreSQL installer. HTTP Status: ${e.statusCode}',
       );
     } on Exception catch (e) {
       stderr.writeln('Failed to download PostgreSQL installer: $e');
@@ -96,6 +92,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
     throw shutdownInvariantError;
   }
 
+  // TODO: This is non-interactive installer, not silent installer! Change logging everywhere!!!
   @override
   Future<void> runSilentInstaller({
     required File installer,
