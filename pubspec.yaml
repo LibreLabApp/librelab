@@ -9,7 +9,6 @@ workspace:
   - librelab_flutter
   - librelab_shared
   - packages/win32_registry_value_reader
-  - packages/pg_create_db_if_missing
 
 dev_dependencies:
   lints: ^6.1.0

@@ -1,6 +1,7 @@
 name: win32_registry_value_reader
 description: Reads values from the Microsoft Windows registry
 version: 1.0.0
+publish_to: 'none'
 
 resolution: workspace
 

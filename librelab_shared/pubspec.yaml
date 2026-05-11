@@ -1,6 +1,7 @@
 name: librelab_shared
 description: Shared code between server and Flutter app
 version: 1.0.0
+publish_to: 'none'
 
 environment:
   sdk: ^3.11.5
@@ -10,6 +11,12 @@ resolution: workspace
 dependencies:
   email_validator: ^3.0.0
   meta: ^1.17.0
+  # TODO: Lazy solution: The ideal solution is to move this shared package into EchoEllet/packages
+  result:
+    git:
+      url: https://github.com/KraftLauncher/kraft-launcher.git
+      ref: main
+      path: packages/core/result
 
 dev_dependencies:
   lints: ^6.0.0
