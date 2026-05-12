@@ -46,8 +46,9 @@ sessionLogs:
   consoleLogFormat: text # Defaults to "json", options are "text" or "json"
 app:
   mdns:
-    advertise: true
+    enable: true
     instanceName: LibreLab
+  postgresInstallDeclined: false
 
 # futureCallExecutionEnabled: true # Defaults to true
 

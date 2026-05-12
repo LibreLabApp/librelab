@@ -42,14 +42,14 @@ class AppConfig {
 @immutable
 class MdnsConfig {
   const MdnsConfig({
-    required this.advertise,
+    required this.enable,
     required this.instanceName,
     this.serviceInstallDeclined,
   });
 
   factory MdnsConfig.fromYaml(YamlMap yaml) {
     return MdnsConfig(
-      advertise: yaml['advertise'] as bool,
+      enable: yaml['enable'] as bool,
       instanceName: yaml['instanceName'] as String,
       serviceInstallDeclined: yaml['serviceInstallDeclined'] != null
           ? (yaml['serviceInstallDeclined'] as bool)
@@ -59,23 +59,24 @@ class MdnsConfig {
 
   Map<String, Object?> toYaml() {
     return {
-      'advertise': advertise,
+      'enable': enable,
       'instanceName': instanceName,
-      'serviceInstallDeclined': serviceInstallDeclined,
+      if (serviceInstallDeclined != null)
+        'serviceInstallDeclined': serviceInstallDeclined,
     };
   }
 
-  final bool advertise;
+  final bool enable;
   final String instanceName;
   final bool? serviceInstallDeclined;
 
   MdnsConfig copyWith({
-    bool? advertise,
+    bool? enable,
     String? instanceName,
     bool? serviceInstallDeclined,
   }) {
     return MdnsConfig(
-      advertise: advertise ?? this.advertise,
+      enable: enable ?? this.enable,
       instanceName: instanceName ?? this.instanceName,
       serviceInstallDeclined:
           serviceInstallDeclined ?? this.serviceInstallDeclined,

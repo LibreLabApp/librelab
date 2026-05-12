@@ -11,3 +11,9 @@ String generateSecureRandomString([int byteLength = 24]) {
   final bytes = List<int>.generate(byteLength, (i) => random.nextInt(256));
   return base64UrlEncode(bytes).replaceAll('=', '');
 }
+
+bool isLocalHost(String host) {
+  const localHosts = {'localhost', '127.0.0.1', '::1'};
+  final normalizedHost = host.trim().toLowerCase();
+  return localHosts.contains(normalizedHost);
+}

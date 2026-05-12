@@ -254,7 +254,7 @@ Future<void> _createAppUser({
     stderr.writeln('Failed to create "$appUser" user: $e');
   }
 
-  await shutdown();
+  await shutdown(isSuccess: false);
   throw shutdownInvariantError;
 }
 
@@ -295,7 +295,7 @@ Future<void> _createAppDb(
     stderr.writeln('Failed to create "$appDatabase" user: $e');
   }
 
-  await shutdown();
+  await shutdown(isSuccess: false);
   throw shutdownInvariantError;
 }
 

@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/mdns/installer/mdns_platform_installer.dart';
-import 'package:librelab_server/src/mdns/mdns_driver.dart' as mdns_driver;
+import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
+import 'package:librelab_server/src/mdns/platform/impls/dns_sd.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
+import 'package:librelab_server/src/utils/cpu_architecture.dart';
 import 'package:librelab_server/src/utils/download_file.dart';
 import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:path/path.dart';
@@ -17,7 +18,7 @@ import 'package:path/path.dart';
 /// - `AppleSoftwareUpdate.msi`
 /// - `BonjourPS64.msi` and `BonjourPS.msi` (print services)
 /// - `SetupAdmin.exe`
-final class WindowsBonjourInstaller implements MdnsPlatformInstaller {
+final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
   // From https://support.apple.com/en-us/106380
   static const String _downloadUrl =
       'https://download.info.apple.com/Mac_OS_X/061-8098.20100603.gthyu/BonjourPSSetup.exe';
@@ -60,7 +61,7 @@ final class WindowsBonjourInstaller implements MdnsPlatformInstaller {
       await file.delete();
     }
 
-    await shutdown();
+    await shutdown(isSuccess: false);
     throw shutdownInvariantError;
   }
 
@@ -80,6 +81,11 @@ final class WindowsBonjourInstaller implements MdnsPlatformInstaller {
       ], workingDirectory: tempExtractDir.path);
 
       if (result.exitCode == 0) {
+        if (!isWindowsX64()) {
+          stderr.writeln(
+            'Windows is not 64-bit (x64). Bonjour installation may be incompatible.',
+          );
+        }
         final minimalInstallerFile = File(
           join(tempExtractDir.path, 'Bonjour64.msi'),
         );
@@ -119,7 +125,7 @@ final class WindowsBonjourInstaller implements MdnsPlatformInstaller {
       await tempExtractDir.delete(recursive: true);
     }
 
-    await shutdown();
+    await shutdown(isSuccess: false);
     throw shutdownInvariantError;
   }
 
@@ -162,13 +168,12 @@ final class WindowsBonjourInstaller implements MdnsPlatformInstaller {
       }
     }
 
-    await shutdown();
+    await shutdown(isSuccess: false);
     throw shutdownInvariantError;
   }
 
   @override
-  Future<bool> isInstalled() =>
-      isCommandAvailable(mdns_driver.DnsSdMdnsDriver.command);
+  Future<bool> isInstalled() => isCommandAvailable(DnsSdMdnsRegistrar.command);
 
   @override
   String get promptMessage => '''

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/mdns/installer/mdns_platform_installer.dart';
-import 'package:librelab_server/src/mdns/mdns_driver.dart' as mdns_driver;
+import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
+import 'package:librelab_server/src/mdns/platform/impls/avahi.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/linux/linux_package_manager.dart';
 
-final class LinuxAvahiInstaller implements MdnsPlatformInstaller {
-  LinuxAvahiInstaller({required LinuxPackageManager packageManager})
+final class AvahiLinuxInstaller implements MdnsPlatformInstaller {
+  AvahiLinuxInstaller({required LinuxPackageManager packageManager})
     : _packageManager = packageManager;
 
   final LinuxPackageManager _packageManager;
@@ -41,7 +41,7 @@ final class LinuxAvahiInstaller implements MdnsPlatformInstaller {
 
     await _runCommand(
       'command',
-      ['v', mdns_driver.AvahiMdnsDriver.command],
+      ['v', AvahiMdnsRegistrar.command],
       'to double-check whether the required Avahi command is available or not',
     );
   }
@@ -113,8 +113,7 @@ final class LinuxAvahiInstaller implements MdnsPlatformInstaller {
   }
 
   @override
-  Future<bool> isInstalled() =>
-      isCommandAvailable(mdns_driver.AvahiMdnsDriver.command);
+  Future<bool> isInstalled() => isCommandAvailable(AvahiMdnsRegistrar.command);
 
   @override
   String get promptMessage => '''

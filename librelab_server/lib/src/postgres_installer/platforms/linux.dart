@@ -93,7 +93,7 @@ final class LinuxPostgresInstaller
         'Unable to determine APT distribution codename from: ${LinuxOsRelease.filePath}',
       );
 
-      await shutdown();
+      await shutdown(isSuccess: false);
       throw shutdownInvariantError;
     }
 
@@ -192,14 +192,14 @@ final class LinuxPostgresInstaller
         'Failed to detect Red Hat Linux distribution from "${LinuxOsRelease.filePath}".\n'
         'This is needed to build the RPM repository URL, which requires ID and VERSION_ID.',
       );
-      await shutdown();
+      await shutdown(isSuccess: false);
       throw shutdownInvariantError;
     }
 
     if (id != 'fedora') {
       stderr.writeln('Unsupported Red Hat family distribution: $id');
 
-      await shutdown();
+      await shutdown(isSuccess: false);
       throw shutdownInvariantError;
     }
 
@@ -207,7 +207,7 @@ final class LinuxPostgresInstaller
     if (architecture != 'x86_64') {
       stderr.writeln('Unsupported CPU architecture: $architecture');
 
-      await shutdown();
+      await shutdown(isSuccess: false);
       throw shutdownInvariantError;
     }
 

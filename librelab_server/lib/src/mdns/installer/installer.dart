@@ -1,19 +1,19 @@
 import 'dart:io';
 
 import 'package:librelab_server/src/config/config_files.dart' show ConfigFiles;
-import 'package:librelab_server/src/mdns/installer/mdns_platform_installer.dart';
+import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 
-class MdnsDriverInstaller {
-  MdnsDriverInstaller({required MdnsPlatformInstaller platformInstaller})
-    : _platformInstaller = platformInstaller;
+class MdnsInstaller {
+  MdnsInstaller({required MdnsPlatformInstaller platform})
+    : _platform = platform;
 
-  final MdnsPlatformInstaller _platformInstaller;
+  final MdnsPlatformInstaller _platform;
 
   Future<void> tryInstallWithPrompt({
     required void Function() onDeclined,
   }) async {
-    if (await _platformInstaller.isInstalled()) {
+    if (await _platform.isInstalled()) {
       return;
     }
 
@@ -30,11 +30,11 @@ class MdnsDriverInstaller {
       return;
     }
 
-    await _platformInstaller.install();
+    await _platform.install();
   }
 
   bool _prompt() {
-    stdout.writeln('\n${_platformInstaller.promptMessage}');
+    stdout.writeln('\n${_platform.promptMessage}');
     return promptYesNo(
       'Proceed with automated mDNS service installation?',
       defaultValue: true,

@@ -107,6 +107,6 @@ Future<Process> executeAndLogCommandOrShutdown(
   stderr.writeln(
     'Command failed (exit code $exitCode): "$command" while attempting to $goal.',
   );
-  await shutdown();
+  await shutdown(isSuccess: false);
   throw shutdownInvariantError;
 }

@@ -88,7 +88,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
       await file.delete();
     }
 
-    await shutdown();
+    await shutdown(isSuccess: false);
     throw shutdownInvariantError;
   }
 
@@ -142,7 +142,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
       }
     }
 
-    await shutdown();
+    await shutdown(isSuccess: false);
     throw shutdownInvariantError;
   }
 

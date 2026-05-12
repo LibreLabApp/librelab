@@ -1,7 +1,7 @@
-import 'package:librelab_server/src/mdns/installer/mdns_platform_installer.dart';
+import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
 
 /// Does not need mDNS service installation (dns-sd is already installed).
-final class MacOsNoOpMdnsInstaller implements MdnsPlatformInstaller {
+final class MacOsNoopMdnsInstaller implements MdnsPlatformInstaller {
   @override
   Future<void> install() {
     throw UnsupportedError(

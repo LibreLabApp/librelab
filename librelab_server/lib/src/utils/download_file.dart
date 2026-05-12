@@ -29,14 +29,40 @@ final class DownloadFileException implements Exception {
 Future<void> downloadFile(Uri url, File file) async {
   HttpClient? client;
   IOSink? sink;
+
   try {
     client = HttpClient();
+
+    // During development only: allow bypassing bad certificates validation
+    // for Windows 11 guest OS in VM testing
+    // ignore: prefer_asserts_with_message
+    assert(() {
+      final allowBadCertificates =
+          Platform.environment['ALLOW_BAD_CERTIFICATES']
+              ?.trim()
+              .toLowerCase() ==
+          'true';
+      if (allowBadCertificates) {
+        client!.badCertificateCallback = (_, host, _) {
+          stderr.writeln(
+            'Security warning: Ignoring bad certificate for $host',
+          );
+          return true;
+        };
+      }
+
+      return true;
+    }());
 
     final request = await client.getUrl(url);
     final response = await request.close();
 
     if (response.statusCode != 200) {
-      await response.drain<void>();
+      try {
+        await response.drain<void>();
+      } on Exception {
+        // No-op
+      }
 
       throw DownloadFileException(statusCode: response.statusCode, url: url);
     }
