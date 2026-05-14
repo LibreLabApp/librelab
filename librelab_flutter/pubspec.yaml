@@ -54,9 +54,6 @@ flutter:
 
   assets:
     - assets/lottie/
-    # IMPORTANT: The asset assets/branding/icon.png is hardcoded in linux/runner/my_application.cc
-    - path: assets/branding/icon.png
-      platforms: [linux]
 
 flutter_gen:
   output: lib/generated/
@@ -72,5 +69,5 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: assets/branding/icon_framed.png
-  # Linux window icon is manually handled using `gtk_window_set_icon_from_file`.
-  # The launcher icon is handled using the packaging solutions (e.g., Flatpak).
+  # Linux: the launcher icon is handled using the packaging solutions (e.g., Flatpak)
+  # or using a `.desktop` file.

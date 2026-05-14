@@ -98,8 +98,13 @@ class LocalDiscoveryRepository {
   }) async {
     final ping = await Ping(host, count: 1).stream.first;
     final pingError = ping.error;
+
+    // Ping may fail if the host (e.g., Windows) disallows pinging
+    // OR if the client is Windows and Bonjour is not installed
     if (pingError != null) {
       _logger.fine('Ping request failed to "$host": $pingError');
+    } else if (ping.response == null) {
+      _logger.fine('Ping request failed to "$host" with no error: $ping');
     }
 
     final txtRecords = rawTxtRecords != null

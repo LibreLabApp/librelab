@@ -131,12 +131,15 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => LocalDiscoveryCubit(
             localDiscoveryRepository: LocalDiscoveryRepository(
-              // Currently, Dart socket implementation don't support reusePort on Android:
-              // "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_linux.cc:157: `reusePort` not supported on this platform."
-              // To workaround, it is disabled only on Android.
+              // Currently, Dart socket implementation don't support reusePort on:
+              //
+              // - Android: "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_linux.cc:157: `reusePort` not supported on this platform."
+              // - Windows: "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_win.cc:192: reusePort not supported for Windows.OK"
+              //
+              // To workaround, it is disabled only on unsupported platforms.
               // https://github.com/flutter/flutter/issues/27346#issuecomment-560931996
               mDnsClient: MDnsClient(
-                rawDatagramSocketFactory: isAndroid
+                rawDatagramSocketFactory: isAndroid || isWindows
                     ? (
                         host,
                         port, {
@@ -162,7 +165,7 @@ class MainApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.lightBlue,
-            brightness: Brightness.light,
+            brightness: .light,
           ),
           listTileTheme: listTileTheme,
         ),
@@ -170,11 +173,11 @@ class MainApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blue,
-            brightness: Brightness.dark,
+            brightness: .dark,
           ),
           listTileTheme: listTileTheme,
         ),
-        themeMode: .light,
+        themeMode: .system,
         locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
