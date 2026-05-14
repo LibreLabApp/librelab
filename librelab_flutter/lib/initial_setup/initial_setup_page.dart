@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/build_context_ext.dart';
-import 'package:librelab_flutter/common/stepper_view.dart';
+import 'package:librelab_flutter/common/stepper_view/stepper_view.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/pager.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
@@ -13,85 +13,128 @@ class InitialSetupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => InitialSetupCubit(),
-        child: const Row(
-          spacing: 24,
-          children: [
-            SizedBox(
-              width: 220,
-              child: Padding(
-                padding: EdgeInsets.only(top: 24, left: 16),
-                child: _LeftSide(),
-              ),
-            ),
-            Expanded(
-              child: Card(margin: .zero, child: _RightSide()),
-            ),
-          ],
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) => InitialSetupCubit(),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final usesSidebar = constraints.maxWidth >= 710;
+              final Axis direction = usesSidebar ? .horizontal : .vertical;
+
+              return Flex(
+                direction: direction,
+                spacing: 24,
+                children: [
+                  SizedBox(
+                    width: direction == .horizontal ? 220 : null,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 24, left: 16),
+                      child: usesSidebar
+                          ? const _StepProgressIndicatorSidebar()
+                          : const _StepProgressIndicator(
+                              direction: .horizontal,
+                            ),
+                    ),
+                  ),
+                  const Expanded(
+                    child: Card(margin: .zero, child: _CurrentStepContent()),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 }
 
-class _LeftSide extends StatelessWidget {
-  const _LeftSide();
+class _StepProgressIndicator extends StatelessWidget {
+  const _StepProgressIndicator({required this.direction});
+
+  final Axis direction;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final textTheme = theme.textTheme;
+    return BlocSelector<InitialSetupCubit, InitialSetupState, InitialSetupStep>(
+      selector: (state) => state.currentStep,
+      builder: (context, currentStep) {
+        return StepperView(
+          direction: direction,
+          currentStep: currentStep.index,
+          // TODO: Prevent user from moving to the next step without finishing the current!
+          onStepTapped: (index) => context.read<InitialSetupCubit>().setStep(
+            InitialSetupStep.values.elementAt(index),
+          ),
+          steps: InitialSetupStep.values
+              .map((e) => e.getStepNav(context.t))
+              .toList(),
+        );
+      },
+    );
+  }
+}
 
-    return Column(
-      children: [
-        BlocSelector<InitialSetupCubit, InitialSetupState, InitialSetupStep>(
-          selector: (state) => state.currentStep,
-          builder: (context, currentStep) {
-            return StepperView(
-              currentStep: currentStep.index,
-              // TODO: Prevent user from moving to the next step without finishing the current!
-              onStepTapped: (index) => context
-                  .read<InitialSetupCubit>()
-                  .setStep(InitialSetupStep.values.elementAt(index)),
-              steps: InitialSetupStep.values
-                  .map((e) => e.getStepData(context.t))
-                  .toList(),
-            );
-          },
-        ),
-        const Spacer(),
-        Column(
-          children: [
-            const _LottieAnimation(),
-            const SizedBox(height: 20),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 180),
-              child: Column(
-                children: [
-                  Text(
-                    'Almost there!',
-                    style: textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: textTheme.displayLarge?.color,
-                    ),
-                    textAlign: TextAlign.center,
+/// Displays [_StepProgressIndicator] vertically (medium/large screens)
+/// and potentially a Lottie animation at the bottom if available height is sufficient.
+class _StepProgressIndicatorSidebar extends StatelessWidget {
+  const _StepProgressIndicatorSidebar();
+
+  List<Widget> _footerHero({required BuildContext context}) {
+    final (t, textTheme, theme) = (
+      context.t.initialSetupPage.decorativeAnimation,
+      context.theme.textTheme,
+      context.theme,
+    );
+
+    return [
+      const Spacer(),
+      Column(
+        children: [
+          const _LottieAnimation(),
+          const SizedBox(height: 20),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 180),
+            child: Column(
+              children: [
+                Text(
+                  t.title,
+                  style: textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: textTheme.displayLarge?.color,
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "Let's get everything setup for you",
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
-                    ),
-                    textAlign: TextAlign.center,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  t.subtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
                   ),
-                ],
-              ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 40),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final showFooterHero = constraints.maxHeight > 590;
+
+        return Column(
+          children: [
+            const _StepProgressIndicator(direction: .vertical),
+            if (showFooterHero) ..._footerHero(context: context),
           ],
-        ),
-        const SizedBox(height: 40),
-      ],
+        );
+      },
     );
   }
 }
@@ -130,47 +173,60 @@ class _LottieAnimation extends StatelessWidget {
   }
 }
 
-class _RightSide extends StatelessWidget {
-  const _RightSide();
+class _CurrentStepContent extends StatelessWidget {
+  const _CurrentStepContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(24),
+      child: Column(
+        children: [
+          _StepContentHeading(),
+          SizedBox(height: 32),
+          Expanded(child: InitialSetupPager()),
+        ],
+      ),
+    );
+  }
+}
+
+class _StepContentHeading extends StatelessWidget {
+  const _StepContentHeading();
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final textTheme = theme.textTheme;
+    final currentStep = context.select(
+      (InitialSetupCubit v) => v.state.currentStep,
+    );
 
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Row(
-            spacing: 24,
+    final stepContentHeading = currentStep.getStepContentHeading(context.t);
+
+    return Row(
+      spacing: 24,
+      children: [
+        CircleAvatar(
+          radius: 24,
+          backgroundColor: theme.primaryColor,
+          foregroundColor: Colors.white,
+          child: Icon(stepContentHeading.iconData),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: .start,
+            spacing: 6,
             children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: theme.primaryColor,
-                foregroundColor: Colors.white,
-                child: const Icon(Icons.link),
+              Text(
+                stepContentHeading.title,
+                style: textTheme.headlineMedium?.copyWith(fontWeight: .bold),
               ),
-              Column(
-                crossAxisAlignment: .start,
-                spacing: 6,
-                children: [
-                  // TODO: Change based on current step
-                  Text(
-                    'Server Configuration',
-                    style: textTheme.headlineMedium?.copyWith(
-                      fontWeight: .bold,
-                    ),
-                  ),
-                  const Text('Enter the server details to get started.'),
-                ],
-              ),
+              Text(stepContentHeading.subtitle),
             ],
           ),
-          const SizedBox(height: 32),
-          const Expanded(child: InitialSetupPager()),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

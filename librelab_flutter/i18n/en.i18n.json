@@ -5,24 +5,54 @@
     "@title": "Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server connection, and account setup.",
     "steps": {
       "preferences": {
-        "title": "Preferences",
-        "subtitle": "Choose your preferences"
+        "nav": {
+          "title": "Preferences",
+          "subtitle": "Choose your preferences"
+        },
+        "content": {
+          "title": "Personalization",
+          "subtitle": "Adjust theme, language and interface options"
+        }
       },
       "server": {
-        "title": "Server",
-        "subtitle": "Configure your server connection"
+        "nav": {
+          "title": "Server",
+          "subtitle": "Configure your server connection"
+        },
+        "content": {
+          "title": "Server Connection",
+          "subtitle": "Connect to a server to access and sync your data"
+        }
       },
       "account": {
-        "title": "Account",
-        "subtitle": "Login using your credentials"
+        "nav": {
+          "title": "Account",
+          "subtitle": "Login using your credentials"
+        },
+        "content": {
+          "title": "Sign In",
+          "subtitle": "Authenticate to continue the setup process"
+        }
       },
       "complete": {
-        "title": "Complete",
-        "subtitle": "Finish setup"
+        "nav": {
+          "title": "Complete",
+          "subtitle": "Finish setup"
+        },
+        "content": {
+          "title": "Ready to go!",
+          "subtitle": "Your setup is complete"
+        }
       }
     },
     "next": "Next",
-    "back": "Back"
+    "back": "Back",
+    "decorativeAnimation": {
+      "title": "Almost there!",
+      "subtitle": "Let's get everything set up for you",
+      "@title": "Title shown in the decorative animation on the initial setup page, step-independent. Not shown in smaller screens.",
+      "@subtitle": "Subtitle shown in the decorative animation on the initial setup page. Not shown in smaller screens."
+    }
   },
   "confirmProgramExitDialog": {
     "title": "Confirm Exit",
@@ -35,5 +65,27 @@
     "@cancelButton": "Secondary button text to stay in the app and not close.",
     "confirmButton": "Exit",
     "@confirmButton": "Primary button text to confirm closing the application."
+  },
+  "server": {
+    "testConnection": {
+      "title": "Test your connection",
+      "subtitle": "Make sure you can connect to your server before continuing.",
+      "button": "Test Connection"
+    },
+    "connectionMethod": {
+      "localNetworkDiscovery": {
+        "button": "Find on Network",
+        "tooltip": "Detect servers available on local network"
+      },
+      "manualAddress": {
+        "button": "Enter Server Address",
+        "tooltip": "Manually providing a server address."
+      }
+    },
+    "localNetworkDiscovery": {
+      "refreshServersButton": "Refresh",
+      "serverListTitle": "Available Servers",
+      "discoveredServerPrompt": "Select a server found on your local network."
+    }
   }
 }

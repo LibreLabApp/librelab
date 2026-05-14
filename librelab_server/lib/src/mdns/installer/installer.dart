@@ -22,9 +22,10 @@ class MdnsInstaller {
     if (!userApproved) {
       stdout.writeln(
         '\nmDNS service auto-installer is disabled. This choice will not be prompted again.\n'
-        'To change this setting later, edit: ${ConfigFiles.forCurrentRunMode().path}\n'
-        'Local devices on this network may not be able to discover and connect\n'
-        'to this server properly without manually entering the IP address (should be static).\n',
+        'IMPORTANT: Local devices on this network may not be able to discover and connect\n'
+        'to this server.\n'
+        'Clients can still connect using a manually entered IP address (must be STATIC or reserved).\n'
+        'To change this setting later, edit: ${ConfigFiles.forCurrentRunMode().path}\n',
       );
       onDeclined();
       return;

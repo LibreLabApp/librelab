@@ -13,6 +13,13 @@ bool get isLinux => defaultTargetPlatform == TargetPlatform.linux && !kIsWeb;
 bool get isMacOS => defaultTargetPlatform == TargetPlatform.macOS && !kIsWeb;
 
 @pragma('vm:platform-const-if', !kDebugMode)
+bool get isAndroid =>
+    defaultTargetPlatform == TargetPlatform.android && !kIsWeb;
+
+@pragma('vm:platform-const-if', !kDebugMode)
+bool get isIos => defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb;
+
+@pragma('vm:platform-const-if', !kDebugMode)
 bool get isDesktop =>
     (defaultTargetPlatform == TargetPlatform.linux ||
         defaultTargetPlatform == TargetPlatform.macOS ||

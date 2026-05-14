@@ -11,13 +11,17 @@ final class DnsSdMdnsRegistrar extends ProcessMdnsRegistrar {
   DnsSdMdnsRegistrar()
     : super(
         executable: command,
-        buildArguments: (config) => [
-          '-R',
-          config.instanceName,
-          config.serviceType,
-          '.',
-          '${config.port}',
-        ],
+        buildArguments: (config) {
+          final txtRecords = config.txtRecords;
+          return [
+            '-R',
+            config.instanceName,
+            config.serviceType,
+            '.',
+            '${config.port}',
+            if (txtRecords != null) ...txtRecords,
+          ];
+        },
       );
   static const String command = 'dns-sd';
 }

@@ -32,6 +32,7 @@ void main() async {
   final targetDirectory = Directory(join(buildDirectory.path, _package));
   await targetDirectory.create(recursive: true);
 
+  // TODO: Should probably use full name
   final executableFileName = 'main${isWindows ? '.exe' : ''}';
 
   final executablePath = join(targetDirectory.path, executableFileName);

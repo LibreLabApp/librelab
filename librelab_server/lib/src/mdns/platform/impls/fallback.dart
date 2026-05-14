@@ -24,6 +24,7 @@ final class FallbackMdnsRegistrar implements MdnsPlatformRegistrar {
       instance: config.instanceName,
       service: config.serviceType,
       port: config.port,
+      txt: config.txtRecords ?? [],
     );
     _server = mdns_dart.MDNSServer(mdns_dart.MDNSServerConfig(zone: service));
     await _server!.start();

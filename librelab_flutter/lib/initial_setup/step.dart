@@ -1,6 +1,9 @@
-import 'package:librelab_flutter/common/stepper_view.dart';
+import 'package:flutter/material.dart' show Icons;
+import 'package:flutter/widgets.dart' show IconData;
+import 'package:librelab_flutter/common/stepper_view/stepper_view.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
+import 'package:meta/meta.dart';
 
 enum InitialSetupStep {
   preferences,
@@ -14,21 +17,21 @@ enum InitialSetupStep {
 }
 
 extension InitialSetupStepExt on InitialSetupStep {
-  StepData getStepData(Translations t) {
+  StepNav getStepNav(Translations t) {
     final steps = t.initialSetupPage.steps;
     final title = switch (this) {
-      InitialSetupStep.preferences => steps.preferences.title,
-      InitialSetupStep.server => steps.server.title,
-      InitialSetupStep.account => steps.account.title,
-      InitialSetupStep.complete => steps.complete.title,
+      InitialSetupStep.preferences => steps.preferences.nav.title,
+      InitialSetupStep.server => steps.server.nav.title,
+      InitialSetupStep.account => steps.account.nav.title,
+      InitialSetupStep.complete => steps.complete.nav.title,
     };
     final subtitle = switch (this) {
-      InitialSetupStep.preferences => steps.preferences.subtitle,
-      InitialSetupStep.server => steps.server.subtitle,
-      InitialSetupStep.account => steps.account.subtitle,
-      InitialSetupStep.complete => steps.complete.subtitle,
+      InitialSetupStep.preferences => steps.preferences.nav.subtitle,
+      InitialSetupStep.server => steps.server.nav.subtitle,
+      InitialSetupStep.account => steps.account.nav.subtitle,
+      InitialSetupStep.complete => steps.complete.nav.subtitle,
     };
-    return StepData(title, subtitle);
+    return StepNav(title, subtitle);
   }
 
   String getLottieAsset() {
@@ -39,4 +42,45 @@ extension InitialSetupStepExt on InitialSetupStep {
       InitialSetupStep.complete => Assets.lottie.rocket,
     }.path;
   }
+
+  StepContentHeading getStepContentHeading(Translations t) {
+    final steps = t.initialSetupPage.steps;
+    final title = switch (this) {
+      InitialSetupStep.preferences => steps.preferences.content.title,
+      InitialSetupStep.server => steps.server.content.title,
+      InitialSetupStep.account => steps.account.content.title,
+      InitialSetupStep.complete => steps.complete.content.title,
+    };
+    final subtitle = switch (this) {
+      InitialSetupStep.preferences => steps.preferences.content.subtitle,
+      InitialSetupStep.server => steps.server.content.subtitle,
+      InitialSetupStep.account => steps.account.content.subtitle,
+      InitialSetupStep.complete => steps.complete.content.subtitle,
+    };
+    final iconData = switch (this) {
+      InitialSetupStep.preferences => Icons.tune,
+      InitialSetupStep.server => Icons.link,
+      InitialSetupStep.account => Icons.account_circle,
+      InitialSetupStep.complete => Icons.check,
+    };
+
+    return StepContentHeading(
+      title: title,
+      subtitle: subtitle,
+      iconData: iconData,
+    );
+  }
+}
+
+@immutable
+class StepContentHeading {
+  const StepContentHeading({
+    required this.title,
+    required this.subtitle,
+    required this.iconData,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData iconData;
 }

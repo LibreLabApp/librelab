@@ -47,7 +47,7 @@ sessionLogs:
 app:
   mdns:
     enable: true
-    instanceName: LibreLab
+    instanceName: LibreLabTest
   postgresInstallDeclined: false
 
 # futureCallExecutionEnabled: true # Defaults to true

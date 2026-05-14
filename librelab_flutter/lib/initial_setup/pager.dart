@@ -30,10 +30,11 @@ class _InitialSetupPagerState extends State<InitialSetupPager> {
   final _children = InitialSetupStep.values
       .map(
         (e) => switch (e) {
-          InitialSetupStep.preferences => const Text('Preferences'),
-          InitialSetupStep.server => const InitialSetupServerStep(),
-          InitialSetupStep.account => const Text('Account'),
-          InitialSetupStep.complete => const Text('Complete!'),
+          // TODO: Replace
+          .preferences => const Placeholder(),
+          .server => const InitialSetupServerStep(),
+          .account => const Placeholder(),
+          .complete => const Placeholder(),
         },
       )
       .toList();
@@ -60,6 +61,7 @@ class _InitialSetupPagerState extends State<InitialSetupPager> {
     return Column(
       children: [
         ConstrainedBox(
+          // TODO: Dont hardcode (BoxConstraints)
           constraints: const BoxConstraints(maxHeight: 500),
           child: BlocListener<InitialSetupCubit, InitialSetupState>(
             listener: (context, state) =>

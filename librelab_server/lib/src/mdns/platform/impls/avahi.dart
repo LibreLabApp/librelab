@@ -9,12 +9,16 @@ final class AvahiMdnsRegistrar extends ProcessMdnsRegistrar {
   AvahiMdnsRegistrar()
     : super(
         executable: command,
-        buildArguments: (config) => [
-          '-s',
-          config.instanceName,
-          config.serviceType,
-          '${config.port}',
-        ],
+        buildArguments: (config) {
+          final txtRecords = config.txtRecords;
+          return [
+            '-s',
+            config.instanceName,
+            config.serviceType,
+            '${config.port}',
+            if (txtRecords != null) ...txtRecords,
+          ];
+        },
       );
 
   static const String command = 'avahi-publish';

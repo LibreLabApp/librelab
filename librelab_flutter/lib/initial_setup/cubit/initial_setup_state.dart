@@ -9,6 +9,13 @@ final class InitialSetupState with _$InitialSetupState {
     this.serverUrl,
   });
 
+  /// The initial state of the initial setup page
+  factory InitialSetupState.initialState() => const InitialSetupState(
+    currentStep: .preferences,
+    // TODO: Maybe disable the button by default with no tooltp and then allow steps to enable it manually?
+    nextButtonDisabledTooltip: null,
+  );
+
   @override
   final InitialSetupStep currentStep;
 

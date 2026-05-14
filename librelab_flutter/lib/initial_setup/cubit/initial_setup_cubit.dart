@@ -6,14 +6,7 @@ part 'initial_setup_state.dart';
 part 'initial_setup_cubit.freezed.dart';
 
 class InitialSetupCubit extends Cubit<InitialSetupState> {
-  InitialSetupCubit()
-    : super(
-        const InitialSetupState(
-          currentStep: InitialSetupStep.preferences,
-          // TODO: Maybe disable the button by default with no tooltp and then allow steps to enable it manually?
-          nextButtonDisabledTooltip: null,
-        ),
-      );
+  InitialSetupCubit() : super(InitialSetupState.initialState());
 
   void setStep(InitialSetupStep step) {
     emit(state.copyWith(currentStep: step));

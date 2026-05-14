@@ -12,6 +12,29 @@ final class DownloadFileException implements Exception {
   }
 }
 
+HttpClient _createHttpClient() {
+  final client = HttpClient();
+
+  // During development only: allow bypassing bad certificates validation
+  // for Windows 11 guest OS in VM testing
+  // ignore: prefer_asserts_with_message
+  assert(() {
+    final allowBadCertificates =
+        Platform.environment['ALLOW_BAD_CERTIFICATES']?.trim().toLowerCase() ==
+        'true';
+    if (allowBadCertificates) {
+      client.badCertificateCallback = (_, host, _) {
+        stderr.writeln('Security warning: Ignoring bad certificate for $host');
+        return true;
+      };
+    }
+
+    return true;
+  }());
+
+  return client;
+}
+
 /// Downloads file from [url] into [file].
 ///
 /// Throws [DownloadFileException] if HTTP status code is not `200`.
@@ -27,33 +50,9 @@ final class DownloadFileException implements Exception {
 /// These files are PostgreSQL and Bonjour installer files on Windows,
 /// so this technical debt is acceptable.
 Future<void> downloadFile(Uri url, File file) async {
-  HttpClient? client;
-  IOSink? sink;
+  final client = _createHttpClient();
 
   try {
-    client = HttpClient();
-
-    // During development only: allow bypassing bad certificates validation
-    // for Windows 11 guest OS in VM testing
-    // ignore: prefer_asserts_with_message
-    assert(() {
-      final allowBadCertificates =
-          Platform.environment['ALLOW_BAD_CERTIFICATES']
-              ?.trim()
-              .toLowerCase() ==
-          'true';
-      if (allowBadCertificates) {
-        client!.badCertificateCallback = (_, host, _) {
-          stderr.writeln(
-            'Security warning: Ignoring bad certificate for $host',
-          );
-          return true;
-        };
-      }
-
-      return true;
-    }());
-
     final request = await client.getUrl(url);
     final response = await request.close();
 
@@ -67,10 +66,14 @@ Future<void> downloadFile(Uri url, File file) async {
       throw DownloadFileException(statusCode: response.statusCode, url: url);
     }
 
-    sink = file.openWrite();
-    await response.pipe(sink);
+    final sink = file.openWrite();
+
+    try {
+      await response.pipe(sink);
+    } finally {
+      await sink.close();
+    }
   } finally {
-    await sink?.close();
-    client?.close();
+    client.close();
   }
 }

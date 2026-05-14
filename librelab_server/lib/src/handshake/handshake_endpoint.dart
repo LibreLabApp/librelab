@@ -5,6 +5,7 @@ import 'package:librelab_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
 class HandshakeEndpoint extends Endpoint {
+  // TODO: Refactor (inefficient, use api verison instead)
   static const _minClientBuild = 1;
 
   Future<HandshakeResponse> check(

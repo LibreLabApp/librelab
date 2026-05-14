@@ -66,5 +66,14 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>This app discovers LibreLab servers on the local network.</string>
+
+	<key>NSBonjourServices</key>
+	<array>
+		<!-- Must be in sync with the value in ProjectConstants.dart -->
+		<string>_librelab._tcp</string>
+	</array>
 </dict>
 </plist>

@@ -31,7 +31,11 @@ dependencies:
   freezed_annotation: ^3.1.0
   collection: ^1.19.1
   multicast_dns: ^0.3.3
+  dart_ping: ^9.0.1
+  dart_ping_ios: ^4.0.2
   librelab_shared: ^1.0.0
+  equatable: ^2.0.8
+  logging: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +45,7 @@ dev_dependencies:
   build_runner: ^2.14.1
   flutter_gen_runner: ^5.14.1
   freezed: ^3.2.5
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -49,6 +54,9 @@ flutter:
 
   assets:
     - assets/lottie/
+    # IMPORTANT: The asset assets/branding/icon.png is hardcoded in linux/runner/my_application.cc
+    - path: assets/branding/icon.png
+      platforms: [linux]
 
 flutter_gen:
   output: lib/generated/
@@ -56,3 +64,13 @@ flutter_gen:
   integrations:
     image: true
     lottie: true
+
+flutter_launcher_icons:
+  windows:
+    generate: true
+    image_path: assets/branding/icon.png
+  macos:
+    generate: true
+    image_path: assets/branding/icon_framed.png
+  # Linux window icon is manually handled using `gtk_window_set_icon_from_file`.
+  # The launcher icon is handled using the packaging solutions (e.g., Flatpak).

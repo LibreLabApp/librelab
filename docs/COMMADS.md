@@ -2,3 +2,4 @@
 - `dart run build_runner build`
 - `dart run slang slang.yaml`
 - `fluttergen`
+- `dart run flutter_launcher_icons:generate -f pubspec.yaml`

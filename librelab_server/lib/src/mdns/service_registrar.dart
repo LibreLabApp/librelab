@@ -1,3 +1,4 @@
+import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/src/mdns/platform/platform_registrar.dart';
 import 'package:librelab_server/src/mdns/service_config.dart';
 import 'package:librelab_shared/librelab_shared.dart';
@@ -26,6 +27,7 @@ class MdnsServiceRegistrar {
         instanceName: instanceName,
         port: port,
         serviceType: ProjectConstants.mdnsServiceType,
+        txtRecords: const ['version=${Pubspec.version}'],
       ),
     );
     _isRegistered = true;

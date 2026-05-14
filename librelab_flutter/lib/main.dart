@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show File;
+import 'dart:io' show File, RawDatagramSocket, stderr, stdout;
 
+import 'package:dart_ping_ios/dart_ping_ios.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalMaterialLocalizations;
 import 'package:go_router/go_router.dart';
@@ -12,6 +14,10 @@ import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/platform/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
+import 'package:librelab_flutter/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/local_network_discovery/repository.dart';
+import 'package:logging/logging.dart';
+import 'package:multicast_dns/multicast_dns.dart';
 import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
@@ -35,6 +41,29 @@ final _router = GoRouter(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    final level = record.level;
+
+    final message = '${record.level.name}: ${record.time}: ${record.message}';
+    if (isDesktop) {
+      final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
+      if (errorLevels.contains(level)) {
+        stderr.writeln(message);
+      } else {
+        stdout.writeln(message);
+      }
+    } else {
+      // ignore: avoid_print
+      print(message);
+    }
+  });
+
+  if (isIos) {
+    // https://pub.dev/packages/dart_ping_ios
+    DartPingIOS.register();
+  }
 
   final serverUrl = await getServerUrl();
 
@@ -96,29 +125,60 @@ class MainApp extends StatelessWidget {
     final listTileTheme = ListTileThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
-    return MaterialApp.router(
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.light,
+    return MultiBlocProvider(
+      providers: [
+        // TODO: Proper dependency injection! LocalDiscoveryRepository is needed somewhere else in the dashboard screen
+        BlocProvider(
+          create: (context) => LocalDiscoveryCubit(
+            localDiscoveryRepository: LocalDiscoveryRepository(
+              // Currently, Dart socket implementation don't support reusePort on Android:
+              // "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_linux.cc:157: `reusePort` not supported on this platform."
+              // To workaround, it is disabled only on Android.
+              // https://github.com/flutter/flutter/issues/27346#issuecomment-560931996
+              mDnsClient: MDnsClient(
+                rawDatagramSocketFactory: isAndroid
+                    ? (
+                        host,
+                        port, {
+                        bool? reuseAddress,
+                        bool? reusePort,
+                        int ttl = 1,
+                      }) => RawDatagramSocket.bind(
+                        host,
+                        port,
+                        reuseAddress: true,
+                        reusePort: false,
+                        ttl: ttl,
+                      )
+                    : RawDatagramSocket.bind,
+              ),
+            ),
+          ),
         ),
-        listTileTheme: listTileTheme,
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.lightGreen,
-          brightness: Brightness.dark,
+      ],
+      child: MaterialApp.router(
+        routerConfig: _router,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.lightBlue,
+            brightness: Brightness.light,
+          ),
+          listTileTheme: listTileTheme,
         ),
-        listTileTheme: listTileTheme,
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue,
+            brightness: Brightness.dark,
+          ),
+          listTileTheme: listTileTheme,
+        ),
+        themeMode: .light,
+        locale: TranslationProvider.of(context).flutterLocale,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
       ),
-      themeMode: .light,
-      locale: TranslationProvider.of(context).flutterLocale,
-      supportedLocales: AppLocaleUtils.supportedLocales,
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
     );
   }
 }

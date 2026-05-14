@@ -3,6 +3,7 @@
         "Avahi",
         "Ellet",
         "librelab",
+        "mdns",
         "pacman",
         "PGPASSWORD",
         "pgsql",

@@ -42,6 +42,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final TranslationsInitialSetupPageEn initialSetupPage = TranslationsInitialSetupPageEn.internal(_root);
 	late final TranslationsConfirmProgramExitDialogEn confirmProgramExitDialog = TranslationsConfirmProgramExitDialogEn.internal(_root);
+	late final TranslationsServerEn server = TranslationsServerEn.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -64,6 +65,8 @@ class TranslationsInitialSetupPageEn {
 
 	/// en: 'Back'
 	String get back => 'Back';
+
+	late final TranslationsInitialSetupPageDecorativeAnimationEn decorativeAnimation = TranslationsInitialSetupPageDecorativeAnimationEn.internal(_root);
 }
 
 // Path: confirmProgramExitDialog
@@ -100,6 +103,18 @@ class TranslationsConfirmProgramExitDialogEn {
 	String get confirmButton => 'Exit';
 }
 
+// Path: server
+class TranslationsServerEn {
+	TranslationsServerEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsServerTestConnectionEn testConnection = TranslationsServerTestConnectionEn.internal(_root);
+	late final TranslationsServerConnectionMethodEn connectionMethod = TranslationsServerConnectionMethodEn.internal(_root);
+	late final TranslationsServerLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerLocalNetworkDiscoveryEn.internal(_root);
+}
+
 // Path: initialSetupPage.steps
 class TranslationsInitialSetupPageStepsEn {
 	TranslationsInitialSetupPageStepsEn.internal(this._root);
@@ -113,9 +128,149 @@ class TranslationsInitialSetupPageStepsEn {
 	late final TranslationsInitialSetupPageStepsCompleteEn complete = TranslationsInitialSetupPageStepsCompleteEn.internal(_root);
 }
 
+// Path: initialSetupPage.decorativeAnimation
+class TranslationsInitialSetupPageDecorativeAnimationEn {
+	TranslationsInitialSetupPageDecorativeAnimationEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// Title shown in the decorative animation on the initial setup page, step-independent. Not shown in smaller screens.
+	///
+	/// en: 'Almost there!'
+	String get title => 'Almost there!';
+
+	/// Subtitle shown in the decorative animation on the initial setup page. Not shown in smaller screens.
+	///
+	/// en: 'Let's get everything set up for you'
+	String get subtitle => 'Let\'s get everything set up for you';
+}
+
+// Path: server.testConnection
+class TranslationsServerTestConnectionEn {
+	TranslationsServerTestConnectionEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Test your connection'
+	String get title => 'Test your connection';
+
+	/// en: 'Make sure you can connect to your server before continuing.'
+	String get subtitle => 'Make sure you can connect to your server before continuing.';
+
+	/// en: 'Test Connection'
+	String get button => 'Test Connection';
+}
+
+// Path: server.connectionMethod
+class TranslationsServerConnectionMethodEn {
+	TranslationsServerConnectionMethodEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsServerConnectionMethodLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerConnectionMethodLocalNetworkDiscoveryEn.internal(_root);
+	late final TranslationsServerConnectionMethodManualAddressEn manualAddress = TranslationsServerConnectionMethodManualAddressEn.internal(_root);
+}
+
+// Path: server.localNetworkDiscovery
+class TranslationsServerLocalNetworkDiscoveryEn {
+	TranslationsServerLocalNetworkDiscoveryEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Refresh'
+	String get refreshServersButton => 'Refresh';
+
+	/// en: 'Available Servers'
+	String get serverListTitle => 'Available Servers';
+
+	/// en: 'Select a server found on your local network.'
+	String get discoveredServerPrompt => 'Select a server found on your local network.';
+}
+
 // Path: initialSetupPage.steps.preferences
 class TranslationsInitialSetupPageStepsPreferencesEn {
 	TranslationsInitialSetupPageStepsPreferencesEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsInitialSetupPageStepsPreferencesNavEn nav = TranslationsInitialSetupPageStepsPreferencesNavEn.internal(_root);
+	late final TranslationsInitialSetupPageStepsPreferencesContentEn content = TranslationsInitialSetupPageStepsPreferencesContentEn.internal(_root);
+}
+
+// Path: initialSetupPage.steps.server
+class TranslationsInitialSetupPageStepsServerEn {
+	TranslationsInitialSetupPageStepsServerEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsInitialSetupPageStepsServerNavEn nav = TranslationsInitialSetupPageStepsServerNavEn.internal(_root);
+	late final TranslationsInitialSetupPageStepsServerContentEn content = TranslationsInitialSetupPageStepsServerContentEn.internal(_root);
+}
+
+// Path: initialSetupPage.steps.account
+class TranslationsInitialSetupPageStepsAccountEn {
+	TranslationsInitialSetupPageStepsAccountEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsInitialSetupPageStepsAccountNavEn nav = TranslationsInitialSetupPageStepsAccountNavEn.internal(_root);
+	late final TranslationsInitialSetupPageStepsAccountContentEn content = TranslationsInitialSetupPageStepsAccountContentEn.internal(_root);
+}
+
+// Path: initialSetupPage.steps.complete
+class TranslationsInitialSetupPageStepsCompleteEn {
+	TranslationsInitialSetupPageStepsCompleteEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsInitialSetupPageStepsCompleteNavEn nav = TranslationsInitialSetupPageStepsCompleteNavEn.internal(_root);
+	late final TranslationsInitialSetupPageStepsCompleteContentEn content = TranslationsInitialSetupPageStepsCompleteContentEn.internal(_root);
+}
+
+// Path: server.connectionMethod.localNetworkDiscovery
+class TranslationsServerConnectionMethodLocalNetworkDiscoveryEn {
+	TranslationsServerConnectionMethodLocalNetworkDiscoveryEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Find on Network'
+	String get button => 'Find on Network';
+
+	/// en: 'Detect servers available on local network'
+	String get tooltip => 'Detect servers available on local network';
+}
+
+// Path: server.connectionMethod.manualAddress
+class TranslationsServerConnectionMethodManualAddressEn {
+	TranslationsServerConnectionMethodManualAddressEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Enter Server Address'
+	String get button => 'Enter Server Address';
+
+	/// en: 'Manually providing a server address.'
+	String get tooltip => 'Manually providing a server address.';
+}
+
+// Path: initialSetupPage.steps.preferences.nav
+class TranslationsInitialSetupPageStepsPreferencesNavEn {
+	TranslationsInitialSetupPageStepsPreferencesNavEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -128,9 +283,24 @@ class TranslationsInitialSetupPageStepsPreferencesEn {
 	String get subtitle => 'Choose your preferences';
 }
 
-// Path: initialSetupPage.steps.server
-class TranslationsInitialSetupPageStepsServerEn {
-	TranslationsInitialSetupPageStepsServerEn.internal(this._root);
+// Path: initialSetupPage.steps.preferences.content
+class TranslationsInitialSetupPageStepsPreferencesContentEn {
+	TranslationsInitialSetupPageStepsPreferencesContentEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Personalization'
+	String get title => 'Personalization';
+
+	/// en: 'Adjust theme, language and interface options'
+	String get subtitle => 'Adjust theme, language and interface options';
+}
+
+// Path: initialSetupPage.steps.server.nav
+class TranslationsInitialSetupPageStepsServerNavEn {
+	TranslationsInitialSetupPageStepsServerNavEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -143,9 +313,24 @@ class TranslationsInitialSetupPageStepsServerEn {
 	String get subtitle => 'Configure your server connection';
 }
 
-// Path: initialSetupPage.steps.account
-class TranslationsInitialSetupPageStepsAccountEn {
-	TranslationsInitialSetupPageStepsAccountEn.internal(this._root);
+// Path: initialSetupPage.steps.server.content
+class TranslationsInitialSetupPageStepsServerContentEn {
+	TranslationsInitialSetupPageStepsServerContentEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Server Connection'
+	String get title => 'Server Connection';
+
+	/// en: 'Connect to a server to access and sync your data'
+	String get subtitle => 'Connect to a server to access and sync your data';
+}
+
+// Path: initialSetupPage.steps.account.nav
+class TranslationsInitialSetupPageStepsAccountNavEn {
+	TranslationsInitialSetupPageStepsAccountNavEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -158,9 +343,24 @@ class TranslationsInitialSetupPageStepsAccountEn {
 	String get subtitle => 'Login using your credentials';
 }
 
-// Path: initialSetupPage.steps.complete
-class TranslationsInitialSetupPageStepsCompleteEn {
-	TranslationsInitialSetupPageStepsCompleteEn.internal(this._root);
+// Path: initialSetupPage.steps.account.content
+class TranslationsInitialSetupPageStepsAccountContentEn {
+	TranslationsInitialSetupPageStepsAccountContentEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Sign In'
+	String get title => 'Sign In';
+
+	/// en: 'Authenticate to continue the setup process'
+	String get subtitle => 'Authenticate to continue the setup process';
+}
+
+// Path: initialSetupPage.steps.complete.nav
+class TranslationsInitialSetupPageStepsCompleteNavEn {
+	TranslationsInitialSetupPageStepsCompleteNavEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -173,6 +373,21 @@ class TranslationsInitialSetupPageStepsCompleteEn {
 	String get subtitle => 'Finish setup';
 }
 
+// Path: initialSetupPage.steps.complete.content
+class TranslationsInitialSetupPageStepsCompleteContentEn {
+	TranslationsInitialSetupPageStepsCompleteContentEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Ready to go!'
+	String get title => 'Ready to go!';
+
+	/// en: 'Your setup is complete'
+	String get subtitle => 'Your setup is complete';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -182,21 +397,41 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
 			'initialSetupPage.title' => 'Initial Setup',
-			'initialSetupPage.steps.preferences.title' => 'Preferences',
-			'initialSetupPage.steps.preferences.subtitle' => 'Choose your preferences',
-			'initialSetupPage.steps.server.title' => 'Server',
-			'initialSetupPage.steps.server.subtitle' => 'Configure your server connection',
-			'initialSetupPage.steps.account.title' => 'Account',
-			'initialSetupPage.steps.account.subtitle' => 'Login using your credentials',
-			'initialSetupPage.steps.complete.title' => 'Complete',
-			'initialSetupPage.steps.complete.subtitle' => 'Finish setup',
+			'initialSetupPage.steps.preferences.nav.title' => 'Preferences',
+			'initialSetupPage.steps.preferences.nav.subtitle' => 'Choose your preferences',
+			'initialSetupPage.steps.preferences.content.title' => 'Personalization',
+			'initialSetupPage.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
+			'initialSetupPage.steps.server.nav.title' => 'Server',
+			'initialSetupPage.steps.server.nav.subtitle' => 'Configure your server connection',
+			'initialSetupPage.steps.server.content.title' => 'Server Connection',
+			'initialSetupPage.steps.server.content.subtitle' => 'Connect to a server to access and sync your data',
+			'initialSetupPage.steps.account.nav.title' => 'Account',
+			'initialSetupPage.steps.account.nav.subtitle' => 'Login using your credentials',
+			'initialSetupPage.steps.account.content.title' => 'Sign In',
+			'initialSetupPage.steps.account.content.subtitle' => 'Authenticate to continue the setup process',
+			'initialSetupPage.steps.complete.nav.title' => 'Complete',
+			'initialSetupPage.steps.complete.nav.subtitle' => 'Finish setup',
+			'initialSetupPage.steps.complete.content.title' => 'Ready to go!',
+			'initialSetupPage.steps.complete.content.subtitle' => 'Your setup is complete',
 			'initialSetupPage.next' => 'Next',
 			'initialSetupPage.back' => 'Back',
+			'initialSetupPage.decorativeAnimation.title' => 'Almost there!',
+			'initialSetupPage.decorativeAnimation.subtitle' => 'Let\'s get everything set up for you',
 			'confirmProgramExitDialog.title' => 'Confirm Exit',
 			'confirmProgramExitDialog.message' => 'Are you sure you want to exit? Unsaved changes may be lost.',
 			'confirmProgramExitDialog.backupCheckbox' => 'Backup data before closing',
 			'confirmProgramExitDialog.cancelButton' => 'Cancel',
 			'confirmProgramExitDialog.confirmButton' => 'Exit',
+			'server.testConnection.title' => 'Test your connection',
+			'server.testConnection.subtitle' => 'Make sure you can connect to your server before continuing.',
+			'server.testConnection.button' => 'Test Connection',
+			'server.connectionMethod.localNetworkDiscovery.button' => 'Find on Network',
+			'server.connectionMethod.localNetworkDiscovery.tooltip' => 'Detect servers available on local network',
+			'server.connectionMethod.manualAddress.button' => 'Enter Server Address',
+			'server.connectionMethod.manualAddress.tooltip' => 'Manually providing a server address.',
+			'server.localNetworkDiscovery.refreshServersButton' => 'Refresh',
+			'server.localNetworkDiscovery.serverListTitle' => 'Available Servers',
+			'server.localNetworkDiscovery.discoveredServerPrompt' => 'Select a server found on your local network.',
 			_ => null,
 		};
 	}

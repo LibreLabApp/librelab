@@ -2,13 +2,14 @@
 abstract final class ProjectConstants {
   static const String displayName = 'LibreLab';
 
+  // Hardcoded in Info.plist (macOS and iOS platform runners)
   static const String mdnsServiceType = '_librelab._tcp';
 
   /// This is **only** needed in the server.
-  static const int defaultApiPort = 8080;
+  static const int defaultApiPort = 45123;
 
   /// This is **only** needed in the server.
-  static const int defaultInsightsPort = 8081;
+  static const int defaultInsightsPort = 45124;
 
   /// The default PostgreSQL database name used by the app.
   ///
