@@ -1,0 +1,10 @@
+name: mdns_discovery
+description: Abstracts the mDNS service discovery implementation
+version: 1.0.0
+publish_to: 'none'
+resolution: workspace
+
+environment:
+  sdk: ^3.11.5
+dependencies:
+  meta: ^1.17.0

@@ -19,6 +19,13 @@ class $AssetsLottieGen {
   LottieGenImage get account =>
       const LottieGenImage('assets/lottie/account.json');
 
+  /// File path: assets/lottie/empty_result.json
+  LottieGenImage get emptyResult =>
+      const LottieGenImage('assets/lottie/empty_result.json');
+
+  /// File path: assets/lottie/radar.json
+  LottieGenImage get radar => const LottieGenImage('assets/lottie/radar.json');
+
   /// File path: assets/lottie/rocket.json
   LottieGenImage get rocket =>
       const LottieGenImage('assets/lottie/rocket.json');
@@ -32,7 +39,14 @@ class $AssetsLottieGen {
       const LottieGenImage('assets/lottie/settings.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [account, rocket, server, settings];
+  List<LottieGenImage> get values => [
+    account,
+    emptyResult,
+    radar,
+    rocket,
+    server,
+    settings,
+  ];
 }
 
 class Assets {

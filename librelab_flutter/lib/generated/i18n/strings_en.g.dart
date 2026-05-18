@@ -192,6 +192,8 @@ class TranslationsServerLocalNetworkDiscoveryEn {
 
 	/// en: 'Select a server found on your local network.'
 	String get discoveredServerPrompt => 'Select a server found on your local network.';
+
+	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundEn noServersFound = TranslationsServerLocalNetworkDiscoveryNoServersFoundEn.internal(_root);
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -266,6 +268,17 @@ class TranslationsServerConnectionMethodManualAddressEn {
 
 	/// en: 'Manually providing a server address.'
 	String get tooltip => 'Manually providing a server address.';
+}
+
+// Path: server.localNetworkDiscovery.noServersFound
+class TranslationsServerLocalNetworkDiscoveryNoServersFoundEn {
+	TranslationsServerLocalNetworkDiscoveryNoServersFoundEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn doneScanning = TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(_root);
+	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn stillScanning = TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(_root);
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -388,6 +401,81 @@ class TranslationsInitialSetupPageStepsCompleteContentEn {
 	String get subtitle => 'Your setup is complete';
 }
 
+// Path: server.localNetworkDiscovery.noServersFound.doneScanning
+class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn {
+	TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'No servers found'
+	String get title => 'No servers found';
+
+	/// en: 'We scanned your local network but did not find any $appName servers'
+	String subtitle({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers';
+
+	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn troubleshootingTips = TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(_root);
+	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn hostServerGuideButton = TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(_root);
+}
+
+// Path: server.localNetworkDiscovery.noServersFound.stillScanning
+class TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn {
+	TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Scanning your network...'
+	String get title => 'Scanning your network...';
+
+	/// en: 'Scanning for $appName servers on your local network. This may take a few moments.'
+	String subtitle({required Object appName}) => 'Scanning for ${appName} servers on your local network.\nThis may take a few moments.';
+}
+
+// Path: server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips
+class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn {
+	TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'What you can do:'
+	String get title => 'What you can do:';
+
+	/// en: 'Troubleshooting'
+	String get toggleButtonLabel => 'Troubleshooting';
+
+	/// en: 'Make sure your server is running'
+	String get serverNotRunning => 'Make sure your server is running';
+
+	/// en: 'Check that your device is on the same network as the server'
+	String get sameNetwork => 'Check that your device is on the same network as the server';
+
+	/// en: 'Try refreshing the list'
+	String get refreshList => 'Try refreshing the list';
+
+	/// en: 'Or enter your server address manually'
+	String get manualEntry => 'Or enter your server address manually';
+}
+
+// Path: server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton
+class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn {
+	TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Learn how to set up and host a server'
+	String get tooltip => 'Learn how to set up and host a server';
+
+	/// en: 'How to host a server'
+	String get label => 'How to host a server';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -432,6 +520,18 @@ extension on Translations {
 			'server.localNetworkDiscovery.refreshServersButton' => 'Refresh',
 			'server.localNetworkDiscovery.serverListTitle' => 'Available Servers',
 			'server.localNetworkDiscovery.discoveredServerPrompt' => 'Select a server found on your local network.',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.title' => 'No servers found',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.subtitle' => ({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.title' => 'What you can do:',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.toggleButtonLabel' => 'Troubleshooting',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.serverNotRunning' => 'Make sure your server is running',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.sameNetwork' => 'Check that your device is on the same network as the server',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.refreshList' => 'Try refreshing the list',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.manualEntry' => 'Or enter your server address manually',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.tooltip' => 'Learn how to set up and host a server',
+			'server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.label' => 'How to host a server',
+			'server.localNetworkDiscovery.noServersFound.stillScanning.title' => 'Scanning your network...',
+			'server.localNetworkDiscovery.noServersFound.stillScanning.subtitle' => ({required Object appName}) => 'Scanning for ${appName} servers on your local network.\nThis may take a few moments.',
 			_ => null,
 		};
 	}

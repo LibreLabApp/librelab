@@ -1,11 +1,17 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/alert_card.dart';
 import 'package:librelab_flutter/common/build_context_ext.dart';
+import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
-import 'package:librelab_flutter/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_connection/server_selection/server_selection_method.dart';
+import 'package:librelab_shared/librelab_shared.dart';
+import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InitialSetupServerStep extends StatelessWidget {
   const InitialSetupServerStep({super.key});
@@ -18,15 +24,11 @@ class InitialSetupServerStep extends StatelessWidget {
         SizedBox(height: 4),
         _ServerSelection(),
         SizedBox(height: 18),
-        Spacer(),
         _TestConnection(),
       ],
     );
   }
 }
-
-// TODO: (MDNS) Extract/move this into a cubit, must be reusable outside of initial screen page
-enum _ServerConnectionMode { localNetworkDiscovery, manual }
 
 class _ServerSelection extends StatefulWidget {
   const _ServerSelection();
@@ -37,7 +39,7 @@ class _ServerSelection extends StatefulWidget {
 
 class _ServerSelectionState extends State<_ServerSelection> {
   // TODO: (MDNS) Manage inside cubit?
-  _ServerConnectionMode _mode = .localNetworkDiscovery;
+  ServerSelectionMethod _mode = .localNetworkDiscovery;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class _ServerSelectionState extends State<_ServerSelection> {
       children: [
         SizedBox(
           width: .infinity,
-          child: SegmentedButton<_ServerConnectionMode>(
+          child: SegmentedButton<ServerSelectionMethod>(
             showSelectedIcon: false,
             style: SegmentedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -60,8 +62,8 @@ class _ServerSelectionState extends State<_ServerSelection> {
               }
               // TODO: When switching to .localNetwork, make sure to choose the right address
             },
-            segments: _ServerConnectionMode.values
-                .map<ButtonSegment<_ServerConnectionMode>>((e) {
+            segments: ServerSelectionMethod.values
+                .map<ButtonSegment<ServerSelectionMethod>>((e) {
                   final t = context.t.server;
                   final label = switch (e) {
                     .localNetworkDiscovery =>
@@ -91,9 +93,8 @@ class _ServerSelectionState extends State<_ServerSelection> {
         ),
         const SizedBox(height: 16),
         switch (_mode) {
-          _ServerConnectionMode.localNetworkDiscovery =>
-            const _ServerAddressLocalNetwork(),
-          _ServerConnectionMode.manual => const _ServerAddressTextField(),
+          .localNetworkDiscovery => const _ServerAddressLocalNetwork(),
+          .manual => const _ServerAddressTextField(),
         },
       ],
     );
@@ -203,21 +204,29 @@ class _ServerAddressLocalNetworkState
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Builder(
+        builder: (context) {
+          final discoveredServers = context.select(
+            (LocalDiscoveryCubit v) => v.state.discoveredServers,
+          );
+          final isLoading = context.select(
+            (LocalDiscoveryCubit v) => v.state.isLoading,
+          );
+
+          final hasNoServers = discoveredServers.isEmpty;
+
+          return Column(
             children: [
-              Text(
-                context.t.server.localNetworkDiscovery.serverListTitle,
-                style: textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.primary,
-                ),
-              ),
-              BlocSelector<LocalDiscoveryCubit, LocalDiscoveryState, bool>(
-                selector: (state) => state.isLoading,
-                builder: (context, isLoading) {
-                  return TextButton.icon(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    context.t.server.localNetworkDiscovery.serverListTitle,
+                    style: textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  TextButton.icon(
                     style: TextButton.styleFrom(
                       textStyle: textTheme.titleMedium,
                     ),
@@ -234,55 +243,201 @@ class _ServerAddressLocalNetworkState
                           .refreshServersButton,
                     ),
                     icon: const Icon(Icons.refresh),
-                  );
-                },
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 200),
-            child: Builder(
-              builder: (context) {
-                final discoveredServers = context.select(
-                  (LocalDiscoveryCubit v) => v.state.discoveredServers,
-                );
-                final isLoading = context.select(
-                  (LocalDiscoveryCubit v) => v.state.isLoading,
-                );
-
-                // TODO: (MDNS) Handle empty
-                final noServersFound = discoveredServers.isEmpty && !isLoading;
-
-                return Column(
-                  children: [
-                    // TODO: (MDNS) Better loading
-                    if (isLoading) const LinearProgressIndicator(),
-                    Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemCount: discoveredServers.length,
-                        itemBuilder: (context, index) => _ServerTile(
-                          server: discoveredServers[index],
-                          index: index,
-                        ),
+              const SizedBox(height: 4),
+              Builder(
+                builder: (context) {
+                  return switch (hasNoServers) {
+                    true => _NoServersFound(isLoading: isLoading),
+                    false => ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 150),
+                      child: _DiscoveredServersList(
+                        isLoading: isLoading,
+                        discoveredServers: discoveredServers,
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
+                  };
+                },
+              ),
+
+              const SizedBox(height: 8),
+              if (!hasNoServers) ...[
+                const Divider(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 4),
+                      CircleAvatar(
+                        radius: 6,
+                        backgroundColor: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        context
+                            .t
+                            .server
+                            .localNetworkDiscovery
+                            .discoveredServerPrompt,
+                        style: textTheme.bodySmall,
+                      ),
+                      const Spacer(),
+                      Expanded(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final show = constraints.maxWidth > 94;
+                            if (!show) {
+                              return const SizedBox.shrink();
+                            }
+                            // TODO: Translate!
+                            return Text(
+                              'Found ${discoveredServers.length} servers',
+                              style: textTheme.labelSmall,
+                              textAlign: .end,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _NoServersFound extends StatelessWidget {
+  const _NoServersFound({required this.isLoading});
+
+  final bool isLoading;
+
+  TextSpan _bulletSpan(String text, TextStyle? style, {bool isLast = false}) {
+    return TextSpan(text: '\u2022  $text${isLast ? '' : '\n'}', style: style);
+  }
+
+  Widget _troubleshootingTips({required BuildContext context}) {
+    final theme = context.theme;
+    final (textTheme, colorScheme) = (theme.textTheme, theme.colorScheme);
+
+    final itemStyle = textTheme.bodyMedium?.copyWith(
+      height: 1.5,
+      color: colorScheme.onSurfaceVariant,
+    );
+    final t = context
+        .t
+        .server
+        .localNetworkDiscovery
+        .noServersFound
+        .doneScanning
+        .troubleshootingTips;
+
+    return ExpansionTile(
+      title: Text(t.toggleButtonLabel),
+      children: [
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '${t.title}\n',
+                style: textTheme.titleSmall?.copyWith(height: 1.8),
+              ),
+              _bulletSpan(t.serverNotRunning, itemStyle),
+              _bulletSpan(t.sameNetwork, itemStyle),
+              _bulletSpan(t.refreshList, itemStyle),
+              _bulletSpan(t.manualEntry, itemStyle),
+            ],
           ),
-          const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              context.t.server.localNetworkDiscovery.discoveredServerPrompt,
-              style: theme.textTheme.bodySmall,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final (textTheme, colorScheme) = (theme.textTheme, theme.colorScheme);
+
+    final t = context.t.server.localNetworkDiscovery.noServersFound;
+
+    final title = isLoading ? t.stillScanning.title : t.doneScanning.title;
+    final subtitle = isLoading
+        ? t.stillScanning.subtitle(appName: ProjectConstants.displayName)
+        : t.doneScanning.subtitle(appName: ProjectConstants.displayName);
+
+    return Column(
+      mainAxisSize: .min,
+      children: [
+        Lottie.asset(
+          isLoading ? Assets.lottie.radar.path : Assets.lottie.emptyResult.path,
+          height: 120,
+        ),
+        const SizedBox(height: 24),
+        Text(
+          title,
+          style: textTheme.headlineSmall?.copyWith(fontWeight: .w400),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          subtitle,
+          textAlign: .center,
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+        if (!isLoading) ...[
+          const SizedBox(height: 12),
+          _troubleshootingTips(context: context),
+          const SizedBox(height: 18),
+          Tooltip(
+            message: t.doneScanning.hostServerGuideButton.tooltip,
+            child: SizedBox(
+              child: FilledButton.icon(
+                onPressed: () =>
+                    launchUrl(Uri.parse(ProjectConstants.hostServerGuideLink)),
+                label: Text(t.doneScanning.hostServerGuideButton.label),
+                icon: const Icon(Icons.open_in_browser),
+              ),
             ),
           ),
         ],
-      ),
+      ],
+    );
+  }
+}
+
+class _DiscoveredServersList extends StatelessWidget {
+  const _DiscoveredServersList({
+    required this.isLoading,
+    required this.discoveredServers,
+  });
+
+  final bool isLoading;
+  final List<DiscoveredServer> discoveredServers;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: .min,
+      children: [
+        // TODO: (MDNS) Better loading
+        if (isLoading) const LinearProgressIndicator(),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              for (int i = 0; i < discoveredServers.length; i++) ...[
+                _ServerTile(server: discoveredServers[i], index: i),
+                if (i != discoveredServers.length - 1) const Divider(),
+              ],
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -19,7 +19,15 @@ class DiscoveredServer {
   final int? pingMs;
   final String? serverVersion;
 
-  String get authority => '$localHostname:$port';
+  String get authority =>
+      getAuthority(localHostname: localHostname, port: port);
+
+  static String getAuthority({
+    required String localHostname,
+    required int port,
+  }) {
+    return '$localHostname:$port';
+  }
 
   String get id => authority;
 

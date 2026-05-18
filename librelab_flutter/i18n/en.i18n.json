@@ -85,7 +85,29 @@
     "localNetworkDiscovery": {
       "refreshServersButton": "Refresh",
       "serverListTitle": "Available Servers",
-      "discoveredServerPrompt": "Select a server found on your local network."
+      "discoveredServerPrompt": "Select a server found on your local network.",
+      "noServersFound": {
+        "doneScanning": {
+          "title": "No servers found",
+          "subtitle": "We scanned your local network but did not find\nany $appName servers",
+          "troubleshootingTips": {
+            "title": "What you can do:",
+            "toggleButtonLabel": "Troubleshooting",
+            "serverNotRunning": "Make sure your server is running",
+            "sameNetwork": "Check that your device is on the same network as the server",
+            "refreshList": "Try refreshing the list",
+            "manualEntry": "Or enter your server address manually"
+          },
+          "hostServerGuideButton": {
+            "tooltip": "Learn how to set up and host a server",
+            "label": "How to host a server"
+          }
+        },
+        "stillScanning": {
+          "title": "Scanning your network...",
+          "subtitle": "Scanning for $appName servers on your local network.\nThis may take a few moments."
+        }
+      }
     }
   }
 }

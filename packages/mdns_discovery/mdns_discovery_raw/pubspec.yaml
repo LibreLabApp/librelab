@@ -1,0 +1,13 @@
+name: mdns_discovery_raw
+description: Implementation of mdns_discovery that uses multicast_dns Dart package (raw sockets)
+version: 1.0.0
+publish_to: 'none'
+resolution: workspace
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  logging: ^1.3.0
+  mdns_discovery: ^1.0.0
+  multicast_dns: ^0.3.3

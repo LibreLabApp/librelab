@@ -36,8 +36,11 @@ class InitialSetupPage extends StatelessWidget {
                             ),
                     ),
                   ),
-                  const Expanded(
-                    child: Card(margin: .zero, child: _CurrentStepContent()),
+                  Expanded(
+                    child: Card(
+                      margin: .zero,
+                      child: _CurrentStepContent(usesSidebar: usesSidebar),
+                    ),
                   ),
                 ],
               );
@@ -174,17 +177,19 @@ class _LottieAnimation extends StatelessWidget {
 }
 
 class _CurrentStepContent extends StatelessWidget {
-  const _CurrentStepContent();
+  const _CurrentStepContent({required this.usesSidebar});
+
+  final bool usesSidebar;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(24),
+    return Padding(
+      padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          _StepContentHeading(),
-          SizedBox(height: 32),
-          Expanded(child: InitialSetupPager()),
+          const _StepContentHeading(),
+          const SizedBox(height: 32),
+          Expanded(child: InitialSetupPager(usesSidebar: usesSidebar)),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show File, RawDatagramSocket, stderr, stdout;
+import 'dart:io' show File, stderr, stdout;
 
 import 'package:dart_ping_ios/dart_ping_ios.dart';
 import 'package:flutter/foundation.dart';
@@ -14,20 +14,14 @@ import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/platform/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
-import 'package:librelab_flutter/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/local_network_discovery/repository.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/mdns_service_discovery_resolver.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/repository.dart';
 import 'package:logging/logging.dart';
-import 'package:multicast_dns/multicast_dns.dart';
 import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
-/// Sets up a global client object that can be used to talk to the server from
-/// anywhere in our app. The client is generated from your server code
-/// and is set up to connect to a Serverpod running on a local server on
-/// the default port. You will need to modify this to connect to staging or
-/// production servers.
-/// In a larger app, you may want to use the dependency injection of your choice
-/// instead of using a global client object. This is just a simple example.
+// Will be removed later (temporary for testing purposes)
 late final Client client;
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey();
@@ -131,30 +125,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => LocalDiscoveryCubit(
             localDiscoveryRepository: LocalDiscoveryRepository(
-              // Currently, Dart socket implementation don't support reusePort on:
-              //
-              // - Android: "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_linux.cc:157: `reusePort` not supported on this platform."
-              // - Windows: "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_win.cc:192: reusePort not supported for Windows.OK"
-              //
-              // To workaround, it is disabled only on unsupported platforms.
-              // https://github.com/flutter/flutter/issues/27346#issuecomment-560931996
-              mDnsClient: MDnsClient(
-                rawDatagramSocketFactory: isAndroid || isWindows
-                    ? (
-                        host,
-                        port, {
-                        bool? reuseAddress,
-                        bool? reusePort,
-                        int ttl = 1,
-                      }) => RawDatagramSocket.bind(
-                        host,
-                        port,
-                        reuseAddress: true,
-                        reusePort: false,
-                        ttl: ttl,
-                      )
-                    : RawDatagramSocket.bind,
-              ),
+              discovery: resolveMdnsServiceDiscoveryImpl(),
             ),
           ),
         ),

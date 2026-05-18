@@ -88,7 +88,7 @@ linter:
     # - flutter_style_todos
     - file_names
     - eol_at_end_of_file
-    - do_not_use_environment
+    # - do_not_use_environment # Typically applicable for package libraries
     - deprecated_consistency
     - conditional_uri_does_not_exist
     - combinators_ordering

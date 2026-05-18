@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:librelab_flutter/local_network_discovery/discovered_server.dart';
-import 'package:librelab_flutter/local_network_discovery/repository.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_connection/local_network_discovery/repository.dart';
 
 part 'local_discovery_state.dart';
 part 'local_discovery_cubit.freezed.dart';
@@ -21,7 +21,19 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
   late final StreamSubscription<List<DiscoveredServer>> _streamSubscription;
 
   void _onServersChanged(List<DiscoveredServer> servers) {
-    emit(state.copyWith(discoveredServers: servers));
+    final isSelectedServerStillPresent = servers
+        .map((e) => e.id)
+        .toList()
+        .contains(state.selectedServerId);
+    emit(
+      state.copyWith(
+        discoveredServers: servers,
+        // Clears selection if the previously selected server is no longer in the updated list
+        selectedServerId: isSelectedServerStillPresent
+            ? state.selectedServerId
+            : null,
+      ),
+    );
   }
 
   final LocalDiscoveryRepository _localDiscoveryRepository;
@@ -33,6 +45,7 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
     if (state.hasLoadedOnce && !refresh) {
       return;
     }
+
     emit(state.copyWith(isLoading: true, selectedServerId: null));
 
     unawaited(

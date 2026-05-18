@@ -26,5 +26,6 @@ final class LocalDiscoveryState with _$LocalDiscoveryState {
   @override
   final bool isLoading;
 
+  @override
   final bool hasLoadedOnce;
 }
