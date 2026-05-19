@@ -1,15 +1,17 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:librelab_client/librelab_client.dart';
 import 'package:librelab_flutter/common/alert_card.dart';
 import 'package:librelab_flutter/common/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
+import 'package:librelab_flutter/generated/pubspec.g.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/server_connection/local_network_discovery/cubit/local_discovery_cubit.dart';
 import 'package:librelab_flutter/server_connection/local_network_discovery/discovered_server.dart';
 import 'package:librelab_flutter/server_connection/server_selection/server_selection_method.dart';
 import 'package:librelab_shared/librelab_shared.dart';
+import 'package:logging/logging.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -512,7 +514,41 @@ class _TestConnection extends StatelessWidget {
       prefixIcon: Icons.wifi,
       suffix: Padding(
         padding: const EdgeInsetsGeometry.only(left: 16, top: 16),
-        child: OutlinedButton(onPressed: () {}, child: Text(t.button)),
+        child: OutlinedButton(
+          onPressed: () async {
+            // TODO: (MDNS) Temporary prototype code!
+            final selected = context
+                .read<LocalDiscoveryCubit>()
+                .state
+                .selectedServerId;
+            final messenger = ScaffoldMessenger.of(context);
+            if (selected == null) {
+              messenger.showSnackBar(
+                const SnackBar(content: Text('Please select a server first')),
+              );
+              return;
+            }
+            final client = Client('http://$selected');
+            try {
+              final response = await client.handshake.check(
+                HandshakeRequest(clientBuildNumber: Pubspec.versionBuildNumber),
+              );
+              messenger.showSnackBar(
+                SnackBar(
+                  content: Text('Successful handshake: ${response.toJson()}'),
+                ),
+              );
+            } on Exception catch (e) {
+              messenger.showSnackBar(
+                SnackBar(content: Text('Handshake failed: $e')),
+              );
+              Logger('TestConnection').warning('Handshake failed: $e');
+            } finally {
+              client.close();
+            }
+          },
+          child: Text(t.button),
+        ),
       ),
       title: Text(t.title),
       subtitle: Text(t.subtitle),
