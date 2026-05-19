@@ -78,9 +78,11 @@ class LocalDiscoveryRepository {
       info.txtRecords,
     );
 
-    final Duration? latency = ipAddress != null
-        ? await measureLatency(ipAddress, port, logger: _logger)
-        : null;
+    final Duration? latency = await measureLatency(
+      ipAddress ?? hostname,
+      port,
+      logger: _logger,
+    );
 
     final server = DiscoveredServer(
       instanceName: instanceName,

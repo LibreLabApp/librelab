@@ -159,7 +159,7 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
             '$BonsoirService.hostname is null. Does this platform support mDNS hostname?\n'
             'Bonsoir service: ${bonsoir.toJson()}',
           )),
-      ipAddress: bonsoir.host,
+      ipAddress: bonsoir.hostAddress,
       port: bonsoir.port,
       instanceName: bonsoir.name,
       txtRecords: bonsoir.attributes,

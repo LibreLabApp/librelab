@@ -3,6 +3,7 @@
 .packages
 build/
 .flutter-plugins-dependencies
+.kotlin
 
 # Pubspec overrides
 pubspec_overrides.yaml
