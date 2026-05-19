@@ -1,9 +1,9 @@
 import 'package:librelab_server/src/utils/platform_check.dart';
 
 enum PostgresVersionInfo {
-  v16(majorVersion: '16', fullVersion: '16.13-3'),
-  v17(majorVersion: '17', fullVersion: '17.9-3'),
-  v18(majorVersion: '18', fullVersion: '18.3-3');
+  v16(majorVersion: '16', fullVersion: '16.14-1'),
+  v17(majorVersion: '17', fullVersion: '17.10-1'),
+  v18(majorVersion: '18', fullVersion: '18.4-1');
 
   const PostgresVersionInfo({
     required this.majorVersion,
