@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show File, stderr, stdout;
+import 'dart:io' show File, Platform, stderr, stdout;
 
+import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart'
+    show ConnectivityPlusLinuxPortalPlugin;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +34,8 @@ final _router = GoRouter(
   ],
 );
 
+final _logger = Logger('Main');
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -52,6 +56,16 @@ void main() async {
       print(message);
     }
   });
+
+  if (isLinux) {
+    final connectivityBackend = Platform.environment['CONNECTIVITY_BACKEND'];
+    if (connectivityBackend == 'portal') {
+      _logger.fine(
+        'Using org.freedesktop.portal.NetworkMonitor for connectivity status',
+      );
+      ConnectivityPlusLinuxPortalPlugin.registerWith();
+    }
+  }
 
   final serverUrl = await getServerUrl();
 

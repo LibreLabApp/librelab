@@ -1513,6 +1513,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  xdg_desktop_portal:
+    dependency: transitive
+    description:
+      name: xdg_desktop_portal
+      sha256: "4fae74b6ed63a449d4c796a74265cebdd912c390336dedc06d705142f3b939d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.14"
   xdg_directories:
     dependency: transitive
     description:
@@ -1546,5 +1554,5 @@ packages:
     source: hosted
     version: "2.2.4"
 sdks:
-  dart: ">=3.11.5 <4.0.0"
+  dart: ">=3.12.0 <4.0.0"
   flutter: ">=3.38.4"
