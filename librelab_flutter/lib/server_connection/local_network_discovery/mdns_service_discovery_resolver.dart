@@ -46,7 +46,7 @@ _MdnsImpl _resolveMdnsImpl() {
   }
   if (isAndroid) {
     // TODO: (MDNS) Use raw implementation if OS is:
-    //  1. Android 9 (or an older version)
+    //  1. oler than Android 10
     //  2. older than Windows 10 1903 (2019)
     //  3. iOS simulator
     return .defaultValue;

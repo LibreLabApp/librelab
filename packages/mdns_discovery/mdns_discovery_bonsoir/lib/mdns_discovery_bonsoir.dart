@@ -128,6 +128,7 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
   }) {
     switch (event) {
       case BonsoirDiscoveryServiceFoundEvent():
+        _logger.finer('Resolving service: ${event.service.toJson()}');
         event.service.resolve(serviceResolver);
       case BonsoirDiscoveryServiceResolvedEvent():
         controller.add(Resolved(serviceInfo: _mapService(event.service)));
@@ -154,12 +155,10 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
     return MdnsServiceInfo(
       hostname:
           bonsoir.hostname ??
-          // TODO: (MDNS) Android 29 and older versions don't, handle that, or use multicast_dns instead!
           (throw UnsupportedError(
             '$BonsoirService.hostname is null. Does this platform support mDNS hostname?\n'
             'Bonsoir service: ${bonsoir.toJson()}',
           )),
-      // TODO: (MDNS) .host is likely an IP address but that will change https://github.com/Skyost/Bonsoir/pull/135/changes#r3255141772
       ipAddress: bonsoir.host,
       port: bonsoir.port,
       instanceName: bonsoir.name,
