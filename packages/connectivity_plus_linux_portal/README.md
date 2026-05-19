@@ -7,15 +7,24 @@ import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.da
 
 void main() {
   if (Platform.isLinux) {
-    final connectivityBackend = Platform.environment['CONNECTIVITY_BACKEND'];
-    if (connectivityBackend == 'portal') {
-      ConnectivityPlusLinuxPortalPlugin.registerWith();
-    }
+    _maybeUseNetworkMonitorPortal();
+  }
+}
+
+void _maybeUseNetworkMonitorPortal() {
+  final isFlatpak =
+      Platform.environment.containsKey('FLATPAK_ID') ||
+      Platform.environment['container'] == 'flatpak';
+  final backend = Platform.environment['CONNECTIVITY_BACKEND'];
+  final usePortal = isFlatpak || backend == 'portal';
+
+  if (usePortal) {
+    ConnectivityPlusLinuxPortalPlugin.registerWith();
   }
 }
 ```
 
-Then pass the environment variable in the Flatpak manifest:
+Then pass the environment variable in the Flatpak manifest (optional fallback in case `FLATPAK_ID` env variable was not found):
 
 ```yaml
 finish-args:

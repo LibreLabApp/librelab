@@ -58,13 +58,7 @@ void main() async {
   });
 
   if (isLinux) {
-    final connectivityBackend = Platform.environment['CONNECTIVITY_BACKEND'];
-    if (connectivityBackend == 'portal') {
-      _logger.fine(
-        'Using org.freedesktop.portal.NetworkMonitor for connectivity status',
-      );
-      ConnectivityPlusLinuxPortalPlugin.registerWith();
-    }
+    _maybeUseNetworkMonitorPortal();
   }
 
   final serverUrl = await getServerUrl();
@@ -96,6 +90,21 @@ void main() async {
         setupWindowCloseHandler(context);
       }
     });
+  }
+}
+
+void _maybeUseNetworkMonitorPortal() {
+  final isFlatpak =
+      Platform.environment.containsKey('FLATPAK_ID') ||
+      Platform.environment['container'] == 'flatpak';
+  final backend = Platform.environment['CONNECTIVITY_BACKEND'];
+  final usePortal = isFlatpak || backend == 'portal';
+
+  if (usePortal) {
+    _logger.fine(
+      'Using org.freedesktop.portal.NetworkMonitor for connectivity status (isFlatpak: $isFlatpak, backend: $backend).',
+    );
+    ConnectivityPlusLinuxPortalPlugin.registerWith();
   }
 }
 

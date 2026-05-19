@@ -5,6 +5,12 @@ import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 typedef XdgDesktopPortalClientFactory = XdgDesktopPortalClient Function();
 
+/// Uses `org.freedesktop.portal.NetworkMonitor`.
+///
+/// **Note**: This is more limited compared to `org.freedesktop.NetworkManager`
+/// (the [default `connectivity_plus` Linux implementation](https://github.com/fluttercommunity/plus_plugins/blob/5b4774683d6e186fbd69cf4208302221f52aa54d/packages/connectivity_plus/connectivity_plus/lib/src/connectivity_plus_linux.dart))
+/// and typically supports either [ConnectivityResult.none] or
+/// [ConnectivityResult.other].
 class ConnectivityPlusLinuxPortalPlugin extends ConnectivityPlatform {
   ConnectivityPlusLinuxPortalPlugin({this._factory});
 
