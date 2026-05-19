@@ -1,4 +1,4 @@
-import 'dart:io' show RawDatagramSocket;
+import 'dart:io' show Platform, RawDatagramSocket;
 
 import 'package:collection/collection.dart';
 import 'package:librelab_flutter/common/platform/platform_check.dart';
@@ -36,17 +36,14 @@ enum _MdnsImpl {
 }
 
 _MdnsImpl _resolveMdnsImpl() {
-  const envVariable = String.fromEnvironment(
-    'MDNS_DISCOVERY_IMPL',
-    defaultValue: '',
-  );
-  if (envVariable.trim().isNotEmpty) {
+  final envVariable = Platform.environment['MDNS_DISCOVERY_IMPL'];
+  if (envVariable != null) {
     return .values.firstWhereOrNull((e) => e.envValue == envVariable) ??
         .defaultValue;
   }
   if (isAndroid) {
     // TODO: (MDNS) Use raw implementation if OS is:
-    //  1. oler than Android 10
+    //  1. older than Android 10
     //  2. older than Windows 10 1903 (2019)
     //  3. iOS simulator
     return .defaultValue;

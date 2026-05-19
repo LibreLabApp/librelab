@@ -69,8 +69,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/bonsoir"
-      ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
-      resolved-ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
+      ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
+      resolved-ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
       url: "https://github.com/Skyost/Bonsoir.git"
     source: git
     version: "6.1.0"
@@ -78,8 +78,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/bonsoir_android"
-      ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
-      resolved-ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
+      ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
+      resolved-ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
       url: "https://github.com/Skyost/Bonsoir.git"
     source: git
     version: "6.0.2"
@@ -87,8 +87,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/bonsoir_darwin"
-      ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
-      resolved-ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
+      ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
+      resolved-ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
       url: "https://github.com/Skyost/Bonsoir.git"
     source: git
     version: "6.1.0"
@@ -96,8 +96,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/bonsoir_linux"
-      ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
-      resolved-ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
+      ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
+      resolved-ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
       url: "https://github.com/Skyost/Bonsoir.git"
     source: git
     version: "6.0.3"
@@ -105,8 +105,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/bonsoir_platform_interface"
-      ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
-      resolved-ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
+      ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
+      resolved-ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
       url: "https://github.com/Skyost/Bonsoir.git"
     source: git
     version: "6.1.0"
@@ -114,8 +114,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/bonsoir_windows"
-      ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
-      resolved-ref: "21d3e827af96614c9fd3ded8ceddf442d68a5e83"
+      ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
+      resolved-ref: "3f4cf230c1b477757c56dc667620289c43f9e3fb"
       url: "https://github.com/Skyost/Bonsoir.git"
     source: git
     version: "6.0.3"

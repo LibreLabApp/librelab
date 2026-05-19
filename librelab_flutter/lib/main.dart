@@ -94,15 +94,12 @@ void main() async {
 }
 
 void _maybeUseNetworkMonitorPortal() {
-  final isFlatpak =
-      Platform.environment.containsKey('FLATPAK_ID') ||
-      Platform.environment['container'] == 'flatpak';
   final backend = Platform.environment['CONNECTIVITY_BACKEND'];
   final usePortal = isFlatpak || backend == 'portal';
 
   if (usePortal) {
     _logger.fine(
-      'Using org.freedesktop.portal.NetworkMonitor for connectivity status (isFlatpak: $isFlatpak, backend: $backend).',
+      'Using org.freedesktop.portal.NetworkMonitor for connectivity status.',
     );
     ConnectivityPlusLinuxPortalPlugin.registerWith();
   }
