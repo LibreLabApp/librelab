@@ -45,9 +45,11 @@ _MdnsImpl _resolveMdnsImpl() {
         .defaultValue;
   }
   if (isAndroid) {
-    // TODO: (MDNS) Only Android 9 and older versions!
-    // TODO: (MDNS) Use this in Windows 10 versions older than 1903
-    return .raw;
+    // TODO: (MDNS) Use raw implementation if OS is:
+    //  1. Android 9 (or an older version)
+    //  2. older than Windows 10 1903 (2019)
+    //  3. iOS simulator
+    return .defaultValue;
   }
   return .defaultValue;
 }

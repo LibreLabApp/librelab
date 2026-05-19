@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dart_ping/dart_ping.dart';
+import 'package:librelab_flutter/common/io_utils.dart';
 import 'package:librelab_flutter/server_connection/local_network_discovery/discovered_server.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
@@ -78,22 +78,15 @@ class LocalDiscoveryRepository {
       info.txtRecords,
     );
 
-    final ping = await Ping(hostname, count: 1).stream.first;
-    final pingError = ping.error;
-
-    // Ping may fail if the host (e.g., Windows) disallows pinging
-    // OR if the client is Windows and Bonjour is not installed
-    if (pingError != null) {
-      _logger.fine('Ping request failed to "$hostname": $pingError');
-    } else if (ping.response == null) {
-      _logger.fine('Ping request failed to "$hostname" with no error: $ping');
-    }
+    final Duration? latency = ipAddress != null
+        ? await measureLatency(ipAddress, port, logger: _logger)
+        : null;
 
     final server = DiscoveredServer(
       instanceName: instanceName,
       localHostname: hostname,
       port: port,
-      pingMs: ping.response?.time?.inMilliseconds,
+      latencyMs: latency?.inMilliseconds,
       serverVersion: txtRecords?['version'],
     );
 

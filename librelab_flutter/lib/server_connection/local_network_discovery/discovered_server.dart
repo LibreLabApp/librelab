@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-// TODO: (MDNS) Another model for the one on disk (presisted)? ping is unncessary and this is just temporary
+// TODO: (MDNS) Another model for the one on disk (presisted)? latency is unncessary and this is just temporary
 //  also do we really need uri getter?
 
 @immutable
@@ -9,14 +9,14 @@ class DiscoveredServer {
     required this.instanceName,
     required this.localHostname,
     required this.port,
-    required this.pingMs,
+    required this.latencyMs,
     required this.serverVersion,
   });
 
   final String instanceName;
   final String localHostname;
   final int port;
-  final int? pingMs;
+  final int? latencyMs;
   final String? serverVersion;
 
   String get authority =>
@@ -31,13 +31,14 @@ class DiscoveredServer {
 
   String get id => authority;
 
-  static const int _lowPingThresholdMs = 20;
+  static const int _lowLatencyThresholdMs = 20;
 
-  bool get hasLowPing => pingMs != null && pingMs! < _lowPingThresholdMs;
+  bool get hasLowLatency =>
+      latencyMs != null && latencyMs! < _lowLatencyThresholdMs;
 
   Uri get uri => Uri.http(authority);
 
   @override
   String toString() =>
-      'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, port: $port, pingMs: $pingMs, serverVersion: $serverVersion)';
+      'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, port: $port, latencyMs: $latencyMs, serverVersion: $serverVersion)';
 }

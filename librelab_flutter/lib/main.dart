@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show File, stderr, stdout;
 
-import 'package:dart_ping_ios/dart_ping_ios.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,11 +52,6 @@ void main() async {
       print(message);
     }
   });
-
-  if (isIos) {
-    // https://pub.dev/packages/dart_ping_ios
-    DartPingIOS.register();
-  }
 
   final serverUrl = await getServerUrl();
 
@@ -121,7 +115,7 @@ class MainApp extends StatelessWidget {
     );
     return MultiBlocProvider(
       providers: [
-        // TODO: Proper dependency injection! LocalDiscoveryRepository is needed somewhere else in the dashboard screen
+        // TODO: Proper dependency injection. (LocalDiscoveryRepository)
         BlocProvider(
           create: (context) => LocalDiscoveryCubit(
             localDiscoveryRepository: LocalDiscoveryRepository(

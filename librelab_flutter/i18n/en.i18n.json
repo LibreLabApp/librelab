@@ -86,6 +86,10 @@
       "refreshServersButton": "Refresh",
       "serverListTitle": "Available Servers",
       "discoveredServerPrompt": "Select a server found on your local network.",
+      "discoveredServersCount": {
+        "one": "Found $n server",
+        "other": "Found $n servers"
+      },
       "noServersFound": {
         "doneScanning": {
           "title": "No servers found",

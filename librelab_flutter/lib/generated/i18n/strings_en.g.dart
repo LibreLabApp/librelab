@@ -193,6 +193,12 @@ class TranslationsServerLocalNetworkDiscoveryEn {
 	/// en: 'Select a server found on your local network.'
 	String get discoveredServerPrompt => 'Select a server found on your local network.';
 
+	/// en: '(one) {Found $n server} (other) {Found $n servers}'
+	String discoveredServersCount({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: 'Found ${n} server',
+		other: 'Found ${n} servers',
+	);
+
 	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundEn noServersFound = TranslationsServerLocalNetworkDiscoveryNoServersFoundEn.internal(_root);
 }
 
@@ -520,6 +526,7 @@ extension on Translations {
 			'server.localNetworkDiscovery.refreshServersButton' => 'Refresh',
 			'server.localNetworkDiscovery.serverListTitle' => 'Available Servers',
 			'server.localNetworkDiscovery.discoveredServerPrompt' => 'Select a server found on your local network.',
+			'server.localNetworkDiscovery.discoveredServersCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Found ${n} server', other: 'Found ${n} servers', ), 
 			'server.localNetworkDiscovery.noServersFound.doneScanning.title' => 'No servers found',
 			'server.localNetworkDiscovery.noServersFound.doneScanning.subtitle' => ({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers',
 			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.title' => 'What you can do:',

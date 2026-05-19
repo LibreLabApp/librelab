@@ -79,18 +79,37 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
 
     unawaited(
       Future<void>(() async {
-        /// delay the timeout countdown until a [BonsoirDiscoveryStartedEvent] is received
-        await _startCompleter.future;
+        /// Timeout for the underline platform discovery lifecycle events (start/stop).
+        ///
+        /// On iOS simulator, local network discovery is unsupported,
+        /// so [BonsoirDiscoveryStartedEvent] and [BonsoirDiscoveryStoppedEvent]
+        /// may not fire.
+        const platformStartStopTimeout = Duration(seconds: 2);
+
+        /// Delay the timeout countdown until a [BonsoirDiscoveryStartedEvent] is received
+        try {
+          await _startCompleter.future.timeout(platformStartStopTimeout);
+        } on TimeoutException catch (_) {
+          _logger.warning(
+            '$BonsoirDiscoveryStartedEvent did not occur even after ${platformStartStopTimeout.inSeconds} seconds',
+          );
+        }
 
         await Future<void>.delayed(timeout);
 
         await discovery.stop();
         _discovery = null;
 
-        // Wait for "BonsoirDiscoveryStoppedEvent" to occur
-        // before canceling the subscription. This is required for logging.
-        // Must be called after "discovery.stop()" or the event will never occur.
-        await _stopCompleter.future;
+        /// Wait for [BonsoirDiscoveryStoppedEvent] to occur
+        /// before canceling the subscription. This is required for logging.
+        /// Must be called after "discovery.stop()" or the event will never occur.
+        try {
+          await _stopCompleter.future.timeout(platformStartStopTimeout);
+        } on TimeoutException catch (_) {
+          _logger.warning(
+            '$BonsoirDiscoveryStoppedEvent did not occur even after ${platformStartStopTimeout.inSeconds} seconds',
+          );
+        }
 
         await sub.cancel();
         await controller.close();

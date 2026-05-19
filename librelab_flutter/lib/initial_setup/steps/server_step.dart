@@ -291,9 +291,11 @@ class _ServerAddressLocalNetworkState
                             if (!show) {
                               return const SizedBox.shrink();
                             }
-                            // TODO: Translate!
                             return Text(
-                              'Found ${discoveredServers.length} servers',
+                              context.t.server.localNetworkDiscovery
+                                  .discoveredServersCount(
+                                    n: discoveredServers.length,
+                                  ),
                               style: textTheme.labelSmall,
                               textAlign: .end,
                             );
@@ -479,7 +481,7 @@ class _ServerTile extends StatelessWidget {
             ),
           ],
         ),
-        trailing: server.pingMs == null
+        trailing: server.latencyMs == null
             ? null
             : Row(
                 mainAxisSize: .min,
@@ -487,10 +489,10 @@ class _ServerTile extends StatelessWidget {
                   Icon(
                     Icons.circle,
                     size: 10,
-                    color: server.hasLowPing ? Colors.green : Colors.orange,
+                    color: server.hasLowLatency ? Colors.green : Colors.orange,
                   ),
                   const SizedBox(width: 6),
-                  Text('${server.pingMs!} ms'),
+                  Text('${server.latencyMs!} ms'),
                 ],
               ),
       ),
