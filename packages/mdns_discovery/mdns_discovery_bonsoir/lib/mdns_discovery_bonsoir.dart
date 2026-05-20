@@ -127,15 +127,46 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
     required ServiceResolver serviceResolver,
   }) {
     switch (event) {
-      case BonsoirDiscoveryServiceFoundEvent():
-        _logger.finer('Resolving service: ${event.service.toJson()}');
-        event.service.resolve(serviceResolver);
-      case BonsoirDiscoveryServiceResolvedEvent():
-        controller.add(Resolved(serviceInfo: _mapService(event.service)));
-      case BonsoirDiscoveryServiceUpdatedEvent():
-        controller.add(Updated(serviceInfo: _mapService(event.service)));
-      case BonsoirDiscoveryServiceLostEvent():
-        controller.add(Lost(serviceInfo: _mapService(event.service)));
+      case BonsoirDiscoveryServiceFoundEvent(:final service):
+        _logger.finer('Service found. Resolving service: ${service.toJson()}');
+        service.resolve(serviceResolver);
+      case BonsoirDiscoveryServiceResolvedEvent(:final service):
+        _logger.finer('Service resolved: ${service.toJson()}');
+        controller.add(
+          Resolved(
+            serviceInfo:
+                _mapService(service) ??
+                (throw StateError(
+                  '$BonsoirService.hostname is null. Does this platform support mDNS hostname?\n'
+                  'Bonsoir service: ${service.toJson()}',
+                )),
+          ),
+        );
+      case BonsoirDiscoveryServiceUpdatedEvent(:final service):
+        _logger.finer('Service updated: ${service.toJson()}');
+
+        final mapped = _mapService(service);
+        if (mapped != null) {
+          controller.add(Updated(serviceInfo: mapped));
+        } else {
+          _logger.fine(
+            'This "service updated" event will be ignored: $BonsoirService.hostname is null',
+          );
+        }
+
+      case BonsoirDiscoveryServiceLostEvent(:final service):
+        _logger.finer('Service lost: ${service.toJson()}');
+        controller.add(
+          Lost(
+            serviceInfo:
+                _mapService(service) ??
+                (throw Exception(
+                  'Service lost but $BonsoirService.hostname is null.\n'
+                  'The hostname is required to identify which service '
+                  'should be removed from the list.',
+                )),
+          ),
+        );
       case BonsoirDiscoveryServiceResolveFailedEvent():
         _logger.finer(
           'Service resolve attempt failed (non-fatal, may be retried)',
@@ -151,14 +182,14 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
     }
   }
 
-  MdnsServiceInfo _mapService(BonsoirService bonsoir) {
+  /// Returns null if [BonsoirService.hostname] is `null`.
+  MdnsServiceInfo? _mapService(BonsoirService bonsoir) {
+    final hostname = bonsoir.hostname;
+    if (hostname == null) {
+      return null;
+    }
     return MdnsServiceInfo(
-      hostname:
-          bonsoir.hostname ??
-          (throw UnsupportedError(
-            '$BonsoirService.hostname is null. Does this platform support mDNS hostname?\n'
-            'Bonsoir service: ${bonsoir.toJson()}',
-          )),
+      hostname: hostname,
       ipAddress: bonsoir.hostAddress,
       port: bonsoir.port,
       instanceName: bonsoir.name,
