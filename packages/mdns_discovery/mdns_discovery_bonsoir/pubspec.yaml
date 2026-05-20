@@ -17,30 +17,30 @@ dependency_overrides:
   bonsoir:
     git:
       url: https://github.com/Skyost/Bonsoir.git
-      ref: 3f4cf230c1b477757c56dc667620289c43f9e3fb
+      ref: 97555473ba18546c37fa41cf23ce4ec0370b0aa9
       path: packages/bonsoir
   bonsoir_android:
     git:
       url: https://github.com/Skyost/Bonsoir.git
-      ref: 3f4cf230c1b477757c56dc667620289c43f9e3fb
+      ref: 97555473ba18546c37fa41cf23ce4ec0370b0aa9
       path: packages/bonsoir_android
   bonsoir_windows:
     git:
       url: https://github.com/Skyost/Bonsoir.git
-      ref: 3f4cf230c1b477757c56dc667620289c43f9e3fb
+      ref: 97555473ba18546c37fa41cf23ce4ec0370b0aa9
       path: packages/bonsoir_windows
   bonsoir_darwin:
     git:
       url: https://github.com/Skyost/Bonsoir.git
-      ref: 3f4cf230c1b477757c56dc667620289c43f9e3fb
+      ref: 97555473ba18546c37fa41cf23ce4ec0370b0aa9
       path: packages/bonsoir_darwin
   bonsoir_linux:
     git:
       url: https://github.com/Skyost/Bonsoir.git
-      ref: 3f4cf230c1b477757c56dc667620289c43f9e3fb
+      ref: 97555473ba18546c37fa41cf23ce4ec0370b0aa9
       path: packages/bonsoir_linux
   bonsoir_platform_interface:
     git:
       url: https://github.com/Skyost/Bonsoir.git
-      ref: 3f4cf230c1b477757c56dc667620289c43f9e3fb
+      ref: 97555473ba18546c37fa41cf23ce4ec0370b0aa9
       path: packages/bonsoir_platform_interface
