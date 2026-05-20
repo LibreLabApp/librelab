@@ -156,17 +156,15 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
 
       case BonsoirDiscoveryServiceLostEvent(:final service):
         _logger.finer('Service lost: ${service.toJson()}');
-        controller.add(
-          Lost(
-            serviceInfo:
-                _mapService(service) ??
-                (throw Exception(
-                  'Service lost but $BonsoirService.hostname is null.\n'
-                  'The hostname is required to identify which service '
-                  'should be removed from the list.',
-                )),
-          ),
-        );
+
+        final mapped = _mapService(service);
+        if (mapped != null) {
+          controller.add(Lost(serviceInfo: mapped));
+        } else {
+          _logger.warning(
+            'This "service lost" event will be ignored: $BonsoirService.hostname is null',
+          );
+        }
       case BonsoirDiscoveryServiceResolveFailedEvent():
         _logger.finer(
           'Service resolve attempt failed (non-fatal, may be retried)',
