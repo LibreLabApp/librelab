@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=LibreLab
+Comment=Self-hosted LIS for diagnostic labs with analyzer integration, patient results, and billing for lab operators
+Categories=MedicalSoftware;Office;Science;
+
+Icon=app.librelab.librelab
+Exec=librelab
+Terminal=false

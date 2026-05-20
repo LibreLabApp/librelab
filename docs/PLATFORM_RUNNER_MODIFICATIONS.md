@@ -4,7 +4,8 @@ This document list all modification made to the default platform runner template
 
 ## Common
 
-- Changed app id to `app.librelab.librelab`.
+- Changed app ID to `app.librelab.librelab`.
+  - App ID is hardcoded in `packaging/linux/app.librelab.librelab.desktop`
 - Changed window/app title to `LibreLab`.
 
 ### Desktop
