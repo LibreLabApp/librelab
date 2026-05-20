@@ -4,12 +4,14 @@
         "dbus",
         "Ellet",
         "Flathub",
+        "Inkscape",
         "librelab",
         "mdns",
         "pacman",
         "PGPASSWORD",
         "pgsql",
         "psql",
+        "pubspec",
         "serverpod"
     ]
 }
