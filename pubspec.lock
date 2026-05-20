@@ -66,59 +66,53 @@ packages:
     source: hosted
     version: "9.2.1"
   bonsoir:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "packages/bonsoir"
-      ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      resolved-ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      url: "https://github.com/Skyost/Bonsoir.git"
-    source: git
-    version: "6.1.0"
+      name: bonsoir
+      sha256: "42d4c2e1b23e3491be94a8297254397da6da6c2fa70c0067f9a7fb854f07449d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   bonsoir_android:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "packages/bonsoir_android"
-      ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      resolved-ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      url: "https://github.com/Skyost/Bonsoir.git"
-    source: git
-    version: "6.0.2"
+      name: bonsoir_android
+      sha256: cc6d3fe12afe2d83b3e09a784ef05eaf23de011aa6fca18ac8d00cd2af375cd9
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   bonsoir_darwin:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "packages/bonsoir_darwin"
-      ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      resolved-ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      url: "https://github.com/Skyost/Bonsoir.git"
-    source: git
-    version: "6.1.0"
+      name: bonsoir_darwin
+      sha256: "9a3b5617578896e82532118eb351446c9f7327ab381b4b6026d880ca4cd8ec65"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   bonsoir_linux:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "packages/bonsoir_linux"
-      ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      resolved-ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      url: "https://github.com/Skyost/Bonsoir.git"
-    source: git
-    version: "6.0.3"
+      name: bonsoir_linux
+      sha256: "6bc42315c24f0926aa10cbd3650f0e6a4be95d141adfe56dfbd5d5b06dca8cdd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   bonsoir_platform_interface:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "packages/bonsoir_platform_interface"
-      ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      resolved-ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      url: "https://github.com/Skyost/Bonsoir.git"
-    source: git
-    version: "6.1.0"
+      name: bonsoir_platform_interface
+      sha256: "6c55c786b01ad279f675ae72cea3a885aa746e416d2e8c1f0c46e9d2c06420b0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   bonsoir_windows:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "packages/bonsoir_windows"
-      ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      resolved-ref: "2f7795d31808d4622066da6e49eb9c544faea944"
-      url: "https://github.com/Skyost/Bonsoir.git"
-    source: git
-    version: "6.0.3"
+      name: bonsoir_windows
+      sha256: "1099ca330e4758e9cbbbeb8194e429b1cc666f7a0e744cf57f4653421fb5e316"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -1555,4 +1549,4 @@ packages:
     version: "2.2.4"
 sdks:
   dart: ">=3.12.0 <4.0.0"
-  flutter: ">=3.38.4"
+  flutter: ">=3.41.0"
