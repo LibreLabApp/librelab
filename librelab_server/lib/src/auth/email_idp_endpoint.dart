@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:librelab_server/src/utils/shutdown.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 
@@ -20,11 +23,14 @@ class EmailIdpEndpoint extends EmailIdpBaseEndpoint {
 
     // Fallback guard (added to satisfy the Dart compiler):
     // In case "@doNotGenerate" annotation is not present or not working.
-    await session.server.shutdown();
-    throw UnimplementedError(
-      'CRITICAL SECURITY BUG: startRegistration was executed. '
-      'Account registration must never be reachable. '
-      'Check @doNotGenerate configuration and code generation setup.',
-    );
+
+    const message =
+        'CRITICAL SECURITY BUG: startRegistration was executed. '
+        'Account registration must never be reachable. '
+        'Check @doNotGenerate configuration and code generation setup.';
+    await shutdown(isSuccess: false);
+
+    stderr.writeln(message);
+    throw UnimplementedError(message);
   }
 }

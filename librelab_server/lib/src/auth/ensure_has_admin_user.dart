@@ -13,7 +13,7 @@ import 'package:serverpod_auth_idp_server/providers/email.dart';
 ///
 /// Returns whether a new user was created or not.
 Future<bool> ensureHasAdminUser(Session session) async {
-  final exists = await AuthUser.db.count(session, limit: 1) >= 1;
+  final exists = (await AuthUser.db.count(session, limit: 1)) >= 1;
   if (exists) {
     return false;
   }
@@ -37,13 +37,27 @@ use those credentials to log in to the desktop application.
 ----------------------------------------------------------------
 ''');
   final credentials = await _promptUserCredentials();
+
+  if (await _emailExists(session, credentials.email)) {
+    stderr.writeln('\nEmail address is already in use: ${credentials.email}\n');
+    return;
+  }
+
   await _insertUserWithCredentials(credentials, session);
 
   stdout.writeln('''
 \nAdmin user created successfully.
 
-After logging in, additional users can be created directly from the desktop interface.
+After logging in, additional users can be created directly from the application interface.
 ''');
+}
+
+Future<bool> _emailExists(Session session, String email) async {
+  return (await EmailAccount.db.count(
+        session,
+        where: (account) => account.email.equals(email),
+      )) >=
+      1;
 }
 
 Future<void> _insertUserWithCredentials(

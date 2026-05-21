@@ -42,6 +42,7 @@ Future<void> shutdown({required bool isSuccess}) async {
   exit(exitCode);
 }
 
+/// {@macro shutdown_error}
 final class ShutdownError extends Error {
   ShutdownError(this.message);
 
@@ -51,13 +52,15 @@ final class ShutdownError extends Error {
   String toString() => 'ShutdownError: $message';
 }
 
+/// {@template shutdown_error}
 /// Indicates that program execution continued after a shutdown that was expected
 /// to terminate the process.
 ///
 /// This is a contract violation: if [shutdown] is called,
 /// control flow should not proceed beyond it due to `dart:io`'s `exit()`.
+/// {@endtemplate}
 ShutdownError get shutdownInvariantError => ShutdownError(
   'Unexpected continuation after shutdown(). '
   'Process termination via dart:io exit() did not occur. '
-  '`shutdown(` may have a bug.',
+  '`shutdown()` may have a bug.',
 );
