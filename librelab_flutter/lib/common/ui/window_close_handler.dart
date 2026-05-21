@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:go_router/go_router.dart';
-import 'package:librelab_flutter/common/build_context_ext.dart';
 import 'package:librelab_flutter/common/platform/platform_check.dart';
+import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 
 void setupWindowCloseHandler(BuildContext context) {
   if (!isDesktop) {

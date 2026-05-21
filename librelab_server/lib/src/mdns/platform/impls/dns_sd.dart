@@ -19,7 +19,7 @@ final class DnsSdMdnsRegistrar extends ProcessMdnsRegistrar {
             config.serviceType,
             '.',
             '${config.port}',
-            if (txtRecords != null) ...txtRecords,
+            ...?txtRecords,
           ];
         },
       );

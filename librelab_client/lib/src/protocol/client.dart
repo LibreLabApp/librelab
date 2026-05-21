@@ -29,7 +29,6 @@ import 'protocol.dart' as _i7;
 class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   EndpointEmailIdp(_i2.EndpointCaller caller) : super(caller);
 
-  
   // START: https://github.com/serverpod/serverpod/issues/5002
   // This workaround was applied by running "dart ./scripts/serverpod_generate.dart"
   @override
@@ -39,8 +38,9 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
     // Stub implementation to satisfy the Dart compiler.
     throw UnimplementedError();
   }
+
   // END
-@override
+  @override
   String get name => 'emailIdp';
 
   /// Logs in the user and returns a new session.

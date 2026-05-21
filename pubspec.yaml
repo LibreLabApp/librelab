@@ -12,7 +12,6 @@ workspace:
   - packages/mdns_discovery/mdns_discovery
   - packages/mdns_discovery/mdns_discovery_bonsoir
   - packages/mdns_discovery/mdns_discovery_raw
-  - packages/connectivity_plus_linux_portal
 
 dev_dependencies:
   lints: ^6.1.0

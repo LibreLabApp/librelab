@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show Icons;
 import 'package:flutter/widgets.dart' show IconData;
-import 'package:librelab_flutter/common/stepper_view/stepper_view.dart';
+import 'package:librelab_flutter/common/ui/widgets/stepper_view/stepper_view.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:meta/meta.dart';

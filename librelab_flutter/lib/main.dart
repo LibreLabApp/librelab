@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show File, Platform, stderr, stdout;
 
-import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart'
-    show ConnectivityPlusLinuxPortalPlugin;
+import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,7 @@ import 'package:flutter_localizations/flutter_localizations.dart'
 import 'package:go_router/go_router.dart';
 import 'package:librelab_client/librelab_client.dart';
 import 'package:librelab_flutter/common/platform/platform_check.dart';
-import 'package:librelab_flutter/common/platform/window_close_handler.dart';
+import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
 import 'package:librelab_flutter/server_connection/local_network_discovery/cubit/local_discovery_cubit.dart';

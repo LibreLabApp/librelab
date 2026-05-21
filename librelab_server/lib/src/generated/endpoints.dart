@@ -25,24 +25,11 @@ class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'emailIdp': _i2.EmailIdpEndpoint()
-        ..initialize(
-          server,
-          'emailIdp',
-          null,
-        ),
+      'emailIdp': _i2.EmailIdpEndpoint()..initialize(server, 'emailIdp', null),
       'jwtRefresh': _i3.JwtRefreshEndpoint()
-        ..initialize(
-          server,
-          'jwtRefresh',
-          null,
-        ),
+        ..initialize(server, 'jwtRefresh', null),
       'handshake': _i4.HandshakeEndpoint()
-        ..initialize(
-          server,
-          'handshake',
-          null,
-        ),
+        ..initialize(server, 'handshake', null),
     };
     connectors['emailIdp'] = _i1.EndpointConnector(
       name: 'emailIdp',
@@ -62,11 +49,8 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint).login(
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint).login(
                 session,
                 email: params['email'],
                 password: params['password'],
@@ -86,11 +70,8 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
                   .verifyRegistrationCode(
                     session,
                     accountRequestId: params['accountRequestId'],
@@ -111,11 +92,8 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
                   .finishRegistration(
                     session,
                     registrationToken: params['registrationToken'],
@@ -131,15 +109,9 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
-                  .startPasswordReset(
-                    session,
-                    email: params['email'],
-                  ),
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
+                  .startPasswordReset(session, email: params['email']),
         ),
         'verifyPasswordResetCode': _i1.MethodConnector(
           name: 'verifyPasswordResetCode',
@@ -155,11 +127,8 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
                   .verifyPasswordResetCode(
                     session,
                     passwordResetRequestId: params['passwordResetRequestId'],
@@ -180,11 +149,8 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
                   .finishPasswordReset(
                     session,
                     finishPasswordResetToken:
@@ -195,12 +161,10 @@ class Endpoints extends _i1.EndpointDispatch {
         'hasAccount': _i1.MethodConnector(
           name: 'hasAccount',
           params: {},
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['emailIdp'] as _i2.EmailIdpEndpoint)
-                  .hasAccount(session),
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['emailIdp'] as _i2.EmailIdpEndpoint).hasAccount(
+                session,
+              ),
         ),
       },
     );
@@ -217,11 +181,8 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['jwtRefresh'] as _i3.JwtRefreshEndpoint)
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['jwtRefresh'] as _i3.JwtRefreshEndpoint)
                   .refreshAccessToken(
                     session,
                     refreshToken: params['refreshToken'],
@@ -242,15 +203,11 @@ class Endpoints extends _i1.EndpointDispatch {
               nullable: false,
             ),
           },
-          call:
-              (
-                _i1.Session session,
-                Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['handshake'] as _i4.HandshakeEndpoint).check(
-                    session,
-                    params['request'],
-                  ),
+          call: (_i1.Session session, Map<String, dynamic> params) async =>
+              (endpoints['handshake'] as _i4.HandshakeEndpoint).check(
+                session,
+                params['request'],
+              ),
         ),
       },
     );

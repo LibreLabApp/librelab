@@ -16,7 +16,7 @@ final class AvahiMdnsRegistrar extends ProcessMdnsRegistrar {
             config.instanceName,
             config.serviceType,
             '${config.port}',
-            if (txtRecords != null) ...txtRecords,
+            ...?txtRecords,
           ];
         },
       );

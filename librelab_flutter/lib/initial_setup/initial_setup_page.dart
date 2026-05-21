@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:librelab_flutter/common/build_context_ext.dart';
-import 'package:librelab_flutter/common/stepper_view/stepper_view.dart';
+import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/widgets/stepper_view/stepper_view.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/pager.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';

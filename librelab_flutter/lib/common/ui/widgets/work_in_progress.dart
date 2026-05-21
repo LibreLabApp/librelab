@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:librelab_flutter/common/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:lottie/lottie.dart';
 
