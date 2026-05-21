@@ -43,6 +43,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsInitialSetupPageEn initialSetupPage = TranslationsInitialSetupPageEn.internal(_root);
 	late final TranslationsConfirmProgramExitDialogEn confirmProgramExitDialog = TranslationsConfirmProgramExitDialogEn.internal(_root);
 	late final TranslationsServerEn server = TranslationsServerEn.internal(_root);
+	late final TranslationsWorkInProgressEn workInProgress = TranslationsWorkInProgressEn.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -113,6 +114,21 @@ class TranslationsServerEn {
 	late final TranslationsServerTestConnectionEn testConnection = TranslationsServerTestConnectionEn.internal(_root);
 	late final TranslationsServerConnectionMethodEn connectionMethod = TranslationsServerConnectionMethodEn.internal(_root);
 	late final TranslationsServerLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerLocalNetworkDiscoveryEn.internal(_root);
+}
+
+// Path: workInProgress
+class TranslationsWorkInProgressEn {
+	TranslationsWorkInProgressEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Under Construction!'
+	String get title => 'Under Construction!';
+
+	/// en: 'Watch your step! We are still laying down the code for this feature. Check back soon!'
+	String get subtitle => 'Watch your step! We are still laying down the code for this feature. Check back soon!';
 }
 
 // Path: initialSetupPage.steps
@@ -539,6 +555,8 @@ extension on Translations {
 			'server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.label' => 'How to host a server',
 			'server.localNetworkDiscovery.noServersFound.stillScanning.title' => 'Scanning your network...',
 			'server.localNetworkDiscovery.noServersFound.stillScanning.subtitle' => ({required Object appName}) => 'Scanning for ${appName} servers on your local network.\nThis may take a few moments.',
+			'workInProgress.title' => 'Under Construction!',
+			'workInProgress.subtitle' => 'Watch your step! We are still laying down the code for this feature. Check back soon!',
 			_ => null,
 		};
 	}

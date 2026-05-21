@@ -4,6 +4,7 @@ import 'package:librelab_flutter/common/build_context_ext.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
 import 'package:librelab_flutter/initial_setup/steps/server_step.dart';
+import 'package:librelab_flutter/widgets/work_in_progress.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class InitialSetupPager extends StatefulWidget {
@@ -19,11 +20,6 @@ class _InitialSetupPagerState extends State<InitialSetupPager> {
   final _pageController = PageController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -32,11 +28,10 @@ class _InitialSetupPagerState extends State<InitialSetupPager> {
   final _children = InitialSetupStep.values
       .map(
         (e) => switch (e) {
-          // TODO: Replace
-          .preferences => const Placeholder(),
+          .preferences => const WorkInProgress(),
           .server => const InitialSetupServerStep(),
-          .account => const Placeholder(),
-          .complete => const Placeholder(),
+          .account => const WorkInProgress(),
+          .complete => const WorkInProgress(),
         },
       )
       .toList();

@@ -38,6 +38,10 @@ class $AssetsLottieGen {
   LottieGenImage get settings =>
       const LottieGenImage('assets/lottie/settings.json');
 
+  /// File path: assets/lottie/under_construction.json
+  LottieGenImage get underConstruction =>
+      const LottieGenImage('assets/lottie/under_construction.json');
+
   /// List of all assets
   List<LottieGenImage> get values => [
     account,
@@ -46,6 +50,7 @@ class $AssetsLottieGen {
     rocket,
     server,
     settings,
+    underConstruction,
   ];
 }
 

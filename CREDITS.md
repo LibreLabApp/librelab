@@ -1,3 +1,5 @@
+# Acknowledgements
+
 ## Third-party assets
 
 ### Lottie Animations
@@ -17,3 +19,4 @@
 - https://lottiefiles.com/free-animation/rocket-lunch-x9j9TboyaP
 - https://lottiefiles.com/free-animation/page-settings-IDuMr9le9S
 - https://lottiefiles.com/free-animation/create-account-rxlWSNUtbM
+- https://lottiefiles.com/free-animation/website-under-construction-Q5Z1sDmoqL
