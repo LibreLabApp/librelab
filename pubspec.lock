@@ -69,34 +69,34 @@ packages:
     dependency: transitive
     description:
       name: bonsoir
-      sha256: "42d4c2e1b23e3491be94a8297254397da6da6c2fa70c0067f9a7fb854f07449d"
+      sha256: "2e6d2e28807d04e9cc6edb07258f47817c8014b1bd68f34d5eeb69e3cdf012cf"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.1.0"
   bonsoir_android:
     dependency: transitive
     description:
       name: bonsoir_android
-      sha256: cc6d3fe12afe2d83b3e09a784ef05eaf23de011aa6fca18ac8d00cd2af375cd9
+      sha256: "942ede5e241916bd8093416fcb74c349b060c5e20d7aea4516ff94e362f30bb1"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.1.0"
   bonsoir_darwin:
     dependency: transitive
     description:
       name: bonsoir_darwin
-      sha256: "9a3b5617578896e82532118eb351446c9f7327ab381b4b6026d880ca4cd8ec65"
+      sha256: "04425a8657e3131683c7966689d4e65e114cb5181de94aac89d2fba84cfaaca4"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.1.0"
   bonsoir_linux:
     dependency: transitive
     description:
       name: bonsoir_linux
-      sha256: "6bc42315c24f0926aa10cbd3650f0e6a4be95d141adfe56dfbd5d5b06dca8cdd"
+      sha256: "9afae7bb9509c5bd20a0ea2ca02a0f2b1ef09cca1ceb2ea288ed58a0f03d1e11"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.1.0"
   bonsoir_platform_interface:
     dependency: transitive
     description:
@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: bonsoir_windows
-      sha256: "1099ca330e4758e9cbbbeb8194e429b1cc666f7a0e744cf57f4653421fb5e316"
+      sha256: "656aea056e48adc93b535339efe2f5f4e5eeec38a7d5c7aa6eb7566b919cdec1"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.1.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -1359,10 +1359,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "3bb000251e55d4a209aa0e2e563309dc9bb2befea2295fd0cec1f51760aac572"
+      sha256: "17bc677f0b301615530dd1d67e0a9828cafa2d0b6b6eae4cd3679b7eac4a273c"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.29"
+    version: "6.3.30"
   url_launcher_ios:
     dependency: transitive
     description:
