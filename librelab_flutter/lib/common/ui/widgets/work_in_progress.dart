@@ -20,7 +20,7 @@ class WorkInProgress extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxHeight: 400),
           child: Lottie.asset(
             Assets.lottie.underConstruction.path,
             fit: BoxFit.contain,

@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 export 'package:librelab_shared/librelab_shared.dart' show DesktopPlatform;
 
+part 'platform_check_flatpak.dart';
+
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isWindows =>
     defaultTargetPlatform == TargetPlatform.windows && !kIsWeb;
@@ -37,9 +39,4 @@ DesktopPlatform get currentDesktopPlatform {
       'Unsupported platform: ${defaultTargetPlatform.name}',
     ),
   };
-}
-
-bool get isFlatpak {
-  final env = Platform.environment;
-  return env.containsKey('FLATPAK_ID') || env['container'] == 'flatpak';
 }
