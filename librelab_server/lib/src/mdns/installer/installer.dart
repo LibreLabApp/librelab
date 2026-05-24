@@ -5,8 +5,7 @@ import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 
 class MdnsInstaller {
-  MdnsInstaller({required MdnsPlatformInstaller platform})
-    : _platform = platform;
+  MdnsInstaller({required this._platform});
 
   final MdnsPlatformInstaller _platform;
 

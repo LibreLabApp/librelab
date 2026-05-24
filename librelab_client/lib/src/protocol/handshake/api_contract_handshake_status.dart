@@ -10,21 +10,27 @@
 // ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:serverpod/serverpod.dart' as _i1;
+import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
-enum HandshakeStatus implements _i1.SerializableModel {
-  ok,
-  updateClient;
+enum ApiContractHandshakeStatus implements _i1.SerializableModel {
+  fullyCompatible,
+  compatible,
+  updateClient,
+  updateServer;
 
-  static HandshakeStatus fromJson(String name) {
+  static ApiContractHandshakeStatus fromJson(String name) {
     switch (name) {
-      case 'ok':
-        return HandshakeStatus.ok;
+      case 'fullyCompatible':
+        return ApiContractHandshakeStatus.fullyCompatible;
+      case 'compatible':
+        return ApiContractHandshakeStatus.compatible;
       case 'updateClient':
-        return HandshakeStatus.updateClient;
+        return ApiContractHandshakeStatus.updateClient;
+      case 'updateServer':
+        return ApiContractHandshakeStatus.updateServer;
       default:
         throw ArgumentError(
-          'Value "$name" cannot be converted to "HandshakeStatus"',
+          'Value "$name" cannot be converted to "ApiContractHandshakeStatus"',
         );
     }
   }

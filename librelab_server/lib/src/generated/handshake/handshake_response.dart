@@ -11,7 +11,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../handshake/handshake_status.dart' as _i2;
+import '../handshake/api_contract_handshake_status.dart' as _i2;
 
 abstract class HandshakeResponse
     implements _i1.SerializableModel, _i1.ProtocolSerialization {
@@ -22,14 +22,14 @@ abstract class HandshakeResponse
   });
 
   factory HandshakeResponse({
-    required _i2.HandshakeStatus status,
+    required _i2.ApiContractHandshakeStatus status,
     required int serverBuildNumber,
     required String serverVersion,
   }) = _HandshakeResponseImpl;
 
   factory HandshakeResponse.fromJson(Map<String, dynamic> jsonSerialization) {
     return HandshakeResponse(
-      status: _i2.HandshakeStatus.fromJson(
+      status: _i2.ApiContractHandshakeStatus.fromJson(
         (jsonSerialization['status'] as String),
       ),
       serverBuildNumber: jsonSerialization['serverBuildNumber'] as int,
@@ -37,7 +37,7 @@ abstract class HandshakeResponse
     );
   }
 
-  _i2.HandshakeStatus status;
+  _i2.ApiContractHandshakeStatus status;
 
   int serverBuildNumber;
 
@@ -47,7 +47,7 @@ abstract class HandshakeResponse
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
   HandshakeResponse copyWith({
-    _i2.HandshakeStatus? status,
+    _i2.ApiContractHandshakeStatus? status,
     int? serverBuildNumber,
     String? serverVersion,
   });
@@ -79,7 +79,7 @@ abstract class HandshakeResponse
 
 class _HandshakeResponseImpl extends HandshakeResponse {
   _HandshakeResponseImpl({
-    required _i2.HandshakeStatus status,
+    required _i2.ApiContractHandshakeStatus status,
     required int serverBuildNumber,
     required String serverVersion,
   }) : super._(
@@ -93,7 +93,7 @@ class _HandshakeResponseImpl extends HandshakeResponse {
   @_i1.useResult
   @override
   HandshakeResponse copyWith({
-    _i2.HandshakeStatus? status,
+    _i2.ApiContractHandshakeStatus? status,
     int? serverBuildNumber,
     String? serverVersion,
   }) {

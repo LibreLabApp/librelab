@@ -1,5 +1,5 @@
 class: HandshakeResponse
 fields:
-  status: HandshakeStatus
+  status: ApiContractHandshakeStatus
   serverBuildNumber: int
   serverVersion: String

@@ -37,10 +37,9 @@ import 'package:librelab_server/src/utils/shutdown.dart';
 final class LinuxPostgresInstaller
     implements PostgresPlatformPackageManagerInstaller {
   LinuxPostgresInstaller({
-    required LinuxPackageManager packageManager,
-    required LinuxOsRelease linuxOsRelease,
-  }) : _linuxOsRelease = linuxOsRelease,
-       _packageManager = packageManager;
+    required this._packageManager,
+    required this._linuxOsRelease,
+  });
 
   final LinuxPackageManager _packageManager;
   final LinuxOsRelease _linuxOsRelease;

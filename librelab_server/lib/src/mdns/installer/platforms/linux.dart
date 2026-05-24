@@ -6,8 +6,7 @@ import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/linux/linux_package_manager.dart';
 
 final class AvahiLinuxInstaller implements MdnsPlatformInstaller {
-  AvahiLinuxInstaller({required LinuxPackageManager packageManager})
-    : _packageManager = packageManager;
+  AvahiLinuxInstaller({required this._packageManager});
 
   final LinuxPackageManager _packageManager;
 

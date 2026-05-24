@@ -66,29 +66,25 @@
     "confirmButton": "Exit",
     "@confirmButton": "Primary button text to confirm closing the application."
   },
-  "server": {
-    "testConnection": {
-      "title": "Test your connection",
-      "subtitle": "Make sure you can connect to your server before continuing.",
-      "button": "Test Connection"
-    },
-    "connectionMethod": {
-      "localNetworkDiscovery": {
-        "button": "Find on Network",
-        "tooltip": "Detect servers available on local network"
-      },
-      "manualAddress": {
-        "button": "Enter Server Address",
-        "tooltip": "Manually providing a server address."
-      }
-    },
+  "serverHandshake": {
+    "title": "Test your connection",
+    "subtitle": "Make sure you can connect to your server before continuing.",
+    "button": "Test Connection"
+  },
+  "serverSelection": {
     "localNetworkDiscovery": {
+      "button": "Find on Network",
+      "tooltip": "Detect servers available on local network",
       "refreshServersButton": "Refresh",
       "serverListTitle": "Available Servers",
       "discoveredServerPrompt": "Select a server found on your local network.",
       "discoveredServersCount": {
         "one": "Found $n server",
         "other": "Found $n servers"
+      },
+      "tileMenu": {
+        "copyIpAddressEndpoint": "Copy IP & Port",
+        "copyLocalHostnameEndpoint": "Copy Hostname & Port"
       },
       "noServersFound": {
         "doneScanning": {
@@ -111,6 +107,24 @@
           "title": "Scanning your network...",
           "subtitle": "Scanning for $appName servers on your local network.\nThis may take a few moments."
         }
+      }
+    },
+    "manualAddress": {
+      "button": "Enter Server Address",
+      "tooltip": "Manually providing a server address.",
+      "textField": {
+        "validationErrors": {
+          "emptyInput": "A URL is required",
+          "invalidUri": "Must be a valid URL",
+          "missingScheme": "Protocol is required (e.g., https://)",
+          "unsupportedScheme": "Unsupported protocol: $scheme",
+          "missingHost": "A host is required",
+          "invalidPort": "Invalid port: $port"
+        },
+        "hint": "e.g., https://example.com",
+        "label": "Server URL",
+        "helper": "Enter the URL of your server",
+        "infoTooltip": "Can be provided by a service administrator or self-hosted."
       }
     }
   },

@@ -18,8 +18,6 @@ import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i4;
 import 'package:librelab_server/src/generated/handshake/handshake_response.dart'
     as _i5;
-import 'package:librelab_server/src/generated/handshake/handshake_request.dart'
-    as _i6;
 import 'package:librelab_server/src/generated/protocol.dart';
 import 'package:librelab_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -148,14 +146,26 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.SerializationManager serializationManager,
     _i2.EndpointDispatch endpoints,
   ) {
-    emailIdp = _EmailIdpEndpoint(endpoints, serializationManager);
-    jwtRefresh = _JwtRefreshEndpoint(endpoints, serializationManager);
-    handshake = _HandshakeEndpoint(endpoints, serializationManager);
+    emailIdp = _EmailIdpEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    jwtRefresh = _JwtRefreshEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    handshake = _HandshakeEndpoint(
+      endpoints,
+      serializationManager,
+    );
   }
 }
 
 class _EmailIdpEndpoint {
-  _EmailIdpEndpoint(this._endpointDispatch, this._serializationManager);
+  _EmailIdpEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
 
   final _i2.EndpointDispatch _endpointDispatch;
 
@@ -397,7 +407,10 @@ class _EmailIdpEndpoint {
 }
 
 class _JwtRefreshEndpoint {
-  _JwtRefreshEndpoint(this._endpointDispatch, this._serializationManager);
+  _JwtRefreshEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
 
   final _i2.EndpointDispatch _endpointDispatch;
 
@@ -436,16 +449,19 @@ class _JwtRefreshEndpoint {
 }
 
 class _HandshakeEndpoint {
-  _HandshakeEndpoint(this._endpointDispatch, this._serializationManager);
+  _HandshakeEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
 
   final _i2.EndpointDispatch _endpointDispatch;
 
   final _i2.SerializationManager _serializationManager;
 
   _i3.Future<_i5.HandshakeResponse> check(
-    _i1.TestSessionBuilder sessionBuilder,
-    _i6.HandshakeRequest request,
-  ) async {
+    _i1.TestSessionBuilder sessionBuilder, {
+    required int clientApiContractVersion,
+  }) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
@@ -457,7 +473,9 @@ class _HandshakeEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'handshake',
           methodName: 'check',
-          parameters: _i1.testObjectToJson({'request': request}),
+          parameters: _i1.testObjectToJson({
+            'clientApiContractVersion': clientApiContractVersion,
+          }),
           serializationManager: _serializationManager,
         );
         var _localReturnValue =

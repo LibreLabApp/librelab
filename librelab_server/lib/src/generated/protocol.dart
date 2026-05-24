@@ -16,12 +16,10 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _i3;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i4;
-import 'handshake/handshake_request.dart' as _i5;
+import 'handshake/api_contract_handshake_status.dart' as _i5;
 import 'handshake/handshake_response.dart' as _i6;
-import 'handshake/handshake_status.dart' as _i7;
-export 'handshake/handshake_request.dart';
+export 'handshake/api_contract_handshake_status.dart';
 export 'handshake/handshake_response.dart';
-export 'handshake/handshake_status.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -43,7 +41,10 @@ class Protocol extends _i1.SerializationManagerServer {
   }
 
   @override
-  T deserialize<T>(dynamic data, [Type? t]) {
+  T deserialize<T>(
+    dynamic data, [
+    Type? t,
+  ]) {
     t ??= T;
 
     final dataClassName = getClassNameFromObjectJson(data);
@@ -60,23 +61,20 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
 
-    if (t == _i5.HandshakeRequest) {
-      return _i5.HandshakeRequest.fromJson(data) as T;
+    if (t == _i5.ApiContractHandshakeStatus) {
+      return _i5.ApiContractHandshakeStatus.fromJson(data) as T;
     }
     if (t == _i6.HandshakeResponse) {
       return _i6.HandshakeResponse.fromJson(data) as T;
     }
-    if (t == _i7.HandshakeStatus) {
-      return _i7.HandshakeStatus.fromJson(data) as T;
-    }
-    if (t == _i1.getType<_i5.HandshakeRequest?>()) {
-      return (data != null ? _i5.HandshakeRequest.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.ApiContractHandshakeStatus?>()) {
+      return (data != null
+              ? _i5.ApiContractHandshakeStatus.fromJson(data)
+              : null)
+          as T;
     }
     if (t == _i1.getType<_i6.HandshakeResponse?>()) {
       return (data != null ? _i6.HandshakeResponse.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i7.HandshakeStatus?>()) {
-      return (data != null ? _i7.HandshakeStatus.fromJson(data) : null) as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -92,9 +90,8 @@ class Protocol extends _i1.SerializationManagerServer {
 
   static String? getClassNameForType(Type type) {
     return switch (type) {
-      _i5.HandshakeRequest => 'HandshakeRequest',
+      _i5.ApiContractHandshakeStatus => 'ApiContractHandshakeStatus',
       _i6.HandshakeResponse => 'HandshakeResponse',
-      _i7.HandshakeStatus => 'HandshakeStatus',
       _ => null,
     };
   }
@@ -109,12 +106,10 @@ class Protocol extends _i1.SerializationManagerServer {
     }
 
     switch (data) {
-      case _i5.HandshakeRequest():
-        return 'HandshakeRequest';
+      case _i5.ApiContractHandshakeStatus():
+        return 'ApiContractHandshakeStatus';
       case _i6.HandshakeResponse():
         return 'HandshakeResponse';
-      case _i7.HandshakeStatus():
-        return 'HandshakeStatus';
     }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -137,14 +132,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName is! String) {
       return super.deserializeByClassName(data);
     }
-    if (dataClassName == 'HandshakeRequest') {
-      return deserialize<_i5.HandshakeRequest>(data['data']);
+    if (dataClassName == 'ApiContractHandshakeStatus') {
+      return deserialize<_i5.ApiContractHandshakeStatus>(data['data']);
     }
     if (dataClassName == 'HandshakeResponse') {
       return deserialize<_i6.HandshakeResponse>(data['data']);
-    }
-    if (dataClassName == 'HandshakeStatus') {
-      return deserialize<_i7.HandshakeStatus>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);

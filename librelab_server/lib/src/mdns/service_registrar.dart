@@ -9,8 +9,7 @@ import 'package:librelab_shared/librelab_shared.dart';
 /// hostname. The fallback implementation may only advertise the service
 /// (i.e., Bonjour is not installed on Windows, or Avahi on Linux).
 class MdnsServiceRegistrar {
-  MdnsServiceRegistrar({required MdnsPlatformRegistrar platform})
-    : _platform = platform;
+  MdnsServiceRegistrar({required this._platform});
 
   final MdnsPlatformRegistrar _platform;
   bool _isRegistered = false;
@@ -27,7 +26,7 @@ class MdnsServiceRegistrar {
         instanceName: instanceName,
         port: port,
         serviceType: ProjectConstants.mdnsServiceType,
-        txtRecords: const ['version=${Pubspec.version}'],
+        txtRecords: const ['version=${Pubspec.version}', 'supportsTls=false'],
       ),
     );
     _isRegistered = true;

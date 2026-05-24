@@ -1,15 +1,14 @@
 import 'dart:async';
 
 import 'package:librelab_flutter/common/io_utils.dart';
-import 'package:librelab_flutter/server_connection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 
 Logger _logger = Logger('$LocalDiscoveryRepository');
 
 class LocalDiscoveryRepository {
-  LocalDiscoveryRepository({required MdnsServiceDiscovery discovery})
-    : _discovery = discovery;
+  LocalDiscoveryRepository({required this._discovery});
 
   final MdnsServiceDiscovery _discovery;
 
@@ -47,6 +46,8 @@ class LocalDiscoveryRepository {
     _isScanning = false;
   }
 
+  final Duration _timeout = const Duration(seconds: 7);
+
   Future<void> scan() async {
     if (!_isClientOpen) {
       await _startClient();
@@ -54,7 +55,7 @@ class LocalDiscoveryRepository {
 
     await _onStartScanning();
 
-    await for (final event in _discovery.discoverServices()) {
+    await for (final event in _discovery.discoverServices(timeout: _timeout)) {
       final serviceInfo = event.serviceInfo;
       switch (event) {
         case Resolved():
@@ -84,12 +85,37 @@ class LocalDiscoveryRepository {
       logger: _logger,
     );
 
+    if (txtRecords == null) {
+      _logger.warning('($hostname) TXT records for are missing');
+    }
+
     final server = DiscoveredServer(
       instanceName: instanceName,
       localHostname: hostname,
+      ipAddress: info.ipAddress,
       port: port,
       latencyMs: latency?.inMilliseconds,
       serverVersion: txtRecords?['version'],
+      supportsTls: () {
+        if (txtRecords == null) {
+          return null;
+        }
+
+        const key = 'supportsTls';
+        final record = txtRecords[key];
+        if (record == null) {
+          _logger.warning('($hostname) $key TXT record is missing.');
+          return null;
+        }
+        final parsed = bool.tryParse(record);
+        if (parsed == null) {
+          _logger.warning(
+            '($hostname) Invalid TXT record for $key',
+            'Expected "true" or "false", got "$record"',
+          );
+        }
+        return parsed;
+      }(),
     );
 
     final index = _servers.indexWhere((e) => e.uri == server.uri);

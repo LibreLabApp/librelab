@@ -6,8 +6,8 @@ String? readStringValueFromLocalMachine({
 }) {
   RegistryKey? key;
   try {
-    key = Registry.openPath(RegistryHive.localMachine, path: keyPath);
-    return key.getStringValue(valueName);
+    key = LOCAL_MACHINE.open(keyPath);
+    return key.getString(valueName);
   } on Exception catch (_) {
     return null;
   } finally {

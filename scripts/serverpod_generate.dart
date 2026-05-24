@@ -1,6 +1,5 @@
 // Temporary workaround: https://github.com/serverpod/serverpod/issues/5002
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'packages.dart';
@@ -9,17 +8,12 @@ const _scriptPath = './scripts/serverpod_generate.dart';
 const _clientFilePath = '${Packages.client}/lib/src/protocol/client.dart';
 
 void main() async {
-  final generateProcess = await Process.start('serverpod', [
-    'generate',
-  ], runInShell: true);
-
-  generateProcess.stdout.transform(utf8.decoder).listen((data) {
-    stdout.write(data);
-  });
-
-  generateProcess.stderr.transform(utf8.decoder).listen((data) {
-    stderr.write(data);
-  });
+  final generateProcess = await Process.start(
+    'serverpod',
+    ['generate'],
+    runInShell: true,
+    mode: .inheritStdio,
+  );
 
   final exitCode = await generateProcess.exitCode;
   if (exitCode != 0) {
@@ -56,7 +50,7 @@ void main() async {
 
   if (match == null) {
     stderr.writeln('Target class not found. No changes were applied.');
-    exit(2);
+    exit(1);
   }
 
   const insertion =

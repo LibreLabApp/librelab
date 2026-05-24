@@ -18,9 +18,7 @@ import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _i4;
 import 'package:librelab_client/src/protocol/handshake/handshake_response.dart'
     as _i5;
-import 'package:librelab_client/src/protocol/handshake/handshake_request.dart'
-    as _i6;
-import 'protocol.dart' as _i7;
+import 'protocol.dart' as _i6;
 
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
@@ -29,6 +27,7 @@ import 'protocol.dart' as _i7;
 class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   EndpointEmailIdp(_i2.EndpointCaller caller) : super(caller);
 
+  
   // START: https://github.com/serverpod/serverpod/issues/5002
   // This workaround was applied by running "dart ./scripts/serverpod_generate.dart"
   @override
@@ -38,9 +37,8 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
     // Stub implementation to satisfy the Dart compiler.
     throw UnimplementedError();
   }
-
   // END
-  @override
+@override
   String get name => 'emailIdp';
 
   /// Logs in the user and returns a new session.
@@ -236,6 +234,11 @@ class EndpointJwtRefresh extends _i4.EndpointRefreshJwtTokens {
   );
 }
 
+/// Performs API contract handshake with this server instance.
+///
+/// Validates client/server compatibility only: no external version lookup
+/// or update service is involved.
+///
 /// {@category Endpoint}
 class EndpointHandshake extends _i2.EndpointRef {
   EndpointHandshake(_i2.EndpointCaller caller) : super(caller);
@@ -243,12 +246,13 @@ class EndpointHandshake extends _i2.EndpointRef {
   @override
   String get name => 'handshake';
 
-  _i3.Future<_i5.HandshakeResponse> check(_i6.HandshakeRequest request) =>
-      caller.callServerEndpoint<_i5.HandshakeResponse>(
-        'handshake',
-        'check',
-        {'request': request},
-      );
+  _i3.Future<_i5.HandshakeResponse> check({
+    required int clientApiContractVersion,
+  }) => caller.callServerEndpoint<_i5.HandshakeResponse>(
+    'handshake',
+    'check',
+    {'clientApiContractVersion': clientApiContractVersion},
+  );
 }
 
 class Modules {
@@ -282,7 +286,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i7.Protocol(),
+         _i6.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

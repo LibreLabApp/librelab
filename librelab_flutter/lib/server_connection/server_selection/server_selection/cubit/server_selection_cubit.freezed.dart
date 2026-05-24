@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'initial_setup_cubit.dart';
+part of 'server_selection_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,40 +12,40 @@ part of 'initial_setup_cubit.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$InitialSetupState {
+mixin _$ServerSelectionState {
 
- InitialSetupStep get currentStep; String? get nextButtonDisabledTooltip;
-/// Create a copy of InitialSetupState
+ ServerSelectionMethod get selectionMethod; String? get manualServerUrl;
+/// Create a copy of ServerSelectionState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InitialSetupStateCopyWith<InitialSetupState> get copyWith => _$InitialSetupStateCopyWithImpl<InitialSetupState>(this as InitialSetupState, _$identity);
+$ServerSelectionStateCopyWith<ServerSelectionState> get copyWith => _$ServerSelectionStateCopyWithImpl<ServerSelectionState>(this as ServerSelectionState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialSetupState&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep)&&(identical(other.nextButtonDisabledTooltip, nextButtonDisabledTooltip) || other.nextButtonDisabledTooltip == nextButtonDisabledTooltip));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerSelectionState&&(identical(other.selectionMethod, selectionMethod) || other.selectionMethod == selectionMethod)&&(identical(other.manualServerUrl, manualServerUrl) || other.manualServerUrl == manualServerUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentStep,nextButtonDisabledTooltip);
+int get hashCode => Object.hash(runtimeType,selectionMethod,manualServerUrl);
 
 @override
 String toString() {
-  return 'InitialSetupState(currentStep: $currentStep, nextButtonDisabledTooltip: $nextButtonDisabledTooltip)';
+  return 'ServerSelectionState(selectionMethod: $selectionMethod, manualServerUrl: $manualServerUrl)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InitialSetupStateCopyWith<$Res>  {
-  factory $InitialSetupStateCopyWith(InitialSetupState value, $Res Function(InitialSetupState) _then) = _$InitialSetupStateCopyWithImpl;
+abstract mixin class $ServerSelectionStateCopyWith<$Res>  {
+  factory $ServerSelectionStateCopyWith(ServerSelectionState value, $Res Function(ServerSelectionState) _then) = _$ServerSelectionStateCopyWithImpl;
 @useResult
 $Res call({
- InitialSetupStep currentStep, String? nextButtonDisabledTooltip
+ ServerSelectionMethod selectionMethod, String? manualServerUrl
 });
 
 
@@ -53,19 +53,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$InitialSetupStateCopyWithImpl<$Res>
-    implements $InitialSetupStateCopyWith<$Res> {
-  _$InitialSetupStateCopyWithImpl(this._self, this._then);
+class _$ServerSelectionStateCopyWithImpl<$Res>
+    implements $ServerSelectionStateCopyWith<$Res> {
+  _$ServerSelectionStateCopyWithImpl(this._self, this._then);
 
-  final InitialSetupState _self;
-  final $Res Function(InitialSetupState) _then;
+  final ServerSelectionState _self;
+  final $Res Function(ServerSelectionState) _then;
 
-/// Create a copy of InitialSetupState
+/// Create a copy of ServerSelectionState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? currentStep = null,Object? nextButtonDisabledTooltip = freezed,}) {
-  return _then(InitialSetupState(
-currentStep: null == currentStep ? _self.currentStep : currentStep // ignore: cast_nullable_to_non_nullable
-as InitialSetupStep,nextButtonDisabledTooltip: freezed == nextButtonDisabledTooltip ? _self.nextButtonDisabledTooltip : nextButtonDisabledTooltip // ignore: cast_nullable_to_non_nullable
+@pragma('vm:prefer-inline') @override $Res call({Object? selectionMethod = null,Object? manualServerUrl = freezed,}) {
+  return _then(ServerSelectionState(
+selectionMethod: null == selectionMethod ? _self.selectionMethod : selectionMethod // ignore: cast_nullable_to_non_nullable
+as ServerSelectionMethod,manualServerUrl: freezed == manualServerUrl ? _self.manualServerUrl : manualServerUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -73,8 +73,8 @@ as String?,
 }
 
 
-/// Adds pattern-matching-related methods to [InitialSetupState].
-extension InitialSetupStatePatterns on InitialSetupState {
+/// Adds pattern-matching-related methods to [ServerSelectionState].
+extension ServerSelectionStatePatterns on ServerSelectionState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

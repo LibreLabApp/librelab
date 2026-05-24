@@ -14,9 +14,10 @@ import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
-import 'package:librelab_flutter/server_connection/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/server_connection/local_network_discovery/mdns_service_discovery_resolver.dart';
-import 'package:librelab_flutter/server_connection/local_network_discovery/repository.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/mdns_service_discovery_resolver.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/repository.dart';
+import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:logging/logging.dart';
 import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -134,14 +135,18 @@ class MainApp extends StatelessWidget {
     );
     return MultiBlocProvider(
       providers: [
-        // TODO: Proper dependency injection. (LocalDiscoveryRepository)
-        BlocProvider(
-          create: (context) => LocalDiscoveryCubit(
-            localDiscoveryRepository: LocalDiscoveryRepository(
-              discovery: resolveMdnsServiceDiscoveryImpl(),
-            ),
+        RepositoryProvider(
+          create: (context) => LocalDiscoveryRepository(
+            discovery: resolveMdnsServiceDiscoveryImpl(),
           ),
+          // TODO: (MDNS) We probably want to dispose this when we are no longer in the "Available servers" screen? Reopen as needed
+          dispose: (repository) => repository.close(),
         ),
+        BlocProvider(
+          create: (context) =>
+              LocalDiscoveryCubit(localDiscoveryRepository: context.read()),
+        ),
+        BlocProvider(create: (context) => ServerSelectionCubit()),
       ],
       child: MaterialApp.router(
         routerConfig: _router,

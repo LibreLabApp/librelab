@@ -2,21 +2,21 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:librelab_flutter/server_connection/local_network_discovery/discovered_server.dart';
-import 'package:librelab_flutter/server_connection/local_network_discovery/repository.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/repository.dart';
 
 part 'local_discovery_state.dart';
 part 'local_discovery_cubit.freezed.dart';
 
 class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
-  LocalDiscoveryCubit({
-    required LocalDiscoveryRepository localDiscoveryRepository,
-  }) : _localDiscoveryRepository = localDiscoveryRepository,
-       super(LocalDiscoveryState.initialState()) {
+  LocalDiscoveryCubit({required this._localDiscoveryRepository})
+    : super(LocalDiscoveryState.initialState()) {
     _streamSubscription = _localDiscoveryRepository.serversStream.listen(
       _onServersChanged,
     );
   }
+
+  final LocalDiscoveryRepository _localDiscoveryRepository;
 
   late final StreamSubscription<List<DiscoveredServer>> _streamSubscription;
 
@@ -35,8 +35,6 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
       ),
     );
   }
-
-  final LocalDiscoveryRepository _localDiscoveryRepository;
 
   Future<void> scan({bool refresh = false}) async {
     if (state.isLoading) {
@@ -71,8 +69,6 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
   @override
   Future<void> close() async {
     await _streamSubscription.cancel();
-    // TODO: (MDNS) IS it the cubit respinbility to dispose this?
-    await _localDiscoveryRepository.close();
     return super.close();
   }
 }

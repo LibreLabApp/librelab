@@ -6,7 +6,6 @@ final class InitialSetupState with _$InitialSetupState {
   const InitialSetupState({
     required this.currentStep,
     required this.nextButtonDisabledTooltip,
-    this.serverUrl,
   });
 
   /// The initial state of the initial setup page
@@ -25,7 +24,4 @@ final class InitialSetupState with _$InitialSetupState {
   /// Set this to `null` to activate the button.
   @override
   final String? nextButtonDisabledTooltip;
-
-  @override
-  final String? serverUrl;
 }

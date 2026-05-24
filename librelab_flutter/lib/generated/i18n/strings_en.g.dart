@@ -42,7 +42,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final TranslationsInitialSetupPageEn initialSetupPage = TranslationsInitialSetupPageEn.internal(_root);
 	late final TranslationsConfirmProgramExitDialogEn confirmProgramExitDialog = TranslationsConfirmProgramExitDialogEn.internal(_root);
-	late final TranslationsServerEn server = TranslationsServerEn.internal(_root);
+	late final TranslationsServerHandshakeEn serverHandshake = TranslationsServerHandshakeEn.internal(_root);
+	late final TranslationsServerSelectionEn serverSelection = TranslationsServerSelectionEn.internal(_root);
 	late final TranslationsWorkInProgressEn workInProgress = TranslationsWorkInProgressEn.internal(_root);
 }
 
@@ -104,16 +105,33 @@ class TranslationsConfirmProgramExitDialogEn {
 	String get confirmButton => 'Exit';
 }
 
-// Path: server
-class TranslationsServerEn {
-	TranslationsServerEn.internal(this._root);
+// Path: serverHandshake
+class TranslationsServerHandshakeEn {
+	TranslationsServerHandshakeEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsServerTestConnectionEn testConnection = TranslationsServerTestConnectionEn.internal(_root);
-	late final TranslationsServerConnectionMethodEn connectionMethod = TranslationsServerConnectionMethodEn.internal(_root);
-	late final TranslationsServerLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerLocalNetworkDiscoveryEn.internal(_root);
+
+	/// en: 'Test your connection'
+	String get title => 'Test your connection';
+
+	/// en: 'Make sure you can connect to your server before continuing.'
+	String get subtitle => 'Make sure you can connect to your server before continuing.';
+
+	/// en: 'Test Connection'
+	String get button => 'Test Connection';
+}
+
+// Path: serverSelection
+class TranslationsServerSelectionEn {
+	TranslationsServerSelectionEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsServerSelectionLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerSelectionLocalNetworkDiscoveryEn.internal(_root);
+	late final TranslationsServerSelectionManualAddressEn manualAddress = TranslationsServerSelectionManualAddressEn.internal(_root);
 }
 
 // Path: workInProgress
@@ -163,42 +181,19 @@ class TranslationsInitialSetupPageDecorativeAnimationEn {
 	String get subtitle => 'Let\'s get everything set up for you';
 }
 
-// Path: server.testConnection
-class TranslationsServerTestConnectionEn {
-	TranslationsServerTestConnectionEn.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery
+class TranslationsServerSelectionLocalNetworkDiscoveryEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// en: 'Test your connection'
-	String get title => 'Test your connection';
+	/// en: 'Find on Network'
+	String get button => 'Find on Network';
 
-	/// en: 'Make sure you can connect to your server before continuing.'
-	String get subtitle => 'Make sure you can connect to your server before continuing.';
-
-	/// en: 'Test Connection'
-	String get button => 'Test Connection';
-}
-
-// Path: server.connectionMethod
-class TranslationsServerConnectionMethodEn {
-	TranslationsServerConnectionMethodEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	late final TranslationsServerConnectionMethodLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerConnectionMethodLocalNetworkDiscoveryEn.internal(_root);
-	late final TranslationsServerConnectionMethodManualAddressEn manualAddress = TranslationsServerConnectionMethodManualAddressEn.internal(_root);
-}
-
-// Path: server.localNetworkDiscovery
-class TranslationsServerLocalNetworkDiscoveryEn {
-	TranslationsServerLocalNetworkDiscoveryEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
+	/// en: 'Detect servers available on local network'
+	String get tooltip => 'Detect servers available on local network';
 
 	/// en: 'Refresh'
 	String get refreshServersButton => 'Refresh';
@@ -215,7 +210,25 @@ class TranslationsServerLocalNetworkDiscoveryEn {
 		other: 'Found ${n} servers',
 	);
 
-	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundEn noServersFound = TranslationsServerLocalNetworkDiscoveryNoServersFoundEn.internal(_root);
+	late final TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn tileMenu = TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn.internal(_root);
+	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn noServersFound = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn.internal(_root);
+}
+
+// Path: serverSelection.manualAddress
+class TranslationsServerSelectionManualAddressEn {
+	TranslationsServerSelectionManualAddressEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Enter Server Address'
+	String get button => 'Enter Server Address';
+
+	/// en: 'Manually providing a server address.'
+	String get tooltip => 'Manually providing a server address.';
+
+	late final TranslationsServerSelectionManualAddressTextFieldEn textField = TranslationsServerSelectionManualAddressTextFieldEn.internal(_root);
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -262,45 +275,52 @@ class TranslationsInitialSetupPageStepsCompleteEn {
 	late final TranslationsInitialSetupPageStepsCompleteContentEn content = TranslationsInitialSetupPageStepsCompleteContentEn.internal(_root);
 }
 
-// Path: server.connectionMethod.localNetworkDiscovery
-class TranslationsServerConnectionMethodLocalNetworkDiscoveryEn {
-	TranslationsServerConnectionMethodLocalNetworkDiscoveryEn.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery.tileMenu
+class TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// en: 'Find on Network'
-	String get button => 'Find on Network';
+	/// en: 'Copy IP & Port'
+	String get copyIpAddressEndpoint => 'Copy IP & Port';
 
-	/// en: 'Detect servers available on local network'
-	String get tooltip => 'Detect servers available on local network';
+	/// en: 'Copy Hostname & Port'
+	String get copyLocalHostnameEndpoint => 'Copy Hostname & Port';
 }
 
-// Path: server.connectionMethod.manualAddress
-class TranslationsServerConnectionMethodManualAddressEn {
-	TranslationsServerConnectionMethodManualAddressEn.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery.noServersFound
+class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Enter Server Address'
-	String get button => 'Enter Server Address';
-
-	/// en: 'Manually providing a server address.'
-	String get tooltip => 'Manually providing a server address.';
+	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn doneScanning = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(_root);
+	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn stillScanning = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(_root);
 }
 
-// Path: server.localNetworkDiscovery.noServersFound
-class TranslationsServerLocalNetworkDiscoveryNoServersFoundEn {
-	TranslationsServerLocalNetworkDiscoveryNoServersFoundEn.internal(this._root);
+// Path: serverSelection.manualAddress.textField
+class TranslationsServerSelectionManualAddressTextFieldEn {
+	TranslationsServerSelectionManualAddressTextFieldEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn doneScanning = TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(_root);
-	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn stillScanning = TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(_root);
+	late final TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn validationErrors = TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn.internal(_root);
+
+	/// en: 'e.g., https://example.com'
+	String get hint => 'e.g., https://example.com';
+
+	/// en: 'Server URL'
+	String get label => 'Server URL';
+
+	/// en: 'Enter the URL of your server'
+	String get helper => 'Enter the URL of your server';
+
+	/// en: 'Can be provided by a service administrator or self-hosted.'
+	String get infoTooltip => 'Can be provided by a service administrator or self-hosted.';
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -423,9 +443,9 @@ class TranslationsInitialSetupPageStepsCompleteContentEn {
 	String get subtitle => 'Your setup is complete';
 }
 
-// Path: server.localNetworkDiscovery.noServersFound.doneScanning
-class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn {
-	TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning
+class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -437,13 +457,13 @@ class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningEn {
 	/// en: 'We scanned your local network but did not find any $appName servers'
 	String subtitle({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers';
 
-	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn troubleshootingTips = TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(_root);
-	late final TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn hostServerGuideButton = TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(_root);
+	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn troubleshootingTips = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(_root);
+	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn hostServerGuideButton = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(_root);
 }
 
-// Path: server.localNetworkDiscovery.noServersFound.stillScanning
-class TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn {
-	TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery.noServersFound.stillScanning
+class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -456,9 +476,36 @@ class TranslationsServerLocalNetworkDiscoveryNoServersFoundStillScanningEn {
 	String subtitle({required Object appName}) => 'Scanning for ${appName} servers on your local network.\nThis may take a few moments.';
 }
 
-// Path: server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips
-class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn {
-	TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(this._root);
+// Path: serverSelection.manualAddress.textField.validationErrors
+class TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn {
+	TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'A URL is required'
+	String get emptyInput => 'A URL is required';
+
+	/// en: 'Must be a valid URL'
+	String get invalidUri => 'Must be a valid URL';
+
+	/// en: 'Protocol is required (e.g., https://)'
+	String get missingScheme => 'Protocol is required (e.g., https://)';
+
+	/// en: 'Unsupported protocol: $scheme'
+	String unsupportedScheme({required Object scheme}) => 'Unsupported protocol: ${scheme}';
+
+	/// en: 'A host is required'
+	String get missingHost => 'A host is required';
+
+	/// en: 'Invalid port: $port'
+	String invalidPort({required Object port}) => 'Invalid port: ${port}';
+}
+
+// Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips
+class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -483,9 +530,9 @@ class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningTroublesh
 	String get manualEntry => 'Or enter your server address manually';
 }
 
-// Path: server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton
-class TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn {
-	TranslationsServerLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton
+class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn {
+	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -532,29 +579,41 @@ extension on Translations {
 			'confirmProgramExitDialog.backupCheckbox' => 'Backup data before closing',
 			'confirmProgramExitDialog.cancelButton' => 'Cancel',
 			'confirmProgramExitDialog.confirmButton' => 'Exit',
-			'server.testConnection.title' => 'Test your connection',
-			'server.testConnection.subtitle' => 'Make sure you can connect to your server before continuing.',
-			'server.testConnection.button' => 'Test Connection',
-			'server.connectionMethod.localNetworkDiscovery.button' => 'Find on Network',
-			'server.connectionMethod.localNetworkDiscovery.tooltip' => 'Detect servers available on local network',
-			'server.connectionMethod.manualAddress.button' => 'Enter Server Address',
-			'server.connectionMethod.manualAddress.tooltip' => 'Manually providing a server address.',
-			'server.localNetworkDiscovery.refreshServersButton' => 'Refresh',
-			'server.localNetworkDiscovery.serverListTitle' => 'Available Servers',
-			'server.localNetworkDiscovery.discoveredServerPrompt' => 'Select a server found on your local network.',
-			'server.localNetworkDiscovery.discoveredServersCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Found ${n} server', other: 'Found ${n} servers', ), 
-			'server.localNetworkDiscovery.noServersFound.doneScanning.title' => 'No servers found',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.subtitle' => ({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.title' => 'What you can do:',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.toggleButtonLabel' => 'Troubleshooting',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.serverNotRunning' => 'Make sure your server is running',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.sameNetwork' => 'Check that your device is on the same network as the server',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.refreshList' => 'Try refreshing the list',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.manualEntry' => 'Or enter your server address manually',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.tooltip' => 'Learn how to set up and host a server',
-			'server.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.label' => 'How to host a server',
-			'server.localNetworkDiscovery.noServersFound.stillScanning.title' => 'Scanning your network...',
-			'server.localNetworkDiscovery.noServersFound.stillScanning.subtitle' => ({required Object appName}) => 'Scanning for ${appName} servers on your local network.\nThis may take a few moments.',
+			'serverHandshake.title' => 'Test your connection',
+			'serverHandshake.subtitle' => 'Make sure you can connect to your server before continuing.',
+			'serverHandshake.button' => 'Test Connection',
+			'serverSelection.localNetworkDiscovery.button' => 'Find on Network',
+			'serverSelection.localNetworkDiscovery.tooltip' => 'Detect servers available on local network',
+			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'Refresh',
+			'serverSelection.localNetworkDiscovery.serverListTitle' => 'Available Servers',
+			'serverSelection.localNetworkDiscovery.discoveredServerPrompt' => 'Select a server found on your local network.',
+			'serverSelection.localNetworkDiscovery.discoveredServersCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Found ${n} server', other: 'Found ${n} servers', ), 
+			'serverSelection.localNetworkDiscovery.tileMenu.copyIpAddressEndpoint' => 'Copy IP & Port',
+			'serverSelection.localNetworkDiscovery.tileMenu.copyLocalHostnameEndpoint' => 'Copy Hostname & Port',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.title' => 'No servers found',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.subtitle' => ({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.title' => 'What you can do:',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.toggleButtonLabel' => 'Troubleshooting',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.serverNotRunning' => 'Make sure your server is running',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.sameNetwork' => 'Check that your device is on the same network as the server',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.refreshList' => 'Try refreshing the list',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.manualEntry' => 'Or enter your server address manually',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.tooltip' => 'Learn how to set up and host a server',
+			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton.label' => 'How to host a server',
+			'serverSelection.localNetworkDiscovery.noServersFound.stillScanning.title' => 'Scanning your network...',
+			'serverSelection.localNetworkDiscovery.noServersFound.stillScanning.subtitle' => ({required Object appName}) => 'Scanning for ${appName} servers on your local network.\nThis may take a few moments.',
+			'serverSelection.manualAddress.button' => 'Enter Server Address',
+			'serverSelection.manualAddress.tooltip' => 'Manually providing a server address.',
+			'serverSelection.manualAddress.textField.validationErrors.emptyInput' => 'A URL is required',
+			'serverSelection.manualAddress.textField.validationErrors.invalidUri' => 'Must be a valid URL',
+			'serverSelection.manualAddress.textField.validationErrors.missingScheme' => 'Protocol is required (e.g., https://)',
+			'serverSelection.manualAddress.textField.validationErrors.unsupportedScheme' => ({required Object scheme}) => 'Unsupported protocol: ${scheme}',
+			'serverSelection.manualAddress.textField.validationErrors.missingHost' => 'A host is required',
+			'serverSelection.manualAddress.textField.validationErrors.invalidPort' => ({required Object port}) => 'Invalid port: ${port}',
+			'serverSelection.manualAddress.textField.hint' => 'e.g., https://example.com',
+			'serverSelection.manualAddress.textField.label' => 'Server URL',
+			'serverSelection.manualAddress.textField.helper' => 'Enter the URL of your server',
+			'serverSelection.manualAddress.textField.infoTooltip' => 'Can be provided by a service administrator or self-hosted.',
 			'workInProgress.title' => 'Under Construction!',
 			'workInProgress.subtitle' => 'Watch your step! We are still laying down the code for this feature. Check back soon!',
 			_ => null,

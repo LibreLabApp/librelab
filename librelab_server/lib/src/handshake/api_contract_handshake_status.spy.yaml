@@ -1,0 +1,7 @@
+enum: ApiContractHandshakeStatus
+serialized: byName
+values:
+  - fullyCompatible
+  - compatible
+  - updateClient
+  - updateServer

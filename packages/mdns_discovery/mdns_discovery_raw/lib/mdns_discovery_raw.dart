@@ -10,12 +10,10 @@ export 'package:multicast_dns/multicast_dns.dart' show MDnsClient;
 
 class RawMdnsServiceDiscovery implements MdnsServiceDiscovery {
   RawMdnsServiceDiscovery({
-    required MDnsClient client,
-    required String serviceType,
-    required Logger logger,
-  }) : _logger = logger,
-       _serviceType = serviceType,
-       _client = client;
+    required this._client,
+    required this._serviceType,
+    required this._logger,
+  });
 
   final MDnsClient _client;
   final String _serviceType;

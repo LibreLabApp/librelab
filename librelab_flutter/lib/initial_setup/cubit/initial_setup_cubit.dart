@@ -39,8 +39,4 @@ class InitialSetupCubit extends Cubit<InitialSetupState> {
       InitialSetupStep.complete => canGoTo(.account),
     };
   }
-
-  void setServerUrl(String serverUrl) {
-    emit(state.copyWith(serverUrl: serverUrl));
-  }
 }

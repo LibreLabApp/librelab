@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:librelab_server/src/config/config_files.dart' show ConfigFiles;
 import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_shared/librelab_shared.dart';
 
 Future<bool> _isPortAvailable(int port) async {
   try {
@@ -14,8 +15,6 @@ Future<bool> _isPortAvailable(int port) async {
   }
 }
 
-const _maxTcpUdpPort = 65535;
-
 Future<int?> _findAvailablePort({
   required int preferredPort,
   required int maxRetries,
@@ -23,7 +22,7 @@ Future<int?> _findAvailablePort({
   var port = preferredPort;
 
   for (var i = 0; i <= maxRetries; i++, port++) {
-    if (port > _maxTcpUdpPort) {
+    if (!isValidPort(port)) {
       return null;
     }
     if (await _isPortAvailable(port)) {

@@ -9,7 +9,7 @@ import 'package:mdns_discovery/mdns_discovery.dart';
 export 'package:bonsoir/bonsoir.dart' show BonsoirDiscovery;
 
 class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
-  /// Consumers should create [BonsoirDiscovery] and pass it to [discoveryFactory]
+  /// Consumers should create [BonsoirDiscovery] and pass it to [_discoveryFactory]
   /// without calling [BonsoirDiscovery.stop] or [BonsoirDiscovery.initialize]
   /// since it is managed by this class.
   BonsoirMdnsServiceDiscovery({
@@ -19,10 +19,9 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
     // a full mDNS client on its own (unlike multicast_dns), and even
     // the example follows a similar behavior:
     // https://github.com/Skyost/Bonsoir/blob/main/packages/bonsoir/example/lib/models/discovery.dart
-    required BonsoirDiscovery Function() discoveryFactory,
-    required Logger logger,
-  }) : _logger = logger,
-       _discoveryFactory = discoveryFactory;
+    required this._discoveryFactory,
+    required this._logger,
+  });
 
   final BonsoirDiscovery Function() _discoveryFactory;
   final Logger _logger;
@@ -176,7 +175,7 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
         _logger.finer('Service discovery stopped');
         _stopCompleter.complete();
       case BonsoirDiscoveryUnknownEvent():
-        _logger.finer('Unknown discovery event received (ignored)');
+        _logger.warning('Unknown discovery event received (ignored)');
     }
   }
 
