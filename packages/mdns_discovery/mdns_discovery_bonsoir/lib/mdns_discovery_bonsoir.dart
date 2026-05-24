@@ -129,6 +129,20 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
       case BonsoirDiscoveryServiceFoundEvent(:final service):
         _logger.finer('Service found. Resolving service: ${service.toJson()}');
         service.resolve(serviceResolver);
+
+        assert(() {
+          Future<bool>.value(serviceResolver.supportsMdnsHostname()).then((
+            supports,
+          ) {
+            if (!supports) {
+              _logger.warning(
+                'This platform does not support populating $BonsoirService.hostname',
+              );
+            }
+          });
+          return true;
+        }(), null);
+
       case BonsoirDiscoveryServiceResolvedEvent(:final service):
         _logger.finer('Service resolved: ${service.toJson()}');
         controller.add(

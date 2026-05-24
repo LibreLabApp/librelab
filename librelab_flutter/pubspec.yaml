@@ -37,6 +37,7 @@ dependencies:
   mdns_discovery_raw: ^1.0.0
   url_launcher: ^6.3.2
   connectivity_plus_linux_portal: ^0.0.3
+  mdns_platform_check: ^1.0.0
 
 dev_dependencies:
   flutter_test:

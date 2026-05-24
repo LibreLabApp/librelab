@@ -19,6 +19,7 @@ import 'package:librelab_flutter/server_connection/server_selection/local_networ
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/repository.dart';
 import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:logging/logging.dart';
+import 'package:mdns_discovery/mdns_discovery.dart';
 import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
@@ -76,7 +77,11 @@ void main() async {
 
   await LocaleSettings.useDeviceLocale();
 
-  runApp(TranslationProvider(child: const MainApp()));
+  runApp(
+    TranslationProvider(
+      child: MainApp(discovery: await resolveMdnsServiceDiscoveryImpl()),
+    ),
+  );
 
   if (isDesktop) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -126,7 +131,9 @@ class _FileClientAuthSuccessStorage implements ClientAuthSuccessStorage {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key, required this._discovery});
+
+  final MdnsServiceDiscovery _discovery;
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +144,8 @@ class MainApp extends StatelessWidget {
       providers: [
         RepositoryProvider(
           create: (context) => LocalDiscoveryRepository(
-            discovery: resolveMdnsServiceDiscoveryImpl(),
+            logger: Logger('$LocalDiscoveryRepository'),
+            discovery: _discovery,
           ),
           // TODO: (MDNS) We probably want to dispose this when we are no longer in the "Available servers" screen? Reopen as needed
           dispose: (repository) => repository.close(),

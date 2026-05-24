@@ -10,3 +10,4 @@ pubspec_overrides.yaml
 
 # macOS
 .DS_Store
+scripts/private/

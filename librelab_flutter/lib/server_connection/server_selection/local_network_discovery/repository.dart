@@ -5,12 +5,11 @@ import 'package:librelab_flutter/server_connection/server_selection/local_networ
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 
-Logger _logger = Logger('$LocalDiscoveryRepository');
-
 class LocalDiscoveryRepository {
-  LocalDiscoveryRepository({required this._discovery});
+  LocalDiscoveryRepository({required this._discovery, required this._logger});
 
   final MdnsServiceDiscovery _discovery;
+  final Logger _logger;
 
   bool _isScanning = false;
   bool get isScanning => _isScanning;

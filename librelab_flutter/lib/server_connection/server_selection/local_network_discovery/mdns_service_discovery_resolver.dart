@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 import 'package:mdns_discovery_bonsoir/mdns_discovery_bonsoir.dart';
 import 'package:mdns_discovery_raw/mdns_discovery_raw.dart';
+import 'package:mdns_platform_check/mdns_platform_check.dart';
 
 enum _MdnsImpl {
   raw(envValue: 'raw'),
@@ -35,25 +36,22 @@ enum _MdnsImpl {
   static _MdnsImpl defaultValue = .platform;
 }
 
-_MdnsImpl _resolveMdnsImpl() {
+Future<_MdnsImpl> _resolveMdnsImpl() async {
   final envVariable = Platform.environment['MDNS_DISCOVERY_IMPL'];
   if (envVariable != null) {
     return .values.firstWhereOrNull((e) => e.envValue == envVariable) ??
         .defaultValue;
   }
-  if (isAndroid) {
-    // TODO: (MDNS) Use raw implementation if OS is:
-    //  1. older than Android 10
-    //  2. older than Windows 10 1903 (2019)
-    //  3. iOS simulator
-    return .defaultValue;
+
+  if (!await MdnsPlatformCheck().supportsPlatformApi()) {
+    return .raw;
   }
   return .defaultValue;
 }
 
-MdnsServiceDiscovery resolveMdnsServiceDiscoveryImpl() {
+Future<MdnsServiceDiscovery> resolveMdnsServiceDiscoveryImpl() async {
   const serviceType = ProjectConstants.mdnsServiceType;
-  final mdnsImpl = _resolveMdnsImpl();
+  final mdnsImpl = await _resolveMdnsImpl();
 
   return switch (mdnsImpl) {
     .raw => RawMdnsServiceDiscovery(
