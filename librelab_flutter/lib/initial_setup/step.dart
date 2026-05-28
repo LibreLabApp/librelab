@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart' show Icons;
-import 'package:flutter/widgets.dart' show IconData;
-import 'package:librelab_flutter/common/ui/widgets/stepper_view/stepper_view.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
-import 'package:meta/meta.dart';
+import 'package:stepper_flow/stepper_flow.dart';
 
 enum InitialSetupStep {
   preferences,
@@ -70,17 +68,4 @@ extension InitialSetupStepExt on InitialSetupStep {
       iconData: iconData,
     );
   }
-}
-
-@immutable
-class StepContentHeading {
-  const StepContentHeading({
-    required this.title,
-    required this.subtitle,
-    required this.iconData,
-  });
-
-  final String title;
-  final String subtitle;
-  final IconData iconData;
 }

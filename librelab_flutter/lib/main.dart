@@ -5,7 +5,6 @@ import 'dart:io' show File, Platform, stderr, stdout;
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalMaterialLocalizations;
 import 'package:go_router/go_router.dart';
@@ -14,12 +13,7 @@ import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/mdns_service_discovery_resolver.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/repository.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:logging/logging.dart';
-import 'package:mdns_discovery/mdns_discovery.dart';
 import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
@@ -77,11 +71,7 @@ void main() async {
 
   await LocaleSettings.useDeviceLocale();
 
-  runApp(
-    TranslationProvider(
-      child: MainApp(discovery: await resolveMdnsServiceDiscoveryImpl()),
-    ),
-  );
+  runApp(TranslationProvider(child: const MainApp()));
 
   if (isDesktop) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -131,54 +121,35 @@ class _FileClientAuthSuccessStorage implements ClientAuthSuccessStorage {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key, required this._discovery});
-
-  final MdnsServiceDiscovery _discovery;
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final listTileTheme = ListTileThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
-    return MultiBlocProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => LocalDiscoveryRepository(
-            logger: Logger('$LocalDiscoveryRepository'),
-            discovery: _discovery,
-          ),
-          // TODO: (MDNS) We probably want to dispose this when we are no longer in the "Available servers" screen? Reopen as needed
-          dispose: (repository) => repository.close(),
+    return MaterialApp.router(
+      routerConfig: _router,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.lightBlue,
+          brightness: .light,
         ),
-        BlocProvider(
-          create: (context) =>
-              LocalDiscoveryCubit(localDiscoveryRepository: context.read()),
-        ),
-        BlocProvider(create: (context) => ServerSelectionCubit()),
-      ],
-      child: MaterialApp.router(
-        routerConfig: _router,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.lightBlue,
-            brightness: .light,
-          ),
-          listTileTheme: listTileTheme,
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue,
-            brightness: .dark,
-          ),
-          listTileTheme: listTileTheme,
-        ),
-        themeMode: .system,
-        locale: TranslationProvider.of(context).flutterLocale,
-        supportedLocales: AppLocaleUtils.supportedLocales,
-        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        listTileTheme: listTileTheme,
       ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: .dark,
+        ),
+        listTileTheme: listTileTheme,
+      ),
+      themeMode: .system,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
     );
   }
 }

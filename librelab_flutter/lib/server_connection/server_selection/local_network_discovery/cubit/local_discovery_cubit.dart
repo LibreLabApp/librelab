@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:librelab_flutter/common/bloc_ext.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/repository.dart';
+import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/local_discovery_repository.dart';
 
 part 'local_discovery_state.dart';
 part 'local_discovery_cubit.freezed.dart';
@@ -25,7 +26,7 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
         .map((e) => e.id)
         .toList()
         .contains(state.selectedServerId);
-    emit(
+    emitIfMounted(
       state.copyWith(
         discoveredServers: servers,
         // Clears selection if the previously selected server is no longer in the updated list
@@ -53,14 +54,16 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
     );
 
     await _localDiscoveryRepository.scan();
-    emit(state.copyWith(isLoading: false, hasLoadedOnce: true));
+    emitIfMounted(state.copyWith(isLoading: false, hasLoadedOnce: true));
 
     _autoSelect();
   }
 
   void _autoSelect() {
     if (state.selectedServerId == null && state.discoveredServers.length == 1) {
-      emit(state.copyWith(selectedServerId: state.discoveredServers.first.id));
+      emitIfMounted(
+        state.copyWith(selectedServerId: state.discoveredServers.first.id),
+      );
     }
   }
 

@@ -9,7 +9,8 @@ extension StepperViewHorizontal on StepperView {
       spacing: 2,
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(steps.length, (i) {
-        return _HorizontalStepTile(stepData: stepDataBuilder(i));
+        final widget = _HorizontalStepTile(stepData: stepDataBuilder(i));
+        return builder?.call(i, widget) ?? widget;
       }),
     );
   }
@@ -49,7 +50,7 @@ class _HorizontalStepTile extends StatelessWidget {
       stepData.stepState,
       stepData.onStepTapped,
     );
-    final theme = context.theme;
+    final theme = Theme.of(context);
 
     final width = MediaQuery.widthOf(context);
     final dividerWidth = _dividerWidth(screenWidth: width);
@@ -57,7 +58,7 @@ class _HorizontalStepTile extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => onStepTapped(index),
+          onTap: () => onStepTapped?.call(index),
           child: Column(
             spacing: 4,
             children: [

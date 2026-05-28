@@ -40,16 +40,16 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	late final TranslationsInitialSetupPageEn initialSetupPage = TranslationsInitialSetupPageEn.internal(_root);
-	late final TranslationsConfirmProgramExitDialogEn confirmProgramExitDialog = TranslationsConfirmProgramExitDialogEn.internal(_root);
-	late final TranslationsServerHandshakeEn serverHandshake = TranslationsServerHandshakeEn.internal(_root);
-	late final TranslationsServerSelectionEn serverSelection = TranslationsServerSelectionEn.internal(_root);
-	late final TranslationsWorkInProgressEn workInProgress = TranslationsWorkInProgressEn.internal(_root);
+	late final Translations$initialSetupPage$en initialSetupPage = Translations$initialSetupPage$en.internal(_root);
+	late final Translations$confirmProgramExitDialog$en confirmProgramExitDialog = Translations$confirmProgramExitDialog$en.internal(_root);
+	late final Translations$serverHandshake$en serverHandshake = Translations$serverHandshake$en.internal(_root);
+	late final Translations$serverSelection$en serverSelection = Translations$serverSelection$en.internal(_root);
+	late final Translations$workInProgress$en workInProgress = Translations$workInProgress$en.internal(_root);
 }
 
 // Path: initialSetupPage
-class TranslationsInitialSetupPageEn {
-	TranslationsInitialSetupPageEn.internal(this._root);
+class Translations$initialSetupPage$en {
+	Translations$initialSetupPage$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -60,7 +60,7 @@ class TranslationsInitialSetupPageEn {
 	/// en: 'Initial Setup'
 	String get title => 'Initial Setup';
 
-	late final TranslationsInitialSetupPageStepsEn steps = TranslationsInitialSetupPageStepsEn.internal(_root);
+	late final Translations$initialSetupPage$steps$en steps = Translations$initialSetupPage$steps$en.internal(_root);
 
 	/// en: 'Next'
 	String get next => 'Next';
@@ -68,12 +68,12 @@ class TranslationsInitialSetupPageEn {
 	/// en: 'Back'
 	String get back => 'Back';
 
-	late final TranslationsInitialSetupPageDecorativeAnimationEn decorativeAnimation = TranslationsInitialSetupPageDecorativeAnimationEn.internal(_root);
+	late final Translations$initialSetupPage$decorativeAnimation$en decorativeAnimation = Translations$initialSetupPage$decorativeAnimation$en.internal(_root);
 }
 
 // Path: confirmProgramExitDialog
-class TranslationsConfirmProgramExitDialogEn {
-	TranslationsConfirmProgramExitDialogEn.internal(this._root);
+class Translations$confirmProgramExitDialog$en {
+	Translations$confirmProgramExitDialog$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -106,8 +106,8 @@ class TranslationsConfirmProgramExitDialogEn {
 }
 
 // Path: serverHandshake
-class TranslationsServerHandshakeEn {
-	TranslationsServerHandshakeEn.internal(this._root);
+class Translations$serverHandshake$en {
+	Translations$serverHandshake$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -124,19 +124,19 @@ class TranslationsServerHandshakeEn {
 }
 
 // Path: serverSelection
-class TranslationsServerSelectionEn {
-	TranslationsServerSelectionEn.internal(this._root);
+class Translations$serverSelection$en {
+	Translations$serverSelection$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsServerSelectionLocalNetworkDiscoveryEn localNetworkDiscovery = TranslationsServerSelectionLocalNetworkDiscoveryEn.internal(_root);
-	late final TranslationsServerSelectionManualAddressEn manualAddress = TranslationsServerSelectionManualAddressEn.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$en localNetworkDiscovery = Translations$serverSelection$localNetworkDiscovery$en.internal(_root);
+	late final Translations$serverSelection$manualAddress$en manualAddress = Translations$serverSelection$manualAddress$en.internal(_root);
 }
 
 // Path: workInProgress
-class TranslationsWorkInProgressEn {
-	TranslationsWorkInProgressEn.internal(this._root);
+class Translations$workInProgress$en {
+	Translations$workInProgress$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -150,21 +150,21 @@ class TranslationsWorkInProgressEn {
 }
 
 // Path: initialSetupPage.steps
-class TranslationsInitialSetupPageStepsEn {
-	TranslationsInitialSetupPageStepsEn.internal(this._root);
+class Translations$initialSetupPage$steps$en {
+	Translations$initialSetupPage$steps$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsInitialSetupPageStepsPreferencesEn preferences = TranslationsInitialSetupPageStepsPreferencesEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsServerEn server = TranslationsInitialSetupPageStepsServerEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsAccountEn account = TranslationsInitialSetupPageStepsAccountEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsCompleteEn complete = TranslationsInitialSetupPageStepsCompleteEn.internal(_root);
+	late final Translations$initialSetupPage$steps$preferences$en preferences = Translations$initialSetupPage$steps$preferences$en.internal(_root);
+	late final Translations$initialSetupPage$steps$server$en server = Translations$initialSetupPage$steps$server$en.internal(_root);
+	late final Translations$initialSetupPage$steps$account$en account = Translations$initialSetupPage$steps$account$en.internal(_root);
+	late final Translations$initialSetupPage$steps$complete$en complete = Translations$initialSetupPage$steps$complete$en.internal(_root);
 }
 
 // Path: initialSetupPage.decorativeAnimation
-class TranslationsInitialSetupPageDecorativeAnimationEn {
-	TranslationsInitialSetupPageDecorativeAnimationEn.internal(this._root);
+class Translations$initialSetupPage$decorativeAnimation$en {
+	Translations$initialSetupPage$decorativeAnimation$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -182,8 +182,8 @@ class TranslationsInitialSetupPageDecorativeAnimationEn {
 }
 
 // Path: serverSelection.localNetworkDiscovery
-class TranslationsServerSelectionLocalNetworkDiscoveryEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$en {
+	Translations$serverSelection$localNetworkDiscovery$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -210,13 +210,13 @@ class TranslationsServerSelectionLocalNetworkDiscoveryEn {
 		other: 'Found ${n} servers',
 	);
 
-	late final TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn tileMenu = TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn.internal(_root);
-	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn noServersFound = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$tileMenu$en tileMenu = Translations$serverSelection$localNetworkDiscovery$tileMenu$en.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$noServersFound$en noServersFound = Translations$serverSelection$localNetworkDiscovery$noServersFound$en.internal(_root);
 }
 
 // Path: serverSelection.manualAddress
-class TranslationsServerSelectionManualAddressEn {
-	TranslationsServerSelectionManualAddressEn.internal(this._root);
+class Translations$serverSelection$manualAddress$en {
+	Translations$serverSelection$manualAddress$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -228,56 +228,56 @@ class TranslationsServerSelectionManualAddressEn {
 	/// en: 'Manually providing a server address.'
 	String get tooltip => 'Manually providing a server address.';
 
-	late final TranslationsServerSelectionManualAddressTextFieldEn textField = TranslationsServerSelectionManualAddressTextFieldEn.internal(_root);
+	late final Translations$serverSelection$manualAddress$textField$en textField = Translations$serverSelection$manualAddress$textField$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps.preferences
-class TranslationsInitialSetupPageStepsPreferencesEn {
-	TranslationsInitialSetupPageStepsPreferencesEn.internal(this._root);
+class Translations$initialSetupPage$steps$preferences$en {
+	Translations$initialSetupPage$steps$preferences$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsInitialSetupPageStepsPreferencesNavEn nav = TranslationsInitialSetupPageStepsPreferencesNavEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsPreferencesContentEn content = TranslationsInitialSetupPageStepsPreferencesContentEn.internal(_root);
+	late final Translations$initialSetupPage$steps$preferences$nav$en nav = Translations$initialSetupPage$steps$preferences$nav$en.internal(_root);
+	late final Translations$initialSetupPage$steps$preferences$content$en content = Translations$initialSetupPage$steps$preferences$content$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps.server
-class TranslationsInitialSetupPageStepsServerEn {
-	TranslationsInitialSetupPageStepsServerEn.internal(this._root);
+class Translations$initialSetupPage$steps$server$en {
+	Translations$initialSetupPage$steps$server$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsInitialSetupPageStepsServerNavEn nav = TranslationsInitialSetupPageStepsServerNavEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsServerContentEn content = TranslationsInitialSetupPageStepsServerContentEn.internal(_root);
+	late final Translations$initialSetupPage$steps$server$nav$en nav = Translations$initialSetupPage$steps$server$nav$en.internal(_root);
+	late final Translations$initialSetupPage$steps$server$content$en content = Translations$initialSetupPage$steps$server$content$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps.account
-class TranslationsInitialSetupPageStepsAccountEn {
-	TranslationsInitialSetupPageStepsAccountEn.internal(this._root);
+class Translations$initialSetupPage$steps$account$en {
+	Translations$initialSetupPage$steps$account$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsInitialSetupPageStepsAccountNavEn nav = TranslationsInitialSetupPageStepsAccountNavEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsAccountContentEn content = TranslationsInitialSetupPageStepsAccountContentEn.internal(_root);
+	late final Translations$initialSetupPage$steps$account$nav$en nav = Translations$initialSetupPage$steps$account$nav$en.internal(_root);
+	late final Translations$initialSetupPage$steps$account$content$en content = Translations$initialSetupPage$steps$account$content$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps.complete
-class TranslationsInitialSetupPageStepsCompleteEn {
-	TranslationsInitialSetupPageStepsCompleteEn.internal(this._root);
+class Translations$initialSetupPage$steps$complete$en {
+	Translations$initialSetupPage$steps$complete$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsInitialSetupPageStepsCompleteNavEn nav = TranslationsInitialSetupPageStepsCompleteNavEn.internal(_root);
-	late final TranslationsInitialSetupPageStepsCompleteContentEn content = TranslationsInitialSetupPageStepsCompleteContentEn.internal(_root);
+	late final Translations$initialSetupPage$steps$complete$nav$en nav = Translations$initialSetupPage$steps$complete$nav$en.internal(_root);
+	late final Translations$initialSetupPage$steps$complete$content$en content = Translations$initialSetupPage$steps$complete$content$en.internal(_root);
 }
 
 // Path: serverSelection.localNetworkDiscovery.tileMenu
-class TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$tileMenu$en {
+	Translations$serverSelection$localNetworkDiscovery$tileMenu$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -291,24 +291,24 @@ class TranslationsServerSelectionLocalNetworkDiscoveryTileMenuEn {
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound
-class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$noServersFound$en {
+	Translations$serverSelection$localNetworkDiscovery$noServersFound$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn doneScanning = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(_root);
-	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn stillScanning = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$en doneScanning = Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$en.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$noServersFound$stillScanning$en stillScanning = Translations$serverSelection$localNetworkDiscovery$noServersFound$stillScanning$en.internal(_root);
 }
 
 // Path: serverSelection.manualAddress.textField
-class TranslationsServerSelectionManualAddressTextFieldEn {
-	TranslationsServerSelectionManualAddressTextFieldEn.internal(this._root);
+class Translations$serverSelection$manualAddress$textField$en {
+	Translations$serverSelection$manualAddress$textField$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn validationErrors = TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn.internal(_root);
+	late final Translations$serverSelection$manualAddress$textField$validationErrors$en validationErrors = Translations$serverSelection$manualAddress$textField$validationErrors$en.internal(_root);
 
 	/// en: 'e.g., https://example.com'
 	String get hint => 'e.g., https://example.com';
@@ -324,8 +324,8 @@ class TranslationsServerSelectionManualAddressTextFieldEn {
 }
 
 // Path: initialSetupPage.steps.preferences.nav
-class TranslationsInitialSetupPageStepsPreferencesNavEn {
-	TranslationsInitialSetupPageStepsPreferencesNavEn.internal(this._root);
+class Translations$initialSetupPage$steps$preferences$nav$en {
+	Translations$initialSetupPage$steps$preferences$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -339,8 +339,8 @@ class TranslationsInitialSetupPageStepsPreferencesNavEn {
 }
 
 // Path: initialSetupPage.steps.preferences.content
-class TranslationsInitialSetupPageStepsPreferencesContentEn {
-	TranslationsInitialSetupPageStepsPreferencesContentEn.internal(this._root);
+class Translations$initialSetupPage$steps$preferences$content$en {
+	Translations$initialSetupPage$steps$preferences$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -354,8 +354,8 @@ class TranslationsInitialSetupPageStepsPreferencesContentEn {
 }
 
 // Path: initialSetupPage.steps.server.nav
-class TranslationsInitialSetupPageStepsServerNavEn {
-	TranslationsInitialSetupPageStepsServerNavEn.internal(this._root);
+class Translations$initialSetupPage$steps$server$nav$en {
+	Translations$initialSetupPage$steps$server$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -366,11 +366,14 @@ class TranslationsInitialSetupPageStepsServerNavEn {
 
 	/// en: 'Configure your server connection'
 	String get subtitle => 'Configure your server connection';
+
+	/// en: 'Please select a server and test the connection first'
+	String get prerequisiteStepIncomplete => 'Please select a server and test the connection first';
 }
 
 // Path: initialSetupPage.steps.server.content
-class TranslationsInitialSetupPageStepsServerContentEn {
-	TranslationsInitialSetupPageStepsServerContentEn.internal(this._root);
+class Translations$initialSetupPage$steps$server$content$en {
+	Translations$initialSetupPage$steps$server$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -384,8 +387,8 @@ class TranslationsInitialSetupPageStepsServerContentEn {
 }
 
 // Path: initialSetupPage.steps.account.nav
-class TranslationsInitialSetupPageStepsAccountNavEn {
-	TranslationsInitialSetupPageStepsAccountNavEn.internal(this._root);
+class Translations$initialSetupPage$steps$account$nav$en {
+	Translations$initialSetupPage$steps$account$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -396,11 +399,14 @@ class TranslationsInitialSetupPageStepsAccountNavEn {
 
 	/// en: 'Login using your credentials'
 	String get subtitle => 'Login using your credentials';
+
+	/// en: 'Complete account setup first'
+	String get prerequisiteStepIncomplete => 'Complete account setup first';
 }
 
 // Path: initialSetupPage.steps.account.content
-class TranslationsInitialSetupPageStepsAccountContentEn {
-	TranslationsInitialSetupPageStepsAccountContentEn.internal(this._root);
+class Translations$initialSetupPage$steps$account$content$en {
+	Translations$initialSetupPage$steps$account$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -414,8 +420,8 @@ class TranslationsInitialSetupPageStepsAccountContentEn {
 }
 
 // Path: initialSetupPage.steps.complete.nav
-class TranslationsInitialSetupPageStepsCompleteNavEn {
-	TranslationsInitialSetupPageStepsCompleteNavEn.internal(this._root);
+class Translations$initialSetupPage$steps$complete$nav$en {
+	Translations$initialSetupPage$steps$complete$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -429,8 +435,8 @@ class TranslationsInitialSetupPageStepsCompleteNavEn {
 }
 
 // Path: initialSetupPage.steps.complete.content
-class TranslationsInitialSetupPageStepsCompleteContentEn {
-	TranslationsInitialSetupPageStepsCompleteContentEn.internal(this._root);
+class Translations$initialSetupPage$steps$complete$content$en {
+	Translations$initialSetupPage$steps$complete$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -444,8 +450,8 @@ class TranslationsInitialSetupPageStepsCompleteContentEn {
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning
-class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$en {
+	Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -457,13 +463,13 @@ class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanning
 	/// en: 'We scanned your local network but did not find any $appName servers'
 	String subtitle({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers';
 
-	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn troubleshootingTips = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(_root);
-	late final TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn hostServerGuideButton = TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$troubleshootingTips$en troubleshootingTips = Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$troubleshootingTips$en.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$hostServerGuideButton$en hostServerGuideButton = Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$hostServerGuideButton$en.internal(_root);
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.stillScanning
-class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScanningEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$noServersFound$stillScanning$en {
+	Translations$serverSelection$localNetworkDiscovery$noServersFound$stillScanning$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -477,8 +483,8 @@ class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundStillScannin
 }
 
 // Path: serverSelection.manualAddress.textField.validationErrors
-class TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn {
-	TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn.internal(this._root);
+class Translations$serverSelection$manualAddress$textField$validationErrors$en {
+	Translations$serverSelection$manualAddress$textField$validationErrors$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -504,8 +510,8 @@ class TranslationsServerSelectionManualAddressTextFieldValidationErrorsEn {
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips
-class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningTroubleshootingTipsEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$troubleshootingTips$en {
+	Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$troubleshootingTips$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -531,8 +537,8 @@ class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanning
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning.hostServerGuideButton
-class TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn {
-	TranslationsServerSelectionLocalNetworkDiscoveryNoServersFoundDoneScanningHostServerGuideButtonEn.internal(this._root);
+class Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$hostServerGuideButton$en {
+	Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScanning$hostServerGuideButton$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -560,10 +566,12 @@ extension on Translations {
 			'initialSetupPage.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
 			'initialSetupPage.steps.server.nav.title' => 'Server',
 			'initialSetupPage.steps.server.nav.subtitle' => 'Configure your server connection',
+			'initialSetupPage.steps.server.nav.prerequisiteStepIncomplete' => 'Please select a server and test the connection first',
 			'initialSetupPage.steps.server.content.title' => 'Server Connection',
 			'initialSetupPage.steps.server.content.subtitle' => 'Connect to a server to access and sync your data',
 			'initialSetupPage.steps.account.nav.title' => 'Account',
 			'initialSetupPage.steps.account.nav.subtitle' => 'Login using your credentials',
+			'initialSetupPage.steps.account.nav.prerequisiteStepIncomplete' => 'Complete account setup first',
 			'initialSetupPage.steps.account.content.title' => 'Sign In',
 			'initialSetupPage.steps.account.content.subtitle' => 'Authenticate to continue the setup process',
 			'initialSetupPage.steps.complete.nav.title' => 'Complete',

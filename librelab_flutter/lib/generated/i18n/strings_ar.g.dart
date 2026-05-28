@@ -39,12 +39,12 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	TranslationsAr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsAr(meta: meta ?? this.$meta);
 
 	// Translations
-	@override late final _TranslationsInitialSetupPageAr initialSetupPage = _TranslationsInitialSetupPageAr._(_root);
+	@override late final _Translations$initialSetupPage$ar initialSetupPage = _Translations$initialSetupPage$ar._(_root);
 }
 
 // Path: initialSetupPage
-class _TranslationsInitialSetupPageAr extends TranslationsInitialSetupPageEn {
-	_TranslationsInitialSetupPageAr._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$initialSetupPage$ar extends Translations$initialSetupPage$en {
+	_Translations$initialSetupPage$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 

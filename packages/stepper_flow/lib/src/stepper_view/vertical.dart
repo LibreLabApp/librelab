@@ -8,7 +8,9 @@ extension StepperViewVertical on StepperView {
       spacing: 2,
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(steps.length, (i) {
-        return _VerticalStepTile(stepData: stepDataBuilder(i));
+        final stepData = stepDataBuilder(i);
+        final widget = _VerticalStepTile(stepData: stepData);
+        return builder?.call(i, widget) ?? widget;
       }),
     );
   }
@@ -30,7 +32,7 @@ class _VerticalStepTile extends StatelessWidget {
       stepData.onStepTapped,
     );
 
-    final theme = context.theme;
+    final theme = Theme.of(context);
     final (textTheme, colorScheme) = (theme.textTheme, theme.colorScheme);
 
     return Row(
@@ -67,7 +69,7 @@ class _VerticalStepTile extends StatelessWidget {
             tileColor: stepState == .active
                 ? colorScheme.primaryContainer
                 : null,
-            onTap: () => onStepTapped(index),
+            onTap: onStepTapped != null ? () => onStepTapped.call(index) : null,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

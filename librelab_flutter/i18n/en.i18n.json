@@ -17,7 +17,8 @@
       "server": {
         "nav": {
           "title": "Server",
-          "subtitle": "Configure your server connection"
+          "subtitle": "Configure your server connection",
+          "prerequisiteStepIncomplete": "Please select a server and test the connection first"
         },
         "content": {
           "title": "Server Connection",
@@ -27,7 +28,8 @@
       "account": {
         "nav": {
           "title": "Account",
-          "subtitle": "Login using your credentials"
+          "subtitle": "Login using your credentials",
+          "prerequisiteStepIncomplete": "Complete account setup first"
         },
         "content": {
           "title": "Sign In",

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_client/librelab_client.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
+import 'package:librelab_flutter/server_connection/handshake/repository/server_handshake_repository.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
 import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_shared/librelab_shared.dart';
@@ -30,6 +33,8 @@ class ServerHandshakeCard extends StatelessWidget {
           onPressed: () async {
             // TODO: (MDNS) Temporary prototype code!
             // START
+            final logger = Logger('TestConnection');
+
             final selectionState = context.read<ServerSelectionCubit>().state;
             if (selectionState.selectionMethod == .manual) {
               final input = selectionState.manualServerUrl ?? '';
@@ -41,9 +46,14 @@ class ServerHandshakeCard extends StatelessWidget {
             }
 
             final selected = switch (selectionState.selectionMethod) {
-              ServerSelectionMethod.localNetworkDiscovery =>
-                'http://${context.read<LocalDiscoveryCubit>().state.selectedServerId}',
-              ServerSelectionMethod.manual => selectionState.manualServerUrl,
+              .localNetworkDiscovery => () {
+                final selected = context
+                    .read<LocalDiscoveryCubit>()
+                    .state
+                    .selectedServerId;
+                return selected != null ? 'http://$selected' : null;
+              }(),
+              .manual => selectionState.manualServerUrl,
             };
             final messenger = ScaffoldMessenger.of(context);
             if (selected == null) {
@@ -52,23 +62,28 @@ class ServerHandshakeCard extends StatelessWidget {
               );
               return;
             }
-            final client = Client(selected);
+            final repository = ServerHandshakeRepository(
+              clientFactory: (serverBaseUrl) => Client(serverBaseUrl),
+            );
             try {
-              final response = await client.handshake.check(
-                clientApiContractVersion: ApiContractVersionConstants.version,
-              );
+              final response = await repository.check(selected);
+
               messenger.showSnackBar(
                 SnackBar(
-                  content: Text('Successful handshake: ${response.toJson()}'),
+                  content: Text('Successful handshake: ${response.status}'),
                 ),
               );
+            } on TlsException catch (e) {
+              messenger.showSnackBar(SnackBar(content: Text('TLS: $e')));
+              logger.warning('$HandshakeException: $e');
             } on Exception catch (e) {
               messenger.showSnackBar(
                 SnackBar(content: Text('Handshake failed: $e')),
               );
-              Logger('TestConnection').warning('Handshake failed: $e');
-            } finally {
-              client.close();
+              logger.warning('Handshake failed: $e');
+              // ignore: avoid_catching_errors
+            } on TypeError catch (e) {
+              logger.warning('Response deserialization failed: $e');
             }
             // END
           },

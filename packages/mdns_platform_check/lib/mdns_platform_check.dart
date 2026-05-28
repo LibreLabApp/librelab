@@ -39,8 +39,7 @@ class MdnsPlatformCheck {
     final client = _dBusClientFactory();
 
     try {
-      final owner = await client.getNameOwner('org.freedesktop.Avahi');
-      return owner != null && owner.isNotEmpty;
+      return await client.nameHasOwner('org.freedesktop.Avahi');
     } on DBusMethodResponseException {
       return false;
     } finally {

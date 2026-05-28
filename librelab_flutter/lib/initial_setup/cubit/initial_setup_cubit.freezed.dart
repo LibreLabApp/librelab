@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$InitialSetupState {
 
- InitialSetupStep get currentStep; String? get nextButtonDisabledTooltip;
+ InitialSetupStep get currentStep;
 /// Create a copy of InitialSetupState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $InitialSetupStateCopyWith<InitialSetupState> get copyWith => _$InitialSetupStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialSetupState&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep)&&(identical(other.nextButtonDisabledTooltip, nextButtonDisabledTooltip) || other.nextButtonDisabledTooltip == nextButtonDisabledTooltip));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialSetupState&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentStep,nextButtonDisabledTooltip);
+int get hashCode => Object.hash(runtimeType,currentStep);
 
 @override
 String toString() {
-  return 'InitialSetupState(currentStep: $currentStep, nextButtonDisabledTooltip: $nextButtonDisabledTooltip)';
+  return 'InitialSetupState(currentStep: $currentStep)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $InitialSetupStateCopyWith<$Res>  {
   factory $InitialSetupStateCopyWith(InitialSetupState value, $Res Function(InitialSetupState) _then) = _$InitialSetupStateCopyWithImpl;
 @useResult
 $Res call({
- InitialSetupStep currentStep, String? nextButtonDisabledTooltip
+ InitialSetupStep currentStep
 });
 
 
@@ -62,11 +62,10 @@ class _$InitialSetupStateCopyWithImpl<$Res>
 
 /// Create a copy of InitialSetupState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? currentStep = null,Object? nextButtonDisabledTooltip = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? currentStep = null,}) {
   return _then(InitialSetupState(
 currentStep: null == currentStep ? _self.currentStep : currentStep // ignore: cast_nullable_to_non_nullable
-as InitialSetupStep,nextButtonDisabledTooltip: freezed == nextButtonDisabledTooltip ? _self.nextButtonDisabledTooltip : nextButtonDisabledTooltip // ignore: cast_nullable_to_non_nullable
-as String?,
+as InitialSetupStep,
   ));
 }
 

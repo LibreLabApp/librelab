@@ -30,8 +30,6 @@ class ServerSelectionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Hack: Adds top padding so the floating label of the first outlined TextField/ServerSelection isn't clipped inside PageView
-        const SizedBox(height: 4),
         _ServerSelectionMethodContainer(
           key: _serverSelectionMethodContainerKey,
         ),
