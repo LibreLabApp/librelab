@@ -1,4 +1,4 @@
-- `serverpod generate`
+- `dart ./scripts/serverpod_generate.dart` instead of `serverpod generate`
 - `dart run build_runner build`
 - `dart run slang slang.yaml`
 - `fluttergen`

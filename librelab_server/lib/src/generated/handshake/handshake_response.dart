@@ -13,15 +13,16 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../handshake/api_contract_handshake_status.dart' as _i2;
 
+@_i1.immutable
 abstract class HandshakeResponse
     implements _i1.SerializableModel, _i1.ProtocolSerialization {
-  HandshakeResponse._({
+  const HandshakeResponse._({
     required this.status,
     required this.serverBuildNumber,
     required this.serverVersion,
   });
 
-  factory HandshakeResponse({
+  const factory HandshakeResponse({
     required _i2.ApiContractHandshakeStatus status,
     required int serverBuildNumber,
     required String serverVersion,
@@ -37,11 +38,11 @@ abstract class HandshakeResponse
     );
   }
 
-  _i2.ApiContractHandshakeStatus status;
+  final _i2.ApiContractHandshakeStatus status;
 
-  int serverBuildNumber;
+  final int serverBuildNumber;
 
-  String serverVersion;
+  final String serverVersion;
 
   /// Returns a shallow copy of this [HandshakeResponse]
   /// with some or all fields replaced by the given arguments.
@@ -51,6 +52,41 @@ abstract class HandshakeResponse
     int? serverBuildNumber,
     String? serverVersion,
   });
+  @override
+  bool operator ==(Object other) {
+    return identical(
+          other,
+          this,
+        ) ||
+        other.runtimeType == runtimeType &&
+            other is HandshakeResponse &&
+            (identical(
+                  other.status,
+                  status,
+                ) ||
+                other.status == status) &&
+            (identical(
+                  other.serverBuildNumber,
+                  serverBuildNumber,
+                ) ||
+                other.serverBuildNumber == serverBuildNumber) &&
+            (identical(
+                  other.serverVersion,
+                  serverVersion,
+                ) ||
+                other.serverVersion == serverVersion);
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      runtimeType,
+      status,
+      serverBuildNumber,
+      serverVersion,
+    );
+  }
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -78,7 +114,7 @@ abstract class HandshakeResponse
 }
 
 class _HandshakeResponseImpl extends HandshakeResponse {
-  _HandshakeResponseImpl({
+  const _HandshakeResponseImpl({
     required _i2.ApiContractHandshakeStatus status,
     required int serverBuildNumber,
     required String serverVersion,

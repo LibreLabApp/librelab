@@ -14,6 +14,7 @@ import '_utils.dart';
 import 'packages.dart';
 
 const _package = Packages.server;
+const _executableFileNameWithoutExt = 'librelab_server';
 
 final _usingZipCommand = isUnixLike;
 
@@ -32,23 +33,23 @@ void main() async {
   final targetDirectory = Directory(join(buildDirectory.path, _package));
   await targetDirectory.create(recursive: true);
 
-  // TODO: Should probably use full name
-  final executableFileName = 'main${isWindows ? '.exe' : ''}';
+  final executableFileName =
+      '$_executableFileNameWithoutExt${isWindows ? '.exe' : ''}';
 
   final executablePath = join(targetDirectory.path, executableFileName);
 
-  final compileResult = await Process.run('dart', [
+  final compileResult = await Process.start('dart', [
     'compile',
     'exe',
     'bin/main.dart',
     '-o',
     executablePath,
-  ]);
+  ], mode: .inheritStdio);
 
-  if (compileResult.exitCode != 0) {
+  final exitCode = await compileResult.exitCode;
+  if (exitCode != 0) {
     stderr.writeln('Failed to compile the Dart program.');
-    stderr.writeln(compileResult.stderr);
-    exit(compileResult.exitCode);
+    exit(1);
   }
 
   final runScriptFile = await _buildRunScript(

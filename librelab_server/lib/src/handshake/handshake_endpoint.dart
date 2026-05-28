@@ -9,7 +9,7 @@ import 'package:serverpod/serverpod.dart';
 ///
 /// Validates client/server compatibility only: no external version lookup
 /// or update service is involved.
-///
+//
 // NOTE: We strongly prefer non-breaking changes, even at the expense of a
 // less-clean API. https://docs.serverpod.dev/concepts/backward-compatibility
 class HandshakeEndpoint extends Endpoint {
@@ -40,4 +40,10 @@ class HandshakeEndpoint extends Endpoint {
 
     return .compatible;
   }
+
+  @override
+  bool get requireLogin => false;
+
+  @override
+  Set<Scope> get requiredScopes => {};
 }

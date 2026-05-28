@@ -16,7 +16,8 @@ enum ApiContractHandshakeStatus implements _i1.SerializableModel {
   fullyCompatible,
   compatible,
   updateClient,
-  updateServer;
+  updateServer
+  ;
 
   static ApiContractHandshakeStatus fromJson(String name) {
     switch (name) {
@@ -29,9 +30,7 @@ enum ApiContractHandshakeStatus implements _i1.SerializableModel {
       case 'updateServer':
         return ApiContractHandshakeStatus.updateServer;
       default:
-        throw ArgumentError(
-          'Value "$name" cannot be converted to "ApiContractHandshakeStatus"',
-        );
+        return ApiContractHandshakeStatus.updateClient;
     }
   }
 

@@ -66,7 +66,10 @@ Future<void> _insertUserWithCredentials(
 ) async {
   final authServices = AuthServices.instance;
 
-  final user = await authServices.authUsers.create(session);
+  final user = await authServices.authUsers.create(
+    session,
+    scopes: {Scope.admin},
+  );
   await authServices.emailIdp.admin.createEmailAuthentication(
     session,
     authUserId: user.id,

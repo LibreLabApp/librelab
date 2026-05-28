@@ -1,5 +1,8 @@
+# For documentation, search for ApiContractHandshakeStatus in librelab_flutter/
 enum: ApiContractHandshakeStatus
 serialized: byName
+# Adding a new enum is not considered a breaking change.
+default: updateClient
 values:
   - fullyCompatible
   - compatible

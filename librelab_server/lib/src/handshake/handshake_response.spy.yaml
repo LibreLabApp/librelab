@@ -1,4 +1,5 @@
 class: HandshakeResponse
+immutable: true
 fields:
   status: ApiContractHandshakeStatus
   serverBuildNumber: int

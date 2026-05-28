@@ -10,8 +10,8 @@ resolution: workspace
 
 dependencies:
   meta: ^1.17.0
-  serverpod: 3.4.8
-  serverpod_auth_idp_server: 3.4.8
+  serverpod: ^3.5.0-beta.9
+  serverpod_auth_idp_server: ^3.5.0-beta.9
   librelab_shared: ^1.0.0
   mdns_dart: ^2.2.1
   path: ^1.9.1
@@ -22,8 +22,12 @@ dependencies:
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'
-  serverpod_test: 3.4.8
+  serverpod_test: ^3.5.0-beta.9
   test: ^1.25.5
+
+# (LATER) TODO: https://github.com/serverpod/serverpod/issues/5224
+dependency_overrides:
+  win32: ^6.3.0
 
 serverpod:
   scripts:

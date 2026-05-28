@@ -26,7 +26,7 @@ class Protocol extends _i1.SerializationManager {
 
   factory Protocol() => _instance;
 
-  static final Protocol _instance = Protocol._();
+  static final Protocol _instance = Protocol._().._registerHostProtocols();
 
   static String? getClassNameFromObjectJson(dynamic data) {
     if (data is! Map) return null;
@@ -104,11 +104,15 @@ class Protocol extends _i1.SerializationManager {
     }
     className = _i4.Protocol().getClassNameForObject(data);
     if (className != null) {
-      return 'serverpod_auth_idp.$className';
+      return className.contains('.')
+          ? className
+          : 'serverpod_auth_idp.$className';
     }
     className = _i5.Protocol().getClassNameForObject(data);
     if (className != null) {
-      return 'serverpod_auth_core.$className';
+      return className.contains('.')
+          ? className
+          : 'serverpod_auth_core.$className';
     }
     return null;
   }
@@ -134,6 +138,11 @@ class Protocol extends _i1.SerializationManager {
       return _i5.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
+  }
+
+  void _registerHostProtocols() {
+    _i4.Protocol().registerHostProtocol('librelab', this);
+    _i5.Protocol().registerHostProtocol('librelab', this);
   }
 
   /// Maps any `Record`s known to this [Protocol] to their JSON representation

@@ -4,6 +4,7 @@ import 'package:librelab_server/src/config/config_files.dart';
 import 'package:librelab_server/src/utils/utils.dart';
 
 // https://docs.serverpod.dev/concepts/configuration#2-via-environment-variables
+// https://github.com/serverpod/serverpod/blob/main/packages/serverpod_shared/lib/src/password_manager.dart#L6
 const _serverpodPasswordPrefix = 'SERVERPOD_PASSWORD_';
 
 Future<void> ensureHasConfigSecrets() async {

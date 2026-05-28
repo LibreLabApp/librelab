@@ -8,12 +8,11 @@ const _scriptPath = './scripts/serverpod_generate.dart';
 const _clientFilePath = '${Packages.client}/lib/src/protocol/client.dart';
 
 void main() async {
-  final generateProcess = await Process.start(
-    'serverpod',
-    ['generate'],
-    runInShell: true,
-    mode: .inheritStdio,
-  );
+  final generateProcess = await Process.start('dart', [
+    'run',
+    'serverpod_cli',
+    'generate',
+  ], mode: .inheritStdio);
 
   final exitCode = await generateProcess.exitCode;
   if (exitCode != 0) {

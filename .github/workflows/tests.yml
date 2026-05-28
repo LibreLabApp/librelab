@@ -10,7 +10,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      VERSION: '3.4.8'
       SERVERPOD_PASSWORD_database: 'XyEz-wvkhPlYQfrowm5lAv7L0yUufzxM'
       SERVERPOD_PASSWORD_redis: '22ligeGL4-tnv0CTQwd8HzY7y976yDR2'
 
@@ -29,13 +28,9 @@ jobs:
         working-directory: librelab_server
         run: dart pub get
 
-      - name: Install Serverpod CLI
-        working-directory: librelab_server
-        run: dart pub global activate serverpod_cli $VERSION
-
       - name: Run Serverpod generator
         working-directory: librelab_server
-        run: serverpod generate
+        run: dart ./scripts/serverpod_generate.dart
 
       - name: Run tests
         working-directory: librelab_server

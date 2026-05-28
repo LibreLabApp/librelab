@@ -1,22 +1,23 @@
 {
   "__className__": "serverpod.DatabaseDefinition",
+  "schemaVersion": 2,
   "moduleName": "librelab",
   "tables": [],
   "installedModules": [
     {
       "__className__": "serverpod.DatabaseMigrationVersion",
       "module": "serverpod",
-      "version": "20260129180959368"
+      "version": "20260416151914983-insights-perf"
     },
     {
       "__className__": "serverpod.DatabaseMigrationVersion",
       "module": "serverpod_auth_idp",
-      "version": "20260213194423028"
+      "version": "20260417182309198"
     },
     {
       "__className__": "serverpod.DatabaseMigrationVersion",
       "module": "serverpod_auth_core",
-      "version": "20260129181112269"
+      "version": "20260417182253191"
     }
   ],
   "migrationApiVersion": 1
