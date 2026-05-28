@@ -1,4 +1,5 @@
 import 'package:dbus/dbus.dart';
+import 'package:is_ios_simulator/is_ios_simulator.dart';
 import 'package:mdns_platform_check/src/mdns_platform_check_android.g.dart';
 import 'package:platform/platform.dart';
 import 'package:win32/win32.dart' as win32;
@@ -22,7 +23,13 @@ class MdnsPlatformCheck {
     if (_platform.isWindows) {
       return win32.OsVersion.current >= .win10v1903;
     }
-    if (_platform.isIOS || _platform.isMacOS) {
+    if (_platform.isIOS) {
+      if (await isIosSimulator()) {
+        return false;
+      }
+      return true;
+    }
+    if (_platform.isMacOS) {
       return true;
     }
     if (_platform.isAndroid) {

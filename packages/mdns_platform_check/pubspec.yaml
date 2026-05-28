@@ -10,6 +10,9 @@ environment:
 dependencies:
   dbus: ^0.7.12
   jni: ^1.0.0
-  jnigen: ^0.16.0
   platform: ^3.1.6
   win32: ^6.3.0
+  is_ios_simulator: ^1.0.0
+
+dev_dependencies:
+  jnigen: ^0.16.0

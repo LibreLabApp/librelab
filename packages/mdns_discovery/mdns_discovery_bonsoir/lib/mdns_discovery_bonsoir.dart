@@ -106,7 +106,8 @@ class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
           await _stopCompleter.future.timeout(platformStartStopTimeout);
         } on TimeoutException catch (_) {
           _logger.warning(
-            '$BonsoirDiscoveryStoppedEvent did not occur even after ${platformStartStopTimeout.inSeconds} seconds',
+            '$BonsoirDiscoveryStoppedEvent did not occur even after ${platformStartStopTimeout.inSeconds} seconds!\n'
+            'This may happen if the underlying platform event did not fire (e.g., running on iOS simulator).',
           );
         }
 
