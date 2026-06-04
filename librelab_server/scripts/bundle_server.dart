@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiContractVersionConstants;
+import 'package:librelab_server/constants/constants.dart';
 import 'package:librelab_server/generated/pubspec.g.dart' show Pubspec;
 import 'package:librelab_server/server.dart' show ServerRunMode;
-import 'package:librelab_server/src/constants/constants.dart';
-import 'package:librelab_server/src/utils/cli_helpers.dart';
-import 'package:librelab_server/src/utils/cpu_architecture.dart';
+import 'package:librelab_server/utils/cli_helpers.dart';
+import 'package:librelab_server/utils/cpu_architecture.dart';
 import 'package:path/path.dart';
 
 import '../../scripts/_utils.dart';

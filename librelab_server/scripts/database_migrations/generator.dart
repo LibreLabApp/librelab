@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:librelab_server/src/database/database_migration.dart';
+import 'package:librelab_server/database/database_migration.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import '../../../scripts/_utils.dart';
