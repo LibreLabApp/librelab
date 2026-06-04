@@ -1,24 +1,16 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io' show File, Platform, stderr, stdout;
+import 'dart:io' show Platform, stderr, stdout;
 
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalMaterialLocalizations;
 import 'package:go_router/go_router.dart';
-import 'package:librelab_client/librelab_client.dart';
+
 import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
 import 'package:logging/logging.dart';
-import 'package:serverpod_auth_core_flutter/serverpod_auth_core_flutter.dart';
-import 'package:serverpod_flutter/serverpod_flutter.dart';
-
-// Will be removed later (temporary for testing purposes)
-late final Client client;
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey();
 
@@ -37,37 +29,35 @@ void main() async {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     final level = record.level;
-
     final message = '${record.level.name}: ${record.time}: ${record.message}';
-    if (isDesktop) {
-      final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
-      if (errorLevels.contains(level)) {
-        stderr.writeln(message);
+
+    final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
+
+    if (errorLevels.contains(level)) {
+      final errorMessage =
+          '$message\n'
+          '  Error: ${record.error}\n'
+          '  StackTrace: ${record.stackTrace}\n';
+
+      if (isDesktop) {
+        stderr.writeln(errorMessage);
       } else {
-        stdout.writeln(message);
+        // ignore: avoid_print
+        print(errorMessage);
       }
     } else {
-      // ignore: avoid_print
-      print(message);
+      if (isDesktop) {
+        stdout.writeln(message);
+      } else {
+        // ignore: avoid_print
+        print(message);
+      }
     }
   });
 
   if (isLinux) {
     _maybeUseNetworkMonitorPortal();
   }
-
-  final serverUrl = await getServerUrl();
-
-  client = Client(serverUrl)
-    ..connectivityMonitor = FlutterConnectivityMonitor()
-    ..authSessionManager = FlutterAuthSessionManager(
-      // Workaround: accessing the macOS keychain requires an Apple account,
-      // and this is a convenient workaround during development.
-      // The app will not be deployed to Apple systems.
-      storage: isMacOS && kDebugMode ? _FileClientAuthSuccessStorage() : null,
-    );
-
-  unawaited(client.auth.initialize());
 
   await LocaleSettings.useDeviceLocale();
 
@@ -97,26 +87,6 @@ void _maybeUseNetworkMonitorPortal() {
       'Using org.freedesktop.portal.NetworkMonitor for connectivity status.',
     );
     ConnectivityPlusLinuxPortalPlugin.registerWith();
-  }
-}
-
-class _FileClientAuthSuccessStorage implements ClientAuthSuccessStorage {
-  final File _file = File('do_not_check_this_auth.json');
-  @override
-  Future<AuthSuccess?> get() async {
-    if (!_file.existsSync()) {
-      return null;
-    }
-    return AuthSuccess.fromJson(
-      jsonDecode(await _file.readAsString()) as Map<String, Object?>,
-    );
-  }
-
-  @override
-  Future<void> set(AuthSuccess? data) async {
-    if (data != null) {
-      await _file.writeAsString(jsonEncode(data.toJson()));
-    }
   }
 }
 

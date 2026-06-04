@@ -4,7 +4,7 @@ environment:
   sdk: ^3.12.0
 
 workspace:
-  - librelab_client
+  - librelab_api_contract
   - librelab_server
   - librelab_flutter
   - librelab_shared
@@ -19,5 +19,4 @@ dev_dependencies:
   lints: ^6.1.0
   archive: ^4.0.9
   path: ^1.9.1
-  io: ^1.0.5
-  serverpod_cli: ^3.5.0-beta.9
+  yaml: ^3.1.3

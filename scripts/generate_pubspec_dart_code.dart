@@ -1,17 +1,15 @@
-// ignore_for_file: avoid_print, depend_on_referenced_packages
-
-import 'dart:io' show File, Process, exit;
+import 'dart:io' show File, Process, exit, stderr, stdout;
 
 import 'package:yaml/yaml.dart';
 
+import '_utils.dart';
 import 'packages.dart';
 
 const _targets = <String>[Packages.flutter, Packages.server];
 
-// "serverpod generate" command removes all files under "lib/src/generated", so a different directory is used.
 const _generatedPubspecDestination = 'lib/generated/pubspec.g.dart';
 
-void main(List<String> args) async {
+void main() async {
   for (final target in _targets) {
     final pubspecYamlFile = File('$target/pubspec.yaml');
     final pubspecYamlText = await pubspecYamlFile.readAsString();
@@ -19,7 +17,7 @@ void main(List<String> args) async {
 
     final fullVersion = pubspecYaml['version'].toString();
     if (!fullVersion.contains('+')) {
-      print(
+      stderr.writeln(
         'The version should contains the build number too (e.g., 1.0.0+1): $fullVersion',
       );
       exit(1);
@@ -37,7 +35,7 @@ void main(List<String> args) async {
 
 // GENERATED FILE - Don't modify by hand.
 // Update pubspec.yaml and run the following script:
-// dart ./scripts/generate_pubspec_dart_code.dart
+// dart $scriptRelativePath
 
 abstract final class Pubspec {
 
@@ -58,7 +56,7 @@ abstract final class Pubspec {
       '$target/$_generatedPubspecDestination',
     );
     if (!pubspecFileDestination.existsSync()) {
-      print(
+      stderr.writeln(
         "The file ${pubspecFileDestination.path} doesn't exist. Please create it first."
         '\n\nCommand:\n'
         'touch ${pubspecFileDestination.path}',
@@ -68,6 +66,6 @@ abstract final class Pubspec {
     await pubspecFileDestination.writeAsString(generatedDartFile);
     await Process.run('dart', ['format', pubspecFileDestination.path]);
 
-    print(pubspecFileDestination.path);
+    stdout.writeln(pubspecFileDestination.path);
   }
 }

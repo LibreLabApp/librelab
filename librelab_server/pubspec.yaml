@@ -1,5 +1,6 @@
+# Run "dart scripts/generate_pubspec_dart_code.dart" when updating any of these values.
 name: librelab_server
-description: Starting point for a Serverpod server.
+description: Self-hosted server exposing an API for LibreLab and external clients
 version: 0.0.1+1
 publish_to: 'none'
 
@@ -9,40 +10,31 @@ environment:
 resolution: workspace
 
 dependencies:
-  meta: ^1.17.0
-  serverpod: ^3.5.0-beta.9
-  serverpod_auth_idp_server: ^3.5.0-beta.9
+  meta: ^1.18.0
   librelab_shared: ^1.0.0
   mdns_dart: ^2.2.1
   path: ^1.9.1
-  yaml_edit: ^2.2.4
-  yaml: ^3.1.3
   win32_registry_value_reader: ^1.0.0
   collection: ^1.19.1
+  librelab_api_contract: ^0.0.1
+  logging: ^1.3.0
+  freezed_annotation: ^3.1.0
+  yaml: ^3.1.3
+  yaml_edit: ^2.2.4
+  args: ^2.7.0
+  shelf: ^1.4.2
+  shelf_router: ^1.1.4
+  json_utils:
+    git:
+      url: https://github.com/EchoEllet/dart-packages.git
+      ref: 4244700e2f2a99cf777d1e94c8ad9942f9b9432a
+      path: packages/json_utils
+  postgres: ^3.5.11
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'
-  serverpod_test: ^3.5.0-beta.9
   test: ^1.25.5
-
-# (LATER) TODO: https://github.com/serverpod/serverpod/issues/5224
-dependency_overrides:
-  win32: ^6.3.0
-
-serverpod:
-  scripts:
-    # Starts the server and applies migrations
-    start: dart bin/main.dart --apply-migrations
-
-    # Build the Flutter web app and copy it to the server's web directory.
-    # Windows uses xcopy since flutter's --output flag doesn't work there.
-    # See: https://github.com/flutter/flutter/issues/157886
-    flutter_build:
-      windows: >-
-        (if exist web\app rmdir /S /Q web\app)
-        & cd /D ..\librelab_flutter
-        && flutter build web --base-href /app/ --wasm
-        && xcopy /E /I /Y build\web ..\librelab_server\web\app
-      posix: |
-        cd ../librelab_flutter
-        flutter build web --base-href /app/ --wasm --output ../librelab_server/web/app
+  freezed: ^3.2.5
+  code_builder: ^4.11.1
+  dart_style: ^3.1.7
+  archive: ^4.0.9

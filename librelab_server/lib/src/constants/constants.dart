@@ -1,6 +1,8 @@
-abstract final class Constants {
-  /// This is **only** needed in the scripts/ directory and the server package.
-  static const String forceCreateAdminArgument = '--force-create-admin';
+abstract final class CliOptions {
+  static const String helpFlag = 'help';
+  static const String forceCreateAdminFlag = 'force-create-admin';
+  static const String serverRunModeOption = 'mode';
+  static const String applyMigrationsFlag = 'apply-migrations';
 }
 
 abstract final class PostgresConstants {

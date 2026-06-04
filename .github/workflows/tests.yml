@@ -10,8 +10,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      SERVERPOD_PASSWORD_database: 'XyEz-wvkhPlYQfrowm5lAv7L0yUufzxM'
-      SERVERPOD_PASSWORD_redis: '22ligeGL4-tnv0CTQwd8HzY7y976yDR2'
+      SECRET_databasePassword: 'XyEz-wvkhPlYQfrowm5lAv7L0yUufzxM'
 
     steps:
       - uses: actions/checkout@v4
@@ -27,10 +26,6 @@ jobs:
       - name: Install dependencies
         working-directory: librelab_server
         run: dart pub get
-
-      - name: Run Serverpod generator
-        working-directory: librelab_server
-        run: dart ./scripts/serverpod_generate.dart
 
       - name: Run tests
         working-directory: librelab_server

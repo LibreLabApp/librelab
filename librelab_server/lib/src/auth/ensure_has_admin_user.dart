@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_shared/librelab_shared.dart';
-import 'package:serverpod/serverpod.dart';
-import 'package:serverpod_auth_idp_server/core.dart';
-import 'package:serverpod_auth_idp_server/providers/email.dart';
+import 'package:meta/meta.dart';
+
+// TODO: (REMOVE_SERVERPOD) Implement authentication system (current is stub implementation)
+//  previous system before migration: https://github.com/LibreLabApp/librelab/blob/d6fa30461e9284c515ea771a94b33e6e695349f6/librelab_server/lib/src/auth/ensure_has_admin_user.dart
+//  search for "// STUB IMPLEMENTATION" comments
 
 /// Creates an admin user if there is no one in the database, which is required to log in to the desktop app.
 ///
@@ -12,18 +14,23 @@ import 'package:serverpod_auth_idp_server/providers/email.dart';
 /// to create the admin account credentials. If the input is invalid or empty, the server will terminate.
 ///
 /// Returns whether a new user was created or not.
-Future<bool> ensureHasAdminUser(Session session) async {
-  final exists = (await AuthUser.db.count(session, limit: 1)) >= 1;
+Future<bool> ensureHasAdminUser() async {
+  final exists = await _hasAnyUser();
   if (exists) {
     return false;
   }
 
-  await createAdminUser(session);
+  await createAdminUser();
 
   return true;
 }
 
-Future<void> createAdminUser(Session session) async {
+Future<bool> _hasAnyUser() async {
+  // STUB IMPLEMENTATION
+  return true;
+}
+
+Future<void> createAdminUser() async {
   stdout.writeln('''
 ================================================================
   SYSTEM SETUP: ADMIN CREATION
@@ -38,12 +45,12 @@ use those credentials to log in to the desktop application.
 ''');
   final credentials = await _promptUserCredentials();
 
-  if (await _emailExists(session, credentials.email)) {
+  if (await _emailExists(credentials.email)) {
     stderr.writeln('\nEmail address is already in use: ${credentials.email}\n');
     return;
   }
 
-  await _insertUserWithCredentials(credentials, session);
+  await _insertUserWithCredentials(credentials);
 
   stdout.writeln('''
 \nAdmin user created successfully.
@@ -52,30 +59,13 @@ After logging in, additional users can be created directly from the application 
 ''');
 }
 
-Future<bool> _emailExists(Session session, String email) async {
-  return (await EmailAccount.db.count(
-        session,
-        where: (account) => account.email.equals(email),
-      )) >=
-      1;
+Future<bool> _emailExists(String email) async {
+  // STUB IMPLEMENTATION
+  return false;
 }
 
-Future<void> _insertUserWithCredentials(
-  _Credentials credentials,
-  Session session,
-) async {
-  final authServices = AuthServices.instance;
-
-  final user = await authServices.authUsers.create(
-    session,
-    scopes: {Scope.admin},
-  );
-  await authServices.emailIdp.admin.createEmailAuthentication(
-    session,
-    authUserId: user.id,
-    email: credentials.email,
-    password: credentials.password,
-  );
+Future<void> _insertUserWithCredentials(_Credentials credentials) async {
+  // STUB IMPLEMENTATION
 }
 
 @immutable

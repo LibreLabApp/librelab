@@ -5,7 +5,7 @@ services:
     ports:
       - "8090:5432"
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: librelab
       POSTGRES_DB: librelab
       POSTGRES_PASSWORD: "oHhK1voPC92Yrg5ZAEfQhd1q2yEyzdtW"
     volumes:

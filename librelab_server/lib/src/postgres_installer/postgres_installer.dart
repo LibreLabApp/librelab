@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/config/config_files.dart';
 import 'package:librelab_server/src/constants/constants.dart';
 import 'package:librelab_server/src/postgres_installer/platforms/linux.dart';
 import 'package:librelab_server/src/postgres_installer/platforms/windows.dart';
@@ -11,7 +10,7 @@ import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
 import 'package:librelab_server/src/utils/linux/linux_os_release.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/src/utils/utils.dart';
 
 /// Prompts the user to install PostgreSQL if not already installed
@@ -28,13 +27,15 @@ Future<void> tryInstallPostgresWithPrompt({
   required String appPassword,
   required String appDatabaseName,
   required void Function() onDeclined,
+  required String Function() getConfigFilePath,
+  required Shutdown shutdown,
 }) async {
   if (await _isPostgresLikelyAvailable()) {
     return;
   }
 
   final PostgresPlatformInstaller? platformInstaller =
-      await _resolvePlatformInstaller();
+      await _resolvePlatformInstaller(shutdown: shutdown);
   final supportsAutomatedInstall = platformInstaller != null;
 
   if (!supportsAutomatedInstall) {
@@ -54,7 +55,7 @@ Future<void> tryInstallPostgresWithPrompt({
   if (!userApproved) {
     stdout.writeln(
       '\nPostgreSQL auto-installer is disabled. This choice will not be prompted again.\n'
-      'To change this setting later, edit: ${ConfigFiles.forCurrentRunMode().path}\n',
+      'To change this setting later, edit: ${getConfigFilePath()}\n',
     );
     onDeclined();
     return;
@@ -91,6 +92,7 @@ Future<void> tryInstallPostgresWithPrompt({
     appPassword: appPassword,
     superPassword: tempSuperPassword,
     postgresVersionInfo: versionInfo,
+    shutdown: shutdown,
   );
 
   await _createAppDb(
@@ -98,6 +100,7 @@ Future<void> tryInstallPostgresWithPrompt({
     ownedBy: appUser,
     superPassword: tempSuperPassword,
     postgresVersionInfo: versionInfo,
+    shutdown: shutdown,
   );
 }
 
@@ -216,6 +219,7 @@ Future<void> _createAppUser({
   required String appPassword,
   required String? superPassword,
   required PostgresVersionInfo postgresVersionInfo,
+  required Shutdown shutdown,
 }) async {
   try {
     final result = await _executeSql(
@@ -255,7 +259,6 @@ Future<void> _createAppUser({
   }
 
   await shutdown(isSuccess: false);
-  throw shutdownInvariantError;
 }
 
 Future<void> _createAppDb(
@@ -263,6 +266,7 @@ Future<void> _createAppDb(
   required String ownedBy,
   required String? superPassword,
   required PostgresVersionInfo postgresVersionInfo,
+  required Shutdown shutdown,
 }) async {
   try {
     final result = await _executeSql(
@@ -296,7 +300,6 @@ Future<void> _createAppDb(
   }
 
   await shutdown(isSuccess: false);
-  throw shutdownInvariantError;
 }
 
 bool _promptPostgresInstall({required bool hasPostgresInDocker}) {
@@ -321,7 +324,9 @@ including download, setup, and adding the installation to the user PATH.${isUnix
   );
 }
 
-Future<PostgresPlatformInstaller?> _resolvePlatformInstaller() async {
+Future<PostgresPlatformInstaller?> _resolvePlatformInstaller({
+  required Shutdown shutdown,
+}) async {
   return switch (currentDesktopPlatform) {
     DesktopPlatform.linux => await () async {
       final packageManager =
@@ -330,6 +335,7 @@ Future<PostgresPlatformInstaller?> _resolvePlatformInstaller() async {
         return LinuxPostgresInstaller(
           packageManager: packageManager,
           linuxOsRelease: LinuxOsRelease(),
+          shutdown: shutdown,
         );
       }
       return null;
@@ -337,7 +343,7 @@ Future<PostgresPlatformInstaller?> _resolvePlatformInstaller() async {
     DesktopPlatform.macOS => null,
     DesktopPlatform.windows =>
       // Windows x86-32 is no longer supported
-      (isWindowsX64()) ? WindowsPostgresInstaller() : null,
+      (isWindowsX64()) ? WindowsPostgresInstaller(shutdown: shutdown) : null,
   };
 }
 

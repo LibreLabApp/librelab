@@ -3,7 +3,7 @@
 
 // GENERATED FILE - Don't modify by hand.
 // Update pubspec.yaml and run the following script:
-// dart ./scripts/generate_pubspec_dart_code.dart
+// dart scripts/generate_pubspec_dart_code.dart
 
 abstract final class Pubspec {
 

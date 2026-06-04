@@ -10,10 +10,10 @@
         "librelab",
         "mdns",
         "pacman",
+        "pgcrypto",
         "PGPASSWORD",
         "pgsql",
         "psql",
-        "pubspec",
-        "serverpod"
+        "pubspec"
     ]
 }

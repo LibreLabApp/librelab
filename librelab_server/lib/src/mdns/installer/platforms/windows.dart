@@ -5,7 +5,7 @@ import 'package:librelab_server/src/mdns/platform/impls/dns_sd.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
 import 'package:librelab_server/src/utils/download_file.dart';
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 import 'package:path/path.dart';
 
 /// Installs Bonjour for Windows to provide `dns-sd` command
@@ -19,6 +19,10 @@ import 'package:path/path.dart';
 /// - `BonjourPS64.msi` and `BonjourPS.msi` (print services)
 /// - `SetupAdmin.exe`
 final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
+  BonjourWindowsInstaller({required this.shutdown});
+
+  final Shutdown shutdown;
+
   // From https://support.apple.com/en-us/106380
   static const String _downloadUrl =
       'https://download.info.apple.com/Mac_OS_X/061-8098.20100603.gthyu/BonjourPSSetup.exe';
@@ -62,7 +66,6 @@ final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
     }
 
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
 
   Future<File> _extractMinimalInstallerFile(File fullInstallerFile) async {
@@ -126,7 +129,6 @@ final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
     }
 
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
 
   Future<void> _runInstaller(File installerFile) async {
@@ -169,7 +171,6 @@ final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
     }
 
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
 
   @override

@@ -4,8 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   bonsoir_windows
-  connectivity_plus
-  flutter_secure_storage_windows
   flutter_window_close
   url_launcher_windows
 )

@@ -1,27 +1,37 @@
-import 'package:librelab_client/librelab_client.dart' as g;
+import 'package:api_client/api_client.dart';
+import 'package:librelab_api_contract/librelab_api_contract.dart' as api;
 import 'package:librelab_flutter/server_connection/handshake/repository/handshake_response.dart';
-import 'package:librelab_shared/librelab_shared.dart';
 
 class ServerHandshakeRepository {
-  ServerHandshakeRepository({required this.clientFactory});
+  ServerHandshakeRepository({required this.apiClient});
 
-  final g.Client Function(String serverBaseUrl) clientFactory;
+  final ApiClient apiClient;
 
   Future<HandshakeResponse> check(String serverBaseUrl) async {
-    final client = clientFactory(serverBaseUrl);
+    // TODO: Complete (e.g., Error handling, server api client specific utility to not repeat HTTP method)
 
-    // TODO: Complete (e.g., Error handling)
-    try {
-      final response = await client.handshake.check(
-        clientApiContractVersion: ApiContractVersionConstants.version,
-      );
-      return _map(response);
-    } finally {
-      client.close();
-    }
+    const endpoint = api.ApiEndpointDefinitions.handshake$POST;
+
+    final base = Uri.parse(serverBaseUrl);
+    final fullUri = base.replace(path: endpoint.path);
+
+    final response = await apiClient.requestJson(
+      fullUri,
+      method: endpoint.method,
+      body: .json(
+        const api.HandshakeRequest(
+          clientApiContractVersion: api.ApiContractVersionConstants.version,
+        ).toJson(),
+      ),
+      deserializeSuccess: (response) =>
+          api.HandshakeResponse.fromJson(response.body),
+      deserializeFailure: (response) =>
+          api.ServerErrorResponse.fromJson(response.body),
+    );
+    return _map(response.valueOrThrow.body);
   }
 
-  HandshakeResponse _map(g.HandshakeResponse dto) => HandshakeResponse(
+  HandshakeResponse _map(api.HandshakeResponse dto) => HandshakeResponse(
     serverBuildNumber: dto.serverBuildNumber,
     serverVersion: dto.serverVersion,
     status: switch (dto.status) {

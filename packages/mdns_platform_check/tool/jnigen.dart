@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 
-void main(List<String> args) {
+void main() {
   final Uri packageRoot = Platform.script.resolve('../');
   generateJniBindings(
     Config(

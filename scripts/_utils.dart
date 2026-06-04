@@ -2,7 +2,7 @@ import 'dart:io';
 
 // ignore: depend_on_referenced_packages
 import 'package:librelab_server/src/utils/platform_check.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 
 // ignore: depend_on_referenced_packages
 export 'package:librelab_server/src/utils/platform_check.dart';
@@ -12,8 +12,8 @@ void ensureWorkingDirectory(String packageName) {
   if (currentDirectory.path.endsWith(packageName)) {
     return;
   }
-  final newDirectory = Directory(join(currentDirectory.path, packageName));
-  final pubspec = File(join(newDirectory.path, 'pubspec.yaml'));
+  final newDirectory = Directory(p.join(currentDirectory.path, packageName));
+  final pubspec = File(p.join(newDirectory.path, 'pubspec.yaml'));
   final isValidPubspec =
       pubspec.existsSync() &&
       pubspec.readAsStringSync().contains('name: $packageName');
@@ -42,3 +42,8 @@ Future<void> makeExecutable(String filePath) async {
     exit(chmodResult.exitCode);
   }
 }
+
+final scriptRelativePath = p.relative(
+  Platform.script.toFilePath(),
+  from: Directory.current.path,
+);

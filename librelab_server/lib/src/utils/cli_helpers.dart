@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:librelab_server/src/utils/platform_check.dart';
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 import 'package:path/path.dart';
 
 int humanExitCode(int code) {
@@ -89,6 +89,7 @@ Future<Process> executeAndLogCommandOrShutdown(
   List<String> args,
   String goal, {
   Map<String, String>? environment,
+  required Shutdown shutdown,
 }) async {
   final command = buildHumanReadableCommand(executable: executable, args: args);
   stdout.writeln('\nRunning "$command" to $goal\n');
@@ -108,5 +109,4 @@ Future<Process> executeAndLogCommandOrShutdown(
     'Command failed (exit code $exitCode): "$command" while attempting to $goal.',
   );
   await shutdown(isSuccess: false);
-  throw shutdownInvariantError;
 }

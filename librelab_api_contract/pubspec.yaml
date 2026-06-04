@@ -1,0 +1,32 @@
+name: librelab_api_contract
+description: |
+  Shared type-safe client-server API contract that describes HTTP methods,
+  endpoints, query parameters, headers, and response/request body schemas
+  for LibreLab
+version: 0.0.1
+publish_to: 'none'
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  json_annotation: ^4.12.0
+  meta: ^1.18.0
+  json_utils:
+    git:
+      url: https://github.com/EchoEllet/dart-packages.git
+      ref: 4244700e2f2a99cf777d1e94c8ad9942f9b9432a
+      path: packages/json_utils
+  http_method:
+    git:
+      url: https://github.com/EchoEllet/dart-packages.git
+      ref: 4244700e2f2a99cf777d1e94c8ad9942f9b9432a
+      path: packages/http_method
+
+dev_dependencies:
+  build_runner: ^2.15.0
+  json_serializable: ^6.14.0
+  code_builder: ^4.11.1
+  dart_style: ^3.1.7
+  path: ^1.9.1

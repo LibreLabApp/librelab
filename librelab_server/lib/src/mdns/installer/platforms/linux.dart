@@ -4,11 +4,13 @@ import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
 import 'package:librelab_server/src/mdns/platform/impls/avahi.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/linux/linux_package_manager.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 
 final class AvahiLinuxInstaller implements MdnsPlatformInstaller {
-  AvahiLinuxInstaller({required this._packageManager});
+  AvahiLinuxInstaller({required this._packageManager, required this.shutdown});
 
   final LinuxPackageManager _packageManager;
+  final Shutdown shutdown;
 
   static Future<LinuxPackageManager?> systemPackageManager() async {
     for (final packageManager in LinuxPackageManager.values) {
@@ -139,5 +141,6 @@ UDP port 5353 should be opened for mDNS to work correctly.
     args,
     goal,
     environment: environment,
+    shutdown: shutdown,
   );
 }

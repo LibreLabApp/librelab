@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/config/config_files.dart' show ConfigFiles;
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 
 Future<bool> _isPortAvailable(int port) async {
@@ -36,6 +35,7 @@ Future<int?> _findAvailablePort({
 Future<int> findAvailablePortOrShutdown({
   required int preferredPort,
   int maxRetries = 10,
+  required Shutdown shutdown,
 }) async {
   final port = await _findAvailablePort(
     preferredPort: preferredPort,
@@ -43,20 +43,23 @@ Future<int> findAvailablePortOrShutdown({
   );
   if (port == null) {
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
   return port;
 }
 
-Future<void> enforcePortAvailability({required int apiServerPort}) async {
-  if (!await _isPortAvailable(apiServerPort)) {
+Future<void> enforcePortAvailability({
+  required int port,
+  required String Function() getConfigFilePath,
+  required Shutdown shutdown,
+}) async {
+  if (!await _isPortAvailable(port)) {
     stderr.writeln('''
 
 ╔════════════════════════════════════════════════════╗
 ║                FATAL PORT CONFLICT                 ║
 ╚════════════════════════════════════════════════════╝
 
-FATAL ERROR: PORT $apiServerPort IS BUSY
+FATAL ERROR: PORT $port IS BUSY
 The server is configured to use this port.
 
 ADVICE:
@@ -64,7 +67,7 @@ ADVICE:
 - RESTART the operating system.
 - Check if another instance is running or 
   use 'netstat' CLI to find the conflicting process.
-- You can change the port in "${ConfigFiles.forCurrentRunMode().path}"
+- You can change the port in "${getConfigFilePath()}"
   but client connections must be reconfigured to use the new port.
 
 To prevent client connection issues, the application
@@ -75,6 +78,5 @@ will now exit instead of silently choosing another port.
 ╚════════════════════════════════════════════════════╝
 ''');
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
 }

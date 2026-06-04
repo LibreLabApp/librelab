@@ -6,7 +6,7 @@ import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/cpu_architecture.dart';
 import 'package:librelab_server/src/utils/linux/linux_os_release.dart';
 import 'package:librelab_server/src/utils/linux/linux_package_manager.dart';
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 
 /// **Note**: For various reasons, the PostgreSQL package is installed from the
 /// official PGDG repository instead the distribution's one:
@@ -39,10 +39,12 @@ final class LinuxPostgresInstaller
   LinuxPostgresInstaller({
     required this._packageManager,
     required this._linuxOsRelease,
+    required this.shutdown,
   });
 
   final LinuxPackageManager _packageManager;
   final LinuxOsRelease _linuxOsRelease;
+  final Shutdown shutdown;
 
   static Future<LinuxPackageManager?> systemPackageManager() async {
     for (final packageManager in LinuxPackageManager.values) {
@@ -93,7 +95,6 @@ final class LinuxPostgresInstaller
       );
 
       await shutdown(isSuccess: false);
-      throw shutdownInvariantError;
     }
 
     await _runCommand(
@@ -192,14 +193,12 @@ final class LinuxPostgresInstaller
         'This is needed to build the RPM repository URL, which requires ID and VERSION_ID.',
       );
       await shutdown(isSuccess: false);
-      throw shutdownInvariantError;
     }
 
     if (id != 'fedora') {
       stderr.writeln('Unsupported Red Hat family distribution: $id');
 
       await shutdown(isSuccess: false);
-      throw shutdownInvariantError;
     }
 
     final architecture = getRawPlatformArchitecture();
@@ -207,7 +206,6 @@ final class LinuxPostgresInstaller
       stderr.writeln('Unsupported CPU architecture: $architecture');
 
       await shutdown(isSuccess: false);
-      throw shutdownInvariantError;
     }
 
     // Assumes Fedora Linux
@@ -224,5 +222,6 @@ final class LinuxPostgresInstaller
     args,
     goal,
     environment: environment,
+    shutdown: shutdown,
   );
 }

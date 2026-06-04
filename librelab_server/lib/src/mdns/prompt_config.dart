@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/config/app_config.dart';
+import 'package:librelab_server/src/config/app_config/app_config.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 import 'package:librelab_server/src/utils/platform_check.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 
-MdnsConfig promptMdnsConfig() {
+MdnsServicePublishConfig promptMdnsServicePublishConfig() {
   stdout.writeln('''
-\nLocal network discovery (mDNS registration & discovery)
+Local network discovery (mDNS registration & discovery)
 
 This allows other devices on the same local network to automatically detect
 and connect to this server without depending on an IP address
@@ -20,7 +20,7 @@ This feature is typically disabled in cloud environments.
     defaultValue: !isLikelyHeadlessLinux,
   );
   if (!enable) {
-    return const MdnsConfig(enable: false, instanceName: '');
+    return const MdnsServicePublishConfig(enabled: false, instanceName: '');
   }
 
   const instanceNameDefault = ProjectConstants.displayName;
@@ -28,8 +28,8 @@ This feature is typically disabled in cloud environments.
     'Enter Local network discovery label for this server (has no effect on functionality) [Default: $instanceNameDefault]',
     allowEmpty: true,
   );
-  return MdnsConfig(
-    enable: enable,
+  return MdnsServicePublishConfig(
+    enabled: enable,
     instanceName: instanceName.isEmpty ? instanceNameDefault : instanceName,
   );
 }

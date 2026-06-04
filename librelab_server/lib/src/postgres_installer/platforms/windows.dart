@@ -5,12 +5,16 @@ import 'package:librelab_server/src/postgres_installer/postgres_platform_install
 import 'package:librelab_server/src/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/src/utils/cli_helpers.dart';
 import 'package:librelab_server/src/utils/download_file.dart';
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
 import 'package:path/path.dart';
 import 'package:win32_registry_value_reader/win32_registry_value_reader.dart'
     as win32;
 
 final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
+  WindowsPostgresInstaller({required this.shutdown});
+
+  final Shutdown shutdown;
+
   static String _installDir({required String majorVersion}) {
     return join('C:', 'Program Files', 'PostgreSQL', majorVersion);
   }
@@ -89,7 +93,6 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
     }
 
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
 
   @override
@@ -143,7 +146,6 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
     }
 
     await shutdown(isSuccess: false);
-    throw shutdownInvariantError;
   }
 
   @override

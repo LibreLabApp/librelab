@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:librelab_server/src/config/config_files.dart' show ConfigFiles;
 import 'package:librelab_server/src/mdns/installer/platform_installer.dart';
 import 'package:librelab_server/src/utils/cli_input.dart';
 
 class MdnsInstaller {
-  MdnsInstaller({required this._platform});
+  MdnsInstaller({required this._platform, required this._getConfigFilePath});
 
   final MdnsPlatformInstaller _platform;
+  final String Function() _getConfigFilePath;
 
   Future<void> tryInstallWithPrompt({
     required void Function() onDeclined,
@@ -24,7 +24,7 @@ class MdnsInstaller {
         'IMPORTANT: Local devices on this network may not be able to discover and connect\n'
         'to this server.\n'
         'Clients can still connect using a manually entered IP address (must be STATIC or reserved).\n'
-        'To change this setting later, edit: ${ConfigFiles.forCurrentRunMode().path}\n',
+        'To change this setting later, edit: ${_getConfigFilePath()}\n',
       );
       onDeclined();
       return;

@@ -11,12 +11,11 @@ resolution: workspace
 dependencies:
   email_validator: ^3.0.0
   meta: ^1.17.0
-  # TODO: Lazy solution: The ideal solution is to move this shared package into EchoEllet/packages
   result:
     git:
-      url: https://github.com/KraftLauncher/kraft-launcher.git
-      ref: main
-      path: packages/core/result
+      url: https://github.com/EchoEllet/dart-packages.git
+      ref: 4244700e2f2a99cf777d1e94c8ad9942f9b9432a
+      path: packages/result
 
 dev_dependencies:
   lints: ^6.0.0

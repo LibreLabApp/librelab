@@ -14,9 +14,6 @@ abstract final class ProjectConstants {
   /// This is **only** needed in the server.
   static const int defaultApiPort = 45123;
 
-  /// This is **only** needed in the server.
-  static const int defaultInsightsPort = 45124;
-
   /// The default PostgreSQL database name used by the app.
   ///
   /// This is **only** needed in the server.

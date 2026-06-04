@@ -1,191 +1,518 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
+import 'package:args/args.dart';
+import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
+import 'package:librelab_server/src/app_files.dart';
 import 'package:librelab_server/src/auth/ensure_has_admin_user.dart';
-import 'package:librelab_server/src/config/app_config.dart';
-import 'package:librelab_server/src/config/app_config_repository.dart';
-import 'package:librelab_server/src/config/ensure_config.dart';
-import 'package:librelab_server/src/config/ensure_config_secrets.dart';
+import 'package:librelab_server/src/config/config.dart';
 import 'package:librelab_server/src/constants/constants.dart';
-import 'package:librelab_server/src/generated/endpoints.dart';
-import 'package:librelab_server/src/generated/protocol.dart';
-import 'package:librelab_server/src/mdns/installer/installer.dart';
-import 'package:librelab_server/src/mdns/installer/platform_installer_resolver.dart';
-import 'package:librelab_server/src/mdns/platform/platform_resolver.dart';
-import 'package:librelab_server/src/mdns/prompt_config.dart';
-import 'package:librelab_server/src/mdns/service_registrar.dart';
+import 'package:librelab_server/src/database/database_client.dart';
+import 'package:librelab_server/src/database/database_migrations.g.dart';
+import 'package:librelab_server/src/database/migration_runner.dart';
+import 'package:librelab_server/src/handshake/handshake_route.dart';
+import 'package:librelab_server/src/mdns/mdns.dart';
 import 'package:librelab_server/src/postgres_installer/postgres_installer.dart';
+import 'package:librelab_server/src/utils/file_storage/yaml_file_storage.dart';
+import 'package:librelab_server/src/utils/is_debug_mode.dart';
+import 'package:librelab_server/src/utils/json_http_extensions.dart';
+import 'package:librelab_server/src/utils/platform_check.dart';
 import 'package:librelab_server/src/utils/server_port_availability.dart';
-import 'package:librelab_server/src/utils/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown.dart';
+import 'package:librelab_server/src/utils/shutdown/shutdown_hook_registry.dart';
 import 'package:librelab_server/src/utils/utils.dart';
-import 'package:serverpod/serverpod.dart';
-import 'package:serverpod_auth_idp_server/core.dart';
-import 'package:serverpod_auth_idp_server/providers/email.dart';
+import 'package:librelab_shared/librelab_shared.dart';
+import 'package:logging/logging.dart';
+import 'package:shelf/shelf.dart';
+import 'package:shelf/shelf_io.dart' as shelf_io;
+import 'package:shelf_router/shelf_router.dart';
+
+ArgParser _argsParser = ArgParser()
+  ..addFlag(
+    CliOptions.forceCreateAdminFlag,
+    negatable: false,
+    help:
+        'Forces the server to prompt to create a new admin user even if '
+        'the first admin user was already created before.',
+  )
+  ..addFlag(
+    CliOptions.applyMigrationsFlag,
+    help: 'Applies database migrations (if there are any)',
+    defaultsTo: true,
+  )
+  ..addFlag(
+    CliOptions.helpFlag,
+    abbr: 'h',
+    negatable: false,
+    help: 'Displays usage information.',
+  )
+  ..addOption(
+    CliOptions.serverRunModeOption,
+    help: 'Sets the server run mode.',
+    allowed: ServerRunMode.values.map((e) => e.cliValue),
+    allowedHelp: Map.fromEntries(
+      ServerRunMode.values.map(
+        (e) => MapEntry(e.cliValue, switch (e) {
+          ServerRunMode.production => 'Production environment',
+          ServerRunMode.development => 'Development environment',
+          ServerRunMode.staging => 'Staging environment',
+        }),
+      ),
+    ),
+    defaultsTo: ServerRunMode.defaultsTo.cliValue,
+  );
+
+enum ServerRunMode {
+  production(cliValue: 'production'),
+  development(cliValue: 'development'),
+  staging(cliValue: 'staging');
+
+  const ServerRunMode({required this.cliValue});
+
+  // Use this instead of .name to prevent unintended breaking changes when renaming
+  final String cliValue;
+
+  static ServerRunMode fromCliValue(String? value) {
+    if (value == ServerRunMode.development.cliValue) {
+      return .development;
+    }
+    if (value == ServerRunMode.production.cliValue) {
+      return .production;
+    }
+    if (value == ServerRunMode.staging.cliValue) {
+      return .staging;
+    }
+    throw ArgumentError.value(
+      value,
+      'value',
+      'unknown server run mode. allowed values: $values',
+    );
+  }
+
+  static ServerRunMode get defaultsTo {
+    return kDebugMode ? ServerRunMode.development : ServerRunMode.production;
+  }
+}
+
+final _logger = Logger('Main');
 
 Future<void> run(List<String> args) async {
   stdout.writeln(
     'Server version: ${Pubspec.version}\n'
     'Arguments: $args\n'
     'Current directory: ${Directory.current.absolute.path}\n'
-    'Operating system: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}\n',
+    'Operating system: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}',
   );
 
-  final forceCreateAdminUser = args.contains(
-    _AppArgument.forceCreateAdmin.argument,
+  final parser = _argsParser;
+  final argResults = parser.parse(args);
+
+  final serverRunMode = ServerRunMode.fromCliValue(
+    argResults.option(CliOptions.serverRunModeOption),
   );
 
-  await ensureHasConfig();
-  await ensureHasConfigSecrets();
+  stdout.writeln('Run mode: ${serverRunMode.name}\n');
 
-  // Workaround: This app supports custom arguments. Serverpod fails
-  // to parse and will use default values if there is an unrecognized argument.
-  // Ideally we should address the core issue, but for now this workaround is sufficient.
-  final withoutAppArgs = args
-      .where(
-        (argument) =>
-            _AppArgument.values.firstWhereOrNull(
-              (appArgument) => appArgument.argument == argument,
-            ) ==
-            null,
-      )
-      .toList();
+  _setupLogger();
 
-  final pod = Serverpod(withoutAppArgs, Protocol(), Endpoints());
+  final shutdownHookRegistry = ShutdownHookRegistry();
+  final shutdown = Shutdown(hookRegistry: shutdownHookRegistry);
 
-  pod.initializeAuthServices(
-    tokenManagerBuilders: [JwtConfigFromPasswords()],
-    identityProviderBuilders: [
-      EmailIdpConfigFromPasswords(
-        // In this project, a new user can be registered with the help of another user.
-        sendRegistrationVerificationCode: null,
-        sendPasswordResetVerificationCode: _sendPasswordResetCode,
-      ),
-    ],
+  await _registerProcessShutdownSignalHandlers(shutdown);
+
+  if (argResults.wasParsed(CliOptions.helpFlag)) {
+    stderr.writeln(parser.usage);
+    await shutdown(isSuccess: true);
+  }
+
+  final forceCreateAdminUser = argResults.wasParsed(
+    CliOptions.forceCreateAdminFlag,
+  );
+  final autoApplyMigrations = argResults.flag(CliOptions.applyMigrationsFlag);
+
+  final workingDirectory = kDebugMode ? Directory('data') : null;
+  if (workingDirectory != null && !workingDirectory.existsSync()) {
+    await workingDirectory.create();
+  }
+  final appFiles = AppFiles(workingDirectory: workingDirectory);
+
+  final configRepository = AppConfigRepository(
+    file: appFiles.config,
+    fileStorage: YamlFileStorage(),
   );
 
-  final appConfigRepository = AppConfigRepository(runMode: pod.runMode);
-  final appConfig = await _loadAppConfig(appConfigRepository);
+  final config = await _loadAppConfig(
+    configRepository,
+    getConfigFilePath: () => appFiles.config.path,
+    shutdown: shutdown,
+  );
 
-  final mdnsConfig = appConfigRepository.configOrThrow.mdns;
+  final databaseConfig = config.database;
+  final isLocalHostDatabase = isLocalHost(databaseConfig.host);
+
+  final mdnsConfig = configRepository.configOrThrow.mdnsServicePublish;
+
+  final secretsRepository = AppSecretsRepository(
+    file: appFiles.secrets,
+    fileStorage: YamlFileStorage(),
+    platformEnvironment: Platform.environment,
+  );
+
+  final secrets = await _loadAppSecrets(
+    secretsRepository,
+    isLocalHostDatabase: isLocalHostDatabase,
+    getConfigFilePath: () => appFiles.config.path,
+    getSecretsFilePath: () => appFiles.secrets.path,
+  );
 
   await _maybeInstallSystemMdns(
+    getConfigFilePath: () => appFiles.config.path,
+    setupPromptDeclinedConfig: config.setupPromptDeclined,
     config: mdnsConfig,
-    appConfigRepository: appConfigRepository,
+    appConfigRepository: configRepository,
+    shutdown: shutdown,
   );
 
-  final dbConfig =
-      pod.config.database ??
-      (throw Exception('Database connection configuration must be provided'));
-
   final shouldShowPostgresInstallPrompt =
-      !appConfig.postgresInstallDeclined && isLocalHost(dbConfig.host);
+      !config.setupPromptDeclined.postgres && isLocalHostDatabase;
+
   if (shouldShowPostgresInstallPrompt) {
     await tryInstallPostgresWithPrompt(
-      appUser: dbConfig.user,
-      appPassword: dbConfig.password,
-      appDatabaseName: dbConfig.name,
-      onDeclined: () =>
-          appConfigRepository.update(postgresInstallDeclined: true),
+      appUser: databaseConfig.user,
+      appPassword: secrets.databasePassword,
+      appDatabaseName: databaseConfig.name,
+      onDeclined: () => configRepository.update(
+        setupPromptDeclined: config.setupPromptDeclined.copyWith(
+          postgres: true,
+        ),
+      ),
+      getConfigFilePath: () => appFiles.config.path,
+      shutdown: shutdown,
     );
   }
 
-  await enforcePortAvailability(apiServerPort: pod.config.apiServer.port);
-  await pod.start();
+  // TODO: (REMOVE_SERVERPOD) Handle connection issues and other failures
+  //  handle SocketException, Exception, PgException/ServerException (e.g., invalid password, database, user)
+  final databaseClient = await DatabaseClient.connect(
+    host: databaseConfig.host,
+    port: databaseConfig.port,
+    database: databaseConfig.name,
+    username: databaseConfig.user,
+    password: secrets.databasePassword,
+    // TODO: (REMOVE_SERVERPOD) Respect user config
+    sslMode: .disable,
+  );
+  shutdownHookRegistry.register('closeDatabaseConnection', () async {
+    stderr.writeln('Shutting down the database connection...');
+    await databaseClient.close();
+    stderr.writeln('The database connection is closed.');
+  });
 
-  if (!forceCreateAdminUser && mdnsConfig.enable) {
-    await _registerMdnsService(pod: pod, instanceName: mdnsConfig.instanceName);
+  if (autoApplyMigrations) {
+    final migrationRunner = DatabaseMigrationRunner(
+      client: databaseClient,
+      migrations: DatabaseMigrations.list,
+      logger: Logger('DatabaseMigrationRunner'),
+    );
+    await migrationRunner.run();
   }
 
-  await _initializeAdminUser(forceCreateAdminUser: forceCreateAdminUser);
+  final apiServerPort = config.apiServer.listen.port;
+  final apiServerAddress = config.apiServer.listen.address;
+
+  await enforcePortAvailability(
+    port: apiServerPort,
+    getConfigFilePath: () => appFiles.config.path,
+    shutdown: shutdown,
+  );
+
+  final server = await _startServer(
+    port: apiServerPort,
+    address: apiServerAddress,
+  );
+
+  shutdownHookRegistry.register('closingHttpServer', () async {
+    stderr.writeln('Shutting down the HTTP server...');
+    await server.close();
+    stderr.writeln('The HTTP server is closed.');
+  });
+
+  if (!forceCreateAdminUser && mdnsConfig.enabled) {
+    await _registerMdnsService(
+      serverPort: apiServerPort,
+      shutdownHookRegistry: shutdownHookRegistry,
+      instanceName: mdnsConfig.instanceName,
+    );
+  }
+
+  await _initializeAdminUser(
+    forceCreateAdminUser: forceCreateAdminUser,
+    shutdown: shutdown,
+  );
 }
 
-Future<void> _initializeAdminUser({required bool forceCreateAdminUser}) async {
-  final internalSession = await Serverpod.instance.createSession();
-  try {
-    // Must run after starting the server to ensure the initial database migration is applied.
-    if (forceCreateAdminUser) {
-      await createAdminUser(internalSession);
-    } else {
-      await ensureHasAdminUser(internalSession);
-    }
-  } finally {
-    await internalSession.close();
-  }
+void _setupLogger() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    final level = record.level;
+    final message = '${record.level.name}: ${record.time}: ${record.message}';
 
-  // Note: should be outside of the try-catch to ensure that the "internalSession"
-  // is always closed, and the server shutdown is triggered only in case "forceCreateAdminUser"
-  // is true.
+    final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
+    if (errorLevels.contains(level)) {
+      stderr.writeln(
+        '$message\n'
+        '  Error: ${record.error}\n'
+        '  StackTrace: ${record.stackTrace}\n',
+      );
+    } else {
+      stdout.writeln(message);
+    }
+  });
+}
+
+Future<HttpServer> _startServer({
+  required int port,
+  required String address,
+}) async {
+  final app = Router(
+    notFoundHandler: (request) => ServerErrorResponse(
+      message: 'Route not found',
+      code: 'NOT_FOUND',
+      details: {
+        'url': request.url.toString(),
+        'requestUri': request.requestedUri.toString(),
+        'method': request.method,
+      },
+    ).toJson().httpResponse(.notFound),
+  );
+
+  app.get('/', (Request request) {
+    return Response.ok('OK');
+  });
+  app.mount('/', HandshakeRoute().router.call);
+
+  final handler = const Pipeline()
+      .addMiddleware(withErrorHandling)
+      .addHandler(app.call);
+
+  final server = await shelf_io.serve(handler, address, port);
+  server.autoCompress = true;
+
+  return server;
+}
+
+Handler withErrorHandling(Handler innerHandler) {
+  return (Request request) async {
+    try {
+      return await innerHandler(request);
+    } on InvalidJsonRequestBodyException catch (e) {
+      return _mapException(e);
+    } on InvalidJsonRequestBodySchemaException catch (e) {
+      return _mapException(e);
+    } on Exception catch (e, stackTrace) {
+      _logUnhandled(e, stackTrace);
+      return _mapException(e);
+    }
+  };
+}
+
+void _logUnhandled(Object e, StackTrace stackTrace) {
+  _logger.severe('Unhandled exception in request handler', e, stackTrace);
+}
+
+Response _mapException(Exception e) {
+  final (errorResponse, statusCode) = switch (e) {
+    InvalidJsonRequestBodyException() => (
+      const ServerErrorResponse(
+        code: 'MALFORMED_JSON',
+        message: 'Malformed or unparsable JSON payload.',
+      ),
+      HttpStatusCode.badRequest,
+    ),
+    InvalidJsonRequestBodySchemaException() => (
+      const ServerErrorResponse(
+        code: 'JSON_SCHEMA_MISMATCH',
+        message: 'Payload schema mismatch. A client update may be required.',
+      ),
+      HttpStatusCode.badRequest,
+    ),
+    Exception() => (
+      const ServerErrorResponse(
+        message: 'INTERNAL_SERVER_ERROR',
+        code: 'Unhandled server error',
+      ),
+      HttpStatusCode.internalServerError,
+    ),
+  };
+
+  return errorResponse.toJson().httpResponse(statusCode);
+}
+
+Future<void> _initializeAdminUser({
+  required bool forceCreateAdminUser,
+  required Shutdown shutdown,
+}) async {
   if (forceCreateAdminUser) {
+    await createAdminUser();
     await shutdown(isSuccess: true);
-    throw shutdownInvariantError;
+  } else {
+    await ensureHasAdminUser();
   }
 }
 
 Future<AppConfig> _loadAppConfig(
-  AppConfigRepository appConfigRepository,
-) async {
-  final appConfig = await appConfigRepository.load();
+  AppConfigRepository repository, {
+  required String Function() getConfigFilePath,
+  required Shutdown shutdown,
+}) async {
+  final appConfig = await repository.load();
   if (appConfig == null) {
-    final defaultConfig = AppConfig.defaultConfig(mdns: promptMdnsConfig());
-    await appConfigRepository.save(defaultConfig);
+    final apiPort = await findAvailablePortOrShutdown(
+      preferredPort: ProjectConstants.defaultApiPort,
+      shutdown: shutdown,
+    );
+    final defaultConfig = AppConfig.defaultConfig(
+      mdnsServicePublish: promptMdnsServicePublishConfig(),
+      port: apiPort,
+    );
+    await repository.save(defaultConfig);
+
+    stdout.writeln(
+      'Created "${getConfigFilePath()}" with default config (API server port: $apiPort).\n'
+      'Important: If you are deploying to the cloud, please read the following cloud deployment notes!\n'
+      'For local networks, the default is sufficient.\n\n'
+      'Cloud deployment notes (not required for local networks):'
+      '\n'
+      '1. Use a reverse proxy/load balancer for HTTPS (e.g., Nginx)\n'
+      '2. Update host, port, and scheme for API and database\n'
+      '3. Update address from 0.0.0.0 to 127.0.0.1\n\n'
+      'Note: PostgreSQL install prompt is disabled for remote databases (non-localhost hosts)',
+    );
 
     return defaultConfig;
   }
   return appConfig;
 }
 
-void _sendPasswordResetCode(
-  Session session, {
-  required String email,
-  required UuidValue passwordResetRequestId,
-  required String verificationCode,
-  required Transaction? transaction,
-}) {
-  // TODO: Setup the mail service provider
-  session.log('[EmailIdp] Password reset code ($email): $verificationCode');
+Future<AppSecrets> _loadAppSecrets(
+  AppSecretsRepository repository, {
+  required String Function() getSecretsFilePath,
+  required String Function() getConfigFilePath,
+  required bool isLocalHostDatabase,
+}) async {
+  final appSecrets = await repository.load();
+
+  try {
+    if (appSecrets == null) {
+      final defaultSecrets = AppSecrets(
+        databasePassword: generateSecureRandomString(),
+      );
+
+      final secretsFilePath = getSecretsFilePath();
+      final configFilePath = getConfigFilePath();
+
+      stdout.writeln(
+        'Created "$secretsFilePath" with randomly generated secrets.\n'
+        'This file should not be under version control. It must remain in a safe place\n\n'
+        'SECURITY: Prefer providing secrets via environment variables,\n'
+        'especially in cloud deployments.\n'
+        'Use this format: "${AppSecretsRepository.envSecretKeyPrefix}*",\n'
+        'e.g., ${AppSecretsRepository.envSecretKeyPrefix}${AppSecrets.databasePasswordKey}=... \n\n'
+        'Environment variables override values in the config file ("$secretsFilePath").\n',
+      );
+
+      if (!isLocalHostDatabase) {
+        stdout.writeln(
+          'Before proceeding, verify database connection details:\n'
+          ' - "$configFilePath": (host, port, database name, username)\n'
+          ' - "$secretsFilePath": (database password)\n'
+          ' - Ensure the database server is reachable from this machine',
+        );
+      }
+
+      stdout.writeln('Press Enter to continue...');
+      stdin.readLineSync();
+
+      await repository.save(defaultSecrets);
+      return defaultSecrets;
+    }
+
+    return appSecrets;
+  } finally {
+    if (repository.hasProvidedRequiredSecretsViaEnv()) {
+      stdout.writeln(
+        'All required app secrets were provided via environment variables',
+      );
+    }
+  }
 }
 
-enum _AppArgument {
-  forceCreateAdmin(argument: Constants.forceCreateAdminArgument);
-
-  const _AppArgument({required this.argument});
-
-  final String argument;
-}
+// TODO: (REMOVE_SERVERPOD) Setup the mail service provider and implement
+// void _sendPasswordResetCode({
+//   required String email,
+//   required String verificationCode,
+// }) {
+//   session.log('[EmailIdp] Password reset code ($email): $verificationCode');
+// }
 
 Future<void> _maybeInstallSystemMdns({
-  required MdnsConfig config,
+  required MdnsServicePublishConfig config,
+  required SetupPromptDeclinedConfig setupPromptDeclinedConfig,
+  required String Function() getConfigFilePath,
   required AppConfigRepository appConfigRepository,
+  required Shutdown shutdown,
 }) async {
-  if (!config.enable || config.serviceInstallDeclined == true) {
+  if (!config.enabled || setupPromptDeclinedConfig.systemMdnsService) {
     return;
   }
-  final platformInstaller = await resolveMdnsPlatformInstaller();
+  final platformInstaller = await resolveMdnsPlatformInstaller(
+    shutdown: shutdown,
+  );
   if (platformInstaller == null) {
     stdout.writeln(
       'Automatic mDNS service installation is not supported by the program on this system.',
     );
     return;
   }
-  final installer = MdnsInstaller(platform: platformInstaller);
+  final installer = MdnsInstaller(
+    platform: platformInstaller,
+    getConfigFilePath: getConfigFilePath,
+  );
   await installer.tryInstallWithPrompt(
     onDeclined: () => appConfigRepository.update(
-      mdns: config.copyWith(serviceInstallDeclined: true),
+      setupPromptDeclined: setupPromptDeclinedConfig.copyWith(
+        systemMdnsService: true,
+      ),
     ),
   );
 }
 
 Future<void> _registerMdnsService({
-  required Serverpod pod,
+  required int serverPort,
+  required ShutdownHookRegistry shutdownHookRegistry,
   required String instanceName,
 }) async {
   final registrar = MdnsServiceRegistrar(
     platform: await resolveMdnsPlatformRegistrar(),
   );
-  await registrar.start(port: pod.server.port, instanceName: instanceName);
+  await registrar.start(port: serverPort, instanceName: instanceName);
 
-  pod.experimental.shutdownTasks.addTask('stopMdnsService', () async {
+  shutdownHookRegistry.register('stoppingMdnsService', () async {
+    stdout.writeln('Stopping mDNS service...');
     await registrar.stop();
+    stdout.writeln('mDNS service stopped and unpublished.');
   });
+}
+
+Future<void> _registerProcessShutdownSignalHandlers(Shutdown shutdown) async {
+  Future<void> handleSignal(ProcessSignal signal) async {
+    stdout.writeln('Received signal: $signal');
+    await shutdown(isSuccess: true);
+  }
+
+  ProcessSignal.sigint.watch().listen(handleSignal);
+
+  if (!isWindows) {
+    ProcessSignal.sigterm.watch().listen(handleSignal);
+  }
 }
