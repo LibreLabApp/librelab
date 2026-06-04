@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:librelab_server/constants/constants.dart';
-import 'package:librelab_server/postgres_installer/postgres_platform_installer.dart';
-import 'package:librelab_server/postgres_installer/postgres_version_constants.dart';
+import 'package:librelab_server/database/postgres_installer/postgres_platform_installer.dart';
+import 'package:librelab_server/database/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/utils/cli_helpers.dart';
 import 'package:librelab_server/utils/download_file.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';

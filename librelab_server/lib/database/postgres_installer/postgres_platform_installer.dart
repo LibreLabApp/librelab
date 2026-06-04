@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:librelab_server/postgres_installer/postgres_version_constants.dart';
+import 'package:librelab_server/database/postgres_installer/postgres_version_constants.dart';
 import 'package:librelab_server/utils/platform_check.dart';
 
 sealed class PostgresPlatformInstaller {

@@ -12,7 +12,7 @@ import 'package:librelab_server/database/migration_runner.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/handshake/handshake_route.dart';
 import 'package:librelab_server/mdns/mdns.dart';
-import 'package:librelab_server/postgres_installer/postgres_installer.dart';
+import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
