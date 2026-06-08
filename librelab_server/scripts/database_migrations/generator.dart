@@ -73,31 +73,24 @@ Future<void> generate(Config config) async {
     exit(1);
   }
 
-  // For readability reasons. Consumers should not depend
-  // on the order of the generated code.
+  // For readability reasons only.
+  // Consumers should not depend on the order of the generated code.
   migrations.sort((a, b) => a.version.compareTo(b.version));
 
-  await _generateDartCode(UnmodifiableListView(migrations), config, outputFile);
-}
-
-Expression _buildMigrationsListExpression(
-  Iterable<DatabaseMigration> migrations,
-) {
-  return literalConstList(
-    migrations.map((m) {
-      return refer(_databaseMigrationClassName).newInstance([], {
-        'version': literalNum(m.version),
-        'sql': literalString(m.sql),
-      });
-    }).toList(),
+  final generatedCode = _generateDartCode(
+    UnmodifiableListView(migrations),
+    config,
   );
+
+  await outputFile.writeAsString(generatedCode);
+
+  stdout.writeln('Generated ${config.dartOutput}.');
 }
 
-Future<void> _generateDartCode(
+String _generateDartCode(
   UnmodifiableListView<DatabaseMigration> migrations,
   Config config,
-  File outputFile,
-) async {
+) {
   final generatedMigrations = _buildMigrationsListExpression(migrations);
 
   final generatedClass = Class(
@@ -138,11 +131,20 @@ Future<void> _generateDartCode(
       ..body.addAll([generatedClass]),
   );
 
-  await outputFile.writeAsString(
-    DartFormatter(
-      languageVersion: DartFormatter.latestLanguageVersion,
-    ).format('${library.accept(emitter)}'),
-  );
+  return DartFormatter(
+    languageVersion: DartFormatter.latestLanguageVersion,
+  ).format('${library.accept(emitter)}');
+}
 
-  stdout.writeln('Generated ${config.dartOutput}.');
+Expression _buildMigrationsListExpression(
+  Iterable<DatabaseMigration> migrations,
+) {
+  return literalConstList(
+    migrations.map((m) {
+      return refer(_databaseMigrationClassName).newInstance([], {
+        'version': literalNum(m.version),
+        'sql': literalString(m.sql),
+      });
+    }).toList(),
+  );
 }

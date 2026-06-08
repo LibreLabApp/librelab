@@ -7,12 +7,12 @@ import 'package:librelab_server/auth/ensure_has_admin_user.dart';
 import 'package:librelab_server/config/config.dart';
 import 'package:librelab_server/constants/constants.dart';
 import 'package:librelab_server/database/database_client.dart';
+import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
-import 'package:librelab_server/database/migration_runner.dart';
+import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/handshake/handshake_route.dart';
 import 'package:librelab_server/mdns/mdns.dart';
-import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
@@ -205,7 +205,6 @@ Future<void> run(List<String> args) async {
   shutdownHookRegistry.register('closeDatabaseConnection', () async {
     stderr.writeln('Shutting down the database connection...');
     await databaseClient.close();
-    stderr.writeln('The database connection is closed.');
   });
 
   if (autoApplyMigrations) {
@@ -234,7 +233,6 @@ Future<void> run(List<String> args) async {
   shutdownHookRegistry.register('closingHttpServer', () async {
     stderr.writeln('Shutting down the HTTP server...');
     await server.close();
-    stderr.writeln('The HTTP server is closed.');
   });
 
   if (!forceCreateAdminUser && mdnsConfig.enabled) {
@@ -500,7 +498,6 @@ Future<void> _registerMdnsService({
   shutdownHookRegistry.register('stoppingMdnsService', () async {
     stdout.writeln('Stopping mDNS service...');
     await registrar.stop();
-    stdout.writeln('mDNS service stopped and unpublished.');
   });
 }
 

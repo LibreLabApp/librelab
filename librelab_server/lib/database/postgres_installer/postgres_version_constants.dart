@@ -1,14 +1,14 @@
 enum PostgresVersionInfo {
-  v16(majorVersion: '16', fullVersion: '16.14-1'),
-  v17(majorVersion: '17', fullVersion: '17.10-1'),
-  v18(majorVersion: '18', fullVersion: '18.4-1');
+  v16(majorVersion: 16, fullVersion: '16.14-1'),
+  v17(majorVersion: 17, fullVersion: '17.10-1'),
+  v18(majorVersion: 18, fullVersion: '18.4-1');
 
   const PostgresVersionInfo({
     required this.majorVersion,
     required this.fullVersion,
   });
 
-  final String majorVersion;
+  final int majorVersion;
 
   /// Used to download the installer file on Microsoft Windows only.
   /// Ignored by package managers (apt, dnf, homebrew).
@@ -21,7 +21,7 @@ enum PostgresVersionInfo {
   /// ```
   static PostgresVersionInfo recommended = v18;
 
-  static PostgresVersionInfo fromMajorVersion(String majorVersion) {
+  static PostgresVersionInfo fromMajorVersion(int majorVersion) {
     return values.firstWhere(
       (version) => version.majorVersion == majorVersion,
       orElse: () => throw ArgumentError(

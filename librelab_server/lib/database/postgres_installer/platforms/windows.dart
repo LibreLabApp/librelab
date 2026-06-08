@@ -15,11 +15,11 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
 
   final Shutdown shutdown;
 
-  static String _installDir({required String majorVersion}) {
-    return join('C:', 'Program Files', 'PostgreSQL', majorVersion);
+  static String _installDir({required int majorVersion}) {
+    return join('C:', 'Program Files', 'PostgreSQL', majorVersion.toString());
   }
 
-  static String _binDir({required String majorVersion}) {
+  static String _binDir({required int majorVersion}) {
     return join(_installDir(majorVersion: majorVersion), 'bin');
   }
 
@@ -34,7 +34,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
   /// ```
   static String binExePath(
     String fileName, {
-    required String postgresMajorVersion,
+    required int postgresMajorVersion,
   }) {
     if (fileName.endsWith('.exe')) {
       throw ArgumentError.value(
@@ -149,7 +149,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
   }
 
   @override
-  Future<void> addToPath({required String majorVersion}) async {
+  Future<void> addToPath({required int majorVersion}) async {
     final binDirectory = _binDir(majorVersion: majorVersion);
     stdout.writeln('Adding "$binDirectory" to user PATH...');
 

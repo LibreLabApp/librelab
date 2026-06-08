@@ -114,7 +114,7 @@ PostgresVersionInfo _promptPostgresVersion() {
     'Select PostgreSQL version (${availableVersionNumbers.join(', ')}) [Default: ${defaultVersion.majorVersion}]: ',
     allowEmpty: true,
     validateInput: (input) {
-      return availableVersionNumbers.contains(input)
+      return availableVersionNumbers.contains(int.tryParse(input))
           ? null
           : 'Invalid PostgreSQL version. Available versions: $availableVersionNumbers';
     },
@@ -124,7 +124,13 @@ PostgresVersionInfo _promptPostgresVersion() {
     return defaultVersion;
   }
 
-  return PostgresVersionInfo.fromMajorVersion(input);
+  final version = PostgresVersionInfo.fromMajorVersion(int.parse(input));
+  if (version.majorVersion < PostgresVersionInfo.v18.majorVersion) {
+    stdout.writeln(
+      'Warning: The minimum supported PostgreSQL version is 18. Versions before that require manually implementing uuidv7() function',
+    );
+  }
+  return version;
 }
 
 /// Runs SQL [command] command using `psql`.

@@ -47,3 +47,14 @@ final scriptRelativePath = p.relative(
   Platform.script.toFilePath(),
   from: Directory.current.path,
 );
+
+String snakeToPascalCase(String input) => input
+    .split('_')
+    .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+    .join();
+
+String snakeToCamel(String input) {
+  final parts = input.split('_');
+  return parts.first +
+      parts.skip(1).map((p) => p[0].toUpperCase() + p.substring(1)).join();
+}

@@ -48,5 +48,5 @@ abstract class PostgresPlatformFileInstaller
     required String superPassword,
   });
 
-  Future<void> addToPath({required String majorVersion});
+  Future<void> addToPath({required int majorVersion});
 }

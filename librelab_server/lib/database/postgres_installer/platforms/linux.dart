@@ -79,7 +79,7 @@ final class LinuxPostgresInstaller
   }
 
   // https://www.postgresql.org/download/linux/ubuntu/
-  Future<void> _installUsingApt({required String majorVersion}) async {
+  Future<void> _installUsingApt({required int majorVersion}) async {
     await _runCommand(
       'sudo',
       ['apt-get', 'update'],
@@ -135,7 +135,7 @@ final class LinuxPostgresInstaller
 
   // - https://www.postgresql.org/download/linux/redhat/ (preferred)
   // - https://docs.fedoraproject.org/en-US/quick-docs/postgresql/
-  Future<void> _installUsingDnf({required String majorVersion}) async {
+  Future<void> _installUsingDnf({required int majorVersion}) async {
     await _runCommand('sudo', [
       'dnf',
       'makecache',

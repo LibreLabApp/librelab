@@ -10,8 +10,8 @@ final List<ApiNode> _input = [
   ]),
 ];
 
-void main() {
-  generate(
+Future<void> main() async {
+  await generate(
     Config(
       input: ApiGroup(null, _input),
       dartOutput:

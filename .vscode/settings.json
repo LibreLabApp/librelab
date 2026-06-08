@@ -14,6 +14,8 @@
         "PGPASSWORD",
         "pgsql",
         "psql",
-        "pubspec"
+        "pubspec",
+        "timestamptz",
+        "uuidv"
     ]
 }

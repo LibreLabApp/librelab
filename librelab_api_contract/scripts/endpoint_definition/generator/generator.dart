@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
@@ -11,7 +12,7 @@ part 'config.dart';
 part 'internal_utils.dart';
 part 'required_types.dart';
 
-void generate(Config config) {
+Future<void> generate(Config config) async {
   final outputFile = File(config.dartOutput);
   if (!outputFile.existsSync()) {
     stderr.writeln('An empty file must exist: ${config.dartOutput}');
@@ -20,6 +21,20 @@ void generate(Config config) {
 
   final endpoints = _flatten(config.input);
 
+  final generatedCode = _generateDartCode(
+    config,
+    endpoints: UnmodifiableListView(endpoints),
+  );
+
+  await outputFile.writeAsString(generatedCode);
+
+  stdout.writeln('Generated ${config.dartOutput}.');
+}
+
+String _generateDartCode(
+  Config config, {
+  required UnmodifiableListView<(EndpointDefinition, String)> endpoints,
+}) {
   final fields = <Field>[];
   final methods = <Method>[];
 
@@ -61,13 +76,9 @@ void generate(Config config) {
       ..body.addAll([apiEndpointsContract]),
   );
 
-  outputFile.writeAsString(
-    DartFormatter(
-      languageVersion: DartFormatter.latestLanguageVersion,
-    ).format('${library.accept(emitter)}'),
-  );
-
-  stdout.writeln('Generated ${config.dartOutput}.');
+  return DartFormatter(
+    languageVersion: DartFormatter.latestLanguageVersion,
+  ).format('${library.accept(emitter)}');
 }
 
 void _buildEndpointMembers(
