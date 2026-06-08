@@ -191,16 +191,10 @@ Future<void> run(List<String> args) async {
     );
   }
 
-  // TODO: (REMOVE_SERVERPOD) Handle connection issues and other failures
-  //  handle SocketException, Exception, PgException/ServerException (e.g., invalid password, database, user)
-  final databaseClient = await DatabaseClient.connect(
-    host: databaseConfig.host,
-    port: databaseConfig.port,
-    database: databaseConfig.name,
-    username: databaseConfig.user,
+  final databaseClient = await _connectDatabase(
+    databaseConfig: databaseConfig,
     password: secrets.databasePassword,
-    // TODO: (REMOVE_SERVERPOD) Respect user config
-    sslMode: .disable,
+    shutdown: shutdown,
   );
   shutdownHookRegistry.register('closeDatabaseConnection', () async {
     stderr.writeln('Shutting down the database connection...');
@@ -247,6 +241,60 @@ Future<void> run(List<String> args) async {
     forceCreateAdminUser: forceCreateAdminUser,
     shutdown: shutdown,
   );
+}
+
+Future<DatabaseClient> _connectDatabase({
+  required DatabaseConfig databaseConfig,
+  required String password,
+  required Shutdown shutdown,
+}) async {
+  try {
+    final client = await DatabaseClient.connect(
+      host: databaseConfig.host,
+      port: databaseConfig.port,
+      database: databaseConfig.name,
+      username: databaseConfig.user,
+      password: password,
+      sslMode: switch (databaseConfig.sslMode) {
+        .disable => .disable,
+        .require => .require,
+        .verifyFull => .verifyFull,
+      },
+    );
+    return client;
+  } on Exception catch (e) {
+    final String message;
+    if (e is SocketException) {
+      message =
+          '(network error).\n'
+          'Cause: Unable to reach host or port (${databaseConfig.host}:${databaseConfig.port}).\n'
+          'Details: $e';
+    } else if (e is PgException) {
+      final cause = () {
+        if (e is ServerException) {
+          if (e.code == '28P01') {
+            return 'authentication failure (invalid username or password)';
+          }
+          if (e.code == '3D000') {
+            return 'database does not exist';
+          }
+        }
+        return 'server rejected connection';
+      }();
+
+      message =
+          '(PostgreSQL error).\n'
+          'Cause: $cause.\n'
+          'Details: $e';
+    } else {
+      message =
+          '(unexpected error).\n'
+          'Cause: Unclassified failure during initialization.\n'
+          'Details: $e';
+    }
+    stderr.writeln('Database connection failed $message');
+    await shutdown(isSuccess: false);
+  }
 }
 
 void _setupLogger() {
@@ -319,27 +367,30 @@ void _logUnhandled(Object e, StackTrace stackTrace) {
 }
 
 Response _mapException(Exception e) {
-  final (errorResponse, statusCode) = switch (e) {
+  final (
+    ServerErrorResponse errorResponse,
+    HttpStatusCode statusCode,
+  ) = switch (e) {
     InvalidJsonRequestBodyException() => (
       const ServerErrorResponse(
         code: 'MALFORMED_JSON',
         message: 'Malformed or unparsable JSON payload.',
       ),
-      HttpStatusCode.badRequest,
+      .badRequest,
     ),
     InvalidJsonRequestBodySchemaException() => (
       const ServerErrorResponse(
         code: 'JSON_SCHEMA_MISMATCH',
         message: 'Payload schema mismatch. A client update may be required.',
       ),
-      HttpStatusCode.badRequest,
+      .badRequest,
     ),
     Exception() => (
       const ServerErrorResponse(
         message: 'INTERNAL_SERVER_ERROR',
         code: 'Unhandled server error',
       ),
-      HttpStatusCode.internalServerError,
+      .internalServerError,
     ),
   };
 
@@ -383,7 +434,8 @@ Future<AppConfig> _loadAppConfig(
       '\n'
       '1. Use a reverse proxy/load balancer for HTTPS (e.g., Nginx)\n'
       '2. Update host, port, and scheme for API and database\n'
-      '3. Update address from 0.0.0.0 to 127.0.0.1\n\n'
+      '3. Update the sslMode of database from disable to verifyFull (if using non-localhost database)\n'
+      '4. Update address from 0.0.0.0 to 127.0.0.1\n\n'
       'Note: PostgreSQL install prompt is disabled for remote databases (non-localhost hosts)',
     );
 

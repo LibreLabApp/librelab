@@ -1,7 +1,7 @@
 import 'package:postgres/postgres.dart';
 
 export 'package:postgres/postgres.dart'
-    show Result, ServerException, Sql, SslMode;
+    show PgException, Result, ServerException, Sql, SslMode;
 
 class DatabaseClient {
   DatabaseClient._(this._connection);

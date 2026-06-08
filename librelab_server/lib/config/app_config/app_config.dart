@@ -90,6 +90,7 @@ class DatabaseConfig {
     required this.port,
     required this.name,
     required this.user,
+    required this.sslMode,
   });
 
   factory DatabaseConfig.fromYaml(YamlMap yaml) {
@@ -98,6 +99,7 @@ class DatabaseConfig {
       port: yaml['port'] as int,
       name: yaml['name'] as String,
       user: yaml['user'] as String,
+      sslMode: DatabaseSslMode.fromYaml(yaml['sslMode'] as String),
     );
   }
 
@@ -107,16 +109,43 @@ class DatabaseConfig {
     port: PostgresConstants.defaultPort,
     name: ProjectConstants.defaultDbName,
     user: ProjectConstants.defaultUsername,
+    sslMode: .disable,
   );
 
   final String host;
   final int port;
   final String name;
   final String user;
+  final DatabaseSslMode sslMode;
 
   Map<String, Object?> toYaml() {
-    return {'host': host, 'port': port, 'name': name, 'user': user};
+    return {
+      'host': host,
+      'port': port,
+      'name': name,
+      'user': user,
+      'sslMode': sslMode.toYaml(),
+    };
   }
+}
+
+enum DatabaseSslMode {
+  disable,
+  require,
+  verifyFull;
+
+  static DatabaseSslMode fromYaml(String value) => switch (value) {
+    'disable' => .disable,
+    'require' => .require,
+    'verifyFull' => .verifyFull,
+    String() => throw UnsupportedError('Unsupported database SSL mode: $value'),
+  };
+
+  String toYaml() => switch (this) {
+    .disable => 'disable',
+    .require => 'require',
+    .verifyFull => 'verifyFull',
+  };
 }
 
 @freezed
