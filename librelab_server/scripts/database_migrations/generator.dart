@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
-import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:librelab_server/database/database_migration.dart';
 import 'package:meta/meta.dart';
@@ -77,20 +76,14 @@ Future<void> generate(Config config) async {
   // Consumers should not depend on the order of the generated code.
   migrations.sort((a, b) => a.version.compareTo(b.version));
 
-  final generatedCode = _generateDartCode(
-    UnmodifiableListView(migrations),
-    config,
-  );
+  final generatedCode = _generateDartCode(.unmodifiable(migrations), config);
 
   await outputFile.writeAsString(generatedCode);
 
   stdout.writeln('Generated ${config.dartOutput}.');
 }
 
-String _generateDartCode(
-  UnmodifiableListView<DatabaseMigration> migrations,
-  Config config,
-) {
+String _generateDartCode(List<DatabaseMigration> migrations, Config config) {
   final generatedMigrations = _buildMigrationsListExpression(migrations);
 
   final generatedClass = Class(
@@ -103,10 +96,20 @@ String _generateDartCode(
         Field(
           (b) => b
             ..name = 'list'
-            ..modifier = FieldModifier.final$
+            ..modifier = .final$
             ..static = true
             ..type = refer('List<$_databaseMigrationClassName>')
             ..assignment = generatedMigrations.code,
+        ),
+      )
+      ..fields.add(
+        Field(
+          (b) => b
+            ..name = 'latest'
+            ..modifier = .final$
+            ..static = true
+            ..type = refer('int')
+            ..assignment = literalNum(migrations.last.version).code,
         ),
       )
       ..docs.addAll([

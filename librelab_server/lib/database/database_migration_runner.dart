@@ -6,11 +6,13 @@ class DatabaseMigrationRunner {
   DatabaseMigrationRunner({
     required this._client,
     required this._migrations,
+    required this._latestVersion,
     required this._logger,
   });
 
   final DatabaseClient _client;
   final List<DatabaseMigration> _migrations;
+  final int _latestVersion;
   final Logger _logger;
 
   static const String _tableName = 'schema_migrations';
@@ -59,12 +61,27 @@ CREATE TABLE $_tableName (
     );
   }
 
-  Future<void> run() async {
+  Future<int> _getOrCreateCurrentVersion() async {
     final existingVersion = await _getCurrentVersion();
     if (existingVersion == null) {
       await _createTable();
+      return _defaultVersion;
     }
-    final currentVersion = existingVersion ?? _defaultVersion;
+    return existingVersion;
+  }
+
+  Future<void> run() async {
+    final currentVersion = await _getOrCreateCurrentVersion();
+
+    if (currentVersion > _latestVersion) {
+      _logger.shout(
+        'The database migration version is $currentVersion, but this '
+        'server only supports migrations up to version $_latestVersion.\n'
+        'This usually indicates that the server was downgraded after the '
+        'database was migrated by a newer version. The application may not '
+        'function correctly.',
+      );
+    }
 
     final pending =
         _migrations

@@ -175,6 +175,7 @@ Future<void> run(List<String> args) async {
     final migrationRunner = DatabaseMigrationRunner(
       client: databaseClient,
       migrations: DatabaseMigrations.list,
+      latestVersion: DatabaseMigrations.latest,
       logger: Logger('DatabaseMigrationRunner'),
     );
     await migrationRunner.run();
@@ -290,11 +291,15 @@ void _setupLogger() {
 
     final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
     if (errorLevels.contains(level)) {
-      stderr.writeln(
-        '$message\n'
-        '  Error: ${record.error}\n'
-        '  StackTrace: ${record.stackTrace}\n',
-      );
+      final error = record.error;
+      final stacktrace = record.stackTrace;
+
+      final messageWithError = StringBuffer('$message\n')
+        ..writeAll([
+          if (error != null) '  Error: $error\n',
+          if (stacktrace != null) '  StackTrace: $stacktrace\n',
+        ]);
+      stderr.writeln(messageWithError);
     } else {
       stdout.writeln(message);
     }
