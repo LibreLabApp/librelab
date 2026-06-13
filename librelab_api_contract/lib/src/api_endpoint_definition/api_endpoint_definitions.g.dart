@@ -5,7 +5,7 @@ library;
 
 import 'package:librelab_api_contract/src/api_endpoint_definition/types.dart';
 
-/// Generated code. Do not modify directly.
+/// Generated code. Do not **modify** directly.
 ///
 /// Shared type-safe definition of client-server endpoints (HTTP or WebSocket).
 /// Each endpoint includes URL path and/or HTTP method (if endpoint is HTTP).
@@ -19,27 +19,27 @@ abstract final class ApiEndpointDefinitions {
     path: '/handshake',
   );
 
-  /// HTTP POST /users
-  static const HttpEndpoint users$POST = HttpEndpoint(
+  /// HTTP POST /auth/login
+  static const HttpEndpoint auth_login$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/users',
+    path: '/auth/login',
   );
 
-  /// HTTP PUT /users
-  static const HttpEndpoint users$PUT = HttpEndpoint(
-    method: HttpMethod.put,
-    path: '/users',
+  /// HTTP POST /auth/logout
+  static const HttpEndpoint auth_logout$POST = HttpEndpoint(
+    method: HttpMethod.post,
+    path: '/auth/logout',
   );
 
-  /// HTTP GET /users
-  static const HttpEndpoint users$GET = HttpEndpoint(
-    method: HttpMethod.get,
-    path: '/users',
+  /// HTTP POST /auth/refresh-token
+  static const HttpEndpoint auth_refresh_token$POST = HttpEndpoint(
+    method: HttpMethod.post,
+    path: '/auth/refresh-token',
   );
 
-  /// HTTP DELETE /users
-  static const HttpEndpoint users$DELETE = HttpEndpoint(
-    method: HttpMethod.delete,
-    path: '/users',
+  /// HTTP POST /auth/refresh-user
+  static const HttpEndpoint auth_refresh_user$POST = HttpEndpoint(
+    method: HttpMethod.post,
+    path: '/auth/refresh-user',
   );
 }

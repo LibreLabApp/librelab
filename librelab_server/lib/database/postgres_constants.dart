@@ -1,10 +1,3 @@
-abstract final class CliOptions {
-  static const String helpFlag = 'help';
-  static const String forceCreateAdminFlag = 'force-create-admin';
-  static const String serverRunModeOption = 'mode';
-  static const String applyMigrationsFlag = 'apply-migrations';
-}
-
 abstract final class PostgresConstants {
   /// The default PostgreSQL database port.
   static const int defaultPort = 5432;

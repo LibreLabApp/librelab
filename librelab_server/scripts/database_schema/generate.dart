@@ -14,6 +14,9 @@ Future<void> main() async {
         port: 8090,
       ),
       dartOutput: 'lib/database/database_schema.g.dart',
+      requiredTypesImport: 'package:optional_field/optional_field.dart',
+      optionalInsertColumns: ['id', 'created_at', 'updated_at'],
+      optionalUpdateColumns: ['id', 'created_at', 'updated_at'],
     ),
   );
 }

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiContractVersionConstants;
-import 'package:librelab_server/constants/constants.dart';
+import 'package:librelab_server/cli/cli_constants.dart';
 import 'package:librelab_server/generated/pubspec.g.dart' show Pubspec;
 import 'package:librelab_server/server.dart' show ServerRunMode;
 import 'package:librelab_server/utils/cli_helpers.dart';
@@ -57,7 +57,7 @@ void main() async {
     executableFileName: executableFileName,
   );
 
-  await _buildForceCreateAdminScript(
+  await _buildCreateSuperUserScript(
     targetDirectory: targetDirectory.path,
     executableFileName: executableFileName,
     runScriptFile: runScriptFile,
@@ -129,7 +129,7 @@ pause
   return file;
 }
 
-Future<void> _buildForceCreateAdminScript({
+Future<void> _buildCreateSuperUserScript({
   required String targetDirectory,
   required String executableFileName,
   required File runScriptFile,
@@ -137,11 +137,9 @@ Future<void> _buildForceCreateAdminScript({
   final runScriptFileName = basename(runScriptFile.path);
 
   final fileExtension = _scriptExt.fileExtension;
-  final file = File(
-    join(targetDirectory, 'force-create-admin-user.$fileExtension'),
-  );
+  final file = File(join(targetDirectory, 'create-superuser.$fileExtension'));
 
-  const argument = '--${CliOptions.forceCreateAdminFlag}';
+  const argument = '--${CliOptions.createSuperUserFlag}';
 
   final fileContent = switch (_scriptExt) {
     _ScriptExt.sh =>

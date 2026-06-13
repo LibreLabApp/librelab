@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
@@ -8,10 +7,19 @@ import 'package:postgres/postgres.dart';
 import '../../../scripts/_utils.dart';
 
 class Config {
-  const Config({required this.input, required this.dartOutput});
+  const Config({
+    required this.input,
+    required this.dartOutput,
+    required this.optionalInsertColumns,
+    required this.optionalUpdateColumns,
+    required this.requiredTypesImport,
+  });
 
   final Endpoint input;
   final String dartOutput;
+  final List<String> optionalInsertColumns;
+  final List<String> optionalUpdateColumns;
+  final String requiredTypesImport;
 }
 
 Future<void> generate(Config config) async {
@@ -21,16 +29,98 @@ Future<void> generate(Config config) async {
     exit(1);
   }
 
-  final tables = await _readSchemaTablesFromDatabase(config.input);
+  final (tables, enums) = await _readTypesFromDatabase(config.input);
 
-  final generatedCode = _generateDartCode(UnmodifiableListView(tables));
+  final generatedCode = _generateDartCode(
+    List.unmodifiable(tables),
+    enums,
+    optionalInsertColumns: config.optionalInsertColumns,
+    requiredTypesImport: config.requiredTypesImport,
+    optionalUpdateColumns: config.optionalUpdateColumns,
+  );
 
   await outputFile.writeAsString(generatedCode);
 
   stdout.writeln('Generated ${config.dartOutput}.');
 }
 
-String _generateDartCode(UnmodifiableListView<_TableInfo> tables) {
+String _generateDartCode(
+  List<_TableInfo> tables,
+  List<_PgEnum> pgEnums, {
+  required List<String> optionalInsertColumns,
+  required List<String> optionalUpdateColumns,
+  required String requiredTypesImport,
+}) {
+  final enums = <Enum>[];
+
+  for (final pgEnum in pgEnums) {
+    final generatedEnumName = '${snakeToPascalCase(pgEnum.name)}PgEnum';
+    enums.add(
+      Enum(
+        (b) => b
+          ..name = generatedEnumName
+          ..fields.add(
+            Field(
+              (b) => b
+                ..name = 'text'
+                ..type = refer('String')
+                ..modifier = FieldModifier.final$,
+            ),
+          )
+          ..constructors.add(
+            Constructor(
+              (b) => b
+                ..constant = true
+                ..requiredParameters.add(
+                  Parameter(
+                    (b) => b
+                      ..name = 'text'
+                      ..toThis = true,
+                  ),
+                ),
+            ),
+          )
+          ..values.addAll(
+            pgEnum.values
+                .map(
+                  (value) => EnumValue(
+                    (b) => b
+                      ..name = snakeToCamel(value.replaceAll(':', '_'))
+                      ..arguments.add(literalString(value)),
+                  ),
+                )
+                .toList(),
+          )
+          ..methods.add(
+            Method(
+              (b) => b
+                ..name = 'fromText'
+                ..returns = refer(generatedEnumName)
+                ..static = true
+                ..requiredParameters.add(
+                  Parameter(
+                    (b) => b
+                      ..name = 'value'
+                      ..type = refer('String'),
+                  ),
+                )
+                ..body = Block.of([
+                  const Code('return values.firstWhere('),
+                  const Code('(e) => e.text == value,'),
+                  const Code(
+                    r"orElse: () => throw ArgumentError('Unknown enum value: $value'),",
+                  ),
+                  const Code(');'),
+                ]),
+            ),
+          )
+          ..docs.addAll([
+            '/// Generated enum from PostgreSQL enum `${pgEnum.name}`.',
+          ]),
+      ),
+    );
+  }
+
   final classes = <Class>[];
 
   for (final table in tables) {
@@ -45,6 +135,86 @@ String _generateDartCode(UnmodifiableListView<_TableInfo> tables) {
         ..abstract = true
         ..modifier = ClassModifier.final$
         ..constructors.clear()
+        ..methods.add(
+          Method(
+            (b) => b
+              ..name = 'insert'
+              ..returns = refer('Map<String, Object>')
+              ..static = true
+              ..optionalParameters.addAll(
+                table.columns.map((e) {
+                  final isOptional =
+                      optionalInsertColumns.contains(e.columnName) ||
+                      e.hasDefault;
+
+                  return Parameter(
+                    (b) => b
+                      ..name = snakeToCamel(e.columnName)
+                      ..named = true
+                      ..required = !isOptional
+                      ..type = refer(() {
+                        final type = e.asDartType();
+                        if (isOptional && !e.isNullable) {
+                          return '$type?';
+                        }
+                        return type;
+                      }()),
+                  );
+                }).toList(),
+              )
+              ..body = literalMap(
+                Map.fromEntries(
+                  table.columns
+                      .map(
+                        (e) => MapEntry(
+                          refer(
+                            '$tableClassName.${snakeToCamel(e.columnName)}',
+                          ),
+                          () {
+                            final isOptional =
+                                optionalInsertColumns.contains(e.columnName) ||
+                                e.hasDefault;
+                            final parameterName = snakeToCamel(e.columnName);
+                            if (e.isNullable || isOptional) {
+                              return Code('?$parameterName');
+                            }
+                            return refer(parameterName);
+                          }(),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ).code,
+          ),
+        )
+        ..methods.add(
+          Method(
+            (b) => b
+              ..name = 'update'
+              ..returns = refer('Map<String, Object?>')
+              ..static = true
+              ..optionalParameters.addAll(
+                table.columns.map((e) {
+                  final isOptional = optionalUpdateColumns.contains(
+                    e.columnName,
+                  );
+                  return Parameter(
+                    (b) => b
+                      ..name = snakeToCamel(e.columnName)
+                      ..named = true
+                      ..required = !isOptional
+                      ..defaultTo = isOptional
+                          ? const Code('const .absent()')
+                          : null
+                      ..type = refer('Field<${e.asDartType()}>'),
+                  );
+                }).toList(),
+              )
+              ..body = Code('''
+return _buildFieldMap([${table.columns.map((e) => '($tableClassName.${snakeToCamel(e.columnName)}, ${snakeToCamel(e.columnName)})').join(', ')}]);
+'''),
+          ),
+        )
         ..fields.add(
           Field(
             (b) => b
@@ -142,14 +312,19 @@ String _generateDartCode(UnmodifiableListView<_TableInfo> tables) {
               )
               ..body = refer(rowClassName).newInstance([], {
                 for (final e in table.columns)
-                  snakeToCamel(e.columnName): refer('map')
-                      .index(
-                        refer(
-                          tableClassName,
-                        ).property(snakeToCamel(e.columnName)),
-                      )
-                      .nullChecked
-                      .asA(refer(e.asDartType())),
+                  snakeToCamel(e.columnName): () {
+                    final expression = refer('map')
+                        .index(
+                          refer(
+                            tableClassName,
+                          ).property(snakeToCamel(e.columnName)),
+                        )
+                        .asA(refer(e.asDartType()));
+                    if (e.isNullable) {
+                      return expression;
+                    }
+                    return expression.nullChecked;
+                  }(),
               }).code,
           ),
         )
@@ -159,17 +334,40 @@ String _generateDartCode(UnmodifiableListView<_TableInfo> tables) {
     classes.addAll([tableClass, rowClass]);
   }
 
+  const buildFieldMap = Code(r'''
+Map<String, Object?> _buildFieldMap<T>(
+  List<(String key, Field<T> field)> entries,
+) {
+  final map = <String, Object?>{};
+
+  void put(String key, Field<T> field) {
+    if (field case Present(:final value)) {
+      map[key] = value;
+    }
+  }
+
+  for (final e in entries) {
+    put(e.$1, e.$2);
+  }
+
+  return map;
+}
+''');
+
   final emitter = DartEmitter();
 
   final library = Library(
     (b) => b
-      ..directives.add(Directive.import('package:meta/meta.dart'))
+      ..directives.addAll([
+        Directive.import('package:meta/meta.dart'),
+        Directive.import(requiredTypesImport),
+      ])
       ..docs.addAll([
         '// coverage:ignore-file',
         '/// Generated code. Do not modify directly.',
         '/// Instead, modify and then run: dart $scriptRelativePath',
       ])
-      ..body.addAll(classes),
+      ..body.addAll([buildFieldMap, ...enums, ...classes]),
   );
 
   return DartFormatter(
@@ -177,7 +375,7 @@ String _generateDartCode(UnmodifiableListView<_TableInfo> tables) {
   ).format('${library.accept(emitter)}');
 }
 
-Future<List<_TableInfo>> _readSchemaTablesFromDatabase(
+Future<(List<_TableInfo>, List<_PgEnum>)> _readTypesFromDatabase(
   Endpoint endpoint,
 ) async {
   final connection = await Connection.open(
@@ -187,8 +385,9 @@ Future<List<_TableInfo>> _readSchemaTablesFromDatabase(
 
   try {
     final tables = await _readSchemaTables(connection);
+    final enums = await _readEnums(connection);
 
-    return tables;
+    return (tables, enums);
   } finally {
     await connection.close();
   }
@@ -197,7 +396,7 @@ Future<List<_TableInfo>> _readSchemaTablesFromDatabase(
 Future<List<_TableInfo>> _readSchemaTables(Connection connection) async {
   final tables = <_TableInfo>[];
   final tablesResult = await connection.execute(
-    Sql.named('''
+    Sql('''
       SELECT table_name
       FROM information_schema.tables
       WHERE table_schema = 'public'
@@ -210,11 +409,12 @@ Future<List<_TableInfo>> _readSchemaTables(Connection connection) async {
 
     final columnsResult = await connection.execute(
       Sql.named('''
-SELECT column_name, data_type, udt_name, is_nullable
+SELECT column_name, data_type, udt_name, is_nullable,
+(column_default IS NOT NULL) AS has_default
         FROM information_schema.columns
         WHERE table_schema = 'public'
           AND table_name = @table
-        ORDER BY ordinal_position;
+        ORDER BY ordinal_position
       '''),
       parameters: {'table': tableName},
     );
@@ -228,6 +428,22 @@ SELECT column_name, data_type, udt_name, is_nullable
   }
 
   return tables;
+}
+
+Future<List<_PgEnum>> _readEnums(Connection connection) async {
+  final enumRows = await connection.execute(
+    Sql('''
+SELECT
+  t.typname AS enum_name,
+  array_agg(e.enumlabel ORDER BY e.enumsortorder)::text[] AS enum_values
+FROM pg_type t
+JOIN pg_enum e ON e.enumtypid = t.oid
+GROUP BY t.typname
+ORDER BY t.typname;
+'''),
+  );
+
+  return enumRows.map((e) => _PgEnum.fromMap(e.toColumnMap())).toList();
 }
 
 @immutable
@@ -248,6 +464,7 @@ class _TableColumnInfo {
     required this.dataType,
     required this.udtName,
     required this.isNullable,
+    required this.hasDefault,
   });
 
   factory _TableColumnInfo.fromMap(Map<String, Object?> map) {
@@ -264,6 +481,7 @@ class _TableColumnInfo {
           'Unexpected is_nullable value: $rawNullable',
         ),
       },
+      hasDefault: map['has_default']! as bool,
     );
   }
 
@@ -271,18 +489,21 @@ class _TableColumnInfo {
   final String dataType;
   final String udtName;
   final bool isNullable;
+  final bool hasDefault;
 
   @override
   String toString() =>
-      'TableColumnInfo(columnName: $columnName, dataType: $dataType, udtName: $udtName, isNullable: $isNullable)';
+      'TableColumnInfo(columnName: $columnName, dataType: $dataType, udtName: $udtName, isNullable: $isNullable, hasDefault: $hasDefault)';
 
-  String asDartType() {
+  String asDartNonNullableType() {
     // Handles PostgreSQL enums
     if (dataType == 'USER-DEFINED') {
-      return 'String';
+      return 'String'; // Requires ::text in SQL select
     }
     final type = switch (udtName) {
       'int4' => 'int',
+      'int8' => 'int',
+      'inet' => 'String', // Requires ::text in SQL select
       'uuid' => 'String',
       'text' => 'String',
       'timestamp' => 'DateTime',
@@ -292,6 +513,25 @@ class _TableColumnInfo {
         'Unexpected udt_name value for column "$columnName": $udtName (Human readable name: $dataType)',
       ),
     };
-    return type + (isNullable ? '?' : '');
+    return type;
   }
+
+  String asDartType() {
+    return asDartNonNullableType() + (isNullable ? '?' : '');
+  }
+}
+
+@immutable
+class _PgEnum {
+  const _PgEnum({required this.name, required this.values});
+
+  factory _PgEnum.fromMap(Map<String, Object?> map) {
+    return _PgEnum(
+      name: map['enum_name']! as String,
+      values: (map['enum_values']! as List<Object?>).cast<String>(),
+    );
+  }
+
+  final String name;
+  final List<String> values;
 }

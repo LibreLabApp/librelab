@@ -16,13 +16,14 @@ dependencies:
   json_utils:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: 4244700e2f2a99cf777d1e94c8ad9942f9b9432a
+      ref: 5599b2fa2ccb1bf78054ee58b13b109d3f998440
       path: packages/json_utils
   http_method:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: 4244700e2f2a99cf777d1e94c8ad9942f9b9432a
+      ref: 5599b2fa2ccb1bf78054ee58b13b109d3f998440
       path: packages/http_method
+  collection: ^1.19.1
 
 dev_dependencies:
   build_runner: ^2.15.0

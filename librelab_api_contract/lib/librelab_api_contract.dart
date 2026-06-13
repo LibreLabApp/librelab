@@ -1,6 +1,14 @@
 export 'src/api_contract_version_constants.dart';
-export 'src/api_endpoint_definition/api_endpoint_definitions.g.dart';
-export 'src/api_endpoint_definition/types.dart';
+export 'src/auth/auth_token.dart';
+export 'src/auth/login/login_request.dart';
+export 'src/auth/login/login_response.dart';
+export 'src/auth/logout/logout_request.dart';
+export 'src/auth/logout/logout_response.dart';
+export 'src/auth/refresh_token/token_refresh_request.dart';
+export 'src/auth/refresh_token/token_refresh_response.dart';
 export 'src/handshake/handshake_request.dart';
 export 'src/handshake/handshake_response.dart';
+export 'src/server_error_response/server_error_codes.dart';
 export 'src/server_error_response/server_error_response.dart';
+export 'src/user/role/role.dart';
+export 'src/user/user.dart';

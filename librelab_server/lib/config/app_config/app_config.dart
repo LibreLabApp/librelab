@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:librelab_server/constants/constants.dart';
+import 'package:librelab_server/database/postgres_constants.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:yaml/yaml.dart';
 

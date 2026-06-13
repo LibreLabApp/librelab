@@ -39,16 +39,24 @@ class AppSecretsRepository {
       AppSecrets.databasePasswordKey,
       fromFile: () => fileSecrets.databasePassword,
     );
-    final secrets = AppSecrets(databasePassword: databasePassword);
+    final jwtAccessTokenSecret = _readSecret(
+      AppSecrets.jwtAccessTokenSecretKey,
+      fromFile: () => fileSecrets.jwtAccessTokenSecret,
+    );
+    final secrets = AppSecrets(
+      databasePassword: databasePassword,
+      jwtAccessTokenSecret: jwtAccessTokenSecret,
+    );
     _secrets = secrets;
     return secrets;
   }
 
   static const String envSecretKeyPrefix = 'SECRET_';
 
+  static String _envKey(String key) => '$envSecretKeyPrefix$key';
+
   String _readSecret(String key, {required String Function() fromFile}) {
-    final secret =
-        _platformEnvironment['$envSecretKeyPrefix$key'] ?? fromFile();
+    final secret = _platformEnvironment[_envKey(key)] ?? fromFile();
     return secret;
   }
 
@@ -68,7 +76,7 @@ class AppSecretsRepository {
     final providedEnvKeys = _platformEnvironment.keys.toSet();
 
     return requiredSecretKeys
-        .map((key) => '$envSecretKeyPrefix$key')
+        .map((key) => _envKey(key))
         .every(providedEnvKeys.contains);
   }
 }

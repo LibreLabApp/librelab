@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:librelab_server/constants/constants.dart';
+import 'package:librelab_server/database/postgres_constants.dart';
 import 'package:librelab_server/database/postgres_installer/platforms/linux.dart';
 import 'package:librelab_server/database/postgres_installer/platforms/windows.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_platform_installer.dart';
@@ -74,8 +74,9 @@ Future<void> tryInstallPostgresWithPrompt({
 
       // The super password is not stored anywhere outside of memory (for security reasons).
       // Users will have to either temporarily edit "pg_hba.conf" rules
-      // or re-install PostgreSQL to reset it. Typically the target audience of this project
-      // don't need admin access to PostgreSQL.
+      // or re-install PostgreSQL to reset it.
+      // Typically the target audience of this project
+      // do not need full super access to PostgreSQL database.
       //
       // Technically, the macOS version supports setting the superpassword
       // during the installation, but this approach is still only used on Windows.

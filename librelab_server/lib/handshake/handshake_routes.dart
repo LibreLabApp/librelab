@@ -1,6 +1,8 @@
+import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
+import 'package:librelab_server/utils/route_module.dart';
 import 'package:librelab_server/utils/router_ext.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -10,19 +12,18 @@ import 'package:shelf_router/shelf_router.dart';
 /// Validates client/server compatibility only: no external version lookup
 /// or update service is involved.
 //
-// NOTE: For this API specifically, we strongly prefer non-breaking changes, even at the expense of a less-clean API.
-class HandshakeRoute {
-  Router get router {
-    final router = Router();
-    router.register(ApiEndpointDefinitions.handshake$POST, _handler);
-    return router;
-  }
+// NOTE: For this API specifically, we strongly prefer non-breaking changes,
+// even at the expense of a less-clean API.
+class HandshakeRoutes implements RouteModule {
+  @override
+  Router get router =>
+      Router()..register(ApiEndpointDefinitions.handshake$POST, _handler);
 
   Future<Response> _handler(Request request) async {
-    final requestBody = await request.readJsonBody(
+    final body = await request.readJsonBody(
       fromJson: HandshakeRequest.fromJson,
     );
-    final clientApiContractVersion = requestBody.clientApiContractVersion;
+    final clientApiContractVersion = body.clientApiContractVersion;
 
     return _check(version: clientApiContractVersion).toJson().httpResponse(.ok);
   }

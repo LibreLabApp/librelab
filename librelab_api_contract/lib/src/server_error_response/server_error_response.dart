@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:librelab_api_contract/src/types/json_types.dart';
 import 'package:meta/meta.dart';
@@ -53,6 +54,18 @@ class ServerErrorResponse {
       details: details ?? this.details,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ServerErrorResponse &&
+          message == other.message &&
+          code == other.code &&
+          const DeepCollectionEquality().equals(details, other.details);
+
+  @override
+  int get hashCode =>
+      Object.hash(message, code, const DeepCollectionEquality().hash(details));
 
   @override
   String toString() =>

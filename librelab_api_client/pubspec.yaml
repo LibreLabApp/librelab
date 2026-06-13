@@ -1,0 +1,15 @@
+name: librelab_api_client
+description: Dart client for consuming the LibreLab API
+version: 0.0.1
+publish_to: 'none'
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  api_client:
+    git:
+      url: https://github.com/EchoEllet/dart-packages.git
+      ref: 5599b2fa2ccb1bf78054ee58b13b109d3f998440
+      path: packages/api_client

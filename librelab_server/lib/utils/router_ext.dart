@@ -1,4 +1,4 @@
-import 'package:librelab_api_contract/librelab_api_contract.dart';
+import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 extension RouterExt on Router {

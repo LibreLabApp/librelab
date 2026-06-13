@@ -5,6 +5,7 @@ environment:
 
 workspace:
   - librelab_api_contract
+  - librelab_api_client
   - librelab_server
   - librelab_flutter
   - librelab_shared
@@ -14,6 +15,7 @@ workspace:
   - packages/mdns_discovery/mdns_discovery_raw
   - packages/mdns_platform_check
   - packages/stepper_flow
+  - packages/optional_field
 
 dev_dependencies:
   lints: ^6.1.0

@@ -140,10 +140,11 @@ Expression _buildMigrationsListExpression(
   Iterable<DatabaseMigration> migrations,
 ) {
   return literalConstList(
-    migrations.map((m) {
+    migrations.map((migration) {
       return refer(_databaseMigrationClassName).newInstance([], {
-        'version': literalNum(m.version),
-        'sql': literalString(m.sql),
+        'version': literalNum(migration.version),
+        // Allows using $ in .sql files
+        'sql': literalString(migration.sql.replaceAll(r'$', r'\$')),
       });
     }).toList(),
   );

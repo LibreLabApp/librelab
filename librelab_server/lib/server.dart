@@ -1,22 +1,29 @@
 import 'dart:io';
 
-import 'package:args/args.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/app_files.dart';
-import 'package:librelab_server/auth/ensure_has_admin_user.dart';
+import 'package:librelab_server/auth/auth_routes.dart';
+import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/ensure_has_super_user.dart';
+import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
+import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_hasher.dart';
+import 'package:librelab_server/cli/arg_parser.dart';
+import 'package:librelab_server/cli/cli_constants.dart';
 import 'package:librelab_server/config/config.dart';
-import 'package:librelab_server/constants/constants.dart';
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
-import 'package:librelab_server/handshake/handshake_route.dart';
+import 'package:librelab_server/handshake/handshake_routes.dart';
 import 'package:librelab_server/mdns/mdns.dart';
+import 'package:librelab_server/user/postgres_user_repository.dart';
+import 'package:librelab_server/user/refresh_token/postgres_user_refresh_token_repository.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
 import 'package:librelab_server/utils/platform_check.dart';
+import 'package:librelab_server/utils/route_module.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
@@ -26,41 +33,6 @@ import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
-
-ArgParser _argsParser = ArgParser()
-  ..addFlag(
-    CliOptions.forceCreateAdminFlag,
-    negatable: false,
-    help:
-        'Forces the server to prompt to create a new admin user even if '
-        'the first admin user was already created before.',
-  )
-  ..addFlag(
-    CliOptions.applyMigrationsFlag,
-    help: 'Applies database migrations (if there are any)',
-    defaultsTo: true,
-  )
-  ..addFlag(
-    CliOptions.helpFlag,
-    abbr: 'h',
-    negatable: false,
-    help: 'Displays usage information.',
-  )
-  ..addOption(
-    CliOptions.serverRunModeOption,
-    help: 'Sets the server run mode.',
-    allowed: ServerRunMode.values.map((e) => e.cliValue),
-    allowedHelp: Map.fromEntries(
-      ServerRunMode.values.map(
-        (e) => MapEntry(e.cliValue, switch (e) {
-          ServerRunMode.production => 'Production environment',
-          ServerRunMode.development => 'Development environment',
-          ServerRunMode.staging => 'Staging environment',
-        }),
-      ),
-    ),
-    defaultsTo: ServerRunMode.defaultsTo.cliValue,
-  );
 
 enum ServerRunMode {
   production(cliValue: 'production'),
@@ -90,7 +62,7 @@ enum ServerRunMode {
   }
 
   static ServerRunMode get defaultsTo {
-    return kDebugMode ? ServerRunMode.development : ServerRunMode.production;
+    return kDebugMode ? .development : .production;
   }
 }
 
@@ -104,7 +76,7 @@ Future<void> run(List<String> args) async {
     'Operating system: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}',
   );
 
-  final parser = _argsParser;
+  final parser = argsParser;
   final argResults = parser.parse(args);
 
   final serverRunMode = ServerRunMode.fromCliValue(
@@ -125,9 +97,7 @@ Future<void> run(List<String> args) async {
     await shutdown(isSuccess: true);
   }
 
-  final forceCreateAdminUser = argResults.wasParsed(
-    CliOptions.forceCreateAdminFlag,
-  );
+  final createSuperUser = argResults.wasParsed(CliOptions.createSuperUserFlag);
   final autoApplyMigrations = argResults.flag(CliOptions.applyMigrationsFlag);
 
   final workingDirectory = kDebugMode ? Directory('data') : null;
@@ -222,6 +192,21 @@ Future<void> run(List<String> args) async {
   final server = await _startServer(
     port: apiServerPort,
     address: apiServerAddress,
+    routeModules: <RouteModule>[
+      HandshakeRoutes(),
+      AuthRoutes(
+        service: AuthService(
+          passwordHasher: BcryptPasswordHasher(),
+          userRepository: PostgresUserRepository(client: databaseClient),
+          jwtService: JwtService(
+            jwtAccessTokenSecret: secrets.jwtAccessTokenSecret,
+          ),
+          userRefreshTokenRepository: PostgresUserRefreshTokenRepository(
+            client: databaseClient,
+          ),
+        ),
+      ),
+    ],
   );
 
   shutdownHookRegistry.register('closingHttpServer', () async {
@@ -229,7 +214,7 @@ Future<void> run(List<String> args) async {
     await server.close();
   });
 
-  if (!forceCreateAdminUser && mdnsConfig.enabled) {
+  if (!createSuperUser && mdnsConfig.enabled) {
     await _registerMdnsService(
       serverPort: apiServerPort,
       shutdownHookRegistry: shutdownHookRegistry,
@@ -237,8 +222,8 @@ Future<void> run(List<String> args) async {
     );
   }
 
-  await _initializeAdminUser(
-    forceCreateAdminUser: forceCreateAdminUser,
+  await _initializeSuperUser(
+    forceCreateSuperUser: createSuperUser,
     shutdown: shutdown,
   );
 }
@@ -292,7 +277,7 @@ Future<DatabaseClient> _connectDatabase({
           'Cause: Unclassified failure during initialization.\n'
           'Details: $e';
     }
-    stderr.writeln('Database connection failed $message');
+    stderr.writeln('\nDatabase connection failed $message');
     await shutdown(isSuccess: false);
   }
 }
@@ -319,6 +304,7 @@ void _setupLogger() {
 Future<HttpServer> _startServer({
   required int port,
   required String address,
+  required List<RouteModule> routeModules,
 }) async {
   final app = Router(
     notFoundHandler: (request) => ServerErrorResponse(
@@ -335,7 +321,10 @@ Future<HttpServer> _startServer({
   app.get('/', (Request request) {
     return Response.ok('OK');
   });
-  app.mount('/', HandshakeRoute().router.call);
+
+  for (final module in routeModules) {
+    app.mount('/', module.router.call);
+  }
 
   final handler = const Pipeline()
       .addMiddleware(withErrorHandling)
@@ -397,15 +386,15 @@ Response _mapException(Exception e) {
   return errorResponse.toJson().httpResponse(statusCode);
 }
 
-Future<void> _initializeAdminUser({
-  required bool forceCreateAdminUser,
+Future<void> _initializeSuperUser({
+  required bool forceCreateSuperUser,
   required Shutdown shutdown,
 }) async {
-  if (forceCreateAdminUser) {
-    await createAdminUser();
+  if (forceCreateSuperUser) {
+    await createSuperUser();
     await shutdown(isSuccess: true);
   } else {
-    await ensureHasAdminUser();
+    await ensureHasSuperUser();
   }
 }
 
@@ -456,6 +445,7 @@ Future<AppSecrets> _loadAppSecrets(
     if (appSecrets == null) {
       final defaultSecrets = AppSecrets(
         databasePassword: generateSecureRandomString(),
+        jwtAccessTokenSecret: generateSecureRandomString(),
       );
 
       final secretsFilePath = getSecretsFilePath();

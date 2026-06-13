@@ -8,19 +8,19 @@ import 'package:meta/meta.dart';
 //  previous system before migration: https://github.com/LibreLabApp/librelab/blob/d6fa30461e9284c515ea771a94b33e6e695349f6/librelab_server/lib/src/auth/ensure_has_admin_user.dart
 //  search for "// STUB IMPLEMENTATION" comments
 
-/// Creates an admin user if there is no one in the database, which is required to log in to the desktop app.
+/// Creates a super user if there is no one in the database, which is required to log in to the desktop app.
 ///
-/// If there is no admin user, the program will prompt in the command-line
-/// to create the admin account credentials. If the input is invalid or empty, the server will terminate.
+/// If there is no super user, the program will prompt in the command-line
+/// to create the super account credentials. If the input is invalid or empty, the server will terminate.
 ///
 /// Returns whether a new user was created or not.
-Future<bool> ensureHasAdminUser() async {
+Future<bool> ensureHasSuperUser() async {
   final exists = await _hasAnyUser();
   if (exists) {
     return false;
   }
 
-  await createAdminUser();
+  await createSuperUser();
 
   return true;
 }
@@ -30,16 +30,16 @@ Future<bool> _hasAnyUser() async {
   return true;
 }
 
-Future<void> createAdminUser() async {
+Future<void> createSuperUser() async {
   stdout.writeln('''
 ================================================================
-  SYSTEM SETUP: ADMIN CREATION
+  SUPER USER CREATION
 ================================================================
-To access the desktop application, at least one administrator
+To access the desktop application, at least one user
 must exist to manage the server, as the application only 
 supports signing in.
 
-Enter the requested information to create the admin user, then
+Enter the requested information to create the super user, then
 use those credentials to log in to the desktop application.
 ----------------------------------------------------------------
 ''');
@@ -53,7 +53,7 @@ use those credentials to log in to the desktop application.
   await _insertUserWithCredentials(credentials);
 
   stdout.writeln('''
-\nAdmin user created successfully.
+\nSuper user created successfully.
 
 After logging in, additional users can be created directly from the application interface.
 ''');

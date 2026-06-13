@@ -1,4 +1,5 @@
 import 'package:api_client/api_client.dart';
+import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart' as api;
 import 'package:librelab_flutter/server_connection/handshake/repository/handshake_response.dart';
 
@@ -10,7 +11,7 @@ class ServerHandshakeRepository {
   Future<HandshakeResponse> check(String serverBaseUrl) async {
     // TODO: Complete (e.g., Error handling, server api client specific utility to not repeat HTTP method)
 
-    const endpoint = api.ApiEndpointDefinitions.handshake$POST;
+    const endpoint = ApiEndpointDefinitions.handshake$POST;
 
     final base = Uri.parse(serverBaseUrl);
     final fullUri = base.replace(path: endpoint.path);

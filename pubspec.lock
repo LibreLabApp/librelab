@@ -21,8 +21,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/api_client"
-      ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
-      resolved-ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
+      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"
@@ -50,6 +50,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.1"
+  bcrypt:
+    dependency: transitive
+    description:
+      name: bcrypt
+      sha256: "6073a700cbbc59f1d4ab27cd532755e3de5e676c4941f535f351374df849270b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   bloc:
     dependency: transitive
     description:
@@ -270,10 +278,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: "5da775aa218eaf2151c721b16c01c7676fbfdd99cebba2bf64e8b807a28ff94d"
+      sha256: "956a3de0725ca232ad353565a8290d3357592bf4250f6f298a185e2d949c5d3d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.15.0"
+    version: "1.15.1"
   crypto:
     dependency: transitive
     description:
@@ -282,6 +290,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  dart_jsonwebtoken:
+    dependency: transitive
+    description:
+      name: dart_jsonwebtoken
+      sha256: ad84e60181696513d04d5f2078e0bbc20365b911f46f647797317414bdc88fbe
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.1"
   dart_style:
     dependency: transitive
     description:
@@ -498,8 +514,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/http_method"
-      ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
-      resolved-ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
+      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "0.0.1"
@@ -603,8 +619,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/json_utils"
-      ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
-      resolved-ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
+      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"
@@ -700,10 +716,10 @@ packages:
     dependency: transitive
     description:
       name: multicast_dns
-      sha256: de72ada5c3db6fdd6ad4ae99452fe05fb403c4bb37c67ceb255ddd37d2b5b1eb
+      sha256: "134668a9605c747322d8c3eb0e89a4c0cbdedb29f8d2d5ae29d14daef724987b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.3+1"
   nested:
     dependency: transitive
     description:
@@ -768,6 +784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   pool:
     dependency: transitive
     description:
@@ -788,10 +812,10 @@ packages:
     dependency: transitive
     description:
       name: postgres
-      sha256: fe4a19a69fad564efa8ced72d58b14e86d12a548f5f0a511b377089bf3b592ed
+      sha256: "123de5cbadc56a7e8d9fa485c780b6b56940b4081f4c74f3a5578682757c299b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.11"
+    version: "3.5.12"
   provider:
     dependency: transitive
     description:
@@ -820,8 +844,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/result"
-      ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
-      resolved-ref: "4244700e2f2a99cf777d1e94c8ad9942f9b9432a"
+      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"
@@ -882,18 +906,18 @@ packages:
     dependency: transitive
     description:
       name: slang
-      sha256: "46e929158c2f563994c4d1fce5819cfa13e18b164941473d2553bcddcf387c31"
+      sha256: fe12e1eeb1fae0dd8e4e453ef6bb39dabb1fa2460a33ebfcdd3f84c8748d28b6
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.0"
+    version: "4.16.0"
   slang_flutter:
     dependency: transitive
     description:
       name: slang_flutter
-      sha256: "0eb6348416a296f1bd940fe02669bcd2df5c5cfdabf893b98e448df8b7ecf4ac"
+      sha256: ee9dbb86bc58994eb0a5cd5f17de484daa70e7224c62cc69b8620065b213dc73
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.0"
+    version: "4.16.0"
   smooth_page_indicator:
     dependency: transitive
     description:
