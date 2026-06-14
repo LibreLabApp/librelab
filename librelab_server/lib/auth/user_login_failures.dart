@@ -11,3 +11,5 @@ final class UserNotFoundFailure extends UserLoginFailure {
 final class InvalidPasswordFailure extends UserLoginFailure {
   const InvalidPasswordFailure();
 }
+
+final class InvalidLoginInputFailure extends UserLoginFailure {}

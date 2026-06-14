@@ -20,10 +20,12 @@ import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/user/postgres_user_repository.dart';
 import 'package:librelab_server/user/refresh_token/postgres_user_refresh_token_repository.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
+import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
 import 'package:librelab_server/utils/platform_check.dart';
 import 'package:librelab_server/utils/route_module.dart';
+import 'package:librelab_server/utils/server_error_exception.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
@@ -345,19 +347,29 @@ Handler withErrorHandling(Handler innerHandler) {
   return (Request request) async {
     try {
       return await innerHandler(request);
+    } on ServerErrorException catch (e) {
+      return _mapException(e);
     } on InvalidJsonRequestBodyException catch (e) {
       return _mapException(e);
     } on InvalidJsonRequestBodySchemaException catch (e) {
       return _mapException(e);
     } on Exception catch (e, stackTrace) {
-      _logUnhandled(e, stackTrace);
+      _logger.warning('Unhandled exception in request handler', e, stackTrace);
+
       return _mapException(e);
+      // Typically, we should not handle Dart errors this. However, returning 500
+      // (structured response), and logging it is better than silently
+      // crash or delegate to the Dart shelf default handler.
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, stackTrace) {
+      _logger.shout(e, stackTrace);
+
+      return const ServerErrorResponse(
+        message: 'INTERNAL_SERVER_BUG',
+        code: 'Caught an unknown internal programming bug on the server!',
+      ).toJson().httpResponse(.internalServerError);
     }
   };
-}
-
-void _logUnhandled(Object e, StackTrace stackTrace) {
-  _logger.severe('Unhandled exception in request handler', e, stackTrace);
 }
 
 Response _mapException(Exception e) {
@@ -379,6 +391,7 @@ Response _mapException(Exception e) {
       ),
       .badRequest,
     ),
+    ServerErrorException(:final httpStatus) => (e.toResponse(), httpStatus),
     Exception() => (
       const ServerErrorResponse(
         message: 'INTERNAL_SERVER_ERROR',

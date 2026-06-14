@@ -9,6 +9,8 @@ typedef _U = UsersTable;
 typedef _R = RolesTable;
 typedef _Rp = RolePermissionsTable;
 
+const _rolePermissionsAlias = 'role_permissions';
+
 class PostgresUserRepository implements UserRepository {
   PostgresUserRepository({required this._client});
 
@@ -37,6 +39,33 @@ WHERE ${_U.id} = @id
       return null;
     }
     return row[0]! as int;
+  }
+
+  @override
+  Future<AuthUser?> findAuthUserById(String id) async {
+    final result = await _client.execute(
+      .named('''
+SELECT u.${_U.tokenVersion}, u.${_U.isSuperuser}, array_agg(rp.${_Rp.permission}::text) AS $_rolePermissionsAlias
+FROM ${_U.tableName} u
+LEFT JOIN ${_Rp.tableName} rp ON rp.${_Rp.roleId} = u.${_U.roleId}
+WHERE u.${_U.id} = @id
+GROUP BY u.${_U.id}
+LIMIT 1
+'''),
+      parameters: {'id': id},
+    );
+    final row = result.firstOrNull;
+    if (row == null) {
+      return null;
+    }
+
+    final map = row.toColumnMap();
+    return AuthUser(
+      id: id,
+      tokenVersion: map[_U.tokenVersion] as int,
+      isSuperUser: map[_U.isSuperuser] as bool,
+      permissions: _mapRolePermissionsFromRow(map),
+    );
   }
 
   Future<User?> _findOne({
@@ -80,16 +109,7 @@ ${where != null ? 'LIMIT 1' : ''}
       return userRow._toDomain(
         role: () => RolesRow.fromMap(roleProjection.stripPrefix(map))._toDomain(
           // Can be List<String?> in case there are no permissions for this role
-          permissions: () => (map[rolePermissionsAlias]! as List<String?>)
-              .nonNulls
-              .map(PermissionPgEnum.fromText)
-              .map<Permission>(
-                (e) => switch (e) {
-                  .backupCreate => .backupCreate,
-                  .backupRestore => .backupRestore,
-                },
-              )
-              .toList(),
+          permissions: () => _mapRolePermissionsFromRow(map),
         ),
       );
     }).toList();
@@ -253,4 +273,18 @@ extension on RolesRow {
       updatedAt: updatedAt,
     );
   }
+}
+
+extension on PermissionPgEnum {
+  Permission _toDomain() => switch (this) {
+    .backupCreate => .backupCreate,
+    .backupRestore => .backupRestore,
+  };
+}
+
+List<Permission> _mapRolePermissionsFromRow(Map<String, Object?> map) {
+  return (map[_rolePermissionsAlias]! as List<String?>).nonNulls
+      .map(PermissionPgEnum.fromText)
+      .map<Permission>((e) => e._toDomain())
+      .toList();
 }

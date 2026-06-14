@@ -2,20 +2,20 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:json_utils/json_utils.dart';
 import 'package:meta/meta.dart';
 
-part 'token_refresh_request.g.dart';
+part 'refresh_token_request.g.dart';
 
 @immutable
 @JsonSerializable()
-class TokenRefreshRequest {
-  const TokenRefreshRequest({
+class RefreshTokenRequest {
+  const RefreshTokenRequest({
     required this.refreshToken,
     required this.deviceId,
   });
 
-  factory TokenRefreshRequest.fromJson(JsonMap json) =>
-      _$TokenRefreshRequestFromJson(json);
+  factory RefreshTokenRequest.fromJson(JsonMap json) =>
+      _$RefreshTokenRequestFromJson(json);
 
-  JsonMap toJson() => _$TokenRefreshRequestToJson(this);
+  JsonMap toJson() => _$RefreshTokenRequestToJson(this);
 
   final String refreshToken;
   final String? deviceId;

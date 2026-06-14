@@ -3,7 +3,7 @@ import 'dart:convert' show utf8;
 import 'package:clock/clock.dart';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:librelab_server/auth/authenticate_failures.dart';
-import 'package:librelab_server/auth/refresh_tokens_failures.dart';
+import 'package:librelab_server/auth/refresh_token_failures.dart';
 import 'package:librelab_server/auth/security/commonly_used_passwords.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/auth/security/password_hasher/password_hasher.dart';
@@ -19,7 +19,7 @@ import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
 
 export 'package:librelab_server/auth/authenticate_failures.dart';
-export 'package:librelab_server/auth/refresh_tokens_failures.dart';
+export 'package:librelab_server/auth/refresh_token_failures.dart';
 export 'package:librelab_server/auth/user_login_failures.dart';
 export 'package:librelab_server/auth/user_register_failures.dart';
 
@@ -61,6 +61,11 @@ class AuthService {
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
 
+  bool _isPasswordLengthValid(String password) =>
+      password.length >= 8 && password.length <= 255;
+
+  bool _isEmailFormatValid(String email) => EmailValidator.validate(email);
+
   Future<Result<User, UserRegisterFailure>> registerUser({
     required String email,
     required String plainPassword,
@@ -72,11 +77,11 @@ class AuthService {
     final normalizedFullName = fullName.trim();
     final normalizedPhoneNumber = phoneNumber?.trim();
 
-    if (!EmailValidator.validate(normalizedEmail)) {
-      return .failure(const InvalidEmailFailure());
+    if (!_isEmailFormatValid(normalizedEmail)) {
+      return .failure(const InvalidEmailFormatFailure());
     }
 
-    if (plainPassword.length < 8 || plainPassword.length > 255) {
+    if (!_isPasswordLengthValid(plainPassword)) {
       return .failure(const InvalidPasswordLengthFailure());
     }
 
@@ -116,6 +121,11 @@ class AuthService {
     required UserRefreshTokenClientMetadata metadata,
   }) async {
     final normalizedEmail = email.trim().toLowerCase();
+
+    if (!_isEmailFormatValid(normalizedEmail) ||
+        !_isPasswordLengthValid(plainPassword)) {
+      return .failure(InvalidLoginInputFailure());
+    }
 
     final user = await _userRepository.findByEmail(normalizedEmail);
 
@@ -182,8 +192,7 @@ class AuthService {
     return AuthTokens(accessToken: accessToken, refreshTokenRaw: refreshToken);
   }
 
-  // TODO: (REMOVE_SERVERPOD) Naming must be consistent (api contract, failures, method and class names)
-  Future<Result<AuthTokens, RefreshTokensFailures>> refreshTokens({
+  Future<Result<AuthTokens, RefreshTokenFailure>> refreshToken({
     required String refreshTokenRaw,
     required UserRefreshTokenClientMetadata metadata,
   }) async {
@@ -226,8 +235,33 @@ class AuthService {
     return .success(newAuthTokens);
   }
 
-  Future<Result<User, AuthenticateFailure>> authenticate({
+  Future<Result<AuthUser, AuthenticateFailure>> authenticate({
     required String accessToken,
+  }) => _authenticate(
+    accessToken: accessToken,
+    findUserById: (userId) async {
+      final user = await _userRepository.findAuthUserById(userId);
+      return user;
+    },
+    getTokenVersion: (user) => user.tokenVersion,
+  );
+
+  /// Use [authenticate] unless you need the full [User] object.
+  Future<Result<User, AuthenticateFailure>> authenticateWithFullUser({
+    required String accessToken,
+  }) => _authenticate(
+    accessToken: accessToken,
+    findUserById: (userId) async {
+      final user = await _userRepository.findById(userId);
+      return user;
+    },
+    getTokenVersion: (user) => user.tokenVersion,
+  );
+
+  Future<Result<T, AuthenticateFailure>> _authenticate<T>({
+    required String accessToken,
+    required Future<T?> Function(String userId) findUserById,
+    required int Function(T user) getTokenVersion,
   }) async {
     final verifyResult = _jwtService.verifyToken(accessToken);
 
@@ -235,11 +269,13 @@ class AuthService {
       case SuccessResult<JwtPayload, JwtValidationFailure>(:final value):
         final payload = value;
 
-        final user = await _userRepository.findById(payload.sub);
+        final user = await findUserById(payload.sub);
         if (user == null) {
           return .failure(const UserDeletedFailure());
         }
-        if (user.tokenVersion != payload.tokenVersion) {
+
+        final tokenVersion = getTokenVersion(user);
+        if (tokenVersion != payload.tokenVersion) {
           return .failure(const TokenVersionMismatchFailure());
         }
 

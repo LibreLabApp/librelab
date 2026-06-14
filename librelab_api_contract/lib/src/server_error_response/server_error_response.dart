@@ -40,7 +40,6 @@ class ServerErrorResponse {
 
   final String message;
   final String code;
-
   final JsonMap? details;
 
   ServerErrorResponse copyWith({

@@ -9,6 +9,9 @@ final class JwtAuthenticationFailure extends AuthenticateFailure {
   const JwtAuthenticationFailure(this.failure);
 
   final JwtValidationFailure failure;
+
+  @override
+  String toString() => failure.toString();
 }
 
 final class UserDeletedFailure extends AuthenticateFailure {

@@ -27,6 +27,13 @@ abstract interface class UserRepository {
   /// This selects only [User.tokenVersion] instead of full user object.
   Future<int?> findTokenVersionById(String id);
 
+  /// Returns minimal authenticated user for a user by id, or `null` if not found.
+  ///
+  /// This selects some column instead of full user object.
+  ///
+  /// See also: [AuthUser]
+  Future<AuthUser?> findAuthUserById(String id);
+
   Future<bool> isEmailUsed(String email);
 
   /// Creates a new user.

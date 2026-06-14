@@ -1,6 +1,7 @@
 import 'dart:io' show HttpHeaders;
 
 import 'package:json_utils/json_utils.dart';
+import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 
@@ -55,20 +56,6 @@ extension RequestX on Request {
         }
     }
   }
-}
-
-enum HttpStatusCode {
-  ok(200),
-  created(201),
-  badRequest(400),
-  unauthorized(401),
-  forbidden(403),
-  notFound(404),
-  internalServerError(500);
-
-  const HttpStatusCode(this.value);
-
-  final int value;
 }
 
 extension JsonResponse on JsonMap {

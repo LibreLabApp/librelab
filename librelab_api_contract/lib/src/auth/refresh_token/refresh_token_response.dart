@@ -3,20 +3,20 @@ import 'package:json_utils/json_utils.dart';
 import 'package:librelab_api_contract/src/auth/auth_token.dart';
 import 'package:meta/meta.dart';
 
-part 'token_refresh_response.g.dart';
+part 'refresh_token_response.g.dart';
 
 @immutable
 @JsonSerializable()
-class TokenRefreshResponse {
-  const TokenRefreshResponse({
+class RefreshTokenResponse {
+  const RefreshTokenResponse({
     required this.accessToken,
     required this.refreshToken,
   });
 
-  factory TokenRefreshResponse.fromJson(JsonMap json) =>
-      _$TokenRefreshResponseFromJson(json);
+  factory RefreshTokenResponse.fromJson(JsonMap json) =>
+      _$RefreshTokenResponseFromJson(json);
 
-  JsonMap toJson() => _$TokenRefreshResponseToJson(this);
+  JsonMap toJson() => _$RefreshTokenResponseToJson(this);
 
   final AuthToken accessToken;
   final AuthToken refreshToken;

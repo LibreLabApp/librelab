@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'token_refresh_response.dart';
+part of 'refresh_token_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TokenRefreshResponse _$TokenRefreshResponseFromJson(
+RefreshTokenResponse _$RefreshTokenResponseFromJson(
   Map<String, dynamic> json,
-) => TokenRefreshResponse(
+) => RefreshTokenResponse(
   accessToken: AuthToken.fromJson(json['accessToken'] as Map<String, dynamic>),
   refreshToken: AuthToken.fromJson(
     json['refreshToken'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$TokenRefreshResponseToJson(
-  TokenRefreshResponse instance,
+Map<String, dynamic> _$RefreshTokenResponseToJson(
+  RefreshTokenResponse instance,
 ) => <String, dynamic>{
   'accessToken': instance.accessToken,
   'refreshToken': instance.refreshToken,

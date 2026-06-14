@@ -19,7 +19,7 @@ abstract final class ApiContractVersionConstants {
   //   (e.g., new decorative animations on client, fixes in CLI arguments parsing on server)
   //
   // - be incremented when introducing chore changes to the API contract package
-  //   (e.g., organize imports, newer Dart syntax, migrate from micros to freezed).
+  //   (e.g., organize imports, newer Dart syntax, migrate from macros to freezed).
   //
   // - be lower than [minSupportedVersion]
   //

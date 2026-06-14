@@ -11,7 +11,6 @@ class User {
   const User({
     required this.id,
     required this.email,
-    required this.tokenVersion,
     required this.fullName,
     required this.phoneNumber,
     required this.isSuperUser,
@@ -26,7 +25,6 @@ class User {
 
   final String id;
   final String email;
-  final int tokenVersion;
   final String fullName;
   final String? phoneNumber;
   final bool isSuperUser;

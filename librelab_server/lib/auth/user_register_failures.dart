@@ -20,8 +20,8 @@ final class InvalidPhoneNumberLengthFailure extends UserRegisterFailure {
   const InvalidPhoneNumberLengthFailure();
 }
 
-final class InvalidEmailFailure extends UserRegisterFailure {
-  const InvalidEmailFailure();
+final class InvalidEmailFormatFailure extends UserRegisterFailure {
+  const InvalidEmailFormatFailure();
 }
 
 final class EmailInUseFailure extends UserRegisterFailure {

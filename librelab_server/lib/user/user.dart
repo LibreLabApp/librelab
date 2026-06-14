@@ -31,3 +31,29 @@ class User {
   String toString() =>
       'User(id: $id, email: $email, passwordHash: **** (CENSORED), tokenVersion: $tokenVersion, fullName: $fullName, phoneNumber: $phoneNumber, isSuperUser: $isSuperUser, role: $role, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
+
+/// Minimal authenticated user used for request authorization.
+///
+/// Contains only identity and access-control data required during request
+/// processing. Excludes sensitive fields (e.g., password hash) and full
+/// profile/role metadata.
+///
+/// Permissions are pre-resolved permissions, not full role details.
+@immutable
+class AuthUser {
+  AuthUser({
+    required this.id,
+    required this.tokenVersion,
+    required this.isSuperUser,
+    required List<Permission> permissions,
+  }) : permissions = List.unmodifiable(permissions);
+
+  final String id;
+  final int tokenVersion;
+  final bool isSuperUser;
+  final List<Permission>? permissions;
+
+  @override
+  String toString() =>
+      'AuthUser(id: $id, tokenVersion: $tokenVersion, isSuperUser: $isSuperUser, permissions: $permissions)';
+}

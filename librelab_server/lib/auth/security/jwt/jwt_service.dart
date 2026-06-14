@@ -1,12 +1,9 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:librelab_server/auth/security/jwt/jwt_validation_failures.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
 
-sealed class JwtValidationFailure extends Failure {}
-
-class JwtInvalidFailure extends JwtValidationFailure {}
-
-class JwtExpiredFailure extends JwtValidationFailure {}
+export 'package:librelab_server/auth/security/jwt/jwt_validation_failures.dart';
 
 class JwtService {
   JwtService({required String jwtAccessTokenSecret})
@@ -24,9 +21,19 @@ class JwtService {
       final jwt = JWT.verify(token, _jwtAccessTokenSecret);
       return .success(JwtPayload.fromMap(jwt.payload as Map<String, Object?>));
     } on JWTExpiredException {
-      return .failure(JwtExpiredFailure());
-    } on JWTException {
-      return .failure(JwtInvalidFailure());
+      return .failure(const JwtExpiredFailure());
+    } on JWTInvalidException catch (e) {
+      // When optional parameters (e.g., issuer) are not provided to JWT.verify(),
+      // it will typically throw a JWTInvalidException when there is a
+      // JWT format error except for the "invalid signature" case:
+      // https://github.com/jonasroussel/dart_jsonwebtoken/blob/89dd3cfcd283945790d50cdaf346de908ee59d81/lib/src/jwt.dart#L61
+      if (e.message.toLowerCase().contains('invalid signature'.toLowerCase())) {
+        return .failure(const JwtSignatureVerificationFailure());
+      }
+
+      return .failure(const JwtParseFailure());
+    } on JWTException catch (e) {
+      return .failure(JwtUnknownFailure(e.toString()));
     }
   }
 }
