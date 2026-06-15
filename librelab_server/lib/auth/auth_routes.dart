@@ -1,13 +1,9 @@
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
-import 'package:librelab_api_contract/librelab_api_contract.dart'
-    hide AuthToken, Permission, Role, User;
-import 'package:librelab_api_contract/librelab_api_contract.dart' as dto;
+import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/auth/auth_service.dart';
-import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
+import 'package:librelab_server/auth/authorization_service.dart';
+import 'package:librelab_server/user/mapper.dart';
 import 'package:librelab_server/user/refresh_token/user_refresh_token.dart';
-import 'package:librelab_server/user/role/role.dart';
-import 'package:librelab_server/user/user.dart';
-import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
 import 'package:librelab_server/utils/request_ext.dart';
 import 'package:librelab_server/utils/route_module.dart';
@@ -17,9 +13,10 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class AuthRoutes implements RouteModule {
-  AuthRoutes({required this._service});
+  AuthRoutes({required this._service, required this._authorization});
 
   final AuthService _service;
+  final AuthorizationService _authorization;
 
   @override
   Router get router => Router()
@@ -48,9 +45,9 @@ class AuthRoutes implements RouteModule {
         final (user, tokens) = (value.$1, value.$2);
 
         final response = LoginResponse(
-          accessToken: tokens.accessToken._toResponse(),
-          refreshToken: tokens.refreshTokenRaw._toResponse(),
-          user: user._toResponse(),
+          accessToken: tokens.accessToken.toResponse(),
+          refreshToken: tokens.refreshTokenRaw.toResponse(),
+          user: user.toResponse(),
         );
 
         return response.toJson().httpResponse(.ok);
@@ -90,8 +87,8 @@ class AuthRoutes implements RouteModule {
     switch (result) {
       case SuccessResult<AuthTokens, RefreshTokenFailure>(:final value):
         return RefreshTokenResponse(
-          accessToken: value.accessToken._toResponse(),
-          refreshToken: value.refreshTokenRaw._toResponse(),
+          accessToken: value.accessToken.toResponse(),
+          refreshToken: value.refreshTokenRaw.toResponse(),
         ).toJson().httpResponse(.ok);
       case FailureResult<AuthTokens, RefreshTokenFailure>(:final failure):
         final (code, message) = switch (failure) {
@@ -117,54 +114,10 @@ class AuthRoutes implements RouteModule {
     }
   }
 
-  Future<Response> _refreshUserHandler(Request request) async {
-    // TODO: (REMOVE_SERVERPOD) Extract into a utility before start using that everywhere
-
-    final token = request.extractBearerToken();
-    if (token == null) {
-      return const ServerErrorResponse(
-        message:
-            'The access token must be provided in the headers (Authorization: Bearer ...)',
-        code: 'TOKEN_MISSING',
-      ).toJson().httpResponse(.badRequest);
-    }
-    final result = await _service.authenticateWithFullUser(accessToken: token);
-    switch (result) {
-      case SuccessResult<User, AuthenticateFailure>(:final value):
-        return value._toResponse().toJson().httpResponse(.ok);
-
-      case FailureResult<User, AuthenticateFailure>(:final failure):
-        final (code, message) = switch (failure) {
-          JwtAuthenticationFailure(:final failure) => switch (failure) {
-            JwtExpiredFailure() => ('TOKEN_EXPIRED', 'Token expired'),
-            JwtSignatureVerificationFailure() => (
-              'INVALID_TOKEN_SIGNATURE',
-              'Token signature verification failed',
-            ),
-            JwtParseFailure() => (
-              'INVALID_TOKEN_FORMAT',
-              'Invalid token format/structure',
-            ),
-            JwtUnknownFailure(:final message) => (
-              'UNKNOWN',
-              kDebugMode ? message.toString() : 'Unknown token parsing failure',
-            ),
-          },
-          UserDeletedFailure() => (
-            'USER_NOT_FOUND',
-            'User not found (may have been deleted)',
-          ),
-          TokenVersionMismatchFailure() => (
-            'TOKEN_REVOKED',
-            'Token revoked (version mismatch)',
-          ),
-        };
-        return ServerErrorResponse(
-          message: message,
-          code: code,
-        ).toJson().httpResponse(.unauthorized);
-    }
-  }
+  Future<Response> _refreshUserHandler(Request request) =>
+      _authorization.withFullUser(request, (user) async {
+        return user.toResponse().toJson().httpResponse(.ok);
+      });
 
   UserRefreshTokenClientMetadata _clientMetadata(
     Request request,
@@ -174,38 +127,4 @@ class AuthRoutes implements RouteModule {
     ipAddress: request.ipAddress,
     userAgent: request.userAgent,
   );
-}
-
-extension on AuthToken {
-  dto.AuthToken _toResponse() => .new(token: token, expiresAt: expiresAt);
-}
-
-extension on User {
-  dto.User _toResponse() => .new(
-    id: id,
-    email: email,
-    fullName: fullName,
-    phoneNumber: phoneNumber,
-    isSuperUser: isSuperUser,
-    role: role?._toResponse(),
-    createdAt: createdAt,
-    updatedAt: updatedAt,
-  );
-}
-
-extension on Role {
-  dto.Role _toResponse() => .new(
-    id: id,
-    name: name,
-    permissions: permissions.map((e) => e._toResponse()).toList(),
-    createdAt: createdAt,
-    updatedAt: updatedAt,
-  );
-}
-
-extension on Permission {
-  dto.Permission _toResponse() => switch (this) {
-    .backupCreate => .backupCreate,
-    .backupRestore => .backupRestore,
-  };
 }

@@ -23,7 +23,12 @@ class ServerErrorResponse {
       for (final entry in details.entries) {
         final value = entry.value;
 
-        if (value is String || value is num || value is int || value is bool) {
+        if (value == null ||
+            value is String ||
+            value is num ||
+            value is int ||
+            value is bool ||
+            value is List<String>) {
           continue;
         } else {
           throw ArgumentError.value(

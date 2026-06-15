@@ -39,6 +39,8 @@ class User {
 /// profile/role metadata.
 ///
 /// Permissions are pre-resolved permissions, not full role details.
+///
+/// See also: [User] (full user object)
 @immutable
 class AuthUser {
   AuthUser({

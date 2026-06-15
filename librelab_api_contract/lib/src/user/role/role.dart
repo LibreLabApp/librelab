@@ -6,6 +6,13 @@ part 'role.g.dart';
 
 enum Permission { backupCreate, backupRestore, unknown }
 
+extension PermissionJson on Permission {
+  // Uses an extension method to consume the generated code
+  // instead of adding toJson() directly to the generated code,
+  // which conflicts with json_serializable behavior
+  String toJson() => _$PermissionEnumMap[this]!;
+}
+
 @immutable
 @JsonSerializable()
 class Role {

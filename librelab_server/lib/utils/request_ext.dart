@@ -3,6 +3,7 @@ import 'dart:io' show HttpConnectionInfo, HttpHeaders;
 import 'package:shelf/shelf.dart';
 
 extension RequestExt on Request {
+  /// Assumes shelf_io implementation
   HttpConnectionInfo? get connectionInfo =>
       context['shelf.io.connection_info'] as HttpConnectionInfo?;
 

@@ -4,6 +4,7 @@ import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/app_files.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/authorization_service.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_hasher.dart';
 import 'package:librelab_server/auth/superuser_initializer.dart';
@@ -205,13 +206,14 @@ Future<void> run(List<String> args) async {
       client: databaseClient,
     ),
   );
+  final authorizationService = AuthorizationService(authService: authService);
 
   final server = await _startServer(
     port: apiServerPort,
     address: apiServerAddress,
     routeModules: <RouteModule>[
       HandshakeRoutes(),
-      AuthRoutes(service: authService),
+      AuthRoutes(service: authService, authorization: authorizationService),
     ],
   );
 
