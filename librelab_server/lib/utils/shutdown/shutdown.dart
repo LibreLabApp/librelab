@@ -13,7 +13,7 @@ class Shutdown {
   /// await shutdown();
   /// ```
   Future<Never> call({required bool isSuccess}) async {
-    stderr.writeln('Shutdown started');
+    stderr.writeln('\n-- Shutdown started --');
 
     for (final entry in _hookRegistry.hooks.entries) {
       final (id, hook) = (entry.key, entry.value);
@@ -25,7 +25,7 @@ class Shutdown {
       }
     }
 
-    stderr.writeln('Shutdown completed');
+    stderr.writeln('-- Shutdown completed --');
 
     final exitCode = isSuccess ? 0 : 1;
 

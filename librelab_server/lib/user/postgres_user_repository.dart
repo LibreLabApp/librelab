@@ -17,6 +17,16 @@ class PostgresUserRepository implements UserRepository {
   final DatabaseClient _client;
 
   @override
+  Future<bool> hasUsers() async {
+    final result = await _client.execute(
+      .new('''
+SELECT EXISTS (SELECT 1 FROM ${_U.tableName} LIMIT 1)
+'''),
+    );
+    return result.first[0]! as bool;
+  }
+
+  @override
   Future<List<User>> findAll() => _find(where: null);
 
   @override

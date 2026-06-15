@@ -18,6 +18,8 @@ final class SuperUserType extends UserType {
 }
 
 abstract interface class UserRepository {
+  Future<bool> hasUsers();
+
   Future<List<User>> findAll();
   Future<User?> findById(String id);
   Future<User?> findByEmail(String email);

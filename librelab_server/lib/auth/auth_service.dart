@@ -39,7 +39,8 @@ class AuthTokens {
   final AuthToken accessToken;
 
   /// Opaque refresh token.
-  /// Stored server-side as a hashed value.
+  /// Stored in the database as a hashed value.
+  /// Sent to the client as raw/plain token.
   final AuthToken refreshTokenRaw;
 }
 
@@ -61,10 +62,11 @@ class AuthService {
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
 
-  bool _isPasswordLengthValid(String password) =>
+  static bool _isPasswordLengthValid(String password) =>
       password.length >= 8 && password.length <= 255;
 
-  bool _isEmailFormatValid(String email) => EmailValidator.validate(email);
+  static bool _isEmailFormatValid(String email) =>
+      EmailValidator.validate(email);
 
   Future<Result<User, UserRegisterFailure>> registerUser({
     required String email,

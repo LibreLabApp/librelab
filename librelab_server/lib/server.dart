@@ -4,9 +4,9 @@ import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/app_files.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service.dart';
-import 'package:librelab_server/auth/ensure_has_super_user.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_hasher.dart';
+import 'package:librelab_server/auth/superuser_initializer.dart';
 import 'package:librelab_server/cli/arg_parser.dart';
 import 'package:librelab_server/cli/cli_constants.dart';
 import 'package:librelab_server/config/config.dart';
@@ -19,6 +19,7 @@ import 'package:librelab_server/handshake/handshake_routes.dart';
 import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/user/postgres_user_repository.dart';
 import 'package:librelab_server/user/refresh_token/postgres_user_refresh_token_repository.dart';
+import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
@@ -169,7 +170,7 @@ Future<void> run(List<String> args) async {
     shutdown: shutdown,
   );
   shutdownHookRegistry.register('closeDatabaseConnection', () async {
-    stderr.writeln('Shutting down the database connection...');
+    stderr.writeln('Closing the database connection...');
     await databaseClient.close();
   });
 
@@ -192,28 +193,30 @@ Future<void> run(List<String> args) async {
     shutdown: shutdown,
   );
 
+  // TODO: (REMOVE_SERVERPOD) Cleanup the mess in this file
+  final UserRepository userRepository = PostgresUserRepository(
+    client: databaseClient,
+  );
+  final authService = AuthService(
+    passwordHasher: BcryptPasswordHasher(),
+    userRepository: userRepository,
+    jwtService: JwtService(jwtAccessTokenSecret: secrets.jwtAccessTokenSecret),
+    userRefreshTokenRepository: PostgresUserRefreshTokenRepository(
+      client: databaseClient,
+    ),
+  );
+
   final server = await _startServer(
     port: apiServerPort,
     address: apiServerAddress,
     routeModules: <RouteModule>[
       HandshakeRoutes(),
-      AuthRoutes(
-        service: AuthService(
-          passwordHasher: BcryptPasswordHasher(),
-          userRepository: PostgresUserRepository(client: databaseClient),
-          jwtService: JwtService(
-            jwtAccessTokenSecret: secrets.jwtAccessTokenSecret,
-          ),
-          userRefreshTokenRepository: PostgresUserRefreshTokenRepository(
-            client: databaseClient,
-          ),
-        ),
-      ),
+      AuthRoutes(service: authService),
     ],
   );
 
   shutdownHookRegistry.register('closingHttpServer', () async {
-    stderr.writeln('Shutting down the HTTP server...');
+    stderr.writeln('Closing the HTTP server...');
     await server.close();
   });
 
@@ -228,6 +231,10 @@ Future<void> run(List<String> args) async {
   await _initializeSuperUser(
     forceCreateSuperUser: createSuperUser,
     shutdown: shutdown,
+    initializer: SuperUserInitializer(
+      repository: userRepository,
+      authService: authService,
+    ),
   );
 }
 
@@ -406,13 +413,14 @@ Response _mapException(Exception e) {
 
 Future<void> _initializeSuperUser({
   required bool forceCreateSuperUser,
+  required SuperUserInitializer initializer,
   required Shutdown shutdown,
 }) async {
   if (forceCreateSuperUser) {
-    await createSuperUser();
+    await initializer.createSuperUser();
     await shutdown(isSuccess: true);
   } else {
-    await ensureHasSuperUser();
+    await initializer.ensureHasSuperUser();
   }
 }
 
