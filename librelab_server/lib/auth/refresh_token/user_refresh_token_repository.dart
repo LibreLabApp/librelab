@@ -1,7 +1,7 @@
-import 'package:librelab_server/user/refresh_token/user_refresh_token.dart';
+import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 
 abstract interface class UserRefreshTokenRepository {
-  /// [ipAddress] must be valid.
+  /// [UserRefreshTokenClientMetadata.ipAddress] must be valid.
   Future<UserRefreshToken> create({
     required String userId,
     required String tokenHash,

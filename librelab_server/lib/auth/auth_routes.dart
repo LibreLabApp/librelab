@@ -2,12 +2,12 @@ import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/auth/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
+import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/router_ext.dart';
 import 'package:librelab_server/user/mapper.dart';
-import 'package:librelab_server/user/refresh_token/user_refresh_token.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -31,6 +31,10 @@ class AuthRoutes implements RouteModule {
       _refreshUserHandler,
     );
 
+  // TODO: (REMOVE_SERVERPOD) Implement rate limit (global and for auth route route)
+  // TODO: (REMOVE_SERVERPOD) Allow admins disabling/locking login
+  // TODO: (REMOVE_SERVERPOD) System/Lab settings (lab name, login disabled)
+  // TODO: (REMOVE_SERVERPOD) Implement audit_logs
   Future<Response> _loginHandler(Request request) async {
     final body = await request.readJsonBody(fromJson: LoginRequest.fromJson);
 

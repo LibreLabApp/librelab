@@ -1,7 +1,7 @@
+import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
+import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository.dart';
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_schema.g.dart';
-import 'package:librelab_server/user/refresh_token/user_refresh_token.dart';
-import 'package:librelab_server/user/refresh_token/user_refresh_token_repository.dart';
 
 typedef _T = UserRefreshTokensTable;
 
