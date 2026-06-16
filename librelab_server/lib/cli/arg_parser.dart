@@ -1,6 +1,6 @@
 import 'package:args/args.dart';
 import 'package:librelab_server/cli/cli_constants.dart';
-import 'package:librelab_server/server.dart';
+import 'package:librelab_server/config/server_run_mode.dart';
 
 ArgParser argsParser = ArgParser()
   ..addFlag(

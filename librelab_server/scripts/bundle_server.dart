@@ -4,8 +4,8 @@ import 'package:archive/archive_io.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiContractVersionConstants;
 import 'package:librelab_server/cli/cli_constants.dart';
+import 'package:librelab_server/config/server_run_mode.dart';
 import 'package:librelab_server/generated/pubspec.g.dart' show Pubspec;
-import 'package:librelab_server/server.dart' show ServerRunMode;
 import 'package:librelab_server/utils/cli_helpers.dart';
 import 'package:librelab_server/utils/cpu_architecture.dart';
 import 'package:path/path.dart';

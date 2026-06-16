@@ -5,7 +5,7 @@ import 'package:librelab_api_contract/librelab_api_contract.dart'
 import 'package:shelf/shelf.dart';
 
 extension RequestExt on Request {
-  /// Assumes shelf_io implementation
+  /// May be null if the implementation is not `shelf_io`.
   HttpConnectionInfo? get connectionInfo =>
       context['shelf.io.connection_info'] as HttpConnectionInfo?;
 

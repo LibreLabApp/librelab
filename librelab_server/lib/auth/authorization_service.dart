@@ -4,12 +4,12 @@ import 'package:librelab_api_contract/librelab_api_contract.dart'
     show AuthErrorCodes, PermissionJson, ServerErrorResponse;
 import 'package:librelab_server/auth/auth_service.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
+import 'package:librelab_server/server/json_http_extensions.dart';
+import 'package:librelab_server/server/request_ext.dart';
 import 'package:librelab_server/user/mapper.dart';
 import 'package:librelab_server/user/role/role.dart';
 import 'package:librelab_server/user/user.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
-import 'package:librelab_server/utils/json_http_extensions.dart';
-import 'package:librelab_server/utils/request_ext.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 
@@ -82,7 +82,7 @@ class AuthorizationService {
             ),
             JwtUnknownFailure(:final message) => (
               'UNKNOWN',
-              kDebugMode ? message.toString() : 'Unknown token parsing failure',
+              kDebugMode ? message : 'Unknown token parsing failure',
             ),
           },
           UserDeletedFailure() => (

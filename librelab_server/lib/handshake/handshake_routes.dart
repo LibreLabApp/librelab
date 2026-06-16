@@ -1,9 +1,9 @@
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
-import 'package:librelab_server/utils/json_http_extensions.dart';
-import 'package:librelab_server/utils/route_module.dart';
-import 'package:librelab_server/utils/router_ext.dart';
+import 'package:librelab_server/server/json_http_extensions.dart';
+import 'package:librelab_server/server/route_module.dart';
+import 'package:librelab_server/server/router_ext.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
