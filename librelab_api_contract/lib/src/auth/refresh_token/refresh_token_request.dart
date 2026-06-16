@@ -7,10 +7,7 @@ part 'refresh_token_request.g.dart';
 @immutable
 @JsonSerializable()
 class RefreshTokenRequest {
-  const RefreshTokenRequest({
-    required this.refreshToken,
-    required this.deviceId,
-  });
+  const RefreshTokenRequest({required this.refreshToken});
 
   factory RefreshTokenRequest.fromJson(JsonMap json) =>
       _$RefreshTokenRequestFromJson(json);
@@ -18,5 +15,4 @@ class RefreshTokenRequest {
   JsonMap toJson() => _$RefreshTokenRequestToJson(this);
 
   final String refreshToken;
-  final String? deviceId;
 }

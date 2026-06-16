@@ -67,8 +67,11 @@ class AuthorizationService {
 
       case FailureResult<T, AuthenticateFailure>(:final failure):
         final (code, message) = switch (failure) {
-          JwtAuthenticationFailure(:final failure) => switch (failure) {
-            JwtExpiredFailure() => ('TOKEN_EXPIRED', 'Token expired'),
+          JwtValidationFailureWrapped(:final wrapped) => switch (wrapped) {
+            JwtExpiredFailure() => (
+              AuthErrorCodes.accessTokenExpired,
+              'Access token expired',
+            ),
             JwtSignatureVerificationFailure() => (
               'INVALID_TOKEN_SIGNATURE',
               'Token signature verification failed',
@@ -83,7 +86,7 @@ class AuthorizationService {
             ),
           },
           UserDeletedFailure() => (
-            'USER_NOT_FOUND',
+            AuthErrorCodes.userNotFound,
             'User not found (may have been deleted)',
           ),
           TokenVersionMismatchFailure() => (

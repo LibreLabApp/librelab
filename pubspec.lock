@@ -21,8 +21,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/api_client"
-      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
-      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
+      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"
@@ -70,18 +70,18 @@ packages:
     dependency: transitive
     description:
       name: bonsoir
-      sha256: c0e84f696767d67f14fc05f2d67656487aa86934dfaa9462e1eed34c016deb52
+      sha256: "85ae75561e41de60be9792339655eed22fb65b12c2898c620864017680a1a5e9"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.1"
+    version: "7.1.3"
   bonsoir_android:
     dependency: transitive
     description:
       name: bonsoir_android
-      sha256: "152966e6b4db2bfd5a8a9cc3234a30d694e596f61c9cc868daa1644707df7873"
+      sha256: c6413e82150074d56e71ffe2e54bb1dfe66a59310affc4486d33e9eee6b362e6
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.1"
+    version: "7.1.2"
   bonsoir_darwin:
     dependency: transitive
     description:
@@ -110,10 +110,10 @@ packages:
     dependency: transitive
     description:
       name: bonsoir_windows
-      sha256: "656aea056e48adc93b535339efe2f5f4e5eeec38a7d5c7aa6eb7566b919cdec1"
+      sha256: "714bce630dcb57fa40d22a28a654a4c9b5027e6f80c5c798d8749d0ef24c635a"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.0"
+    version: "7.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -514,8 +514,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/http_method"
-      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
-      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
+      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "0.0.1"
@@ -619,8 +619,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/json_utils"
-      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
-      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
+      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"
@@ -844,8 +844,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/result"
-      ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
-      resolved-ref: "5599b2fa2ccb1bf78054ee58b13b109d3f998440"
+      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
+      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"

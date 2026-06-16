@@ -1,5 +1,7 @@
-import 'dart:io' show HttpConnectionInfo, HttpHeaders;
+import 'dart:io' show HttpConnectionInfo;
 
+import 'package:librelab_api_contract/librelab_api_contract.dart'
+    show ApiHttpHeaders;
 import 'package:shelf/shelf.dart';
 
 extension RequestExt on Request {
@@ -9,14 +11,14 @@ extension RequestExt on Request {
 
   String? get ipAddress => connectionInfo?.remoteAddress.address;
 
-  String? get userAgent => headers[HttpHeaders.userAgentHeader];
+  String? get userAgent => headers[ApiHttpHeaders.userAgent];
 
   String? extractBearerToken() {
-    final header = headers[HttpHeaders.authorizationHeader];
+    final header = headers[ApiHttpHeaders.authorization];
     if (header == null) {
       return null;
     }
-    const prefix = 'Bearer ';
+    const prefix = ApiHttpHeaders.bearerPrefix;
     if (!header.startsWith(prefix)) {
       return null;
     }

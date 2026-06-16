@@ -10,8 +10,8 @@ import 'package:librelab_server/utils/cli_input.dart';
 import 'package:librelab_server/utils/cpu_architecture.dart';
 import 'package:librelab_server/utils/linux/linux_os_release.dart';
 import 'package:librelab_server/utils/platform_check.dart';
+import 'package:librelab_server/utils/security/random_string.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
-import 'package:librelab_server/utils/utils.dart';
 
 /// Prompts the user to install PostgreSQL if not already installed
 /// and supported on the current OS, unless the user previously declined.

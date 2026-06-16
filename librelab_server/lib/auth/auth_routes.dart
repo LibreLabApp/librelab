@@ -57,9 +57,9 @@ class AuthRoutes implements RouteModule {
           case UserNotFoundFailure():
           case InvalidPasswordFailure():
             return const ServerErrorResponse(
-              message: AuthErrorCodes.invalidCredentials,
+              message: AuthErrorCodes.invalidLoginCredentials,
               code:
-                  'Invalid credentials (email not found or password is incorrect)',
+                  'Invalid login credentials (email not found or password is incorrect)',
             ).toJson().httpResponse(.unauthorized);
           case InvalidLoginInputFailure():
             return const ServerErrorResponse(
@@ -82,7 +82,7 @@ class AuthRoutes implements RouteModule {
     );
     final result = await _service.refreshToken(
       refreshTokenRaw: body.refreshToken,
-      metadata: _clientMetadata(request, body.deviceId),
+      metadata: (request.ipAddress, request.userAgent),
     );
     switch (result) {
       case SuccessResult<AuthTokens, RefreshTokenFailure>(:final value):
@@ -93,12 +93,12 @@ class AuthRoutes implements RouteModule {
       case FailureResult<AuthTokens, RefreshTokenFailure>(:final failure):
         final (code, message) = switch (failure) {
           TokenNotFoundFailure() => (
-            AuthErrorCodes.tokenNotFound,
+            AuthErrorCodes.refreshTokenNotFound,
             'The refresh token was not found. '
                 'The refresh token and/or the user may have been removed.',
           ),
           TokenExpiredFailure() => (
-            AuthErrorCodes.tokenExpired,
+            AuthErrorCodes.refreshTokenExpired,
             'The refresh token has expired',
           ),
           UserMissingForValidTokenFailure() => (

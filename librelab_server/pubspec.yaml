@@ -27,7 +27,7 @@ dependencies:
   json_utils:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: 5599b2fa2ccb1bf78054ee58b13b109d3f998440
+      ref: 570a0327c20ca5985e36c386ed6c63c59215e1bd
       path: packages/json_utils
   postgres: ^3.5.11
   bcrypt: ^1.2.0

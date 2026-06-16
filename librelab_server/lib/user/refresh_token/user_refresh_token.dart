@@ -44,5 +44,5 @@ class UserRefreshTokenClientMetadata {
 
   @override
   String toString() =>
-      'AuthClientMetadata(deviceId: $deviceId, ipAddress: $ipAddress, userAgent: $userAgent)';
+      'UserRefreshTokenClientMetadata(deviceId: $deviceId, ipAddress: $ipAddress, userAgent: $userAgent)';
 }

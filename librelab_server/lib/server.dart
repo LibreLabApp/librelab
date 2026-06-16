@@ -27,11 +27,11 @@ import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/json_http_extensions.dart';
 import 'package:librelab_server/utils/platform_check.dart';
 import 'package:librelab_server/utils/route_module.dart';
+import 'package:librelab_server/utils/security/random_string.dart';
 import 'package:librelab_server/utils/server_error_exception.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
-import 'package:librelab_server/utils/utils.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
@@ -122,7 +122,7 @@ Future<void> run(List<String> args) async {
   );
 
   final databaseConfig = config.database;
-  final isLocalHostDatabase = isLocalHost(databaseConfig.host);
+  final isLocalHostDatabase = _isLocalHost(databaseConfig.host);
 
   final mdnsConfig = configRepository.configOrThrow.mdnsServicePublish;
 
@@ -582,4 +582,10 @@ Future<void> _registerProcessShutdownSignalHandlers(Shutdown shutdown) async {
   if (!isWindows) {
     ProcessSignal.sigterm.watch().listen(handleSignal);
   }
+}
+
+bool _isLocalHost(String host) {
+  const localHosts = {'localhost', '127.0.0.1', '::1'};
+  final normalizedHost = host.trim().toLowerCase();
+  return localHosts.contains(normalizedHost);
 }

@@ -1,6 +1,6 @@
 import 'dart:convert' show utf8;
 
-import 'package:clock/clock.dart';
+import 'package:clock/clock.dart' show clock;
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:librelab_server/auth/authenticate_failures.dart';
 import 'package:librelab_server/auth/refresh_token_failures.dart';
@@ -13,7 +13,7 @@ import 'package:librelab_server/user/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/user/refresh_token/user_refresh_token_repository.dart';
 import 'package:librelab_server/user/user.dart';
 import 'package:librelab_server/user/user_repository.dart';
-import 'package:librelab_server/utils/utils.dart';
+import 'package:librelab_server/utils/security/random_string.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
@@ -126,7 +126,7 @@ class AuthService {
 
     if (!_isEmailFormatValid(normalizedEmail) ||
         !_isPasswordLengthValid(plainPassword)) {
-      return .failure(InvalidLoginInputFailure());
+      return .failure(const InvalidLoginInputFailure());
     }
 
     final user = await _userRepository.findByEmail(normalizedEmail);
@@ -196,7 +196,7 @@ class AuthService {
 
   Future<Result<AuthTokens, RefreshTokenFailure>> refreshToken({
     required String refreshTokenRaw,
-    required UserRefreshTokenClientMetadata metadata,
+    required (String? ipAddress, String? userAgent) metadata,
   }) async {
     final refreshTokenHash = _hashToken(refreshTokenRaw);
 
@@ -225,10 +225,15 @@ class AuthService {
       return .failure(const UserMissingForValidTokenFailure());
     }
 
+    final (String? ipAddress, String? userAgent) = (metadata.$1, metadata.$2);
     final newAuthTokens = await createAuthTokens(
       userId: userRefreshToken.userId,
       tokenVersion: tokenVersion,
-      metadata: metadata,
+      metadata: UserRefreshTokenClientMetadata(
+        ipAddress: ipAddress,
+        userAgent: userAgent,
+        deviceId: userRefreshToken.clientMetadata.deviceId,
+      ),
     );
 
     // Revokes the old refresh token
@@ -283,7 +288,7 @@ class AuthService {
 
         return .success(user);
       case FailureResult<JwtPayload, JwtValidationFailure>(:final failure):
-        return .failure(JwtAuthenticationFailure(failure));
+        return .failure(JwtValidationFailureWrapped(failure));
     }
   }
 
