@@ -31,7 +31,8 @@ class FileStorage<Decode, Encode> {
       return null;
     } on FileSystemException catch (e) {
       _logger?.warning(
-        'Failed to read file ${file.path} (unexpected operation failure): \n$e',
+        'Failed to read file ${file.path} (unexpected operation failure):',
+        e,
       );
       return null;
     }
@@ -46,7 +47,7 @@ class FileStorage<Decode, Encode> {
 
       _fileContent = newFileContent;
     } on FileSystemException catch (e) {
-      _logger?.warning('Failed to write file: ${file.path}\n$e');
+      _logger?.warning('Failed to write file: ${file.path}', e);
       rethrow;
     }
   }

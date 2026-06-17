@@ -498,12 +498,12 @@ class _TableColumnInfo {
   String asDartNonNullableType() {
     // Handles PostgreSQL enums
     if (dataType == 'USER-DEFINED') {
-      return 'String'; // Requires ::text in SQL select
+      return 'String'; // Requires ::text casting in SQL select
     }
     final type = switch (udtName) {
       'int4' => 'int',
       'int8' => 'int',
-      'inet' => 'String', // Requires ::text in SQL select
+      'inet' => 'String', // Requires ::text casting in SQL select
       'uuid' => 'String',
       'text' => 'String',
       'timestamp' => 'DateTime',

@@ -1,5 +1,6 @@
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_schema.g.dart';
+import 'package:librelab_server/database/utils/postgresql_utils.dart';
 import 'package:librelab_server/database/utils/prefixed_column_projection.dart';
 import 'package:librelab_server/user/role/role.dart';
 import 'package:librelab_server/user/user.dart';
@@ -55,7 +56,8 @@ WHERE ${_U.id} = @id
   Future<AuthUser?> findAuthUserById(String id) async {
     final result = await _client.execute(
       .named('''
-SELECT u.${_U.tokenVersion}, u.${_U.isSuperuser}, array_agg(rp.${_Rp.permission}::text) AS $_rolePermissionsAlias
+SELECT u.${_U.tokenVersion}, u.${_U.isSuperuser},
+  ${arrayAggAsText(expression: 'rp.${_Rp.permission}', alias: _rolePermissionsAlias)}
 FROM ${_U.tableName} u
 LEFT JOIN ${_Rp.tableName} rp ON rp.${_Rp.roleId} = u.${_U.roleId}
 WHERE u.${_U.id} = @id
@@ -93,14 +95,12 @@ LIMIT 1
       columns: _R.columns,
     );
 
-    const rolePermissionsAlias = 'role_permissions';
-
     final result = await _client.execute(
       .named('''
 SELECT
   u.*,
   ${roleProjection.build()},
-  array_agg(rp.${_Rp.permission}::text) AS $rolePermissionsAlias
+  ${arrayAggAsText(expression: 'rp.${_Rp.permission}', alias: _rolePermissionsAlias)}
 FROM ${_U.tableName} u
 LEFT JOIN ${_R.tableName} r ON r.${_R.id} = u.${_U.roleId}
 LEFT JOIN ${_Rp.tableName} rp ON rp.${_Rp.roleId} = r.${_R.id}

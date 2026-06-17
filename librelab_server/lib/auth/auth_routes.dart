@@ -31,10 +31,6 @@ class AuthRoutes implements RouteModule {
       _refreshUserHandler,
     );
 
-  // TODO: (REMOVE_SERVERPOD) Implement rate limit (global and for auth route route)
-  // TODO: (REMOVE_SERVERPOD) Allow admins disabling/locking login
-  // TODO: (REMOVE_SERVERPOD) System/Lab settings (lab name, login disabled)
-  // TODO: (REMOVE_SERVERPOD) Implement audit_logs
   Future<Response> _loginHandler(Request request) async {
     final body = await request.readJsonBody(fromJson: LoginRequest.fromJson);
 
@@ -45,8 +41,8 @@ class AuthRoutes implements RouteModule {
     );
 
     switch (result) {
-      case SuccessResult<LoginResult, UserLoginFailure>(:final value):
-        final (user, tokens) = (value.$1, value.$2);
+      case SuccessResult<AuthenticatedSession, UserLoginFailure>(:final value):
+        final (user, tokens) = value;
 
         final response = LoginResponse(
           accessToken: tokens.accessToken.toResponse(),
@@ -56,7 +52,9 @@ class AuthRoutes implements RouteModule {
 
         return response.toJson().httpResponse(.ok);
 
-      case FailureResult<LoginResult, UserLoginFailure>(:final failure):
+      case FailureResult<AuthenticatedSession, UserLoginFailure>(
+        :final failure,
+      ):
         switch (failure) {
           case UserNotFoundFailure():
           case InvalidPasswordFailure():
@@ -70,6 +68,12 @@ class AuthRoutes implements RouteModule {
               message: 'INVALID_LOGIN_INPUT',
               code: 'Invalid login input',
             ).toJson().httpResponse(.badRequest);
+          case LoginDisabledFailure():
+            return const ServerErrorResponse(
+              message: AuthErrorCodes.loginDisabled,
+              code:
+                  'Login is disabled. Contact system administrator to enable it.',
+            ).toJson().httpResponse(.forbidden);
         }
     }
   }

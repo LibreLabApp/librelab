@@ -3,6 +3,8 @@ import 'dart:convert' show utf8;
 import 'package:clock/clock.dart' show clock;
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:librelab_server/auth/authenticate_failures.dart';
+import 'package:librelab_server/auth/login_attempt/login_attempt.dart';
+import 'package:librelab_server/auth/login_attempt/login_attempt_repository.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository.dart';
 import 'package:librelab_server/auth/refresh_token_failures.dart';
@@ -44,20 +46,24 @@ class AuthTokens {
   final AuthToken refreshTokenRaw;
 }
 
-typedef LoginResult = (User user, AuthTokens tokens);
+typedef AuthenticatedSession = (User user, AuthTokens tokens);
 
 class AuthService {
   AuthService({
     required this._passwordHasher,
-    required this._userRepository,
     required this._jwtService,
+    required this._userRepository,
     required this._userRefreshTokenRepository,
+    required this._loginAttemptRepository,
+    required this._loginDisabled,
   });
 
   final PasswordHasher _passwordHasher;
-  final UserRepository _userRepository;
   final JwtService _jwtService;
+  final UserRepository _userRepository;
   final UserRefreshTokenRepository _userRefreshTokenRepository;
+  final LoginAttemptRepository _loginAttemptRepository;
+  final bool _loginDisabled;
 
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
@@ -117,11 +123,55 @@ class AuthService {
     return .success(user);
   }
 
-  Future<Result<LoginResult, UserLoginFailure>> loginUser({
+  // TODO: (REMOVE_SERVERPOD) Implement rate limit
+  Future<Result<AuthenticatedSession, UserLoginFailure>> loginUser({
     required String email,
     required String plainPassword,
     required UserRefreshTokenClientMetadata metadata,
   }) async {
+    final result = await _loginUser(
+      email: email,
+      plainPassword: plainPassword,
+      metadata: metadata,
+    );
+
+    final (LoginResult loginResult, String? userId) = switch (result) {
+      SuccessResult<AuthenticatedSession, UserLoginFailure>(:final value) => (
+        .success,
+        value.$1.id,
+      ),
+      FailureResult<AuthenticatedSession, UserLoginFailure>(:final failure) =>
+        switch (failure) {
+          UserNotFoundFailure() => (.userNotFound, null),
+          InvalidPasswordFailure(:final targetUserId) => (
+            .invalidCredentials,
+            targetUserId,
+          ),
+          InvalidLoginInputFailure() => (.validationError, null),
+          LoginDisabledFailure() => (.loginDisabled, null),
+        },
+    };
+
+    await _loginAttemptRepository.create(
+      email: email,
+      userId: userId,
+      loginResult: loginResult,
+      ipAddress: metadata.ipAddress,
+      userAgent: metadata.userAgent,
+    );
+
+    return result;
+  }
+
+  Future<Result<AuthenticatedSession, UserLoginFailure>> _loginUser({
+    required String email,
+    required String plainPassword,
+    required UserRefreshTokenClientMetadata metadata,
+  }) async {
+    if (_loginDisabled) {
+      return .failure(const LoginDisabledFailure());
+    }
+
     final normalizedEmail = email.trim().toLowerCase();
 
     if (!_isEmailFormatValid(normalizedEmail) ||
@@ -141,7 +191,7 @@ class AuthService {
     );
 
     if (!isPasswordValid) {
-      return .failure(const InvalidPasswordFailure());
+      return .failure(InvalidPasswordFailure(targetUserId: user.id));
     }
 
     return .success((

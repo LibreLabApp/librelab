@@ -24,6 +24,28 @@ Map<String, Object?> _buildFieldMap<T>(
   return map;
 }
 
+/// Generated enum from PostgreSQL enum `login_result`.
+enum LoginResultPgEnum {
+  success('success'),
+  invalidCredentials('invalid_credentials'),
+  validationError('validation_error'),
+  userNotFound('user_not_found'),
+  locked('locked'),
+  loginDisabled('login_disabled'),
+  rateLimited('rate_limited');
+
+  const LoginResultPgEnum(this.text);
+
+  final String text;
+
+  static LoginResultPgEnum fromText(String value) {
+    return values.firstWhere(
+      (e) => e.text == value,
+      orElse: () => throw ArgumentError('Unknown enum value: $value'),
+    );
+  }
+}
+
 /// Generated enum from PostgreSQL enum `permission`.
 enum PermissionPgEnum {
   backupCreate('backup:create'),
@@ -39,6 +61,117 @@ enum PermissionPgEnum {
       orElse: () => throw ArgumentError('Unknown enum value: $value'),
     );
   }
+}
+
+/// Generated mapping for the `login_attempts` table, providing type-safe references
+/// for the table name and column names to avoid hardcoding strings.
+abstract final class LoginAttemptsTable {
+  static const String tableName = 'login_attempts';
+
+  static const String id = 'id';
+
+  static const String userId = 'user_id';
+
+  static const String email = 'email';
+
+  static const String result = 'result';
+
+  static const String ipAddress = 'ip_address';
+
+  static const String userAgent = 'user_agent';
+
+  static const String createdAt = 'created_at';
+
+  static const List<String> columns = [
+    id,
+    userId,
+    email,
+    result,
+    ipAddress,
+    userAgent,
+    createdAt,
+  ];
+
+  static Map<String, Object> insert({
+    int? id,
+    required String? userId,
+    required String email,
+    required String result,
+    required String? ipAddress,
+    required String? userAgent,
+    DateTime? createdAt,
+  }) => {
+    LoginAttemptsTable.id: ?id,
+    LoginAttemptsTable.userId: ?userId,
+    LoginAttemptsTable.email: email,
+    LoginAttemptsTable.result: result,
+    LoginAttemptsTable.ipAddress: ?ipAddress,
+    LoginAttemptsTable.userAgent: ?userAgent,
+    LoginAttemptsTable.createdAt: ?createdAt,
+  };
+
+  static Map<String, Object?> update({
+    Field<int> id = const .absent(),
+    required Field<String?> userId,
+    required Field<String> email,
+    required Field<String> result,
+    required Field<String?> ipAddress,
+    required Field<String?> userAgent,
+    Field<DateTime> createdAt = const .absent(),
+  }) {
+    return _buildFieldMap([
+      (LoginAttemptsTable.id, id),
+      (LoginAttemptsTable.userId, userId),
+      (LoginAttemptsTable.email, email),
+      (LoginAttemptsTable.result, result),
+      (LoginAttemptsTable.ipAddress, ipAddress),
+      (LoginAttemptsTable.userAgent, userAgent),
+      (LoginAttemptsTable.createdAt, createdAt),
+    ]);
+  }
+}
+
+/// Generated row mapping for the `login_attempts` table.
+/// Represents a full-row result where all columns are expected to be present.
+///
+/// This model assumes SELECT queries include all columns defined in the table (i.e., `SELECT * FROM login_attempts`).
+/// Partial SELECT projections are **not** supported and may result in runtime errors.
+@immutable
+final class LoginAttemptsRow {
+  const LoginAttemptsRow({
+    required this.id,
+    required this.userId,
+    required this.email,
+    required this.result,
+    required this.ipAddress,
+    required this.userAgent,
+    required this.createdAt,
+  });
+
+  factory LoginAttemptsRow.fromMap(Map<String, Object?> map) =>
+      LoginAttemptsRow(
+        id: (map[LoginAttemptsTable.id] as int)!,
+        userId: (map[LoginAttemptsTable.userId] as String?),
+        email: (map[LoginAttemptsTable.email] as String)!,
+        result: (map[LoginAttemptsTable.result] as String)!,
+        ipAddress: (map[LoginAttemptsTable.ipAddress] as String?),
+        userAgent: (map[LoginAttemptsTable.userAgent] as String?),
+        createdAt: (map[LoginAttemptsTable.createdAt] as DateTime)!,
+      );
+
+  final int id;
+
+  final String? userId;
+
+  final String email;
+
+  final String result;
+
+  final String? ipAddress;
+
+  final String? userAgent;
+
+  final DateTime createdAt;
 }
 
 /// Generated mapping for the `role_permissions` table, providing type-safe references

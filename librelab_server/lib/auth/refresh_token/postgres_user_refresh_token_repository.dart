@@ -2,6 +2,7 @@ import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository.dart';
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_schema.g.dart';
+import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = UserRefreshTokensTable;
 
@@ -127,7 +128,7 @@ RETURNING ${_T.id}
   String get _selectColumns => _T.columns
       .map((e) {
         if (e == _T.ipAddress) {
-          return '${_T.ipAddress}::text AS ${_T.ipAddress}';
+          return castColumnToText(_T.ipAddress);
         }
         return e;
       })

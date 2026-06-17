@@ -79,3 +79,23 @@ CREATE TABLE user_refresh_tokens (
 
 CREATE INDEX user_refresh_tokens_expires_at_idx ON user_refresh_tokens(expires_at);
 CREATE INDEX user_refresh_tokens_user_id_idx ON user_refresh_tokens(user_id);
+
+CREATE TYPE login_result AS ENUM (
+  'success',
+  'invalid_credentials',
+  'validation_error',
+  'user_not_found',
+  'locked',
+  'login_disabled',
+  'rate_limited'
+);
+
+CREATE TABLE login_attempts (
+  id BIGSERIAL PRIMARY KEY,
+  user_id UUID,
+  email TEXT NOT NULL,
+  result login_result NOT NULL,
+  ip_address INET,
+  user_agent TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);

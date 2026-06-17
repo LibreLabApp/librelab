@@ -4,15 +4,14 @@ import 'package:librelab_server/app_files.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
+import 'package:librelab_server/auth/login_attempt/postgres_login_attempt_repository.dart';
+import 'package:librelab_server/auth/refresh_token/postgres_user_refresh_token_repository.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_hasher.dart';
 import 'package:librelab_server/auth/superuser_initializer.dart';
 import 'package:librelab_server/cli/arg_parser.dart';
 import 'package:librelab_server/cli/cli_constants.dart';
 import 'package:librelab_server/config/config.dart';
-import 'package:librelab_server/config/load_app_config.dart';
-import 'package:librelab_server/config/load_app_secrets.dart';
-import 'package:librelab_server/config/server_run_mode.dart';
 import 'package:librelab_server/database/database_connect.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
@@ -23,7 +22,6 @@ import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
 import 'package:librelab_server/user/postgres_user_repository.dart';
-import 'package:librelab_server/user/refresh_token/postgres_user_refresh_token_repository.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
@@ -160,14 +158,22 @@ Future<void> run(List<String> args) async {
   );
   final authService = AuthService(
     passwordHasher: BcryptPasswordHasher(),
-    userRepository: userRepository,
     jwtService: JwtService(jwtAccessTokenSecret: secrets.jwtAccessTokenSecret),
+    userRepository: userRepository,
     userRefreshTokenRepository: PostgresUserRefreshTokenRepository(
       client: databaseClient,
     ),
+    loginAttemptRepository: PostgresLoginAttemptRepository(
+      client: databaseClient,
+    ),
+    // TODO: (REMOVE_SERVERPOD) Implement audit_logs
+    // TODO: (REMOVE_SERVERPOD) System/Lab settings (lab name, login disabled)
+    // TODO: (REMOVE_SERVERPOD) Allow admins disabling login
+    loginDisabled: false,
   );
   final authorizationService = AuthorizationService(authService: authService);
 
+  // TODO: (REMOVE_SERVERPOD) Implement global rate limit
   final server = await startServer(
     port: apiServerPort,
     address: apiServerAddress,

@@ -9,9 +9,17 @@ final class UserNotFoundFailure extends UserLoginFailure {
 }
 
 final class InvalidPasswordFailure extends UserLoginFailure {
-  const InvalidPasswordFailure() : super('Invalid password');
+  const InvalidPasswordFailure({required this.targetUserId})
+    : super('Invalid password');
+
+  final String? targetUserId;
 }
 
 final class InvalidLoginInputFailure extends UserLoginFailure {
   const InvalidLoginInputFailure() : super('Invalid email or password length');
+}
+
+final class LoginDisabledFailure extends UserLoginFailure {
+  const LoginDisabledFailure()
+    : super('Login is disabled. Contact system administrator to enable it.');
 }
