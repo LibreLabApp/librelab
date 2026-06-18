@@ -100,7 +100,7 @@ CREATE TABLE login_attempts (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE app_settings (
+CREATE TABLE lab_settings (
   -- Singleton
   id INTEGER PRIMARY KEY DEFAULT 1,
   lab_name TEXT,
@@ -108,8 +108,8 @@ CREATE TABLE app_settings (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
-  CONSTRAINT settings_id_check
+  CONSTRAINT lab_settings_singleton_check
     CHECK (id = 1)
 );
 
-CREATE TRIGGER app_settings_set_updated_at BEFORE UPDATE ON app_settings FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+CREATE TRIGGER lab_settings_set_updated_at BEFORE UPDATE ON lab_settings FOR EACH ROW EXECUTE FUNCTION set_updated_at();

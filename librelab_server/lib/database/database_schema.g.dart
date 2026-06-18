@@ -63,10 +63,10 @@ enum PermissionPgEnum {
   }
 }
 
-/// Generated mapping for the `app_settings` table, providing type-safe references
+/// Generated mapping for the `lab_settings` table, providing type-safe references
 /// for the table name and column names to avoid hardcoding strings.
-abstract final class AppSettingsTable {
-  static const String tableName = 'app_settings';
+abstract final class LabSettingsTable {
+  static const String tableName = 'lab_settings';
 
   static const String id = 'id';
 
@@ -93,11 +93,11 @@ abstract final class AppSettingsTable {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) => {
-    AppSettingsTable.id: ?id,
-    AppSettingsTable.labName: ?labName,
-    AppSettingsTable.loginDisabled: ?loginDisabled,
-    AppSettingsTable.createdAt: ?createdAt,
-    AppSettingsTable.updatedAt: ?updatedAt,
+    LabSettingsTable.id: ?id,
+    LabSettingsTable.labName: ?labName,
+    LabSettingsTable.loginDisabled: ?loginDisabled,
+    LabSettingsTable.createdAt: ?createdAt,
+    LabSettingsTable.updatedAt: ?updatedAt,
   };
 
   static Map<String, Object?> update({
@@ -108,23 +108,23 @@ abstract final class AppSettingsTable {
     Field<DateTime> updatedAt = const .absent(),
   }) {
     return _buildFieldMap([
-      (AppSettingsTable.id, id),
-      (AppSettingsTable.labName, labName),
-      (AppSettingsTable.loginDisabled, loginDisabled),
-      (AppSettingsTable.createdAt, createdAt),
-      (AppSettingsTable.updatedAt, updatedAt),
+      (LabSettingsTable.id, id),
+      (LabSettingsTable.labName, labName),
+      (LabSettingsTable.loginDisabled, loginDisabled),
+      (LabSettingsTable.createdAt, createdAt),
+      (LabSettingsTable.updatedAt, updatedAt),
     ]);
   }
 }
 
-/// Generated row mapping for the `app_settings` table.
+/// Generated row mapping for the `lab_settings` table.
 /// Represents a full-row result where all columns are expected to be present.
 ///
-/// This model assumes SELECT queries include all columns defined in the table (i.e., `SELECT * FROM app_settings`).
+/// This model assumes SELECT queries include all columns defined in the table (i.e., `SELECT * FROM lab_settings`).
 /// Partial SELECT projections are **not** supported and may result in runtime errors.
 @immutable
-final class AppSettingsRow {
-  const AppSettingsRow({
+final class LabSettingsRow {
+  const LabSettingsRow({
     required this.id,
     required this.labName,
     required this.loginDisabled,
@@ -132,12 +132,12 @@ final class AppSettingsRow {
     required this.updatedAt,
   });
 
-  factory AppSettingsRow.fromMap(Map<String, Object?> map) => AppSettingsRow(
-    id: (map[AppSettingsTable.id] as int)!,
-    labName: (map[AppSettingsTable.labName] as String?),
-    loginDisabled: (map[AppSettingsTable.loginDisabled] as bool)!,
-    createdAt: (map[AppSettingsTable.createdAt] as DateTime)!,
-    updatedAt: (map[AppSettingsTable.updatedAt] as DateTime)!,
+  factory LabSettingsRow.fromMap(Map<String, Object?> map) => LabSettingsRow(
+    id: (map[LabSettingsTable.id] as int)!,
+    labName: (map[LabSettingsTable.labName] as String?),
+    loginDisabled: (map[LabSettingsTable.loginDisabled] as bool)!,
+    createdAt: (map[LabSettingsTable.createdAt] as DateTime)!,
+    updatedAt: (map[LabSettingsTable.updatedAt] as DateTime)!,
   );
 
   final int id;

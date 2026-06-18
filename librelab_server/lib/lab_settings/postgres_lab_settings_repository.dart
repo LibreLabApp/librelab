@@ -1,23 +1,24 @@
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_schema.g.dart';
-import 'package:librelab_server/settings/app_settings.dart';
-import 'package:librelab_server/settings/app_settings_repository.dart';
+import 'package:librelab_server/lab_settings/lab_settings.dart';
+import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:optional_field/optional_field.dart';
 
-typedef _T = AppSettingsTable;
+typedef _T = LabSettingsTable;
+typedef _Row = LabSettingsRow;
 
-class PostgresAppSettingsRepository implements AppSettingsRepository {
-  PostgresAppSettingsRepository({required this._client});
+class PostgresLabSettingsRepository implements LabSettingsRepository {
+  PostgresLabSettingsRepository({required this._client});
 
   final DatabaseClient _client;
 
-  AppSettings? _cached;
+  LabSettings? _cached;
 
   // Singleton
   static const _id = 1;
 
   @override
-  Future<AppSettings> upsert(AppSettingsPatch patch) async {
+  Future<LabSettings> upsert(LabSettingsPatch patch) async {
     final params = _T.update(
       id: const Field.value(_id),
       labName: patch.labName,
@@ -36,16 +37,16 @@ RETURNING *
       parameters: params,
     );
 
-    final row = AppSettingsRow.fromMap(result.first.toColumnMap());
+    final row = LabSettingsRow.fromMap(result.first.toColumnMap());
 
-    final appSettings = row._toDomain();
-    _cached = appSettings;
+    final settings = row._toDomain();
+    _cached = settings;
 
-    return appSettings;
+    return settings;
   }
 
   @override
-  Future<AppSettings?> load() async {
+  Future<LabSettings?> load() async {
     final result = await _client.execute(
       .named('SELECT * FROM ${_T.tableName} WHERE ${_T.id} = @id'),
       parameters: {'id': _id},
@@ -56,18 +57,18 @@ RETURNING *
       return null;
     }
 
-    final appSettings = AppSettingsRow.fromMap(row.toColumnMap())._toDomain();
-    _cached = appSettings;
+    final settings = _Row.fromMap(row.toColumnMap())._toDomain();
+    _cached = settings;
 
-    return appSettings;
+    return settings;
   }
 
   @override
-  AppSettings get cached =>
-      _cached ?? (throw StateError('App settings are not loaded yet.'));
+  LabSettings get cached =>
+      _cached ?? (throw StateError('$LabSettings are not loaded yet.'));
 }
 
-extension on AppSettingsRow {
-  AppSettings _toDomain() =>
-      AppSettings(labName: labName, loginDisabled: loginDisabled);
+extension on _Row {
+  LabSettings _toDomain() =>
+      LabSettings(labName: labName, loginDisabled: loginDisabled);
 }

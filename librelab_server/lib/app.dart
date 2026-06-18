@@ -18,11 +18,12 @@ import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/handshake/handshake_routes.dart';
+import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
-import 'package:librelab_server/settings/app_settings_repository.dart';
-import 'package:librelab_server/settings/postgres_app_settings_repository.dart';
+import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
+import 'package:librelab_server/lab_settings/postgres_lab_settings_repository.dart';
 import 'package:librelab_server/user/postgres_user_repository.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
@@ -155,17 +156,17 @@ Future<void> run(List<String> args) async {
     shutdown: shutdown,
   );
 
-  final AppSettingsRepository appSettingsRepository =
-      PostgresAppSettingsRepository(client: databaseClient);
+  final LabSettingsRepository labSettingsRepository =
+      PostgresLabSettingsRepository(client: databaseClient);
 
-  final settings =
-      await appSettingsRepository.load() ??
-      (await appSettingsRepository.upsert(const .new()));
+  final labSettings =
+      await labSettingsRepository.load() ??
+      (await labSettingsRepository.upsert(const .new()));
 
   // Calls so that, in case of a bug,
   // it will throw early rather than later.
-  if (!identical(appSettingsRepository.cached, settings)) {
-    throw StateError('App settings were not loaded correctly');
+  if (!identical(labSettingsRepository.cached, labSettings)) {
+    throw StateError('$LabSettings were not loaded correctly');
   }
 
   final UserRepository userRepository = PostgresUserRepository(
@@ -183,7 +184,7 @@ Future<void> run(List<String> args) async {
     ),
     // TODO: (REMOVE_SERVERPOD) Implement audit_logs
     // TODO: (REMOVE_SERVERPOD) Allow admins disabling login
-    loginDisabled: () => appSettingsRepository.cached.loginDisabled,
+    loginDisabled: () => labSettingsRepository.cached.loginDisabled,
   );
   final authorizationService = AuthorizationService(authService: authService);
 
