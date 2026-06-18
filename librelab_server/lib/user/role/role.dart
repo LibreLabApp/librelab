@@ -12,7 +12,7 @@ class Role {
     required this.updatedAt,
   }) : permissions = List.unmodifiable(permissions);
 
-  final String id;
+  final int id;
   final String name;
   final List<Permission> permissions;
   final DateTime createdAt;

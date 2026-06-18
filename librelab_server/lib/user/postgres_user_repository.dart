@@ -141,23 +141,17 @@ SELECT EXISTS (
   }
 
   @override
-  Future<User> create({
-    required String email,
-    required String passwordHash,
-    required String fullName,
-    required String? phoneNumber,
-    required UserType type,
-  }) async {
-    final (bool isSuperUser, String? roleId) = switch (type) {
+  Future<User> create(UserCreate create) async {
+    final (bool isSuperUser, int? roleId) = switch (create.type) {
       RegularUserType(:final roleId) => (false, roleId),
       SuperUserType() => (true, null),
     };
 
     final id = await _insertUser(
-      email: email,
-      passwordHash: passwordHash,
-      fullName: fullName,
-      phoneNumber: phoneNumber,
+      email: create.email,
+      passwordHash: create.passwordHash,
+      fullName: create.fullName,
+      phoneNumber: create.phoneNumber,
       isSuperUser: isSuperUser,
       roleId: roleId,
     );
@@ -171,7 +165,7 @@ SELECT EXISTS (
     required String fullName,
     required String? phoneNumber,
     required bool isSuperUser,
-    required String? roleId,
+    required int? roleId,
   }) async {
     if (isSuperUser && roleId != null) {
       throw ArgumentError('A superuser cannot have a role');

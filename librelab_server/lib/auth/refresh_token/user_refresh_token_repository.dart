@@ -1,13 +1,9 @@
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
+import 'package:meta/meta.dart';
 
 abstract interface class UserRefreshTokenRepository {
   /// [UserRefreshTokenClientMetadata.ipAddress] must be valid.
-  Future<UserRefreshToken> create({
-    required String userId,
-    required String tokenHash,
-    required UserRefreshTokenClientMetadata clientMetadata,
-    required DateTime expiresAt,
-  });
+  Future<UserRefreshToken> create(UserRefreshTokenCreate create);
 
   /// Returns the list of user refresh tokens by user ID.
   Future<List<UserRefreshToken>> findRefreshTokensByUserId(String userId);
@@ -36,4 +32,19 @@ abstract interface class UserRefreshTokenRepository {
   ///
   /// Returns the number of tokens deleted.
   Future<int> deleteExpiredRefreshTokens();
+}
+
+@immutable
+class UserRefreshTokenCreate {
+  const UserRefreshTokenCreate({
+    required this.userId,
+    required this.tokenHash,
+    required this.clientMetadata,
+    required this.expiresAt,
+  });
+
+  final String userId;
+  final String tokenHash;
+  final UserRefreshTokenClientMetadata clientMetadata;
+  final DateTime expiresAt;
 }

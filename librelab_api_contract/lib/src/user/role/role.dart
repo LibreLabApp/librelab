@@ -28,7 +28,7 @@ class Role {
 
   JsonMap toJson() => _$RoleToJson(this);
 
-  final String id;
+  final int id;
   final String name;
 
   @JsonKey(

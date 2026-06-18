@@ -6,6 +6,7 @@ import 'package:yaml/yaml.dart';
 part 'api_server_config.dart';
 part 'app_config.freezed.dart';
 
+/// Infrastructure configuration (deployment/runtime, not application settings)
 @freezed
 @immutable
 class AppConfig with _$AppConfig {

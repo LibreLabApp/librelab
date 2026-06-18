@@ -12,19 +12,13 @@ class PostgresLoginAttemptRepository implements LoginAttemptRepository {
   final DatabaseClient _client;
 
   @override
-  Future<LoginAttempt> create({
-    required String? userId,
-    required String email,
-    required LoginResult loginResult,
-    required String? ipAddress,
-    required String? userAgent,
-  }) async {
+  Future<LoginAttempt> create(LoginAttemptCreate create) async {
     final Map<String, Object?> params = _T.insert(
-      userId: userId,
-      email: email,
-      result: loginResult._toDto().text,
-      ipAddress: ipAddress,
-      userAgent: userAgent,
+      userId: create.userId,
+      email: create.email,
+      result: create.loginResult._toDto().text,
+      ipAddress: create.ipAddress,
+      userAgent: create.userAgent,
     );
     final result = await _client.execute(
       .named('''

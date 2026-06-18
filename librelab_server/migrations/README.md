@@ -44,32 +44,38 @@ in a type-safe way, which is less error prone.
 1. Run the Dart script [above](#create-a-new-migration).
     This ensures the embedded migration script changes are also reflected in the Dart code.
 
-2. Run the server once to apply the migrations (important)
+2. Run the database server to apply the migrations in the next step.
 
     The follow-up script will run SQL commands in a real database 
     to read schema metadata (table/column names, types, nullability).
 
     The database must be running as well (via Docker or system installation), and it should be clean (without non-app tables).
 
-    Run the server once to apply all migrations to the database:
+    Run the database server to apply all migrations to the database in the **next step**:
 
     ```shell
+    docker compose down -v # Optional to stop and start fresh
     docker compose up # Starts PostgreSQL database server
-    dart bin/main.dart
     ```
 
-    Then once they are applied successfully, you can shutdown the server.
+3. Generate the Dart code:
 
-3. Run the following script:
+    Run the following script:
 
     ```shell
     # Review the config in the file before running
     dart scripts/database_schema/generate.dart
     ```
 
-    Then use the generated code.
+    Once the task finishes successfully, you can shutdown the database server if not needed:
 
-    <details><summary>Example</summary>
+    ```shell
+    docker compose down # Stops PostgreSQL database server
+    ```
+
+    Now you can import and use the generated Dart code (see the example bellow).
+
+    <details><summary>Example usage</summary>
 
     ```dart
     // Example (UsersTable and UsersRow are generated from users table)
@@ -77,9 +83,9 @@ in a type-safe way, which is less error prone.
     final result = await connection.execute(
     'SELECT * FROM ${UsersTable.tableName}',
     );
-    final parsed = result.map((e) => UsersRow.fromMap(e.toColumnMap()));
+    final rows = result.map((e) => UsersRow.fromMap(e.toColumnMap()));
 
-    print(parsed.firstOrNull?.email);
+    print(rows.firstOrNull?.email);
     ```
 
     </details>

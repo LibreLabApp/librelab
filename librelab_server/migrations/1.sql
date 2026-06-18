@@ -12,7 +12,7 @@ CREATE TYPE permission AS ENUM (
 );
 
 CREATE TABLE roles (
-  id UUID PRIMARY KEY DEFAULT uuidv7(),
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -21,7 +21,7 @@ CREATE TABLE roles (
 CREATE TRIGGER roles_set_updated_at BEFORE UPDATE ON roles FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 CREATE TABLE role_permissions (
-  role_id UUID NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+  role_id BIGINT NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
   permission permission NOT NULL,
   PRIMARY KEY (role_id, permission)
 );
@@ -34,7 +34,7 @@ CREATE TABLE users (
   full_name TEXT NOT NULL,
   phone_number TEXT,
   is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
-  role_id UUID REFERENCES roles(id),
+  role_id BIGINT REFERENCES roles(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
@@ -67,7 +67,7 @@ CREATE TABLE users (
 CREATE TRIGGER users_set_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 CREATE TABLE user_refresh_tokens (
-  id BIGSERIAL PRIMARY KEY,
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   token_hash TEXT NOT NULL UNIQUE,
   device_id TEXT,
@@ -91,7 +91,7 @@ CREATE TYPE login_result AS ENUM (
 );
 
 CREATE TABLE login_attempts (
-  id BIGSERIAL PRIMARY KEY,
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   user_id UUID,
   email TEXT NOT NULL,
   result login_result NOT NULL,
@@ -99,3 +99,17 @@ CREATE TABLE login_attempts (
   user_agent TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE TABLE app_settings (
+  -- Singleton
+  id INTEGER PRIMARY KEY DEFAULT 1,
+  lab_name TEXT,
+  login_disabled BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+  CONSTRAINT settings_id_check
+    CHECK (id = 1)
+);
+
+CREATE TRIGGER app_settings_set_updated_at BEFORE UPDATE ON app_settings FOR EACH ROW EXECUTE FUNCTION set_updated_at();

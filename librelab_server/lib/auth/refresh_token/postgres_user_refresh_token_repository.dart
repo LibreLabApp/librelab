@@ -12,19 +12,14 @@ class PostgresUserRefreshTokenRepository implements UserRefreshTokenRepository {
   final DatabaseClient _client;
 
   @override
-  Future<UserRefreshToken> create({
-    required String userId,
-    required String tokenHash,
-    required UserRefreshTokenClientMetadata clientMetadata,
-    required DateTime expiresAt,
-  }) async {
+  Future<UserRefreshToken> create(UserRefreshTokenCreate create) async {
     final Map<String, Object?> params = _T.insert(
-      userId: userId,
-      tokenHash: tokenHash,
-      deviceId: clientMetadata.deviceId,
-      ipAddress: clientMetadata.ipAddress,
-      userAgent: clientMetadata.userAgent,
-      expiresAt: expiresAt,
+      userId: create.userId,
+      tokenHash: create.tokenHash,
+      deviceId: create.clientMetadata.deviceId,
+      ipAddress: create.clientMetadata.ipAddress,
+      userAgent: create.clientMetadata.userAgent,
+      expiresAt: create.expiresAt,
     );
     final result = await _client.execute(
       .named('''

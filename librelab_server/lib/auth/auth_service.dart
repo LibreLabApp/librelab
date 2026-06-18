@@ -63,7 +63,7 @@ class AuthService {
   final UserRepository _userRepository;
   final UserRefreshTokenRepository _userRefreshTokenRepository;
   final LoginAttemptRepository _loginAttemptRepository;
-  final bool _loginDisabled;
+  final bool Function() _loginDisabled;
 
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
@@ -113,11 +113,13 @@ class AuthService {
     final passwordHash = await _passwordHasher.hash(plainPassword);
 
     final user = await _userRepository.create(
-      email: normalizedEmail,
-      passwordHash: passwordHash,
-      fullName: normalizedFullName,
-      phoneNumber: normalizedPhoneNumber,
-      type: type,
+      .new(
+        email: normalizedEmail,
+        passwordHash: passwordHash,
+        fullName: normalizedFullName,
+        phoneNumber: normalizedPhoneNumber,
+        type: type,
+      ),
     );
 
     return .success(user);
@@ -153,11 +155,13 @@ class AuthService {
     };
 
     await _loginAttemptRepository.create(
-      email: email,
-      userId: userId,
-      loginResult: loginResult,
-      ipAddress: metadata.ipAddress,
-      userAgent: metadata.userAgent,
+      .new(
+        email: email,
+        userId: userId,
+        loginResult: loginResult,
+        ipAddress: metadata.ipAddress,
+        userAgent: metadata.userAgent,
+      ),
     );
 
     return result;
@@ -168,7 +172,7 @@ class AuthService {
     required String plainPassword,
     required UserRefreshTokenClientMetadata metadata,
   }) async {
-    if (_loginDisabled) {
+    if (_loginDisabled()) {
       return .failure(const LoginDisabledFailure());
     }
 
@@ -226,10 +230,12 @@ class AuthService {
       final refreshTokenHash = _hashToken(refreshTokenRaw);
 
       final userRefreshToken = await _userRefreshTokenRepository.create(
-        userId: userId,
-        tokenHash: refreshTokenHash,
-        clientMetadata: metadata,
-        expiresAt: _timeNowUTC().add(_refreshTokenExpiryDuration),
+        .new(
+          userId: userId,
+          tokenHash: refreshTokenHash,
+          clientMetadata: metadata,
+          expiresAt: _timeNowUTC().add(_refreshTokenExpiryDuration),
+        ),
       );
 
       return .new(

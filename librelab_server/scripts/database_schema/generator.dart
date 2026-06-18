@@ -13,6 +13,7 @@ class Config {
     required this.optionalInsertColumns,
     required this.optionalUpdateColumns,
     required this.requiredTypesImport,
+    required this.applyMigrations,
   });
 
   final Endpoint input;
@@ -20,6 +21,7 @@ class Config {
   final List<String> optionalInsertColumns;
   final List<String> optionalUpdateColumns;
   final String requiredTypesImport;
+  final Future<void> Function(Connection databaseConnection) applyMigrations;
 }
 
 Future<void> generate(Config config) async {
@@ -29,24 +31,35 @@ Future<void> generate(Config config) async {
     exit(1);
   }
 
-  final (tables, enums) = await _readTypesFromDatabase(config.input);
-
-  final generatedCode = _generateDartCode(
-    List.unmodifiable(tables),
-    enums,
-    optionalInsertColumns: config.optionalInsertColumns,
-    requiredTypesImport: config.requiredTypesImport,
-    optionalUpdateColumns: config.optionalUpdateColumns,
+  final connection = await Connection.open(
+    config.input,
+    settings: const ConnectionSettings(sslMode: .disable),
   );
 
-  await outputFile.writeAsString(generatedCode);
+  try {
+    await config.applyMigrations(connection);
 
-  stdout.writeln('Generated ${config.dartOutput}.');
+    final (tables, enums) = await _readTypesFromDatabase(connection);
+
+    final generatedCode = _generateDartCode(
+      tables: List.unmodifiable(tables),
+      pgEnums: List.unmodifiable(enums),
+      optionalInsertColumns: config.optionalInsertColumns,
+      requiredTypesImport: config.requiredTypesImport,
+      optionalUpdateColumns: config.optionalUpdateColumns,
+    );
+
+    await outputFile.writeAsString(generatedCode);
+
+    stdout.writeln('Generated ${config.dartOutput}.');
+  } finally {
+    await connection.close();
+  }
 }
 
-String _generateDartCode(
-  List<_TableInfo> tables,
-  List<_PgEnum> pgEnums, {
+String _generateDartCode({
+  required List<_TableInfo> tables,
+  required List<_PgEnum> pgEnums,
   required List<String> optionalInsertColumns,
   required List<String> optionalUpdateColumns,
   required String requiredTypesImport,
@@ -376,21 +389,12 @@ Map<String, Object?> _buildFieldMap<T>(
 }
 
 Future<(List<_TableInfo>, List<_PgEnum>)> _readTypesFromDatabase(
-  Endpoint endpoint,
+  Connection connection,
 ) async {
-  final connection = await Connection.open(
-    endpoint,
-    settings: const ConnectionSettings(sslMode: .disable),
-  );
+  final tables = await _readSchemaTables(connection);
+  final enums = await _readEnums(connection);
 
-  try {
-    final tables = await _readSchemaTables(connection);
-    final enums = await _readEnums(connection);
-
-    return (tables, enums);
-  } finally {
-    await connection.close();
-  }
+  return (tables, enums);
 }
 
 Future<List<_TableInfo>> _readSchemaTables(Connection connection) async {

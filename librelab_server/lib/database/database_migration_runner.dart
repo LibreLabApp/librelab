@@ -15,6 +15,8 @@ class DatabaseMigrationRunner {
   final int _latestVersion;
   final Logger _logger;
 
+  // Note: Avoid depending on generated code in this file.
+  // Instead hardcode table and column names
   static const String _tableName = 'schema_migrations';
   static const String _versionColumn = 'version';
   static const String _appliedAtColumn = 'applied_at';

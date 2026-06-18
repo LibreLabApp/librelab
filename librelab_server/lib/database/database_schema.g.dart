@@ -63,6 +63,94 @@ enum PermissionPgEnum {
   }
 }
 
+/// Generated mapping for the `app_settings` table, providing type-safe references
+/// for the table name and column names to avoid hardcoding strings.
+abstract final class AppSettingsTable {
+  static const String tableName = 'app_settings';
+
+  static const String id = 'id';
+
+  static const String labName = 'lab_name';
+
+  static const String loginDisabled = 'login_disabled';
+
+  static const String createdAt = 'created_at';
+
+  static const String updatedAt = 'updated_at';
+
+  static const List<String> columns = [
+    id,
+    labName,
+    loginDisabled,
+    createdAt,
+    updatedAt,
+  ];
+
+  static Map<String, Object> insert({
+    int? id,
+    required String? labName,
+    bool? loginDisabled,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => {
+    AppSettingsTable.id: ?id,
+    AppSettingsTable.labName: ?labName,
+    AppSettingsTable.loginDisabled: ?loginDisabled,
+    AppSettingsTable.createdAt: ?createdAt,
+    AppSettingsTable.updatedAt: ?updatedAt,
+  };
+
+  static Map<String, Object?> update({
+    Field<int> id = const .absent(),
+    required Field<String?> labName,
+    required Field<bool> loginDisabled,
+    Field<DateTime> createdAt = const .absent(),
+    Field<DateTime> updatedAt = const .absent(),
+  }) {
+    return _buildFieldMap([
+      (AppSettingsTable.id, id),
+      (AppSettingsTable.labName, labName),
+      (AppSettingsTable.loginDisabled, loginDisabled),
+      (AppSettingsTable.createdAt, createdAt),
+      (AppSettingsTable.updatedAt, updatedAt),
+    ]);
+  }
+}
+
+/// Generated row mapping for the `app_settings` table.
+/// Represents a full-row result where all columns are expected to be present.
+///
+/// This model assumes SELECT queries include all columns defined in the table (i.e., `SELECT * FROM app_settings`).
+/// Partial SELECT projections are **not** supported and may result in runtime errors.
+@immutable
+final class AppSettingsRow {
+  const AppSettingsRow({
+    required this.id,
+    required this.labName,
+    required this.loginDisabled,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory AppSettingsRow.fromMap(Map<String, Object?> map) => AppSettingsRow(
+    id: (map[AppSettingsTable.id] as int)!,
+    labName: (map[AppSettingsTable.labName] as String?),
+    loginDisabled: (map[AppSettingsTable.loginDisabled] as bool)!,
+    createdAt: (map[AppSettingsTable.createdAt] as DateTime)!,
+    updatedAt: (map[AppSettingsTable.updatedAt] as DateTime)!,
+  );
+
+  final int id;
+
+  final String? labName;
+
+  final bool loginDisabled;
+
+  final DateTime createdAt;
+
+  final DateTime updatedAt;
+}
+
 /// Generated mapping for the `login_attempts` table, providing type-safe references
 /// for the table name and column names to avoid hardcoding strings.
 abstract final class LoginAttemptsTable {
@@ -186,7 +274,7 @@ abstract final class RolePermissionsTable {
   static const List<String> columns = [roleId, permission];
 
   static Map<String, Object> insert({
-    required String roleId,
+    required int roleId,
     required String permission,
   }) => {
     RolePermissionsTable.roleId: roleId,
@@ -194,7 +282,7 @@ abstract final class RolePermissionsTable {
   };
 
   static Map<String, Object?> update({
-    required Field<String> roleId,
+    required Field<int> roleId,
     required Field<String> permission,
   }) {
     return _buildFieldMap([
@@ -215,11 +303,11 @@ final class RolePermissionsRow {
 
   factory RolePermissionsRow.fromMap(Map<String, Object?> map) =>
       RolePermissionsRow(
-        roleId: (map[RolePermissionsTable.roleId] as String)!,
+        roleId: (map[RolePermissionsTable.roleId] as int)!,
         permission: (map[RolePermissionsTable.permission] as String)!,
       );
 
-  final String roleId;
+  final int roleId;
 
   final String permission;
 }
@@ -240,7 +328,7 @@ abstract final class RolesTable {
   static const List<String> columns = [id, name, createdAt, updatedAt];
 
   static Map<String, Object> insert({
-    String? id,
+    int? id,
     required String name,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -252,7 +340,7 @@ abstract final class RolesTable {
   };
 
   static Map<String, Object?> update({
-    Field<String> id = const .absent(),
+    Field<int> id = const .absent(),
     required Field<String> name,
     Field<DateTime> createdAt = const .absent(),
     Field<DateTime> updatedAt = const .absent(),
@@ -281,13 +369,13 @@ final class RolesRow {
   });
 
   factory RolesRow.fromMap(Map<String, Object?> map) => RolesRow(
-    id: (map[RolesTable.id] as String)!,
+    id: (map[RolesTable.id] as int)!,
     name: (map[RolesTable.name] as String)!,
     createdAt: (map[RolesTable.createdAt] as DateTime)!,
     updatedAt: (map[RolesTable.updatedAt] as DateTime)!,
   );
 
-  final String id;
+  final int id;
 
   final String name;
 
@@ -514,7 +602,7 @@ abstract final class UsersTable {
     required String fullName,
     required String? phoneNumber,
     bool? isSuperuser,
-    required String? roleId,
+    required int? roleId,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) => {
@@ -538,7 +626,7 @@ abstract final class UsersTable {
     required Field<String> fullName,
     required Field<String?> phoneNumber,
     required Field<bool> isSuperuser,
-    required Field<String?> roleId,
+    required Field<int?> roleId,
     Field<DateTime> createdAt = const .absent(),
     Field<DateTime> updatedAt = const .absent(),
   }) {
@@ -585,7 +673,7 @@ final class UsersRow {
     fullName: (map[UsersTable.fullName] as String)!,
     phoneNumber: (map[UsersTable.phoneNumber] as String?),
     isSuperuser: (map[UsersTable.isSuperuser] as bool)!,
-    roleId: (map[UsersTable.roleId] as String?),
+    roleId: (map[UsersTable.roleId] as int?),
     createdAt: (map[UsersTable.createdAt] as DateTime)!,
     updatedAt: (map[UsersTable.updatedAt] as DateTime)!,
   );
@@ -604,7 +692,7 @@ final class UsersRow {
 
   final bool isSuperuser;
 
-  final String? roleId;
+  final int? roleId;
 
   final DateTime createdAt;
 

@@ -5,6 +5,7 @@ import 'package:librelab_server/auth/security/commonly_used_passwords.dart';
 import 'package:librelab_server/user/user.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/utils/cli_input.dart';
+import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
@@ -12,10 +13,15 @@ import 'package:meta/meta.dart';
 // During server initialization only (CLI).
 // Should not be consumed by the API server.
 class SuperUserInitializer {
-  SuperUserInitializer({required this._repository, required this._authService});
+  SuperUserInitializer({
+    required this._repository,
+    required this._authService,
+    required this._shutdown,
+  });
 
   final UserRepository _repository;
   final AuthService _authService;
+  final Shutdown _shutdown;
 
   /// Creates a super user if there is no one in the database, which is required to log in to the desktop app.
   ///
@@ -69,7 +75,7 @@ to sign in to the desktop application.
 
     final registered = await _registerUser(credentials);
     if (!registered) {
-      return;
+      await _shutdown.call(isSuccess: false);
     }
 
     stdout.writeln('''

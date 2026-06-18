@@ -6,14 +6,19 @@ abstract interface class RoleRepository {
   Future<List<Role>> findAll();
   Future<Role?> findById(String id);
 
-  Future<Role> create({
-    required String name,
-    required List<Permission> permissions,
-  });
+  Future<Role> create(RoleCreate create);
 
   Future<bool> delete(String id);
 
   Future<Role?> update(String id, RolePatch patch);
+}
+
+@immutable
+class RoleCreate {
+  const RoleCreate({required this.name, required this.permissions});
+
+  final String name;
+  final List<Permission> permissions;
 }
 
 @immutable
