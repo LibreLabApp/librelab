@@ -1,0 +1,12 @@
+name: string_storage_shared_preferences
+description: An implementation of string_storage that uses shared_preferences package
+version: 1.0.0
+publish_to: 'none'
+resolution: workspace
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  string_storage: ^1.0.0
+  shared_preferences: ^2.5.5
