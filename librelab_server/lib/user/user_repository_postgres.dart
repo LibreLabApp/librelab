@@ -12,8 +12,8 @@ typedef _Rp = RolePermissionsTable;
 
 const _rolePermissionsAlias = 'role_permissions';
 
-class PostgresUserRepository implements UserRepository {
-  PostgresUserRepository({required this._client});
+class UserRepositoryPostgres implements UserRepository {
+  UserRepositoryPostgres({required this._client});
 
   final DatabaseClient _client;
 

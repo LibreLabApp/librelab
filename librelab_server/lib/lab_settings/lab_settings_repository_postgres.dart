@@ -7,8 +7,8 @@ import 'package:optional_field/optional_field.dart';
 typedef _T = LabSettingsTable;
 typedef _Row = LabSettingsRow;
 
-class PostgresLabSettingsRepository implements LabSettingsRepository {
-  PostgresLabSettingsRepository({required this._client});
+class LabSettingsRepositoryPostgres implements LabSettingsRepository {
+  LabSettingsRepositoryPostgres({required this._client});
 
   final DatabaseClient _client;
 

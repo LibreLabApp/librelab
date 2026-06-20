@@ -4,8 +4,8 @@ import 'package:librelab_server/app_files.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
-import 'package:librelab_server/auth/login_attempt/postgres_login_attempt_repository.dart';
-import 'package:librelab_server/auth/refresh_token/postgres_user_refresh_token_repository.dart';
+import 'package:librelab_server/auth/login_attempt/login_attempt_repository_postgres.dart';
+import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository_postgres.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_hasher.dart';
 import 'package:librelab_server/auth/superuser_initializer.dart';
@@ -19,13 +19,13 @@ import 'package:librelab_server/database/postgres_installer/postgres_installer.d
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/handshake/handshake_routes.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
+import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
+import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
 import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
-import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
-import 'package:librelab_server/lab_settings/postgres_lab_settings_repository.dart';
-import 'package:librelab_server/user/postgres_user_repository.dart';
 import 'package:librelab_server/user/user_repository.dart';
+import 'package:librelab_server/user/user_repository_postgres.dart';
 import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/platform_check.dart';
@@ -157,7 +157,7 @@ Future<void> run(List<String> args) async {
   );
 
   final LabSettingsRepository labSettingsRepository =
-      PostgresLabSettingsRepository(client: databaseClient);
+      LabSettingsRepositoryPostgres(client: databaseClient);
 
   final labSettings =
       await labSettingsRepository.load() ??
@@ -169,17 +169,17 @@ Future<void> run(List<String> args) async {
     throw StateError('$LabSettings were not loaded correctly');
   }
 
-  final UserRepository userRepository = PostgresUserRepository(
+  final UserRepository userRepository = UserRepositoryPostgres(
     client: databaseClient,
   );
   final authService = AuthService(
     passwordHasher: BcryptPasswordHasher(),
     jwtService: JwtService(jwtAccessTokenSecret: secrets.jwtAccessTokenSecret),
     userRepository: userRepository,
-    userRefreshTokenRepository: PostgresUserRefreshTokenRepository(
+    userRefreshTokenRepository: UserRefreshTokenRepositoryPostgres(
       client: databaseClient,
     ),
-    loginAttemptRepository: PostgresLoginAttemptRepository(
+    loginAttemptRepository: LoginAttemptRepositoryPostgres(
       client: databaseClient,
     ),
     // TODO: (REMOVE_SERVERPOD) Implement audit_logs

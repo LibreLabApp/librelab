@@ -16,6 +16,8 @@ workspace:
   - packages/mdns_platform_check
   - packages/stepper_flow
   - packages/optional_field
+  - packages/string_storage/string_storage
+  - packages/string_storage/string_storage_shared_preferences
 
 dev_dependencies:
   lints: ^6.1.0

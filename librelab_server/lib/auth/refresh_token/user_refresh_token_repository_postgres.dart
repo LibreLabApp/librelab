@@ -6,8 +6,8 @@ import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = UserRefreshTokensTable;
 
-class PostgresUserRefreshTokenRepository implements UserRefreshTokenRepository {
-  PostgresUserRefreshTokenRepository({required this._client});
+class UserRefreshTokenRepositoryPostgres implements UserRefreshTokenRepository {
+  UserRefreshTokenRepositoryPostgres({required this._client});
 
   final DatabaseClient _client;
 
