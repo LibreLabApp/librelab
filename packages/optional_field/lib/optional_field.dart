@@ -7,6 +7,14 @@ sealed class Field<T> {
   const factory Field.value(T value) = Present<T>;
   const factory Field.absent() = Absent<T>;
 
+  /// Assumes `null` means [Absent] and a non-null value means [Present].
+  factory Field.fromNullable(T? value) {
+    if (value != null) {
+      return .value(value);
+    }
+    return const .absent();
+  }
+
   bool get isPresent => switch (this) {
     Absent<T>() => false,
     Present<T>() => true,

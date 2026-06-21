@@ -20,4 +20,7 @@ class StringStorageSharedPreferences implements StringStorage {
     await _sharedPreferences.remove(key);
     return true;
   }
+
+  @override
+  String resolvePath(String key, {bool absolute = false}) => key;
 }
