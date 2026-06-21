@@ -13,7 +13,7 @@
             "cwd": "${workspaceFolder}/librelab_server",
             "request": "launch",
             "type": "dart",
-            "preLaunchTask": "docker_compose_up",
+            "preLaunchTask": "run PostgreSQL database server",
             "program": "bin/main.dart",
             "env": {
                 "SECRET_databasePassword": "oHhK1voPC92Yrg5ZAEfQhd1q2yEyzdtW"

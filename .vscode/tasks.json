@@ -2,12 +2,79 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "docker_compose_up",
+            "label": "run PostgreSQL database server",
             "type": "shell",
-            "command": "docker compose up -d",
+            "command": "docker compose up",
             "options": {
                 "cwd": "${workspaceFolder}/librelab_server"
-            }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "[librelab_api_contract] build runner",
+            "type": "shell",
+            "command": "dart",
+            "args": [
+                "run",
+                "build_runner",
+                "build"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/librelab_api_contract"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "[librelab_api_contract] generate endpoint definitions",
+            "type": "shell",
+            "command": "dart",
+            "args": [
+                "run",
+                "scripts/endpoint_definition/generate.dart"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/librelab_api_contract"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "[librelab_server] generate SQL Dart migrations",
+            "type": "shell",
+            "command": "dart",
+            "args": [
+                "run",
+                "scripts/database_migrations/generate.dart"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/librelab_server"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "[librelab_server] generate database schema",
+            "type": "shell",
+            "command": "dart",
+            "args": [
+                "run",
+                "scripts/database_schema/generate.dart"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/librelab_server"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "[librelab_server] bundle",
+            "type": "shell",
+            "command": "dart",
+            "args": [
+                "run",
+                "bundle_server.dart"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/librelab_server"
+            },
+            "problemMatcher": []
         }
     ]
 }

@@ -1,7 +1,7 @@
 name: librelab_workspace
 publish_to: none
 environment:
-  sdk: ^3.12.0
+  sdk: ^3.12.2
 
 workspace:
   - librelab_api_contract
@@ -18,6 +18,8 @@ workspace:
   - packages/optional_field
   - packages/string_storage/string_storage
   - packages/string_storage/string_storage_shared_preferences
+  - packages/json_storage
+  - packages/yaml_storage
 
 dev_dependencies:
   lints: ^6.1.0
