@@ -61,13 +61,14 @@ Handler withErrorHandling(Handler innerHandler) {
       _logger.warning('Unhandled exception in request handler', e, stackTrace);
 
       return _mapException(e);
-      // Typically, we should not handle Dart errors this. However, returning 500
-      // (structured response), and logging it is better than silently
-      // crash or delegate to the Dart shelf default handler.
+      // Typically, Dart errors should be addressed and not handled at runtime.
+      // However, returning 500 (structured response) and logging it is
+      // better than silently crashing or delegating to the
+      // Dart shelf default handler.
       // ignore: avoid_catches_without_on_clauses
     } catch (e, stackTrace) {
       _logger.shout(
-        'Unhandled Dart error in request handler (most likely a programming bug!)',
+        'Unhandled Dart error in request handler (most likely a programming BUG!)',
         e,
         stackTrace,
       );

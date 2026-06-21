@@ -8,6 +8,10 @@ final List<ApiNode> _input = [
     HttpEndpoint(.post, 'refresh-token'),
     HttpEndpoint(.post, 'refresh-user'),
   ]),
+  ApiGroup('lab-settings', [
+    HttpEndpoint(.patch, null),
+    HttpEndpoint(.get, null),
+  ]),
 ];
 
 Future<void> main() async {

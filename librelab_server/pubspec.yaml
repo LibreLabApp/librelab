@@ -35,6 +35,8 @@ dependencies:
   optional_field: ^1.0.0
   crypto: ^3.0.7
   clock: ^1.1.2
+  string_storage: ^1.0.0
+  yaml_storage: ^1.0.0
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'

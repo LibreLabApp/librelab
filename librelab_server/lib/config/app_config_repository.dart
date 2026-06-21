@@ -1,13 +1,11 @@
-import 'dart:io' show File;
-
 import 'package:librelab_server/config/app_config/app_config.dart';
-import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
+import 'package:yaml_storage/yaml_storage.dart';
 
 class AppConfigRepository {
-  AppConfigRepository({required this._fileStorage, required this._file});
+  AppConfigRepository({required this._storage, required this._storageId});
 
-  final File _file;
-  final YamlFileStorage _fileStorage;
+  final String _storageId;
+  final YamlStorage _storage;
 
   AppConfig? _config;
 
@@ -21,7 +19,7 @@ class AppConfigRepository {
       throw StateError('Must load the app config only once');
     }
 
-    final root = await _fileStorage.read(_file);
+    final root = await _storage.read(_storageId);
     if (root == null) {
       return null;
     }
@@ -31,7 +29,7 @@ class AppConfigRepository {
   Future<void> save(AppConfig config) async {
     _config = config;
 
-    await _fileStorage.write(_file, config.toYaml());
+    await _storage.write(_storageId, config.toYaml());
   }
 
   Future<void> update({SetupPromptDeclinedConfig? setupPromptDeclined}) async {

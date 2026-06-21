@@ -42,4 +42,16 @@ abstract final class ApiEndpointDefinitions {
     method: HttpMethod.post,
     path: '/auth/refresh-user',
   );
+
+  /// HTTP PATCH /lab-settings
+  static const HttpEndpoint lab_settings$PATCH = HttpEndpoint(
+    method: HttpMethod.patch,
+    path: '/lab-settings',
+  );
+
+  /// HTTP GET /lab-settings
+  static const HttpEndpoint lab_settings$GET = HttpEndpoint(
+    method: HttpMethod.get,
+    path: '/lab-settings',
+  );
 }

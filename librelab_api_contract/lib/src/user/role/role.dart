@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 part 'role.g.dart';
 
-enum Permission { backupCreate, backupRestore, unknown }
+enum Permission { backupCreate, backupRestore, labSettingsUpdate, unknown }
 
 extension PermissionJson on Permission {
   // Uses an extension method to consume the generated code

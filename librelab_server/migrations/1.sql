@@ -8,7 +8,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE TYPE permission AS ENUM (
   'backup:create',
-  'backup:restore'
+  'backup:restore',
+  'lab_settings:update'
 );
 
 CREATE TABLE roles (

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:librelab_server/app_files.dart';
+import 'package:librelab_server/app_file_paths.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
@@ -21,18 +21,21 @@ import 'package:librelab_server/handshake/handshake_routes.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
+import 'package:librelab_server/lab_settings/lab_settings_routes.dart';
 import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/user/user_repository_postgres.dart';
-import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/platform_check.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
 import 'package:logging/logging.dart';
+import 'package:string_storage/string_storage.dart';
+import 'package:string_storage/string_storage_file.dart';
+import 'package:yaml_storage/yaml_storage.dart';
 
 Future<void> run(List<String> args) async {
   stdout.writeln(
@@ -70,16 +73,27 @@ Future<void> run(List<String> args) async {
   if (workingDirectory != null && !workingDirectory.existsSync()) {
     await workingDirectory.create();
   }
-  final appFiles = AppFiles(workingDirectory: workingDirectory);
+  final appFilePaths = AppFilePaths(workingDirectory: workingDirectory?.path);
+
+  final configDir = Directory(appFilePaths.configDir);
+  if (!configDir.existsSync()) {
+    await configDir.create();
+  }
+
+  final StringStorage stringStorage = StringStorageFile((id) {
+    return File(id);
+  });
+
+  final yamlStorage = YamlStorage(stringStorage);
 
   final configRepository = AppConfigRepository(
-    file: appFiles.config,
-    fileStorage: YamlFileStorage(),
+    storage: yamlStorage,
+    storageId: appFilePaths.config,
   );
 
   final config = await loadAppConfig(
     configRepository,
-    getConfigFilePath: () => appFiles.config.path,
+    getConfigFilePath: () => appFilePaths.config,
     shutdown: shutdown,
   );
 
@@ -89,20 +103,20 @@ Future<void> run(List<String> args) async {
   final mdnsConfig = configRepository.configOrThrow.mdnsServicePublish;
 
   final secretsRepository = AppSecretsRepository(
-    file: appFiles.secrets,
-    fileStorage: YamlFileStorage(),
+    storage: yamlStorage,
+    storageId: appFilePaths.secrets,
     platformEnvironment: Platform.environment,
   );
 
   final secrets = await loadAppSecrets(
     secretsRepository,
     isLocalHostDatabase: isLocalHostDatabase,
-    getConfigFilePath: () => appFiles.config.path,
-    getSecretsFilePath: () => appFiles.secrets.path,
+    getConfigFilePath: () => appFilePaths.config,
+    getSecretsFilePath: () => appFilePaths.secrets,
   );
 
   await _maybeInstallSystemMdns(
-    getConfigFilePath: () => appFiles.config.path,
+    getConfigFilePath: () => appFilePaths.config,
     setupPromptDeclinedConfig: config.setupPromptDeclined,
     config: mdnsConfig,
     appConfigRepository: configRepository,
@@ -122,7 +136,7 @@ Future<void> run(List<String> args) async {
           postgres: true,
         ),
       ),
-      getConfigFilePath: () => appFiles.config.path,
+      getConfigFilePath: () => appFilePaths.config,
       shutdown: shutdown,
     );
   }
@@ -152,7 +166,7 @@ Future<void> run(List<String> args) async {
 
   await enforcePortAvailability(
     port: apiServerPort,
-    getConfigFilePath: () => appFiles.config.path,
+    getConfigFilePath: () => appFilePaths.config,
     shutdown: shutdown,
   );
 
@@ -161,7 +175,7 @@ Future<void> run(List<String> args) async {
 
   final labSettings =
       await labSettingsRepository.load() ??
-      (await labSettingsRepository.upsert(const .new()));
+      (await labSettingsRepository.update(const .new()));
 
   // Calls so that, in case of a bug,
   // it will throw early rather than later.
@@ -195,6 +209,10 @@ Future<void> run(List<String> args) async {
     routeModules: <RouteModule>[
       HandshakeRoutes(),
       AuthRoutes(service: authService, authorization: authorizationService),
+      LabSettingsRoutes(
+        authorization: authorizationService,
+        repository: labSettingsRepository,
+      ),
     ],
   );
 

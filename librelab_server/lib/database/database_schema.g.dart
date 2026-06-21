@@ -49,7 +49,8 @@ enum LoginResultPgEnum {
 /// Generated enum from PostgreSQL enum `permission`.
 enum PermissionPgEnum {
   backupCreate('backup:create'),
-  backupRestore('backup:restore');
+  backupRestore('backup:restore'),
+  labSettingsUpdate('lab_settings:update');
 
   const PermissionPgEnum(this.text);
 

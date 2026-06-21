@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-enum Permission { backupCreate, backupRestore }
+enum Permission { backupCreate, backupRestore, labSettingsUpdate }
 
 @immutable
 class Role {

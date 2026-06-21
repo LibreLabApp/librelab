@@ -1,17 +1,15 @@
-import 'dart:io';
-
 import 'package:librelab_server/config/secrets/app_secrets.dart';
-import 'package:librelab_server/utils/file_storage/yaml_file_storage.dart';
+import 'package:yaml_storage/yaml_storage.dart';
 
 class AppSecretsRepository {
   AppSecretsRepository({
-    required this._file,
-    required this._fileStorage,
+    required this._storage,
+    required this._storageId,
     required this._platformEnvironment,
   });
 
-  final File _file;
-  final YamlFileStorage _fileStorage;
+  final String _storageId;
+  final YamlStorage _storage;
   final Map<String, String> _platformEnvironment;
 
   AppSecrets? _secrets;
@@ -27,7 +25,7 @@ class AppSecretsRepository {
       throw StateError('Must load the app secrets only once');
     }
 
-    final yamlFromFile = await _fileStorage.read(_file);
+    final yamlFromFile = await _storage.read(_storageId);
     if (yamlFromFile == null) {
       return null;
     }
@@ -67,7 +65,7 @@ class AppSecretsRepository {
     }
     _secrets = secrets;
 
-    await _fileStorage.write(_file, secrets.toYaml());
+    await _storage.write(_storageId, secrets.toYaml());
   }
 
   bool hasProvidedRequiredSecretsViaEnv() {

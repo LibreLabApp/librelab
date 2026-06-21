@@ -2,12 +2,13 @@ import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:meta/meta.dart';
 import 'package:optional_field/optional_field.dart';
 
+/// Backed by a single persistent row.
 abstract interface class LabSettingsRepository {
   /// Creates or updates the persisted settings.
   ///
   /// Returns the resulting [LabSettings] after applying [patch].
   /// Also updates the in-memory cached value.
-  Future<LabSettings> upsert(LabSettingsPatch patch);
+  Future<LabSettings> update(LabSettingsPatch patch);
 
   /// Loads the settings from persistence.
   ///
@@ -19,7 +20,7 @@ abstract interface class LabSettingsRepository {
 
   /// In-memory cached settings.
   ///
-  /// Initialized only when [load] returns non-null or after [upsert].
+  /// Initialized only when [load] returns non-null or after [update].
   /// Throws [StateError] if accessed before initialization.
   LabSettings get cached;
 }

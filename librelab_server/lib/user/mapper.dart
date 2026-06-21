@@ -7,6 +7,7 @@ extension PermissionMapper on Permission {
   dto.Permission toResponse() => switch (this) {
     .backupCreate => .backupCreate,
     .backupRestore => .backupRestore,
+    .labSettingsUpdate => .labSettingsUpdate,
   };
 }
 

@@ -283,6 +283,7 @@ extension on PermissionPgEnum {
   Permission _toDomain() => switch (this) {
     .backupCreate => .backupCreate,
     .backupRestore => .backupRestore,
+    .labSettingsUpdate => .labSettingsUpdate,
   };
 }
 

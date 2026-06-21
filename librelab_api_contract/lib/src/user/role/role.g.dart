@@ -35,5 +35,6 @@ Map<String, dynamic> _$RoleToJson(Role instance) => <String, dynamic>{
 const _$PermissionEnumMap = {
   Permission.backupCreate: 'backupCreate',
   Permission.backupRestore: 'backupRestore',
+  Permission.labSettingsUpdate: 'labSettingsUpdate',
   Permission.unknown: 'unknown',
 };

@@ -9,6 +9,8 @@ export 'src/auth/refresh_token/refresh_token_response.dart';
 export 'src/handshake/handshake_request.dart';
 export 'src/handshake/handshake_response.dart';
 export 'src/headers.dart';
+export 'src/lab_settings/lab_settings_response.dart';
+export 'src/lab_settings/update_lab_settings_request.dart';
 export 'src/server_error_response/server_error_codes.dart';
 export 'src/server_error_response/server_error_response.dart';
 export 'src/user/role/role.dart';

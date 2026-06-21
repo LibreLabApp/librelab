@@ -2,7 +2,6 @@ import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_schema.g.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
-import 'package:optional_field/optional_field.dart';
 
 typedef _T = LabSettingsTable;
 typedef _Row = LabSettingsRow;
@@ -18,9 +17,9 @@ class LabSettingsRepositoryPostgres implements LabSettingsRepository {
   static const _id = 1;
 
   @override
-  Future<LabSettings> upsert(LabSettingsPatch patch) async {
+  Future<LabSettings> update(LabSettingsPatch patch) async {
     final params = _T.update(
-      id: const Field.value(_id),
+      id: const .value(_id),
       labName: patch.labName,
       loginDisabled: patch.loginDisabled,
     );
