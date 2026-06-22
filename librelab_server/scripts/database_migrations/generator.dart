@@ -96,7 +96,7 @@ String _generateDartCode(List<DatabaseMigration> migrations, Config config) {
         Field(
           (b) => b
             ..name = 'list'
-            ..modifier = .final$
+            ..modifier = .constant
             ..static = true
             ..type = refer('List<$_databaseMigrationClassName>')
             ..assignment = generatedMigrations.code,
@@ -106,7 +106,7 @@ String _generateDartCode(List<DatabaseMigration> migrations, Config config) {
         Field(
           (b) => b
             ..name = 'latest'
-            ..modifier = .final$
+            ..modifier = .constant
             ..static = true
             ..type = refer('int')
             ..assignment = literalNum(migrations.last.version).code,
@@ -128,6 +128,7 @@ String _generateDartCode(List<DatabaseMigration> migrations, Config config) {
       ..directives.add(Directive.import(config.requiredTypesImport))
       ..docs.addAll([
         '// coverage:ignore-file',
+        '// ignore_for_file: avoid_escaping_inner_quotes, unnecessary_string_escapes',
         '/// Generated code. Do not modify directly.',
         '/// Instead, modify and then run: dart $scriptRelativePath',
       ])

@@ -1,4 +1,5 @@
 // coverage:ignore-file
+// ignore_for_file: unnecessary_parenthesis
 /// Generated code. Do not modify directly.
 /// Instead, modify and then run: dart scripts/database_schema/generate.dart
 library;
@@ -188,8 +189,8 @@ final class AuditLogsRow {
     entityId: (map[AuditLogsTable.entityId]! as String),
     oldValue: (map[AuditLogsTable.oldValue]! as String),
     newValue: (map[AuditLogsTable.newValue]! as String),
-    ipAddress: (map[AuditLogsTable.ipAddress] as String),
-    userAgent: (map[AuditLogsTable.userAgent] as String),
+    ipAddress: (map[AuditLogsTable.ipAddress] as String?),
+    userAgent: (map[AuditLogsTable.userAgent] as String?),
     createdAt: (map[AuditLogsTable.createdAt]! as DateTime),
   );
 
@@ -284,7 +285,7 @@ final class LabSettingsRow {
 
   factory LabSettingsRow.fromMap(Map<String, Object?> map) => LabSettingsRow(
     id: (map[LabSettingsTable.id]! as int),
-    labName: (map[LabSettingsTable.labName] as String),
+    labName: (map[LabSettingsTable.labName] as String?),
     loginDisabled: (map[LabSettingsTable.loginDisabled]! as bool),
     createdAt: (map[LabSettingsTable.createdAt]! as DateTime),
     updatedAt: (map[LabSettingsTable.updatedAt]! as DateTime),
@@ -389,11 +390,11 @@ final class LoginAttemptsRow {
   factory LoginAttemptsRow.fromMap(Map<String, Object?> map) =>
       LoginAttemptsRow(
         id: (map[LoginAttemptsTable.id]! as int),
-        userId: (map[LoginAttemptsTable.userId] as String),
+        userId: (map[LoginAttemptsTable.userId] as String?),
         email: (map[LoginAttemptsTable.email]! as String),
         result: (map[LoginAttemptsTable.result]! as String),
-        ipAddress: (map[LoginAttemptsTable.ipAddress] as String),
-        userAgent: (map[LoginAttemptsTable.userAgent] as String),
+        ipAddress: (map[LoginAttemptsTable.ipAddress] as String?),
+        userAgent: (map[LoginAttemptsTable.userAgent] as String?),
         createdAt: (map[LoginAttemptsTable.createdAt]! as DateTime),
       );
 
@@ -684,9 +685,9 @@ final class UserRefreshTokensRow {
         id: (map[UserRefreshTokensTable.id]! as int),
         userId: (map[UserRefreshTokensTable.userId]! as String),
         tokenHash: (map[UserRefreshTokensTable.tokenHash]! as String),
-        deviceId: (map[UserRefreshTokensTable.deviceId] as String),
-        ipAddress: (map[UserRefreshTokensTable.ipAddress] as String),
-        userAgent: (map[UserRefreshTokensTable.userAgent] as String),
+        deviceId: (map[UserRefreshTokensTable.deviceId] as String?),
+        ipAddress: (map[UserRefreshTokensTable.ipAddress] as String?),
+        userAgent: (map[UserRefreshTokensTable.userAgent] as String?),
         expiresAt: (map[UserRefreshTokensTable.expiresAt]! as DateTime),
         createdAt: (map[UserRefreshTokensTable.createdAt]! as DateTime),
       );
@@ -823,9 +824,9 @@ final class UsersRow {
     passwordHash: (map[UsersTable.passwordHash]! as String),
     tokenVersion: (map[UsersTable.tokenVersion]! as int),
     fullName: (map[UsersTable.fullName]! as String),
-    phoneNumber: (map[UsersTable.phoneNumber] as String),
+    phoneNumber: (map[UsersTable.phoneNumber] as String?),
     isSuperuser: (map[UsersTable.isSuperuser]! as bool),
-    roleId: (map[UsersTable.roleId] as int),
+    roleId: (map[UsersTable.roleId] as int?),
     createdAt: (map[UsersTable.createdAt]! as DateTime),
     updatedAt: (map[UsersTable.updatedAt]! as DateTime),
   );

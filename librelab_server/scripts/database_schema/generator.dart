@@ -366,9 +366,9 @@ return _buildFieldMap([${table.columns.map((e) {
                       false => expression.nullChecked,
                     };
 
-                    final dartType = e.resolveDartType();
+                    final dartType = e.dartType();
                     final expressionWithCast = expressionWithNullCheck.asA(
-                      refer(dartType.rawType),
+                      refer(dartType),
                     );
 
                     return expressionWithCast;
@@ -412,6 +412,7 @@ Map<String, Object?> _buildFieldMap<T>(
       ])
       ..docs.addAll([
         '// coverage:ignore-file',
+        '// ignore_for_file: unnecessary_parenthesis',
         '/// Generated code. Do not modify directly.',
         '/// Instead, modify and then run: dart $scriptRelativePath',
       ])

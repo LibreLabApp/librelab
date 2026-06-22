@@ -2,11 +2,10 @@ name: librelab_shared
 description: Shared code between server and Flutter app
 version: 1.0.0
 publish_to: 'none'
+resolution: workspace
 
 environment:
-  sdk: ^3.12.0
-
-resolution: workspace
+  sdk: ^3.13.0-103.1.beta
 
 dependencies:
   email_validator: ^3.0.0

@@ -1,4 +1,5 @@
 // coverage:ignore-file
+// ignore_for_file: avoid_escaping_inner_quotes, unnecessary_string_escapes
 /// Generated code. Do not modify directly.
 /// Instead, modify and then run: dart scripts/database_migrations/generate.dart
 library;
@@ -11,7 +12,7 @@ import 'package:librelab_server/database/database_migration.dart';
 /// This approach avoids reading system files at runtime,
 /// which is error-prone, can be deleted by the user, and is harder to bundle.
 abstract final class DatabaseMigrations {
-  static final List<DatabaseMigration> list = const [
+  static const List<DatabaseMigration> list = [
     DatabaseMigration(
       version: 1,
       sql:
@@ -19,5 +20,5 @@ abstract final class DatabaseMigrations {
     ),
   ];
 
-  static final int latest = 1;
+  static const int latest = 1;
 }

@@ -2,16 +2,12 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  enable-experiment:
+    - primary-constructors
   language:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
-  exclude:
-    # Ignore generated files
-    # Commonly produced by some tools (e.g., https://pub.dev/packages/json_serializable, librelab_api_contracts/scripts)
-    - '**/*.g.dart'
-    # https://pub.dev/packages/freezed
-    - '**/*.freezed.dart'
 
 # Based on https://github.com/flutter/packages/blob/main/analysis_options.yaml with modifications
 linter:

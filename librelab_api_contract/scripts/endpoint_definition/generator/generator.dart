@@ -70,6 +70,7 @@ String _generateDartCode(
       ..directives.add(Directive.import(config.requiredTypesImport))
       ..docs.addAll([
         '// coverage:ignore-file',
+        '// ignore_for_file: constant_identifier_names',
         '/// Generated code. Do not modify directly.',
         '/// Instead, modify and then run: dart $scriptRelativePath',
       ])
