@@ -26,7 +26,8 @@ Future<void> main() async {
       dartOutput: 'lib/database/database_schema.g.dart',
       requiredTypesImport: 'package:optional_field/optional_field.dart',
       optionalInsertColumns: ['id', 'created_at', 'updated_at'],
-      optionalUpdateColumns: ['id', 'created_at', 'updated_at'],
+      optionalUpdateColumns: ['id', 'created_at'],
+      updateColumnDefaults: {'updated_at': 'now()'},
       applyMigrations: (databaseConnection) async {
         await DatabaseMigrationRunner(
           client: DatabaseClient.fromConnection(databaseConnection),

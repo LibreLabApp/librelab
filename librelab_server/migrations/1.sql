@@ -1,11 +1,3 @@
-CREATE OR REPLACE FUNCTION set_updated_at()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = now();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TYPE permission AS ENUM (
   'backup:create',
   'backup:restore',
@@ -18,8 +10,6 @@ CREATE TABLE roles (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-CREATE TRIGGER roles_set_updated_at BEFORE UPDATE ON roles FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 CREATE TABLE role_permissions (
   role_id BIGINT NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
@@ -64,8 +54,6 @@ CREATE TABLE users (
       (NOT is_superuser AND role_id IS NOT NULL)
     )
 );
-
-CREATE TRIGGER users_set_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 CREATE TABLE user_refresh_tokens (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -112,5 +100,3 @@ CREATE TABLE lab_settings (
   CONSTRAINT lab_settings_singleton_check
     CHECK (id = 1)
 );
-
-CREATE TRIGGER lab_settings_set_updated_at BEFORE UPDATE ON lab_settings FOR EACH ROW EXECUTE FUNCTION set_updated_at();

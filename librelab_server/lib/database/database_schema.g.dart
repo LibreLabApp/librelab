@@ -106,14 +106,13 @@ abstract final class LabSettingsTable {
     required Field<String?> labName,
     required Field<bool> loginDisabled,
     Field<DateTime> createdAt = const .absent(),
-    Field<DateTime> updatedAt = const .absent(),
   }) {
     return _buildFieldMap([
       (LabSettingsTable.id, id),
       (LabSettingsTable.labName, labName),
       (LabSettingsTable.loginDisabled, loginDisabled),
       (LabSettingsTable.createdAt, createdAt),
-      (LabSettingsTable.updatedAt, updatedAt),
+      (LabSettingsTable.updatedAt, .value('now()')),
     ]);
   }
 }
@@ -344,13 +343,12 @@ abstract final class RolesTable {
     Field<int> id = const .absent(),
     required Field<String> name,
     Field<DateTime> createdAt = const .absent(),
-    Field<DateTime> updatedAt = const .absent(),
   }) {
     return _buildFieldMap([
       (RolesTable.id, id),
       (RolesTable.name, name),
       (RolesTable.createdAt, createdAt),
-      (RolesTable.updatedAt, updatedAt),
+      (RolesTable.updatedAt, .value('now()')),
     ]);
   }
 }
@@ -629,7 +627,6 @@ abstract final class UsersTable {
     required Field<bool> isSuperuser,
     required Field<int?> roleId,
     Field<DateTime> createdAt = const .absent(),
-    Field<DateTime> updatedAt = const .absent(),
   }) {
     return _buildFieldMap([
       (UsersTable.id, id),
@@ -641,7 +638,7 @@ abstract final class UsersTable {
       (UsersTable.isSuperuser, isSuperuser),
       (UsersTable.roleId, roleId),
       (UsersTable.createdAt, createdAt),
-      (UsersTable.updatedAt, updatedAt),
+      (UsersTable.updatedAt, .value('now()')),
     ]);
   }
 }

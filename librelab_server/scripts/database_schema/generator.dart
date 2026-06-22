@@ -12,6 +12,7 @@ class Config {
     required this.dartOutput,
     required this.optionalInsertColumns,
     required this.optionalUpdateColumns,
+    required this.updateColumnDefaults,
     required this.requiredTypesImport,
     required this.applyMigrations,
   });
@@ -20,6 +21,7 @@ class Config {
   final String dartOutput;
   final List<String> optionalInsertColumns;
   final List<String> optionalUpdateColumns;
+  final Map<String, String> updateColumnDefaults;
   final String requiredTypesImport;
   final Future<void> Function(Connection databaseConnection) applyMigrations;
 }
@@ -45,8 +47,9 @@ Future<void> generate(Config config) async {
       tables: List.unmodifiable(tables),
       pgEnums: List.unmodifiable(enums),
       optionalInsertColumns: config.optionalInsertColumns,
-      requiredTypesImport: config.requiredTypesImport,
       optionalUpdateColumns: config.optionalUpdateColumns,
+      updateColumnDefaults: config.updateColumnDefaults,
+      requiredTypesImport: config.requiredTypesImport,
     );
 
     await outputFile.writeAsString(generatedCode);
@@ -62,6 +65,7 @@ String _generateDartCode({
   required List<_PgEnum> pgEnums,
   required List<String> optionalInsertColumns,
   required List<String> optionalUpdateColumns,
+  required Map<String, String> updateColumnDefaults,
   required String requiredTypesImport,
 }) {
   final enums = <Enum>[];
@@ -137,6 +141,15 @@ String _generateDartCode({
   final classes = <Class>[];
 
   for (final table in tables) {
+    for (final column in table.columns) {
+      final columnName = column.columnName;
+      if (optionalUpdateColumns.contains(columnName) &&
+          updateColumnDefaults.containsKey(columnName)) {
+        throw ArgumentError(
+          '$columnName must not exist in both optionalUpdateColumns and updateColumnDefaults',
+        );
+      }
+    }
     final tableName = table.tableName;
 
     final tableNamePascalCase = snakeToPascalCase(tableName);
@@ -207,24 +220,35 @@ String _generateDartCode({
               ..returns = refer('Map<String, Object?>')
               ..static = true
               ..optionalParameters.addAll(
-                table.columns.map((e) {
-                  final isOptional = optionalUpdateColumns.contains(
-                    e.columnName,
-                  );
-                  return Parameter(
-                    (b) => b
-                      ..name = snakeToCamel(e.columnName)
-                      ..named = true
-                      ..required = !isOptional
-                      ..defaultTo = isOptional
-                          ? const Code('const .absent()')
-                          : null
-                      ..type = refer('Field<${e.asDartType()}>'),
-                  );
-                }).toList(),
+                table.columns
+                    .where(
+                      (e) => !updateColumnDefaults.containsKey(e.columnName),
+                    )
+                    .map((e) {
+                      final isOptional = optionalUpdateColumns.contains(
+                        e.columnName,
+                      );
+                      return Parameter(
+                        (b) => b
+                          ..name = snakeToCamel(e.columnName)
+                          ..named = true
+                          ..required = !isOptional
+                          ..defaultTo = isOptional
+                              ? const Code('const .absent()')
+                              : null
+                          ..type = refer('Field<${e.asDartType()}>'),
+                      );
+                    })
+                    .toList(),
               )
               ..body = Code('''
-return _buildFieldMap([${table.columns.map((e) => '($tableClassName.${snakeToCamel(e.columnName)}, ${snakeToCamel(e.columnName)})').join(', ')}]);
+return _buildFieldMap([${table.columns.map((e) {
+                final columnName = e.columnName;
+
+                final expression = updateColumnDefaults.containsKey(columnName) ? ".value('${updateColumnDefaults[columnName]}')" : snakeToCamel(columnName);
+
+                return '($tableClassName.${snakeToCamel(columnName)}, $expression)';
+              }).join(', ')}]);
 '''),
           ),
         )
