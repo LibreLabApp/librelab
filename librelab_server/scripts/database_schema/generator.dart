@@ -71,7 +71,7 @@ String _generateDartCode({
   final enums = <Enum>[];
 
   for (final pgEnum in pgEnums) {
-    final generatedEnumName = '${snakeToPascalCase(pgEnum.name)}PgEnum';
+    final generatedEnumName = _convertPgEnumNameToDartName(pgEnum.name);
     enums.add(
       Enum(
         (b) => b
@@ -179,7 +179,7 @@ String _generateDartCode({
                       ..named = true
                       ..required = !isOptional
                       ..type = refer(() {
-                        final type = e.asDartType();
+                        final type = e.dartType();
                         if (isOptional && !e.isNullable) {
                           return '$type?';
                         }
@@ -201,6 +201,7 @@ String _generateDartCode({
                                 optionalInsertColumns.contains(e.columnName) ||
                                 e.hasDefault;
                             final parameterName = snakeToCamel(e.columnName);
+
                             if (e.isNullable || isOptional) {
                               return Code('?$parameterName');
                             }
@@ -236,7 +237,7 @@ String _generateDartCode({
                           ..defaultTo = isOptional
                               ? const Code('const .absent()')
                               : null
-                          ..type = refer('Field<${e.asDartType()}>'),
+                          ..type = refer('Field<${e.dartType()}>'),
                       );
                     })
                     .toList(),
@@ -245,7 +246,7 @@ String _generateDartCode({
 return _buildFieldMap([${table.columns.map((e) {
                 final columnName = e.columnName;
 
-                final expression = updateColumnDefaults.containsKey(columnName) ? ".value('${updateColumnDefaults[columnName]}')" : snakeToCamel(columnName);
+                final expression = updateColumnDefaults.containsKey(columnName) ? "const .value('${updateColumnDefaults[columnName]}')" : snakeToCamel(columnName);
 
                 return '($tableClassName.${snakeToCamel(columnName)}, $expression)';
               }).join(', ')}]);
@@ -310,12 +311,17 @@ return _buildFieldMap([${table.columns.map((e) {
         ])
         ..fields.addAll(
           table.columns.map((e) {
-            return Field(
-              (b) => b
+            return Field((b) {
+              b
                 ..name = snakeToCamel(e.columnName)
                 ..modifier = FieldModifier.final$
-                ..type = refer(e.asDartType()),
-            );
+                ..type = refer(e.dartType());
+              if (e.resolveDartType().requiresTextCasting) {
+                b.docs.add(
+                  '/// Requires casting to TEXT when selecting this column (i..e, SELECT ${e.columnName}::text)',
+                );
+              }
+            });
           }).toList(),
         )
         ..constructors.add(
@@ -350,17 +356,22 @@ return _buildFieldMap([${table.columns.map((e) {
               ..body = refer(rowClassName).newInstance([], {
                 for (final e in table.columns)
                   snakeToCamel(e.columnName): () {
-                    final expression = refer('map')
-                        .index(
-                          refer(
-                            tableClassName,
-                          ).property(snakeToCamel(e.columnName)),
-                        )
-                        .asA(refer(e.asDartType()));
-                    if (e.isNullable) {
-                      return expression;
-                    }
-                    return expression.nullChecked;
+                    final expression = refer('map').index(
+                      refer(
+                        tableClassName,
+                      ).property(snakeToCamel(e.columnName)),
+                    );
+                    final expressionWithNullCheck = switch (e.isNullable) {
+                      true => expression,
+                      false => expression.nullChecked,
+                    };
+
+                    final dartType = e.resolveDartType();
+                    final expressionWithCast = expressionWithNullCheck.asA(
+                      refer(dartType.rawType),
+                    );
+
+                    return expressionWithCast;
                   }(),
               }).code,
           ),
@@ -523,20 +534,26 @@ class _TableColumnInfo {
   String toString() =>
       'TableColumnInfo(columnName: $columnName, dataType: $dataType, udtName: $udtName, isNullable: $isNullable, hasDefault: $hasDefault)';
 
-  String asDartNonNullableType() {
-    // Handles PostgreSQL enums
-    if (dataType == 'USER-DEFINED') {
-      return 'String'; // Requires ::text casting in SQL select
+  _DartType resolveDartType() {
+    final isEnum = dataType == 'USER-DEFINED';
+    if (isEnum) {
+      // Handles PostgreSQL enums
+      return _DartType(
+        'String',
+        requiresTextCasting: true,
+        enumType: _convertPgEnumNameToDartName(udtName),
+      );
     }
     final type = switch (udtName) {
-      'int4' => 'int',
-      'int8' => 'int',
-      'inet' => 'String', // Requires ::text casting in SQL select
-      'uuid' => 'String',
-      'text' => 'String',
-      'timestamp' => 'DateTime',
-      'timestamptz' => 'DateTime',
-      'bool' => 'bool',
+      'int4' => const _DartType('int'),
+      'int8' => const _DartType('int'),
+      'inet' => const _DartType('String', requiresTextCasting: true),
+      'uuid' => const _DartType('String'),
+      'text' => const _DartType('String'),
+      'timestamp' => const _DartType('DateTime'),
+      'timestamptz' => const _DartType('DateTime'),
+      'bool' => const _DartType('bool'),
+      'jsonb' => const _DartType('String'),
       String() => throw StateError(
         'Unexpected udt_name value for column "$columnName": $udtName (Human readable name: $dataType)',
       ),
@@ -544,8 +561,8 @@ class _TableColumnInfo {
     return type;
   }
 
-  String asDartType() {
-    return asDartNonNullableType() + (isNullable ? '?' : '');
+  String dartType() {
+    return resolveDartType().type + (isNullable ? '?' : '');
   }
 }
 
@@ -562,4 +579,27 @@ class _PgEnum {
 
   final String name;
   final List<String> values;
+}
+
+String _convertPgEnumNameToDartName(String enumName) =>
+    '${snakeToPascalCase(enumName)}PgEnum';
+
+@immutable
+class _DartType {
+  const _DartType(
+    this.rawType, {
+    this.requiresTextCasting = false,
+    this.enumType,
+  });
+
+  final String rawType;
+
+  /// Whether this type requires ::text casting in SQL select (e.g., SELECT column::text)
+  final bool requiresTextCasting;
+
+  final String? enumType;
+
+  // TODO: Support enums
+  // String get type => enumType ?? rawType;
+  String get type => rawType;
 }

@@ -1,6 +1,4 @@
 import 'package:librelab_server/lab_settings/lab_settings.dart';
-import 'package:meta/meta.dart';
-import 'package:optional_field/optional_field.dart';
 
 /// Backed by a single persistent row.
 abstract interface class LabSettingsRepository {
@@ -23,15 +21,4 @@ abstract interface class LabSettingsRepository {
   /// Initialized only when [load] returns non-null or after [update].
   /// Throws [StateError] if accessed before initialization.
   LabSettings get cached;
-}
-
-@immutable
-class LabSettingsPatch {
-  const LabSettingsPatch({
-    this.labName = const .absent(),
-    this.loginDisabled = const .absent(),
-  });
-
-  final Field<String?> labName;
-  final Field<bool> loginDisabled;
 }

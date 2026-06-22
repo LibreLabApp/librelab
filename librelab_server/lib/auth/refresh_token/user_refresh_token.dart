@@ -46,3 +46,18 @@ class UserRefreshTokenClientMetadata {
   String toString() =>
       'UserRefreshTokenClientMetadata(deviceId: $deviceId, ipAddress: $ipAddress, userAgent: $userAgent)';
 }
+
+@immutable
+class UserRefreshTokenCreate {
+  const UserRefreshTokenCreate({
+    required this.userId,
+    required this.tokenHash,
+    required this.clientMetadata,
+    required this.expiresAt,
+  });
+
+  final String userId;
+  final String tokenHash;
+  final UserRefreshTokenClientMetadata clientMetadata;
+  final DateTime expiresAt;
+}

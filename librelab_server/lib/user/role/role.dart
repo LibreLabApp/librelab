@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:optional_field/optional_field.dart';
 
 enum Permission { backupCreate, backupRestore, labSettingsUpdate }
 
@@ -21,4 +22,23 @@ class Role {
   @override
   String toString() =>
       'Role(id: $id, name: $name, permissions: $permissions, createdAt: $createdAt, updatedAt: $updatedAt)';
+}
+
+@immutable
+class RoleCreate {
+  const RoleCreate({required this.name, required this.permissions});
+
+  final String name;
+  final List<Permission> permissions;
+}
+
+@immutable
+class RolePatch {
+  const RolePatch({
+    this.name = const .absent(),
+    this.permissions = const .absent(),
+  });
+
+  final Field<String> name;
+  final Field<List<Permission>> permissions;
 }

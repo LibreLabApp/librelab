@@ -24,6 +24,22 @@ Map<String, Object?> _buildFieldMap<T>(
   return map;
 }
 
+/// Generated enum from PostgreSQL enum `audit_action`.
+enum AuditActionPgEnum {
+  labSettingsUpdate('lab_settings:update');
+
+  const AuditActionPgEnum(this.text);
+
+  final String text;
+
+  static AuditActionPgEnum fromText(String value) {
+    return values.firstWhere(
+      (e) => e.text == value,
+      orElse: () => throw ArgumentError('Unknown enum value: $value'),
+    );
+  }
+}
+
 /// Generated enum from PostgreSQL enum `login_result`.
 enum LoginResultPgEnum {
   success('success'),
@@ -62,6 +78,140 @@ enum PermissionPgEnum {
       orElse: () => throw ArgumentError('Unknown enum value: $value'),
     );
   }
+}
+
+/// Generated mapping for the `audit_logs` table, providing type-safe references
+/// for the table name and column names to avoid hardcoding strings.
+abstract final class AuditLogsTable {
+  static const String tableName = 'audit_logs';
+
+  static const String id = 'id';
+
+  static const String userId = 'user_id';
+
+  static const String action = 'action';
+
+  static const String entityId = 'entity_id';
+
+  static const String oldValue = 'old_value';
+
+  static const String newValue = 'new_value';
+
+  static const String ipAddress = 'ip_address';
+
+  static const String userAgent = 'user_agent';
+
+  static const String createdAt = 'created_at';
+
+  static const List<String> columns = [
+    id,
+    userId,
+    action,
+    entityId,
+    oldValue,
+    newValue,
+    ipAddress,
+    userAgent,
+    createdAt,
+  ];
+
+  static Map<String, Object> insert({
+    int? id,
+    required String userId,
+    required String action,
+    required String entityId,
+    required String oldValue,
+    required String newValue,
+    required String? ipAddress,
+    required String? userAgent,
+    DateTime? createdAt,
+  }) => {
+    AuditLogsTable.id: ?id,
+    AuditLogsTable.userId: userId,
+    AuditLogsTable.action: action,
+    AuditLogsTable.entityId: entityId,
+    AuditLogsTable.oldValue: oldValue,
+    AuditLogsTable.newValue: newValue,
+    AuditLogsTable.ipAddress: ?ipAddress,
+    AuditLogsTable.userAgent: ?userAgent,
+    AuditLogsTable.createdAt: ?createdAt,
+  };
+
+  static Map<String, Object?> update({
+    Field<int> id = const .absent(),
+    required Field<String> userId,
+    required Field<String> action,
+    required Field<String> entityId,
+    required Field<String> oldValue,
+    required Field<String> newValue,
+    required Field<String?> ipAddress,
+    required Field<String?> userAgent,
+    Field<DateTime> createdAt = const .absent(),
+  }) {
+    return _buildFieldMap([
+      (AuditLogsTable.id, id),
+      (AuditLogsTable.userId, userId),
+      (AuditLogsTable.action, action),
+      (AuditLogsTable.entityId, entityId),
+      (AuditLogsTable.oldValue, oldValue),
+      (AuditLogsTable.newValue, newValue),
+      (AuditLogsTable.ipAddress, ipAddress),
+      (AuditLogsTable.userAgent, userAgent),
+      (AuditLogsTable.createdAt, createdAt),
+    ]);
+  }
+}
+
+/// Generated row mapping for the `audit_logs` table.
+/// Represents a full-row result where all columns are expected to be present.
+///
+/// This model assumes SELECT queries include all columns defined in the table (i.e., `SELECT * FROM audit_logs`).
+/// Partial SELECT projections are **not** supported and may result in runtime errors.
+@immutable
+final class AuditLogsRow {
+  const AuditLogsRow({
+    required this.id,
+    required this.userId,
+    required this.action,
+    required this.entityId,
+    required this.oldValue,
+    required this.newValue,
+    required this.ipAddress,
+    required this.userAgent,
+    required this.createdAt,
+  });
+
+  factory AuditLogsRow.fromMap(Map<String, Object?> map) => AuditLogsRow(
+    id: (map[AuditLogsTable.id]! as int),
+    userId: (map[AuditLogsTable.userId]! as String),
+    action: (map[AuditLogsTable.action]! as String),
+    entityId: (map[AuditLogsTable.entityId]! as String),
+    oldValue: (map[AuditLogsTable.oldValue]! as String),
+    newValue: (map[AuditLogsTable.newValue]! as String),
+    ipAddress: (map[AuditLogsTable.ipAddress] as String),
+    userAgent: (map[AuditLogsTable.userAgent] as String),
+    createdAt: (map[AuditLogsTable.createdAt]! as DateTime),
+  );
+
+  final int id;
+
+  final String userId;
+
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT action::text)
+  final String action;
+
+  final String entityId;
+
+  final String oldValue;
+
+  final String newValue;
+
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT ip_address::text)
+  final String? ipAddress;
+
+  final String? userAgent;
+
+  final DateTime createdAt;
 }
 
 /// Generated mapping for the `lab_settings` table, providing type-safe references
@@ -112,7 +262,7 @@ abstract final class LabSettingsTable {
       (LabSettingsTable.labName, labName),
       (LabSettingsTable.loginDisabled, loginDisabled),
       (LabSettingsTable.createdAt, createdAt),
-      (LabSettingsTable.updatedAt, .value('now()')),
+      (LabSettingsTable.updatedAt, const .value('now()')),
     ]);
   }
 }
@@ -133,11 +283,11 @@ final class LabSettingsRow {
   });
 
   factory LabSettingsRow.fromMap(Map<String, Object?> map) => LabSettingsRow(
-    id: (map[LabSettingsTable.id] as int)!,
-    labName: (map[LabSettingsTable.labName] as String?),
-    loginDisabled: (map[LabSettingsTable.loginDisabled] as bool)!,
-    createdAt: (map[LabSettingsTable.createdAt] as DateTime)!,
-    updatedAt: (map[LabSettingsTable.updatedAt] as DateTime)!,
+    id: (map[LabSettingsTable.id]! as int),
+    labName: (map[LabSettingsTable.labName] as String),
+    loginDisabled: (map[LabSettingsTable.loginDisabled]! as bool),
+    createdAt: (map[LabSettingsTable.createdAt]! as DateTime),
+    updatedAt: (map[LabSettingsTable.updatedAt]! as DateTime),
   );
 
   final int id;
@@ -238,13 +388,13 @@ final class LoginAttemptsRow {
 
   factory LoginAttemptsRow.fromMap(Map<String, Object?> map) =>
       LoginAttemptsRow(
-        id: (map[LoginAttemptsTable.id] as int)!,
-        userId: (map[LoginAttemptsTable.userId] as String?),
-        email: (map[LoginAttemptsTable.email] as String)!,
-        result: (map[LoginAttemptsTable.result] as String)!,
-        ipAddress: (map[LoginAttemptsTable.ipAddress] as String?),
-        userAgent: (map[LoginAttemptsTable.userAgent] as String?),
-        createdAt: (map[LoginAttemptsTable.createdAt] as DateTime)!,
+        id: (map[LoginAttemptsTable.id]! as int),
+        userId: (map[LoginAttemptsTable.userId] as String),
+        email: (map[LoginAttemptsTable.email]! as String),
+        result: (map[LoginAttemptsTable.result]! as String),
+        ipAddress: (map[LoginAttemptsTable.ipAddress] as String),
+        userAgent: (map[LoginAttemptsTable.userAgent] as String),
+        createdAt: (map[LoginAttemptsTable.createdAt]! as DateTime),
       );
 
   final int id;
@@ -253,8 +403,10 @@ final class LoginAttemptsRow {
 
   final String email;
 
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT result::text)
   final String result;
 
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT ip_address::text)
   final String? ipAddress;
 
   final String? userAgent;
@@ -303,12 +455,13 @@ final class RolePermissionsRow {
 
   factory RolePermissionsRow.fromMap(Map<String, Object?> map) =>
       RolePermissionsRow(
-        roleId: (map[RolePermissionsTable.roleId] as int)!,
-        permission: (map[RolePermissionsTable.permission] as String)!,
+        roleId: (map[RolePermissionsTable.roleId]! as int),
+        permission: (map[RolePermissionsTable.permission]! as String),
       );
 
   final int roleId;
 
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT permission::text)
   final String permission;
 }
 
@@ -348,7 +501,7 @@ abstract final class RolesTable {
       (RolesTable.id, id),
       (RolesTable.name, name),
       (RolesTable.createdAt, createdAt),
-      (RolesTable.updatedAt, .value('now()')),
+      (RolesTable.updatedAt, const .value('now()')),
     ]);
   }
 }
@@ -368,10 +521,10 @@ final class RolesRow {
   });
 
   factory RolesRow.fromMap(Map<String, Object?> map) => RolesRow(
-    id: (map[RolesTable.id] as int)!,
-    name: (map[RolesTable.name] as String)!,
-    createdAt: (map[RolesTable.createdAt] as DateTime)!,
-    updatedAt: (map[RolesTable.updatedAt] as DateTime)!,
+    id: (map[RolesTable.id]! as int),
+    name: (map[RolesTable.name]! as String),
+    createdAt: (map[RolesTable.createdAt]! as DateTime),
+    updatedAt: (map[RolesTable.updatedAt]! as DateTime),
   );
 
   final int id;
@@ -424,8 +577,8 @@ final class SchemaMigrationsRow {
 
   factory SchemaMigrationsRow.fromMap(Map<String, Object?> map) =>
       SchemaMigrationsRow(
-        version: (map[SchemaMigrationsTable.version] as int)!,
-        appliedAt: (map[SchemaMigrationsTable.appliedAt] as DateTime)!,
+        version: (map[SchemaMigrationsTable.version]! as int),
+        appliedAt: (map[SchemaMigrationsTable.appliedAt]! as DateTime),
       );
 
   final int version;
@@ -528,14 +681,14 @@ final class UserRefreshTokensRow {
 
   factory UserRefreshTokensRow.fromMap(Map<String, Object?> map) =>
       UserRefreshTokensRow(
-        id: (map[UserRefreshTokensTable.id] as int)!,
-        userId: (map[UserRefreshTokensTable.userId] as String)!,
-        tokenHash: (map[UserRefreshTokensTable.tokenHash] as String)!,
-        deviceId: (map[UserRefreshTokensTable.deviceId] as String?),
-        ipAddress: (map[UserRefreshTokensTable.ipAddress] as String?),
-        userAgent: (map[UserRefreshTokensTable.userAgent] as String?),
-        expiresAt: (map[UserRefreshTokensTable.expiresAt] as DateTime)!,
-        createdAt: (map[UserRefreshTokensTable.createdAt] as DateTime)!,
+        id: (map[UserRefreshTokensTable.id]! as int),
+        userId: (map[UserRefreshTokensTable.userId]! as String),
+        tokenHash: (map[UserRefreshTokensTable.tokenHash]! as String),
+        deviceId: (map[UserRefreshTokensTable.deviceId] as String),
+        ipAddress: (map[UserRefreshTokensTable.ipAddress] as String),
+        userAgent: (map[UserRefreshTokensTable.userAgent] as String),
+        expiresAt: (map[UserRefreshTokensTable.expiresAt]! as DateTime),
+        createdAt: (map[UserRefreshTokensTable.createdAt]! as DateTime),
       );
 
   final int id;
@@ -546,6 +699,7 @@ final class UserRefreshTokensRow {
 
   final String? deviceId;
 
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT ip_address::text)
   final String? ipAddress;
 
   final String? userAgent;
@@ -638,7 +792,7 @@ abstract final class UsersTable {
       (UsersTable.isSuperuser, isSuperuser),
       (UsersTable.roleId, roleId),
       (UsersTable.createdAt, createdAt),
-      (UsersTable.updatedAt, .value('now()')),
+      (UsersTable.updatedAt, const .value('now()')),
     ]);
   }
 }
@@ -664,16 +818,16 @@ final class UsersRow {
   });
 
   factory UsersRow.fromMap(Map<String, Object?> map) => UsersRow(
-    id: (map[UsersTable.id] as String)!,
-    email: (map[UsersTable.email] as String)!,
-    passwordHash: (map[UsersTable.passwordHash] as String)!,
-    tokenVersion: (map[UsersTable.tokenVersion] as int)!,
-    fullName: (map[UsersTable.fullName] as String)!,
-    phoneNumber: (map[UsersTable.phoneNumber] as String?),
-    isSuperuser: (map[UsersTable.isSuperuser] as bool)!,
-    roleId: (map[UsersTable.roleId] as int?),
-    createdAt: (map[UsersTable.createdAt] as DateTime)!,
-    updatedAt: (map[UsersTable.updatedAt] as DateTime)!,
+    id: (map[UsersTable.id]! as String),
+    email: (map[UsersTable.email]! as String),
+    passwordHash: (map[UsersTable.passwordHash]! as String),
+    tokenVersion: (map[UsersTable.tokenVersion]! as int),
+    fullName: (map[UsersTable.fullName]! as String),
+    phoneNumber: (map[UsersTable.phoneNumber] as String),
+    isSuperuser: (map[UsersTable.isSuperuser]! as bool),
+    roleId: (map[UsersTable.roleId] as int),
+    createdAt: (map[UsersTable.createdAt]! as DateTime),
+    updatedAt: (map[UsersTable.updatedAt]! as DateTime),
   );
 
   final String id;

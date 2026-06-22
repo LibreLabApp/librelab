@@ -30,3 +30,20 @@ class LoginAttempt {
   final String? userAgent;
   final DateTime createdAt;
 }
+
+@immutable
+class LoginAttemptCreate {
+  const LoginAttemptCreate({
+    required this.userId,
+    required this.email,
+    required this.loginResult,
+    required this.ipAddress,
+    required this.userAgent,
+  });
+
+  final String? userId;
+  final String email;
+  final LoginResult loginResult;
+  final String? ipAddress;
+  final String? userAgent;
+}

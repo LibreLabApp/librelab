@@ -100,3 +100,19 @@ CREATE TABLE lab_settings (
   CONSTRAINT lab_settings_singleton_check
     CHECK (id = 1)
 );
+
+CREATE TYPE audit_action AS ENUM (
+  'lab_settings:update'
+);
+
+CREATE TABLE audit_logs (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  user_id UUID NOT NULL,
+  action audit_action NOT NULL,
+  entity_id TEXT NOT NULL,
+  old_value JSONB NOT NULL,
+  new_value JSONB NOT NULL,
+  ip_address INET,
+  user_agent TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
