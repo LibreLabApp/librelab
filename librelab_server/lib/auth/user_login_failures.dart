@@ -12,7 +12,7 @@ final class InvalidPasswordFailure extends UserLoginFailure {
   const InvalidPasswordFailure({required this.targetUserId})
     : super('Invalid password');
 
-  final String? targetUserId;
+  final String targetUserId;
 }
 
 final class InvalidLoginInputFailure extends UserLoginFailure {

@@ -12,11 +12,8 @@ typedef _Rp = RolePermissionsTable;
 
 const _rolePermissionsAlias = 'role_permissions';
 
-class UserRepositoryPostgres implements UserRepository {
-  UserRepositoryPostgres({required this._client});
-
-  final DatabaseClient _client;
-
+class UserRepositoryPostgres(final DatabaseClient _client)
+    implements UserRepository {
   @override
   Future<bool> hasUsers() async {
     final result = await _client.execute(
@@ -72,11 +69,11 @@ LIMIT 1
     }
 
     final map = row.toColumnMap();
-    return AuthUser(
+    return .new(
       id: id,
       tokenVersion: map[_U.tokenVersion] as int,
       isSuperUser: map[_U.isSuperuser] as bool,
-      permissions: _mapRolePermissionsFromRow(map),
+      permissions: .unmodifiable(_mapRolePermissionsFromRow(map)),
     );
   }
 
@@ -272,7 +269,7 @@ extension on RolesRow {
     return Role(
       id: id,
       name: name,
-      permissions: permissions(),
+      permissions: .unmodifiable(permissions()),
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

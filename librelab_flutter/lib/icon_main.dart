@@ -7,9 +7,7 @@ import 'package:librelab_flutter/common/ui/widgets/librelab_icon.dart';
 
 void main() => runApp(const _MainApp());
 
-class _MainApp extends StatelessWidget {
-  const _MainApp();
-
+class const _MainApp() extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -19,9 +17,7 @@ class _MainApp extends StatelessWidget {
   }
 }
 
-class _MainPage extends StatefulWidget {
-  const _MainPage();
-
+class const _MainPage() extends StatefulWidget {
   @override
   State<_MainPage> createState() => _MainPageState();
 }

@@ -6,11 +6,8 @@ import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = UserRefreshTokensTable;
 
-class UserRefreshTokenRepositoryPostgres implements UserRefreshTokenRepository {
-  UserRefreshTokenRepositoryPostgres({required this._client});
-
-  final DatabaseClient _client;
-
+class UserRefreshTokenRepositoryPostgres(final DatabaseClient _client)
+    implements UserRefreshTokenRepository {
   @override
   Future<UserRefreshToken> create(UserRefreshTokenCreate create) async {
     final Map<String, Object?> params = _T.insert(

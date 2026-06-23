@@ -6,17 +6,10 @@ part 'update_lab_settings_request.g.dart';
 
 @immutable
 @JsonSerializable()
-class UpdateLabSettingsRequest {
-  const UpdateLabSettingsRequest({
-    required this.labName,
-    required this.loginDisabled,
-  });
-
-  factory UpdateLabSettingsRequest.fromJson(JsonMap json) =>
-      _$UpdateLabSettingsRequestFromJson(json);
-
-  final String? labName;
-  final bool? loginDisabled;
-
+class const UpdateLabSettingsRequest({
+  required final String? labName,
+  required final bool? loginDisabled,
+}) {
+  factory fromJson(JsonMap json) => _$UpdateLabSettingsRequestFromJson(json);
   JsonMap toJson() => _$UpdateLabSettingsRequestToJson(this);
 }

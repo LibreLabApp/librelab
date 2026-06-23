@@ -14,6 +14,9 @@ class Config {
   final String dartOutput;
   final String outputClassName;
 
-  /// The import that provides [HttpEndpoint], [WebSocketEndpoint] and [HttpMethod]
+  /// The import that provides [HttpEndpoint], [WebSocketEndpoint], and [HttpMethod].
+  ///
+  /// These types exist in the code generator.
+  /// However they are different in the final generated code.
   final String requiredTypesImport;
 }

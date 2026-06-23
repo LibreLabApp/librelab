@@ -23,24 +23,15 @@ enum ApiContractHandshakeStatus {
 
 @immutable
 @JsonSerializable()
-class HandshakeResponse {
-  const HandshakeResponse({
-    required this.serverBuildNumber,
-    required this.serverVersion,
-    required this.status,
-  });
-
-  factory HandshakeResponse.fromJson(JsonMap json) =>
-      _$HandshakeResponseFromJson(json);
-
-  JsonMap toJson() => _$HandshakeResponseToJson(this);
-
-  final int serverBuildNumber;
-  final String serverVersion;
-
+class const HandshakeResponse({
+  required final int serverBuildNumber,
+  required final String serverVersion,
   @JsonKey(
     // Adding a new enum not considered a breaking change.
     unknownEnumValue: ApiContractHandshakeStatus.updateClient,
   )
-  final ApiContractHandshakeStatus status;
+  required final ApiContractHandshakeStatus status,
+}) {
+  factory fromJson(JsonMap json) => _$HandshakeResponseFromJson(json);
+  JsonMap toJson() => _$HandshakeResponseToJson(this);
 }

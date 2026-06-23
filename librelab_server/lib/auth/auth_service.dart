@@ -26,45 +26,32 @@ export 'package:librelab_server/auth/user_login_failures.dart';
 export 'package:librelab_server/auth/user_register_failures.dart';
 
 @immutable
-class AuthToken {
-  const AuthToken({required this.token, required this.expiresAt});
-
-  final String token;
-  final DateTime expiresAt;
-}
+class const AuthToken({
+  required final String token,
+  required final DateTime expiresAt,
+});
 
 @immutable
-class AuthTokens {
-  const AuthTokens({required this.accessToken, required this.refreshTokenRaw});
-
+class const AuthTokens({
   /// JWT access token
-  final AuthToken accessToken;
+  required final AuthToken accessToken,
 
   /// Opaque refresh token.
   /// Stored in the database as a hashed value.
   /// Sent to the client as raw/plain token.
-  final AuthToken refreshTokenRaw;
-}
+  required final AuthToken refreshTokenRaw,
+});
 
 typedef AuthenticatedSession = (User user, AuthTokens tokens);
 
-class AuthService {
-  AuthService({
-    required this._passwordHasher,
-    required this._jwtService,
-    required this._userRepository,
-    required this._userRefreshTokenRepository,
-    required this._loginAttemptRepository,
-    required this._loginDisabled,
-  });
-
-  final PasswordHasher _passwordHasher;
-  final JwtService _jwtService;
-  final UserRepository _userRepository;
-  final UserRefreshTokenRepository _userRefreshTokenRepository;
-  final LoginAttemptRepository _loginAttemptRepository;
-  final bool Function() _loginDisabled;
-
+class AuthService({
+  required final PasswordHasher _passwordHasher,
+  required final JwtService _jwtService,
+  required final UserRepository _userRepository,
+  required final UserRefreshTokenRepository _userRefreshTokenRepository,
+  required final LoginAttemptRepository _loginAttemptRepository,
+  required final bool Function() _loginDisabled,
+}) {
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
 

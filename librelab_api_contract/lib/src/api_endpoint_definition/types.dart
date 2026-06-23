@@ -1,18 +1,14 @@
 import 'package:http_method/http_method.dart';
+import 'package:meta/meta.dart';
 export 'package:http_method/http_method.dart' show HttpMethod;
 
-sealed class EndpointDefinition {
-  const EndpointDefinition({required this.path});
+@immutable
+sealed class const EndpointDefinition({required final String path});
 
-  final String path;
-}
+final class const HttpEndpoint({
+  required final HttpMethod method,
+  required super.path,
+}) extends EndpointDefinition;
 
-final class HttpEndpoint extends EndpointDefinition {
-  const HttpEndpoint({required this.method, required super.path});
-
-  final HttpMethod method;
-}
-
-final class WebSocketEndpoint extends EndpointDefinition {
-  const WebSocketEndpoint({required super.path});
-}
+final class const WebSocketEndpoint({required super.path})
+    extends EndpointDefinition;

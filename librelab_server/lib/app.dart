@@ -171,7 +171,7 @@ Future<void> run(List<String> args) async {
   );
 
   final LabSettingsRepository labSettingsRepository =
-      LabSettingsRepositoryPostgres(client: databaseClient);
+      LabSettingsRepositoryPostgres(databaseClient);
 
   final labSettings =
       await labSettingsRepository.load() ??
@@ -183,19 +183,15 @@ Future<void> run(List<String> args) async {
     throw StateError('$LabSettings were not loaded correctly');
   }
 
-  final UserRepository userRepository = UserRepositoryPostgres(
-    client: databaseClient,
-  );
+  final UserRepository userRepository = UserRepositoryPostgres(databaseClient);
   final authService = AuthService(
     passwordHasher: BcryptPasswordHasher(),
-    jwtService: JwtService(jwtAccessTokenSecret: secrets.jwtAccessTokenSecret),
+    jwtService: JwtService(tokenSecret: secrets.jwtAccessTokenSecret),
     userRepository: userRepository,
     userRefreshTokenRepository: UserRefreshTokenRepositoryPostgres(
-      client: databaseClient,
+      databaseClient,
     ),
-    loginAttemptRepository: LoginAttemptRepositoryPostgres(
-      client: databaseClient,
-    ),
+    loginAttemptRepository: LoginAttemptRepositoryPostgres(databaseClient),
     // TODO: (REMOVE_SERVERPOD) Implement audit_logs
     // TODO: (REMOVE_SERVERPOD) Allow admins disabling login
     loginDisabled: () => labSettingsRepository.cached.loginDisabled,

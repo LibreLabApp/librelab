@@ -6,17 +6,10 @@ part 'lab_settings_response.g.dart';
 
 @immutable
 @JsonSerializable()
-class LabSettingsResponse {
-  const LabSettingsResponse({
-    required this.labName,
-    required this.loginDisabled,
-  });
-
-  factory LabSettingsResponse.fromJson(JsonMap json) =>
-      _$LabSettingsResponseFromJson(json);
-
-  final String? labName;
-  final bool loginDisabled;
-
+class const LabSettingsResponse({
+  required final String? labName,
+  required final bool loginDisabled,
+}) {
+  factory fromJson(JsonMap json) => _$LabSettingsResponseFromJson(json);
   JsonMap toJson() => _$LabSettingsResponseToJson(this);
 }

@@ -7,17 +7,14 @@ part 'server_error_response.g.dart';
 
 @immutable
 @JsonSerializable()
-class ServerErrorResponse {
-  const ServerErrorResponse({
-    required this.message,
-    required this.code,
-    this.details,
-  });
-
-  factory ServerErrorResponse.fromJson(JsonMap json) =>
-      _$ServerErrorResponseFromJson(json);
-
+class const ServerErrorResponse({
+  required final String message,
+  required final String code,
+  final JsonMap? details,
+}) {
+  factory fromJson(JsonMap json) => _$ServerErrorResponseFromJson(json);
   JsonMap toJson() {
+    // Validates the values
     final details = this.details;
     if (details != null) {
       for (final entry in details.entries) {
@@ -42,10 +39,6 @@ class ServerErrorResponse {
 
     return _$ServerErrorResponseToJson(this);
   }
-
-  final String message;
-  final String code;
-  final JsonMap? details;
 
   ServerErrorResponse copyWith({
     String? message,

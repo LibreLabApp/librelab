@@ -1,10 +1,6 @@
 import 'package:path/path.dart' as p;
 
-class AppFilePaths {
-  AppFilePaths({required this._workingDirectory});
-
-  final String? _workingDirectory;
-
+class AppFilePaths({required final String? _workingDirectory}) {
   String _resolve(String path) {
     if (_workingDirectory != null) {
       return p.join(_workingDirectory, path);

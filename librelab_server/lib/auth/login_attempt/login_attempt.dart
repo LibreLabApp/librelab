@@ -11,39 +11,21 @@ enum LoginResult {
 }
 
 @immutable
-class LoginAttempt {
-  const LoginAttempt({
-    required this.id,
-    required this.userId,
-    required this.email,
-    required this.result,
-    required this.ipAddress,
-    required this.userAgent,
-    required this.createdAt,
-  });
-
-  final int id;
-  final String? userId;
-  final String email;
-  final LoginResult result;
-  final String? ipAddress;
-  final String? userAgent;
-  final DateTime createdAt;
-}
+class const LoginAttempt({
+  required final int id,
+  required final String? userId,
+  required final String email,
+  required final LoginResult result,
+  required final String? ipAddress,
+  required final String? userAgent,
+  required final DateTime createdAt,
+});
 
 @immutable
-class LoginAttemptCreate {
-  const LoginAttemptCreate({
-    required this.userId,
-    required this.email,
-    required this.loginResult,
-    required this.ipAddress,
-    required this.userAgent,
-  });
-
-  final String? userId;
-  final String email;
-  final LoginResult loginResult;
-  final String? ipAddress;
-  final String? userAgent;
-}
+class const LoginAttemptCreate({
+  required final String? userId,
+  required final String email,
+  required final LoginResult loginResult,
+  required final String? ipAddress,
+  required final String? userAgent,
+});

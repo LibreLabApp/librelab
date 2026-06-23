@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:librelab_server/mdns/installer/platform_installer.dart';
 import 'package:librelab_server/utils/cli_input.dart';
 
-class MdnsInstaller {
-  MdnsInstaller({required this._platform, required this._getConfigFilePath});
-
-  final MdnsPlatformInstaller _platform;
-  final String Function() _getConfigFilePath;
-
+class MdnsInstaller({
+  required final MdnsPlatformInstaller _platform,
+  required final String Function() _getConfigFilePath,
+}) {
   Future<void> tryInstallWithPrompt({
     required void Function() onDeclined,
   }) async {

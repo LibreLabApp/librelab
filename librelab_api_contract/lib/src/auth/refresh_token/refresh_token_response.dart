@@ -7,17 +7,10 @@ part 'refresh_token_response.g.dart';
 
 @immutable
 @JsonSerializable()
-class RefreshTokenResponse {
-  const RefreshTokenResponse({
-    required this.accessToken,
-    required this.refreshToken,
-  });
-
-  factory RefreshTokenResponse.fromJson(JsonMap json) =>
-      _$RefreshTokenResponseFromJson(json);
-
+class const RefreshTokenResponse({
+  required final AuthToken accessToken,
+  required final AuthToken refreshToken,
+}) {
+  factory fromJson(JsonMap json) => _$RefreshTokenResponseFromJson(json);
   JsonMap toJson() => _$RefreshTokenResponseToJson(this);
-
-  final AuthToken accessToken;
-  final AuthToken refreshToken;
 }

@@ -6,12 +6,7 @@ part 'logout_request.g.dart';
 
 @immutable
 @JsonSerializable()
-class LogoutRequest {
-  const LogoutRequest({required this.refreshToken});
-
-  factory LogoutRequest.fromJson(JsonMap json) => _$LogoutRequestFromJson(json);
-
+class const LogoutRequest({required final String refreshToken}) {
+  factory fromJson(JsonMap json) => _$LogoutRequestFromJson(json);
   JsonMap toJson() => _$LogoutRequestToJson(this);
-
-  final String refreshToken;
 }

@@ -18,15 +18,10 @@ abstract interface class MdnsPlatformRegistrar {
 /// the process with `SIGKILL` if it does not exit within 6 seconds.
 ///
 /// Logging is hardcoded in the implementation.
-abstract class ProcessMdnsRegistrar implements MdnsPlatformRegistrar {
-  ProcessMdnsRegistrar({
-    required this.executable,
-    required this.buildArguments,
-  });
-
-  final String executable;
-  final List<String> Function(MdnsServiceConfig config) buildArguments;
-
+abstract class ProcessMdnsRegistrar({
+  required final String executable,
+  required final List<String> Function(MdnsServiceConfig config) buildArguments,
+}) implements MdnsPlatformRegistrar {
   Process? _process;
 
   @override

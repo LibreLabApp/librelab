@@ -8,18 +8,11 @@ part 'login_response.g.dart';
 
 @immutable
 @JsonSerializable()
-class LoginResponse {
-  const LoginResponse({
-    required this.accessToken,
-    required this.refreshToken,
-    required this.user,
-  });
-
-  factory LoginResponse.fromJson(JsonMap json) => _$LoginResponseFromJson(json);
-
-  final AuthToken accessToken;
-  final AuthToken refreshToken;
-  final User user;
-
+class const LoginResponse({
+  required final AuthToken accessToken,
+  required final AuthToken refreshToken,
+  required final User user,
+}) {
+  factory fromJson(JsonMap json) => _$LoginResponseFromJson(json);
   JsonMap toJson() => _$LoginResponseToJson(this);
 }

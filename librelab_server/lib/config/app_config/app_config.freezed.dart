@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'app_config.dart';
@@ -9,6 +9,7 @@ part of 'app_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -49,7 +50,7 @@ $Res call({
 });
 
 
-
+$SetupPromptDeclinedConfigCopyWith<$Res> get setupPromptDeclined;
 
 }
 /// @nodoc
@@ -71,7 +72,16 @@ as DatabaseConfig,setupPromptDeclined: null == setupPromptDeclined ? _self.setup
 as SetupPromptDeclinedConfig,
   ));
 }
-
+/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SetupPromptDeclinedConfigCopyWith<$Res> get setupPromptDeclined {
+  
+  return $SetupPromptDeclinedConfigCopyWith<$Res>(_self.setupPromptDeclined, (value) {
+    return _then(_self.copyWith(setupPromptDeclined: value));
+  });
+}
 }
 
 
@@ -89,10 +99,11 @@ extension AppConfigPatterns on AppConfig {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AppConfig value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _:
+case _AppConfig() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -110,10 +121,11 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AppConfig value)  $default,){
 final _that = this;
 switch (_that) {
-case _:
+case _AppConfig():
+return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -130,10 +142,11 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AppConfig value)?  $default,){
 final _that = this;
 switch (_that) {
-case _:
+case _AppConfig() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -150,9 +163,10 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ApiServerConfig apiServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _:
+case _AppConfig() when $default != null:
+return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
   return orElse();
 
 }
@@ -170,9 +184,10 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>() {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ApiServerConfig apiServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)  $default,) {final _that = this;
 switch (_that) {
-case _:
+case _AppConfig():
+return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -189,14 +204,96 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>() {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ApiServerConfig apiServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)?  $default,) {final _that = this;
 switch (_that) {
-case _:
+case _AppConfig() when $default != null:
+return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
   return null;
 
 }
 }
 
+}
+
+/// @nodoc
+
+
+class _AppConfig extends AppConfig {
+  const _AppConfig({required this.apiServer, required this.mdnsServicePublish, required this.database, required this.setupPromptDeclined}): super(apiServer: apiServer, mdnsServicePublish: mdnsServicePublish, database: database, setupPromptDeclined: setupPromptDeclined);
+  
+
+@override final  ApiServerConfig apiServer;
+@override final  MdnsServicePublishConfig mdnsServicePublish;
+@override final  DatabaseConfig database;
+@override final  SetupPromptDeclinedConfig setupPromptDeclined;
+
+/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AppConfigCopyWith<_AppConfig> get copyWith => __$AppConfigCopyWithImpl<_AppConfig>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.apiServer, apiServer) || other.apiServer == apiServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,apiServer,mdnsServicePublish,database,setupPromptDeclined);
+
+@override
+String toString() {
+  return 'AppConfig(apiServer: $apiServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Res> {
+  factory _$AppConfigCopyWith(_AppConfig value, $Res Function(_AppConfig) _then) = __$AppConfigCopyWithImpl;
+@override @useResult
+$Res call({
+ ApiServerConfig apiServer, MdnsServicePublishConfig mdnsServicePublish, DatabaseConfig database, SetupPromptDeclinedConfig setupPromptDeclined
+});
+
+
+@override $SetupPromptDeclinedConfigCopyWith<$Res> get setupPromptDeclined;
+
+}
+/// @nodoc
+class __$AppConfigCopyWithImpl<$Res>
+    implements _$AppConfigCopyWith<$Res> {
+  __$AppConfigCopyWithImpl(this._self, this._then);
+
+  final _AppConfig _self;
+  final $Res Function(_AppConfig) _then;
+
+/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? apiServer = null,Object? mdnsServicePublish = null,Object? database = null,Object? setupPromptDeclined = null,}) {
+  return _then(_AppConfig(
+apiServer: null == apiServer ? _self.apiServer : apiServer // ignore: cast_nullable_to_non_nullable
+as ApiServerConfig,mdnsServicePublish: null == mdnsServicePublish ? _self.mdnsServicePublish : mdnsServicePublish // ignore: cast_nullable_to_non_nullable
+as MdnsServicePublishConfig,database: null == database ? _self.database : database // ignore: cast_nullable_to_non_nullable
+as DatabaseConfig,setupPromptDeclined: null == setupPromptDeclined ? _self.setupPromptDeclined : setupPromptDeclined // ignore: cast_nullable_to_non_nullable
+as SetupPromptDeclinedConfig,
+  ));
+}
+
+/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SetupPromptDeclinedConfigCopyWith<$Res> get setupPromptDeclined {
+  
+  return $SetupPromptDeclinedConfigCopyWith<$Res>(_self.setupPromptDeclined, (value) {
+    return _then(_self.copyWith(setupPromptDeclined: value));
+  });
+}
 }
 
 /// @nodoc
@@ -275,10 +372,11 @@ extension SetupPromptDeclinedConfigPatterns on SetupPromptDeclinedConfig {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SetupPromptDeclinedConfig value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _:
+case _SetupPromptDeclinedConfig() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -296,10 +394,11 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SetupPromptDeclinedConfig value)  $default,){
 final _that = this;
 switch (_that) {
-case _:
+case _SetupPromptDeclinedConfig():
+return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -316,10 +415,11 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SetupPromptDeclinedConfig value)?  $default,){
 final _that = this;
 switch (_that) {
-case _:
+case _SetupPromptDeclinedConfig() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -336,9 +436,10 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool postgres,  bool systemMdnsService)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _:
+case _SetupPromptDeclinedConfig() when $default != null:
+return $default(_that.postgres,_that.systemMdnsService);case _:
   return orElse();
 
 }
@@ -356,9 +457,10 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>() {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool postgres,  bool systemMdnsService)  $default,) {final _that = this;
 switch (_that) {
-case _:
+case _SetupPromptDeclinedConfig():
+return $default(_that.postgres,_that.systemMdnsService);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -375,13 +477,82 @@ case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>() {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool postgres,  bool systemMdnsService)?  $default,) {final _that = this;
 switch (_that) {
-case _:
+case _SetupPromptDeclinedConfig() when $default != null:
+return $default(_that.postgres,_that.systemMdnsService);case _:
   return null;
 
 }
 }
+
+}
+
+/// @nodoc
+
+
+class _SetupPromptDeclinedConfig extends SetupPromptDeclinedConfig {
+  const _SetupPromptDeclinedConfig({required this.postgres, required this.systemMdnsService}): super(postgres: postgres, systemMdnsService: systemMdnsService);
+  
+
+@override final  bool postgres;
+@override final  bool systemMdnsService;
+
+/// Create a copy of SetupPromptDeclinedConfig
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SetupPromptDeclinedConfigCopyWith<_SetupPromptDeclinedConfig> get copyWith => __$SetupPromptDeclinedConfigCopyWithImpl<_SetupPromptDeclinedConfig>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetupPromptDeclinedConfig&&(identical(other.postgres, postgres) || other.postgres == postgres)&&(identical(other.systemMdnsService, systemMdnsService) || other.systemMdnsService == systemMdnsService));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,postgres,systemMdnsService);
+
+@override
+String toString() {
+  return 'SetupPromptDeclinedConfig(postgres: $postgres, systemMdnsService: $systemMdnsService)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SetupPromptDeclinedConfigCopyWith<$Res> implements $SetupPromptDeclinedConfigCopyWith<$Res> {
+  factory _$SetupPromptDeclinedConfigCopyWith(_SetupPromptDeclinedConfig value, $Res Function(_SetupPromptDeclinedConfig) _then) = __$SetupPromptDeclinedConfigCopyWithImpl;
+@override @useResult
+$Res call({
+ bool postgres, bool systemMdnsService
+});
+
+
+
+
+}
+/// @nodoc
+class __$SetupPromptDeclinedConfigCopyWithImpl<$Res>
+    implements _$SetupPromptDeclinedConfigCopyWith<$Res> {
+  __$SetupPromptDeclinedConfigCopyWithImpl(this._self, this._then);
+
+  final _SetupPromptDeclinedConfig _self;
+  final $Res Function(_SetupPromptDeclinedConfig) _then;
+
+/// Create a copy of SetupPromptDeclinedConfig
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? postgres = null,Object? systemMdnsService = null,}) {
+  return _then(_SetupPromptDeclinedConfig(
+postgres: null == postgres ? _self.postgres : postgres // ignore: cast_nullable_to_non_nullable
+as bool,systemMdnsService: null == systemMdnsService ? _self.systemMdnsService : systemMdnsService // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
 
 }
 

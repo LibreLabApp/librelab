@@ -8,14 +8,8 @@ enum ApiContractHandshakeStatus {
 }
 
 @immutable
-class HandshakeResponse {
-  const HandshakeResponse({
-    required this.serverBuildNumber,
-    required this.serverVersion,
-    required this.status,
-  });
-
-  final int serverBuildNumber;
-  final String serverVersion;
-  final ApiContractHandshakeStatus status;
-}
+class const HandshakeResponse({
+  required final int serverBuildNumber,
+  required final String serverVersion,
+  required final ApiContractHandshakeStatus status,
+});

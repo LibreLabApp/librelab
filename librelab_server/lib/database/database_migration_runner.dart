@@ -2,19 +2,12 @@ import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_migration.dart';
 import 'package:logging/logging.dart';
 
-class DatabaseMigrationRunner {
-  DatabaseMigrationRunner({
-    required this._client,
-    required this._migrations,
-    required this._latestVersion,
-    required this._logger,
-  });
-
-  final DatabaseClient _client;
-  final List<DatabaseMigration> _migrations;
-  final int _latestVersion;
-  final Logger _logger;
-
+class DatabaseMigrationRunner({
+  required final DatabaseClient _client,
+  required final List<DatabaseMigration> _migrations,
+  required final int _latestVersion,
+  required final Logger _logger,
+}) {
   // Note: Avoid depending on generated code in this file.
   // Instead hardcode table and column names
   static const String _tableName = 'schema_migrations';

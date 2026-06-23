@@ -8,17 +8,11 @@ import 'package:multicast_dns/multicast_dns.dart';
 // the multicast_dns dependency.
 export 'package:multicast_dns/multicast_dns.dart' show MDnsClient;
 
-class RawMdnsServiceDiscovery implements MdnsServiceDiscovery {
-  RawMdnsServiceDiscovery({
-    required this._client,
-    required this._serviceType,
-    required this._logger,
-  });
-
-  final MDnsClient _client;
-  final String _serviceType;
-  final Logger _logger;
-
+class MdnsServiceDiscoveryRaw({
+  required final MDnsClient _client,
+  required final String _serviceType,
+  required final Logger _logger,
+}) implements MdnsServiceDiscovery {
   @override
   Stream<MdnsServiceDiscoveryEvent> discoverServices({
     Duration timeout = const Duration(seconds: 5),

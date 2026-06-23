@@ -1,11 +1,9 @@
 import 'package:meta/meta.dart';
 
 @immutable
-sealed class Field<T> {
-  const Field();
-
-  const factory Field.value(T value) = Present<T>;
-  const factory Field.absent() = Absent<T>;
+sealed class const Field<T>() {
+  const factory value(T value) = Present<T>;
+  const factory absent() = Absent<T>;
 
   /// Assumes `null` means [Absent] and a non-null value means [Present].
   factory Field.fromNullable(T? value) {
@@ -34,13 +32,6 @@ sealed class Field<T> {
   }
 }
 
-final class Absent<T> extends Field<T> {
-  const Absent();
-}
+final class const Absent<T>() extends Field<T>;
 
-final class Present<T> extends Field<T> {
-  const Present(this.value);
-
-  @override
-  final T value;
-}
+final class const Present<T>(@override final T value) extends Field<T>;

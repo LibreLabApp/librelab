@@ -1,12 +1,10 @@
 import 'package:librelab_server/config/app_config/app_config.dart';
 import 'package:yaml_storage/yaml_storage.dart';
 
-class AppConfigRepository {
-  AppConfigRepository({required this._storage, required this._storageId});
-
-  final String _storageId;
-  final YamlStorage _storage;
-
+class AppConfigRepository({
+  required final String _storageId,
+  required final YamlStorage _storage,
+}) {
   AppConfig? _config;
 
   AppConfig? get config => _config;

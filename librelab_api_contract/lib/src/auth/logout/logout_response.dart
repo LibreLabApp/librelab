@@ -6,13 +6,7 @@ part 'logout_response.g.dart';
 
 @immutable
 @JsonSerializable()
-class LogoutResponse {
-  const LogoutResponse({required this.tokenRevoked});
-
-  factory LogoutResponse.fromJson(JsonMap json) =>
-      _$LogoutResponseFromJson(json);
-
+class const LogoutResponse({required final bool tokenRevoked}) {
+  factory fromJson(JsonMap json) => _$LogoutResponseFromJson(json);
   JsonMap toJson() => _$LogoutResponseToJson(this);
-
-  final bool tokenRevoked;
 }

@@ -1,4 +1,4 @@
-enum HttpStatusCode {
+enum HttpStatusCode(final int value) {
   ok(200),
   created(201),
   badRequest(400),
@@ -6,8 +6,4 @@ enum HttpStatusCode {
   forbidden(403),
   notFound(404),
   internalServerError(500);
-
-  const HttpStatusCode(this.value);
-
-  final int value;
 }

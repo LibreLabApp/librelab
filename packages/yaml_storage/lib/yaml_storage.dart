@@ -2,11 +2,7 @@ import 'package:string_storage/string_storage.dart';
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
-class YamlStorage {
-  YamlStorage(this._storage);
-
-  final StringStorage _storage;
-
+class YamlStorage(final StringStorage _storage) {
   Future<YamlMap?> read(String id) async {
     final content = await _storage.read(id);
     if (content == null) {

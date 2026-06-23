@@ -6,20 +6,14 @@ part 'initial_setup_state.dart';
 part 'initial_setup_cubit.freezed.dart';
 
 @immutable
-sealed class StepAccessDeniedReason {
-  const StepAccessDeniedReason();
-}
+sealed class const StepAccessDeniedReason();
 
-final class ServerNotConfigured extends StepAccessDeniedReason {
-  const ServerNotConfigured();
-}
+final class const ServerNotConfigured() extends StepAccessDeniedReason;
 
-final class AccountSetupNotConfigured extends StepAccessDeniedReason {
-  const AccountSetupNotConfigured();
-}
+final class const AccountSetupNotConfigured() extends StepAccessDeniedReason;
 
 class InitialSetupCubit extends Cubit<InitialSetupState> {
-  InitialSetupCubit() : super(InitialSetupState.initialState());
+  InitialSetupCubit() : super(.initialState());
 
   void setStep(InitialSetupStep step) {
     emit(state.copyWith(currentStep: step));
@@ -32,13 +26,12 @@ class InitialSetupCubit extends Cubit<InitialSetupState> {
     }
 
     return switch (targetStep) {
-      InitialSetupStep.preferences => null,
-      InitialSetupStep.server => null,
+      .preferences => null,
+      .server => null,
       // TODO: (Account validation) Server URL must not be null & connection test must succeed for that URL
-      InitialSetupStep.account => const ServerNotConfigured(),
+      .account => const ServerNotConfigured(),
       // TODO: (Complete validation) Email / password fields must not be null & login credentials are valid
-      InitialSetupStep.complete =>
-        canGoTo(.account) ?? const AccountSetupNotConfigured(),
+      .complete => canGoTo(.account) ?? const AccountSetupNotConfigured(),
     };
   }
 }

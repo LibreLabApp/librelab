@@ -8,10 +8,7 @@ import 'package:librelab_shared/librelab_shared.dart';
 /// Most implementations allow the service to be resolved through a `.local`
 /// hostname. The fallback implementation may only advertise the service
 /// (i.e., Bonjour is not installed on Windows, or Avahi on Linux).
-class MdnsServiceRegistrar {
-  MdnsServiceRegistrar({required this._platform});
-
-  final MdnsPlatformRegistrar _platform;
+class MdnsServiceRegistrar({required final MdnsPlatformRegistrar _platform}) {
   bool _isRegistered = false;
 
   /// Starts publishing the mDNS service on the local network.

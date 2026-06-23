@@ -12,14 +12,12 @@ import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class AuthRoutes implements RouteModule {
-  AuthRoutes({required this._service, required this._authorization});
-
-  final AuthService _service;
-  final AuthorizationService _authorization;
-
+class AuthRoutes({
+  required final AuthService _service,
+  required final AuthorizationService _authorization,
+}) implements RouteModule {
   @override
-  Router get router => Router()
+  Router get router => .new()
     ..register(ApiEndpointDefinitions.auth_login$POST, _loginHandler)
     ..register(ApiEndpointDefinitions.auth_logout$POST, _logoutHandler)
     ..register(

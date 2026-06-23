@@ -117,17 +117,11 @@ After logging in, additional users can be created directly from the application 
 }
 
 @immutable
-final class _SuperUserInput {
-  const _SuperUserInput({
-    required this.email,
-    required this.password,
-    required this.fullName,
-  });
-
-  final String email;
-  final String password;
-  final String fullName;
-}
+final class const _SuperUserInput({
+  required final String email,
+  required final String password,
+  required final String fullName,
+});
 
 Future<_SuperUserInput> _promptUserCredentials() async {
   final email = promptInput(
