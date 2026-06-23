@@ -31,31 +31,20 @@ typedef StepCanGoTo = StepAccessDecision Function(int index);
 typedef StepChangedCallback = void Function(int newIndex);
 
 @immutable
-class NavigationButtonLabels {
-  const NavigationButtonLabels({required this.next, required this.back});
+class const NavigationButtonLabels({
+  required final String next,
+  required final String back,
+});
 
-  final String next;
-  final String back;
-}
-
-class StepperFlow extends StatelessWidget {
-  const StepperFlow({
-    super.key,
-    required this.currentStepIndex,
-    required this.onStepChanged,
-    required this.steps,
-    required this.stepHero,
-    required this.canGoTo,
-    required this.navigationButtonLabels,
-  });
-
-  final int currentStepIndex;
-  final StepChangedCallback onStepChanged;
-  final List<Step> steps;
-  final StepHero stepHero;
-  final StepCanGoTo canGoTo;
-  final NavigationButtonLabels navigationButtonLabels;
-
+class const StepperFlow({
+  super.key,
+  required final int currentStepIndex,
+  required final StepChangedCallback onStepChanged,
+  required final List<Step> steps,
+  required final StepHero stepHero,
+  required final StepCanGoTo canGoTo,
+  required final NavigationButtonLabels navigationButtonLabels,
+}) extends StatelessWidget {
   void _guardedOnStepChanged(int index) {
     final String? disabledReason = canGoTo(index).disabledReason;
     if (disabledReason == null) {

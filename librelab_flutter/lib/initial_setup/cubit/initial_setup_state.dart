@@ -1,14 +1,11 @@
+// ignore_for_file: annotate_overrides
+
 part of 'initial_setup_cubit.dart';
 
 @immutable
 @freezed
-final class InitialSetupState with _$InitialSetupState {
-  const InitialSetupState({required this.currentStep});
-
+class const InitialSetupState({required final InitialSetupStep currentStep})
+    with _$InitialSetupState {
   /// The initial state of the initial setup page
-  factory InitialSetupState.initialState() =>
-      const InitialSetupState(currentStep: .preferences);
-
-  @override
-  final InitialSetupStep currentStep;
+  factory initialState() => const InitialSetupState(currentStep: .preferences);
 }

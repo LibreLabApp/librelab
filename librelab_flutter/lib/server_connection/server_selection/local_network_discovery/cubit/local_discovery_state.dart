@@ -1,31 +1,19 @@
+// ignore_for_file: annotate_overrides
+
 part of 'local_discovery_cubit.dart';
 
 @immutable
 @freezed
-final class LocalDiscoveryState with _$LocalDiscoveryState {
-  const LocalDiscoveryState({
-    required this.discoveredServers,
-    required this.selectedServerId,
-    required this.isLoading,
-    required this.hasLoadedOnce,
-  });
-
-  factory LocalDiscoveryState.initialState() => const LocalDiscoveryState(
+class const LocalDiscoveryState({
+  required final List<DiscoveredServer> discoveredServers,
+  required final String? selectedServerId,
+  required final bool isLoading,
+  required final bool hasLoadedOnce,
+}) with _$LocalDiscoveryState {
+  factory initialState() => const LocalDiscoveryState(
     discoveredServers: [],
     selectedServerId: null,
     isLoading: false,
     hasLoadedOnce: false,
   );
-
-  @override
-  final List<DiscoveredServer> discoveredServers;
-
-  @override
-  final String? selectedServerId;
-
-  @override
-  final bool isLoading;
-
-  @override
-  final bool hasLoadedOnce;
 }

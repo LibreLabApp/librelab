@@ -3,11 +3,9 @@ import 'package:string_storage/string_storage.dart';
 
 export 'package:string_storage/string_storage.dart';
 
-class StringStorageSharedPreferences implements StringStorage {
-  StringStorageSharedPreferences(this._sharedPreferences);
-
-  final SharedPreferencesAsync _sharedPreferences;
-
+class StringStorageSharedPreferences(
+  final SharedPreferencesAsync _sharedPreferences,
+) implements StringStorage {
   @override
   Future<String?> read(String key) => _sharedPreferences.getString(key);
 

@@ -114,28 +114,15 @@ class _StepIcon extends StatelessWidget {
 }
 
 @immutable
-final class StepNav {
-  const StepNav(this.title, this.subtitle);
-
-  final String title;
-  final String subtitle;
-}
+final class const StepNav(final String title, final String subtitle);
 
 @immutable
-class _StepTileData {
-  const _StepTileData({
-    required this.stepNav,
-    required this.index,
-    required this.stepState,
-    required this.isLast,
-    required this.onStepTapped,
-  });
-
-  final StepNav stepNav;
-  final int index;
-  final _StepState stepState;
-  final bool isLast;
-  final StepTappedCallback? onStepTapped;
-}
+class const _StepTileData({
+  required final StepNav stepNav,
+  required final int index,
+  required final _StepState stepState,
+  required final bool isLast,
+  required final StepTappedCallback? onStepTapped,
+});
 
 enum _StepState { complete, active, inactive, locked }

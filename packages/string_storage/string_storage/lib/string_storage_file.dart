@@ -4,11 +4,8 @@ import 'package:string_storage/string_storage.dart';
 
 typedef FileResolver = File Function(String id);
 
-class StringStorageFile implements StringStorage {
-  StringStorageFile(this._resolveFile);
-
-  final FileResolver _resolveFile;
-
+class StringStorageFile(final FileResolver _resolveFile)
+    implements StringStorage {
   File _file(String id) => _resolveFile(id);
 
   @override

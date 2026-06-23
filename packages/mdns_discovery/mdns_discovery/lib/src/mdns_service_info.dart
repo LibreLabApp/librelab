@@ -1,21 +1,13 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class MdnsServiceInfo {
-  const MdnsServiceInfo({
-    required this.hostname,
-    required this.ipAddress,
-    required this.port,
-    required this.instanceName,
-    required this.txtRecords,
-  });
-
-  final String hostname;
-  final String? ipAddress;
-  final int port;
-  final String instanceName;
-  final Map<String, String>? txtRecords;
-
+class const MdnsServiceInfo({
+  required final String hostname,
+  required final String? ipAddress,
+  required final int port,
+  required final String instanceName,
+  required final Map<String, String>? txtRecords,
+}) {
   @override
   String toString() =>
       'MdnsServiceInfo(hostname: $hostname, ipAddress: $ipAddress, port: $port, instanceName: $instanceName, txtRecords: $txtRecords)';

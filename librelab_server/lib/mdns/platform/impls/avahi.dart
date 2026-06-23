@@ -5,8 +5,8 @@ import 'package:librelab_server/mdns/platform/platform_registrar.dart';
 /// Linux counterpart to [DnsSdMdnsRegistrar].
 ///
 /// https://avahi.org/
-final class AvahiMdnsRegistrar extends ProcessMdnsRegistrar {
-  AvahiMdnsRegistrar()
+final class AvahiMdnsRegistrar() extends ProcessMdnsRegistrar {
+  this
     : super(
         executable: command,
         buildArguments: (config) {

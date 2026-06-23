@@ -6,14 +6,10 @@ import 'package:win32/win32.dart' as win32;
 
 typedef DBusClientFactory = DBusClient Function();
 
-class MdnsPlatformCheck {
-  MdnsPlatformCheck({Platform? platform, DBusClientFactory? dBusClientFactory})
-    : _dBusClientFactory = dBusClientFactory ?? DBusClient.system,
-      _platform = platform ?? const LocalPlatform();
-
-  final Platform _platform;
-  final DBusClientFactory _dBusClientFactory;
-
+class MdnsPlatformCheck({
+  final Platform _platform = const LocalPlatform(),
+  final DBusClientFactory _dBusClientFactory = DBusClient.system,
+}) {
   /// Detects whether the current platform exposes native APIs for mDNS service
   /// advertising and discovery.
   Future<bool> supportsPlatformApi() async {

@@ -5,20 +5,19 @@ import 'package:meta/meta.dart';
 
 export 'package:librelab_server/auth/security/jwt/jwt_validation_failures.dart';
 
-class JwtService {
-  JwtService({required String jwtAccessTokenSecret})
-    : _jwtAccessTokenSecret = SecretKey(jwtAccessTokenSecret);
+class JwtService({required String tokenSecret}) {
+  this : _tokenSecret = SecretKey(tokenSecret);
 
-  final SecretKey _jwtAccessTokenSecret;
+  final SecretKey _tokenSecret;
 
   String issueToken(JwtPayload payload, {Duration? expiresIn}) {
     final jwt = JWT(payload.toMap());
-    return jwt.sign(_jwtAccessTokenSecret, expiresIn: expiresIn);
+    return jwt.sign(_tokenSecret, expiresIn: expiresIn);
   }
 
   Result<JwtPayload, JwtValidationFailure> verifyToken(String token) {
     try {
-      final jwt = JWT.verify(token, _jwtAccessTokenSecret);
+      final jwt = JWT.verify(token, _tokenSecret);
       return .success(JwtPayload.fromMap(jwt.payload as Map<String, Object?>));
     } on JWTExpiredException {
       return .failure(const JwtExpiredFailure());
@@ -39,16 +38,13 @@ class JwtService {
 }
 
 @immutable
-class JwtPayload {
-  const JwtPayload({required this.sub, required this.tokenVersion});
-
-  factory JwtPayload.fromMap(Map<String, Object?> map) => JwtPayload(
+class const JwtPayload({
+  required final String sub,
+  required final int tokenVersion,
+}) {
+  factory fromMap(Map<String, Object?> map) => JwtPayload(
     sub: map['sub']! as String,
     tokenVersion: map['token_version']! as int,
   );
-
-  final String sub;
-  final int tokenVersion;
-
   Map<String, Object?> toMap() => {'sub': sub, 'token_version': tokenVersion};
 }

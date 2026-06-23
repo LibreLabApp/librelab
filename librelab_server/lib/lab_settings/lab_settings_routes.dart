@@ -9,14 +9,12 @@ import 'package:librelab_server/server/router_ext.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class LabSettingsRoutes implements RouteModule {
-  LabSettingsRoutes({required this._authorization, required this._repository});
-
-  final AuthorizationService _authorization;
-  final LabSettingsRepository _repository;
-
+class LabSettingsRoutes({
+  required final AuthorizationService _authorization,
+  required final LabSettingsRepository _repository,
+}) implements RouteModule {
   @override
-  Router get router => Router()
+  Router get router => .new()
     ..register(ApiEndpointDefinitions.lab_settings$GET, _getHandler)
     ..register(ApiEndpointDefinitions.lab_settings$PATCH, _patchHandler);
 

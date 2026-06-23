@@ -7,8 +7,8 @@ import 'package:librelab_server/mdns/platform/platform_registrar.dart';
 /// (install only `Bonjour64.msi`, which is inside `BonjourPSSetup.exe` file)
 ///
 /// https://developer.apple.com/documentation/dnssd
-final class DnsSdMdnsRegistrar extends ProcessMdnsRegistrar {
-  DnsSdMdnsRegistrar()
+final class DnsSdMdnsRegistrar() extends ProcessMdnsRegistrar {
+  this
     : super(
         executable: command,
         buildArguments: (config) {

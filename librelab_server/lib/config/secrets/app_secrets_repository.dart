@@ -1,17 +1,11 @@
 import 'package:librelab_server/config/secrets/app_secrets.dart';
 import 'package:yaml_storage/yaml_storage.dart';
 
-class AppSecretsRepository {
-  AppSecretsRepository({
-    required this._storage,
-    required this._storageId,
-    required this._platformEnvironment,
-  });
-
-  final String _storageId;
-  final YamlStorage _storage;
-  final Map<String, String> _platformEnvironment;
-
+class AppSecretsRepository({
+  required final String _storageId,
+  required final YamlStorage _storage,
+  required final Map<String, String> _platformEnvironment,
+}) {
   AppSecrets? _secrets;
 
   AppSecrets? get secrets => _secrets;

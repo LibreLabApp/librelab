@@ -487,27 +487,23 @@ ORDER BY t.typname;
 }
 
 @immutable
-class _TableInfo {
-  const _TableInfo({required this.tableName, required this.columns});
-
-  final String tableName;
-  final List<_TableColumnInfo> columns;
-
+class const _TableInfo({
+  required final String tableName,
+  required final List<_TableColumnInfo> columns,
+}) {
   @override
   String toString() => 'TableInfo(tableName: $tableName, columns: $columns)';
 }
 
 @immutable
-class _TableColumnInfo {
-  const _TableColumnInfo({
-    required this.columnName,
-    required this.dataType,
-    required this.udtName,
-    required this.isNullable,
-    required this.hasDefault,
-  });
-
-  factory _TableColumnInfo.fromMap(Map<String, Object?> map) {
+class const _TableColumnInfo({
+  required final String columnName,
+  required final String dataType,
+  required final String udtName,
+  required final bool isNullable,
+  required final bool hasDefault,
+}) {
+  factory fromMap(Map<String, Object?> map) {
     final rawNullable = map['is_nullable']! as String;
 
     return _TableColumnInfo(
@@ -524,12 +520,6 @@ class _TableColumnInfo {
       hasDefault: map['has_default']! as bool,
     );
   }
-
-  final String columnName;
-  final String dataType;
-  final String udtName;
-  final bool isNullable;
-  final bool hasDefault;
 
   @override
   String toString() =>
@@ -568,38 +558,29 @@ class _TableColumnInfo {
 }
 
 @immutable
-class _PgEnum {
-  const _PgEnum({required this.name, required this.values});
-
-  factory _PgEnum.fromMap(Map<String, Object?> map) {
+class const _PgEnum({
+  required final String name,
+  required final List<String> values,
+}) {
+  factory fromMap(Map<String, Object?> map) {
     return _PgEnum(
       name: map['enum_name']! as String,
       values: (map['enum_values']! as List<Object?>).cast<String>(),
     );
   }
-
-  final String name;
-  final List<String> values;
 }
 
 String _convertPgEnumNameToDartName(String enumName) =>
     '${snakeToPascalCase(enumName)}PgEnum';
 
 @immutable
-class _DartType {
-  const _DartType(
-    this.rawType, {
-    this.requiresTextCasting = false,
-    this.enumType,
-  });
-
-  final String rawType;
+class const _DartType(
+  final String rawType, {
 
   /// Whether this type requires ::text casting in SQL select (e.g., SELECT column::text)
-  final bool requiresTextCasting;
-
-  final String? enumType;
-
+  final bool requiresTextCasting = false,
+  final String? enumType,
+}) {
   // TODO: Support enums
   // String get type => enumType ?? rawType;
   String get type => rawType;

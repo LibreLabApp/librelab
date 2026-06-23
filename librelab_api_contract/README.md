@@ -21,11 +21,11 @@ contains important doc comments about the current and minimum required version.
 In this package, define the shared DTOs:
 
 ```dart
-class CreateBackupRequest(final bool fullBackup) {
+class CreateBackupRequest({required final bool fullBackup}) {
     // toJson, fromJson methods...
 }
 
-class CreateBackupResponse(final String downloadUrl) {
+class CreateBackupResponse({required final String downloadUrl}) {
     // toJson, fromJson methods...
 }
 ```

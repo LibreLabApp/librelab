@@ -34,18 +34,11 @@ import 'package:librelab_server/utils/shutdown/shutdown.dart';
 ///
 /// The above workaround is **not** appropriate for a script.
 /// Instead we rely on the official PostgreSQL repository.
-final class LinuxPostgresInstaller
-    implements PostgresPlatformPackageManagerInstaller {
-  LinuxPostgresInstaller({
-    required this._packageManager,
-    required this._linuxOsRelease,
-    required this.shutdown,
-  });
-
-  final LinuxPackageManager _packageManager;
-  final LinuxOsRelease _linuxOsRelease;
-  final Shutdown shutdown;
-
+final class LinuxPostgresInstaller({
+  required final LinuxPackageManager _packageManager,
+  required final LinuxOsRelease _linuxOsRelease,
+  required final Shutdown _shutdown,
+}) implements PostgresPlatformPackageManagerInstaller {
   static Future<LinuxPackageManager?> systemPackageManager() async {
     for (final packageManager in LinuxPackageManager.values) {
       if (packageManager == .pacman) {
@@ -94,7 +87,7 @@ final class LinuxPostgresInstaller
         'Unable to determine APT distribution codename from: ${LinuxOsRelease.filePath}',
       );
 
-      await shutdown(isSuccess: false);
+      await _shutdown(isSuccess: false);
     }
 
     await _runCommand(
@@ -192,20 +185,20 @@ final class LinuxPostgresInstaller
         'Failed to detect Red Hat Linux distribution from "${LinuxOsRelease.filePath}".\n'
         'This is needed to build the RPM repository URL, which requires ID and VERSION_ID.',
       );
-      await shutdown(isSuccess: false);
+      await _shutdown(isSuccess: false);
     }
 
     if (id != 'fedora') {
       stderr.writeln('Unsupported Red Hat family distribution: $id');
 
-      await shutdown(isSuccess: false);
+      await _shutdown(isSuccess: false);
     }
 
     final architecture = getRawPlatformArchitecture();
     if (architecture != 'x86_64') {
       stderr.writeln('Unsupported CPU architecture: $architecture');
 
-      await shutdown(isSuccess: false);
+      await _shutdown(isSuccess: false);
     }
 
     // Assumes Fedora Linux
@@ -222,6 +215,6 @@ final class LinuxPostgresInstaller
     args,
     goal,
     environment: environment,
-    shutdown: shutdown,
+    shutdown: _shutdown,
   );
 }

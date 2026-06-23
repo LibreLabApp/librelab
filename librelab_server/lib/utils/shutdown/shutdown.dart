@@ -2,11 +2,7 @@ import 'dart:io';
 
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
 
-class Shutdown {
-  Shutdown({required this._hookRegistry});
-
-  final ShutdownHookRegistry _hookRegistry;
-
+class Shutdown({required final ShutdownHookRegistry _hookRegistry}) {
   /// Prefers this method over direct [exit] for a graceful shutdown.
   ///
   /// ```dart

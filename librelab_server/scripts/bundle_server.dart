@@ -73,13 +73,9 @@ void main() async {
   stdout.writeln('Done.');
 }
 
-enum _ScriptExt {
+enum _ScriptExt({required final String fileExtension}) {
   sh(fileExtension: 'sh'),
   bat(fileExtension: 'bat');
-
-  const _ScriptExt({required this.fileExtension});
-
-  final String fileExtension;
 
   static _ScriptExt get forCurrentOs => switch (currentDesktopPlatform) {
     DesktopPlatform.linux => .sh,

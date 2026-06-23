@@ -6,13 +6,7 @@ part 'handshake_request.g.dart';
 
 @immutable
 @JsonSerializable()
-class HandshakeRequest {
-  const HandshakeRequest({required this.clientApiContractVersion});
-
-  factory HandshakeRequest.fromJson(JsonMap json) =>
-      _$HandshakeRequestFromJson(json);
-
-  final int clientApiContractVersion;
-
+class const HandshakeRequest({required final int clientApiContractVersion}) {
+  factory fromJson(JsonMap json) => _$HandshakeRequestFromJson(json);
   JsonMap toJson() => _$HandshakeRequestToJson(this);
 }

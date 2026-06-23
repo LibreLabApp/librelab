@@ -6,14 +6,11 @@ import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 typedef _T = LabSettingsTable;
 typedef _Row = LabSettingsRow;
 
-class LabSettingsRepositoryPostgres implements LabSettingsRepository {
-  LabSettingsRepositoryPostgres({required this._client});
-
-  final DatabaseClient _client;
-
+class LabSettingsRepositoryPostgres(final DatabaseClient _client)
+    implements LabSettingsRepository {
   LabSettings? _cached;
 
-  // Singleton
+  /// Singleton
   static const _id = 1;
 
   @override

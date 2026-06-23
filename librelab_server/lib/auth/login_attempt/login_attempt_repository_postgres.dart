@@ -6,11 +6,8 @@ import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = LoginAttemptsTable;
 
-class LoginAttemptRepositoryPostgres implements LoginAttemptRepository {
-  LoginAttemptRepositoryPostgres({required this._client});
-
-  final DatabaseClient _client;
-
+class LoginAttemptRepositoryPostgres(final DatabaseClient _client)
+    implements LoginAttemptRepository {
   @override
   Future<LoginAttempt> create(LoginAttemptCreate create) async {
     final Map<String, Object?> params = _T.insert(

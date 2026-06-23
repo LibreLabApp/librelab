@@ -4,25 +4,15 @@ import 'package:meta/meta.dart';
 //  also do we really need uri getter?
 
 @immutable
-class DiscoveredServer {
-  const DiscoveredServer({
-    required this.instanceName,
-    required this.localHostname,
-    required this.ipAddress,
-    required this.port,
-    required this.latencyMs,
-    required this.serverVersion,
-    required this.supportsTls,
-  });
-
-  final String instanceName;
-  final String localHostname;
-  final String? ipAddress;
-  final int port;
-  final int? latencyMs;
-  final String? serverVersion;
-  final bool? supportsTls;
-
+class const DiscoveredServer({
+  required final String instanceName,
+  required final String localHostname,
+  required final String? ipAddress,
+  required final int port,
+  required final int? latencyMs,
+  required final String? serverVersion,
+  required final bool? supportsTls,
+}) {
   String get authority =>
       getAuthority(localHostname: localHostname, port: port);
 

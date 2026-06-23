@@ -112,14 +112,8 @@ class _DecorativeAnimation extends StatelessWidget {
 }
 
 @immutable
-class StepHero {
-  const StepHero({
-    required this.title,
-    required this.subtitle,
-    required this.animationWidget,
-  });
-
-  final String title;
-  final String subtitle;
-  final Widget animationWidget;
-}
+class const StepHero({
+  required final String title,
+  required final String subtitle,
+  required final Widget animationWidget,
+});

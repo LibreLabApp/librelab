@@ -20,7 +20,7 @@ This feature is typically disabled in cloud environments.
     defaultValue: !isLikelyHeadlessLinux,
   );
   if (!enable) {
-    return const MdnsServicePublishConfig(enabled: false, instanceName: '');
+    return const .new(enabled: false, instanceName: '');
   }
 
   const instanceNameDefault = ProjectConstants.displayName;
@@ -28,7 +28,7 @@ This feature is typically disabled in cloud environments.
     'Enter Local network discovery label for this server (has no effect on functionality) [Default: $instanceNameDefault]',
     allowEmpty: true,
   );
-  return MdnsServicePublishConfig(
+  return .new(
     enabled: enable,
     instanceName: instanceName.isEmpty ? instanceNameDefault : instanceName,
   );

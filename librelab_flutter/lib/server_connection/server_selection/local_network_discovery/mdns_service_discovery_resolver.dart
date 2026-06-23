@@ -9,13 +9,9 @@ import 'package:mdns_discovery_bonsoir/mdns_discovery_bonsoir.dart';
 import 'package:mdns_discovery_raw/mdns_discovery_raw.dart';
 import 'package:mdns_platform_check/mdns_platform_check.dart';
 
-enum _MdnsImpl {
+enum _MdnsImpl({required final String envValue}) {
   raw(envValue: 'raw'),
   platform(envValue: 'platform');
-
-  const _MdnsImpl({required this.envValue});
-
-  final String envValue;
 
   // Raw implementation used pure Dart mDNS (multicast_dns) with raw sockets.
   // This approach was unstable on some Windows 10/11 systems due to multicast socket errors.
@@ -54,7 +50,7 @@ Future<MdnsServiceDiscovery> resolveMdnsServiceDiscoveryImpl() async {
   final mdnsImpl = await _resolveMdnsImpl();
 
   return switch (mdnsImpl) {
-    .raw => RawMdnsServiceDiscovery(
+    .raw => MdnsServiceDiscoveryRaw(
       // Currently, Dart socket implementation don't support reusePort on:
       //
       // - Android: "Dart Socket ERROR: ../../../flutter/third_party/dart/runtime/bin/socket_linux.cc:157: `reusePort` not supported on this platform."
@@ -82,7 +78,7 @@ Future<MdnsServiceDiscovery> resolveMdnsServiceDiscoveryImpl() async {
       serviceType: serviceType,
       logger: Logger('RawMdnsServiceDiscovery'),
     ),
-    .platform => BonsoirMdnsServiceDiscovery(
+    .platform => MdnsServiceDiscoveryBonsoir(
       discoveryFactory: () => BonsoirDiscovery(type: serviceType),
       logger: Logger('BonsoirMdnsServiceDiscovery'),
     ),

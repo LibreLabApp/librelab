@@ -8,24 +8,19 @@ import 'package:mdns_discovery/mdns_discovery.dart';
 // the bonsoir dependency.
 export 'package:bonsoir/bonsoir.dart' show BonsoirDiscovery;
 
-class BonsoirMdnsServiceDiscovery implements MdnsServiceDiscovery {
-  /// Consumers should create [BonsoirDiscovery] and pass it to [_discoveryFactory]
-  /// without calling [BonsoirDiscovery.stop] or [BonsoirDiscovery.initialize]
-  /// since it is managed by this class.
-  BonsoirMdnsServiceDiscovery({
-    // Uses factory to create a new instance on refresh to avoid assertion failure: "You should not try to start a stopped action"
-    //
-    // This is acceptable since Bonsoir uses platform-specific APIs and doesn't open
-    // a full mDNS client on its own (unlike multicast_dns), and even
-    // the example follows a similar behavior:
-    // https://github.com/Skyost/Bonsoir/blob/main/packages/bonsoir/example/lib/models/discovery.dart
-    required this._discoveryFactory,
-    required this._logger,
-  });
-
-  final BonsoirDiscovery Function() _discoveryFactory;
-  final Logger _logger;
-
+/// Consumers should create [BonsoirDiscovery] and pass it to [_discoveryFactory]
+/// without calling [BonsoirDiscovery.stop] or [BonsoirDiscovery.initialize]
+/// since it is managed by this class.
+class MdnsServiceDiscoveryBonsoir({
+  // Uses factory to create a new instance on refresh to avoid assertion failure: "You should not try to start a stopped action"
+  //
+  // This is acceptable since Bonsoir uses platform-specific APIs and doesn't open
+  // a full mDNS client on its own (unlike multicast_dns), and even
+  // the example follows a similar behavior:
+  // https://github.com/Skyost/Bonsoir/blob/main/packages/bonsoir/example/lib/models/discovery.dart
+  required final BonsoirDiscovery Function() _discoveryFactory,
+  required final Logger _logger,
+}) implements MdnsServiceDiscovery {
   BonsoirDiscovery? _discovery;
 
   /// Completes when the underlying platform discovery has started.

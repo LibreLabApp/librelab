@@ -1,11 +1,9 @@
 import 'dart:io';
 
-final class DownloadFileException implements Exception {
-  const DownloadFileException({required this.statusCode, required this.url});
-
-  final int statusCode;
-  final Uri url;
-
+final class DownloadFileException({
+  required final int statusCode,
+  required final Uri url,
+}) implements Exception {
   @override
   String toString() {
     return 'Failed to download file "$url": $statusCode';

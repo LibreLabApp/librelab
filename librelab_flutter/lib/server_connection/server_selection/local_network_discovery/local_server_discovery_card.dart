@@ -270,12 +270,10 @@ class _DiscoveredServersList extends StatelessWidget {
 
 enum _ServerTileAction { copyIpAddressEndpoint, copyLocalHostnameEndpoint }
 
-class _ServerTile extends StatelessWidget {
-  const _ServerTile({required this.server, required this.index});
-
-  final DiscoveredServer server;
-  final int index;
-
+class const _ServerTile({
+  required final DiscoveredServer server,
+  required final int index,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedServerId = context.select(

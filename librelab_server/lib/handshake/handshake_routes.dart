@@ -17,7 +17,7 @@ import 'package:shelf_router/shelf_router.dart';
 class HandshakeRoutes implements RouteModule {
   @override
   Router get router =>
-      Router()..register(ApiEndpointDefinitions.handshake$POST, _handler);
+      .new()..register(ApiEndpointDefinitions.handshake$POST, _handler);
 
   Future<Response> _handler(Request request) async {
     final body = await request.readJsonBody(

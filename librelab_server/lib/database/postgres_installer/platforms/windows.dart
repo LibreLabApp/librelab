@@ -10,11 +10,8 @@ import 'package:path/path.dart';
 import 'package:win32_registry_value_reader/win32_registry_value_reader.dart'
     as win32;
 
-final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
-  WindowsPostgresInstaller({required this.shutdown});
-
-  final Shutdown shutdown;
-
+final class WindowsPostgresInstaller({required final Shutdown _shutdown})
+    extends PostgresPlatformFileInstaller {
   static String _installDir({required int majorVersion}) {
     return join('C:', 'Program Files', 'PostgreSQL', majorVersion.toString());
   }
@@ -92,7 +89,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
       await file.delete();
     }
 
-    await shutdown(isSuccess: false);
+    await _shutdown(isSuccess: false);
   }
 
   @override
@@ -145,7 +142,7 @@ final class WindowsPostgresInstaller extends PostgresPlatformFileInstaller {
       }
     }
 
-    await shutdown(isSuccess: false);
+    await _shutdown(isSuccess: false);
   }
 
   @override

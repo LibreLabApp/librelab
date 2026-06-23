@@ -6,8 +6,7 @@ export 'package:postgres/postgres.dart'
 class DatabaseClient {
   DatabaseClient._(this._connection);
 
-  factory DatabaseClient.fromConnection(Connection connection) =
-      DatabaseClient._;
+  new fromConnection(Connection connection) : _connection = connection;
 
   final Connection _connection;
 

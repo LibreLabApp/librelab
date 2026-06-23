@@ -1,12 +1,8 @@
 // Or GNU/Linux
-enum LinuxPackageManager {
+enum LinuxPackageManager({required final String executable}) {
   apt(executable: 'apt-get'),
   dnf(executable: 'dnf'),
   pacman(executable: 'pacman');
-
-  const LinuxPackageManager({required this.executable});
-
-  final String executable;
 
   /// Sets `DEBIAN_FRONTEND=noninteractive` to suppress
   /// post-installation prompts when using `apt`.

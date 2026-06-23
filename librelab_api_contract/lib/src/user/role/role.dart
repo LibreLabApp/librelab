@@ -15,27 +15,17 @@ extension PermissionJson on Permission {
 
 @immutable
 @JsonSerializable()
-class Role {
-  Role({
-    required this.id,
-    required this.name,
-    required List<Permission> permissions,
-    required this.createdAt,
-    required this.updatedAt,
-  }) : permissions = List.unmodifiable(permissions);
-
-  factory Role.fromJson(JsonMap json) => _$RoleFromJson(json);
-
-  JsonMap toJson() => _$RoleToJson(this);
-
-  final int id;
-  final String name;
-
+class const Role({
+  required final int id,
+  required final String name,
   @JsonKey(
     // Adding a new enum not considered a breaking change.
     unknownEnumValue: Permission.unknown,
   )
-  final List<Permission> permissions;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  required final List<Permission> permissions,
+  required final DateTime createdAt,
+  required final DateTime updatedAt,
+}) {
+  factory fromJson(JsonMap json) => _$RoleFromJson(json);
+  JsonMap toJson() => _$RoleToJson(this);
 }

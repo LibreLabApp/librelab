@@ -10,21 +10,14 @@ import '../../../scripts/_utils.dart';
 const String _databaseMigrationClassName = 'DatabaseMigration';
 
 @immutable
-class Config {
-  const Config({
-    required this.input,
-    required this.dartOutput,
-    required this.outputClassName,
-    required this.requiredTypesImport,
-  });
-
-  final String input;
-  final String dartOutput;
-  final String outputClassName;
+class const Config({
+  required final String input,
+  required final String dartOutput,
+  required final String outputClassName,
 
   /// The import that provides [DatabaseMigration]
-  final String requiredTypesImport;
-}
+  required final String requiredTypesImport,
+});
 
 Future<void> generate(Config config) async {
   final outputFile = File(config.dartOutput);

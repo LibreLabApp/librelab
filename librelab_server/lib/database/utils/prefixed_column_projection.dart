@@ -22,17 +22,11 @@ import 'package:meta/meta.dart';
 /// // Use the output to build SQL query.
 /// ```
 @immutable
-class PrefixedColumnProjection {
-  const PrefixedColumnProjection({
-    required this.tableAlias,
-    required this.prefix,
-    required this.columns,
-  });
-
-  final String tableAlias;
-  final String prefix;
-  final List<String> columns;
-
+class const PrefixedColumnProjection({
+  required final String tableAlias,
+  required final String prefix,
+  required final List<String> columns,
+}) {
   String build() {
     final buffer = StringBuffer();
 

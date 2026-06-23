@@ -316,17 +316,11 @@ typedef _RefreshTokenResult =
     JsonApiResult<RefreshTokenResponse, ServerErrorResponse>;
 
 @immutable
-class AuthSession {
-  const AuthSession({
-    required this.userId,
-    required this.accessToken,
-    required this.refreshToken,
-  });
-
-  final String userId;
-  final AuthToken accessToken;
-  final AuthToken refreshToken;
-
+class const AuthSession({
+  required final String userId,
+  required final AuthToken accessToken,
+  required final AuthToken refreshToken,
+}) {
   AuthSession copyWith({AuthToken? accessToken, AuthToken? refreshToken}) {
     return AuthSession(
       userId: userId,

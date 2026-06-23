@@ -5,29 +5,19 @@ import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 
-class InvalidJsonRequestBodyException implements Exception {
-  InvalidJsonRequestBodyException({
-    required this.message,
-    required this.requestBody,
-  });
-
-  final String message;
-  final String requestBody;
-
+class InvalidJsonRequestBodyException({
+  required final String message,
+  required final String requestBody,
+}) implements Exception {
   @override
   String toString() =>
       '$InvalidJsonRequestBodyException: $message\nBody: $requestBody';
 }
 
-class InvalidJsonRequestBodySchemaException implements Exception {
-  InvalidJsonRequestBodySchemaException({
-    required this.message,
-    required this.requestBody,
-  });
-
-  final String message;
-  final JsonMap requestBody;
-
+class InvalidJsonRequestBodySchemaException({
+  required final String message,
+  required final JsonMap requestBody,
+}) implements Exception {
   @override
   String toString() =>
       '$InvalidJsonRequestBodySchemaException: $message\nBody: $requestBody';

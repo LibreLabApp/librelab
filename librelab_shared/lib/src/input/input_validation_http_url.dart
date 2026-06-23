@@ -1,35 +1,20 @@
 part of 'input_validation.dart';
 
 @immutable
-sealed class HttpUrlValidationFailure {
-  const HttpUrlValidationFailure();
-}
+sealed class const HttpUrlValidationFailure();
 
-final class InvalidUri extends HttpUrlValidationFailure {
-  const InvalidUri();
-}
+final class const InvalidUri() extends HttpUrlValidationFailure;
 
-final class MissingScheme extends HttpUrlValidationFailure {
-  const MissingScheme();
-}
+final class const MissingScheme() extends HttpUrlValidationFailure;
 
-final class UnsupportedScheme extends HttpUrlValidationFailure {
-  const UnsupportedScheme(this.scheme);
-  final String scheme;
-}
+final class const UnsupportedScheme(final String scheme)
+    extends HttpUrlValidationFailure;
 
-final class MissingAuthority extends HttpUrlValidationFailure {
-  const MissingAuthority();
-}
+final class const MissingAuthority() extends HttpUrlValidationFailure;
 
-final class MissingHost extends HttpUrlValidationFailure {
-  const MissingHost();
-}
+final class const MissingHost() extends HttpUrlValidationFailure;
 
-final class InvalidPort extends HttpUrlValidationFailure {
-  const InvalidPort(this.port);
-  final int port;
-}
+final class const InvalidPort(final int port) extends HttpUrlValidationFailure;
 
 HttpUrlValidationFailure? validateHttpUrl(String input) {
   final uri = Uri.tryParse(input);

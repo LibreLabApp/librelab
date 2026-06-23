@@ -1,14 +1,12 @@
 import 'package:librelab_server/utils/is_debug_mode.dart';
 
-enum ServerRunMode {
+enum ServerRunMode({
+  // Use this instead of .name to prevent unintended breaking changes when renaming
+  required final String cliValue,
+}) {
   production(cliValue: 'production'),
   development(cliValue: 'development'),
   staging(cliValue: 'staging');
-
-  const ServerRunMode({required this.cliValue});
-
-  // Use this instead of .name to prevent unintended breaking changes when renaming
-  final String cliValue;
 
   static ServerRunMode fromCliValue(String? value) {
     if (value == ServerRunMode.development.cliValue) {

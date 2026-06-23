@@ -1,46 +1,27 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class UserRefreshToken {
-  const UserRefreshToken({
-    required this.id,
-    required this.userId,
-    required this.tokenHash,
-    required this.clientMetadata,
-    required this.createdAt,
-    required this.expiresAt,
-  });
-
-  final int id;
-  final String userId;
-  final String tokenHash;
-  final UserRefreshTokenClientMetadata clientMetadata;
-  final DateTime createdAt;
-  final DateTime expiresAt;
-
+class const UserRefreshToken({
+  required final int id,
+  required final String userId,
+  required final String tokenHash,
+  required final UserRefreshTokenClientMetadata clientMetadata,
+  required final DateTime createdAt,
+  required final DateTime expiresAt,
+}) {
   @override
   String toString() =>
       'UserRefreshToken(id: $id, userId: $userId, tokenHash: **** (CENSORED), clientMetadata: $clientMetadata, createdAt: $createdAt, expires_at: $expiresAt)';
 }
 
 @immutable
-class UserRefreshTokenClientMetadata {
-  const UserRefreshTokenClientMetadata({
-    required this.deviceId,
-    required this.ipAddress,
-    required this.userAgent,
-  });
-
-  factory UserRefreshTokenClientMetadata.empty() =>
-      const UserRefreshTokenClientMetadata(
-        deviceId: null,
-        ipAddress: null,
-        userAgent: null,
-      );
-
-  final String? deviceId;
-  final String? ipAddress;
-  final String? userAgent;
+class const UserRefreshTokenClientMetadata({
+  required final String? deviceId,
+  required final String? ipAddress,
+  required final String? userAgent,
+}) {
+  factory empty() =>
+      const .new(deviceId: null, ipAddress: null, userAgent: null);
 
   @override
   String toString() =>
@@ -48,16 +29,9 @@ class UserRefreshTokenClientMetadata {
 }
 
 @immutable
-class UserRefreshTokenCreate {
-  const UserRefreshTokenCreate({
-    required this.userId,
-    required this.tokenHash,
-    required this.clientMetadata,
-    required this.expiresAt,
-  });
-
-  final String userId;
-  final String tokenHash;
-  final UserRefreshTokenClientMetadata clientMetadata;
-  final DateTime expiresAt;
-}
+class const UserRefreshTokenCreate({
+  required final String userId,
+  required final String tokenHash,
+  required final UserRefreshTokenClientMetadata clientMetadata,
+  required final DateTime expiresAt,
+});

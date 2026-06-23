@@ -8,7 +8,7 @@ import 'package:librelab_server/utils/shutdown/shutdown.dart';
 Future<MdnsPlatformInstaller?> resolveMdnsPlatformInstaller({
   required Shutdown shutdown,
 }) async => switch (currentDesktopPlatform) {
-  DesktopPlatform.linux => () async {
+  .linux => () async {
     final packageManager = await AvahiLinuxInstaller.systemPackageManager();
     if (packageManager == null) {
       return null;
@@ -18,6 +18,6 @@ Future<MdnsPlatformInstaller?> resolveMdnsPlatformInstaller({
       shutdown: shutdown,
     );
   }(),
-  DesktopPlatform.macOS => MacOsNoopMdnsInstaller(),
-  DesktopPlatform.windows => BonjourWindowsInstaller(shutdown: shutdown),
+  .macOS => MacOsNoopMdnsInstaller(),
+  .windows => BonjourWindowsInstaller(shutdown: shutdown),
 };
