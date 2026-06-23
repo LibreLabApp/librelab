@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/security/commonly_used_passwords.dart';
 import 'package:librelab_server/user/user.dart';
 import 'package:librelab_server/user/user_repository.dart';
@@ -12,17 +12,11 @@ import 'package:meta/meta.dart';
 
 // During server initialization only (CLI).
 // Should not be consumed by the API server.
-class SuperUserInitializer {
-  SuperUserInitializer({
-    required this._repository,
-    required this._authService,
-    required this._shutdown,
-  });
-
-  final UserRepository _repository;
-  final AuthService _authService;
-  final Shutdown _shutdown;
-
+class SuperUserInitializer({
+  required final UserRepository _repository,
+  required final AuthService _authService,
+  required final Shutdown _shutdown,
+}) {
   /// Creates a super user if there is no one in the database, which is required to log in to the desktop app.
   ///
   /// If there is no super user, the program will prompt in the command-line

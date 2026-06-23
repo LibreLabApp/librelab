@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:librelab_server/app_file_paths.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
-import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
 import 'package:librelab_server/auth/login_attempt/login_attempt_repository_postgres.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository_postgres.dart';

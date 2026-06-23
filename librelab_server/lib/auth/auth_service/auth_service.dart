@@ -2,17 +2,17 @@ import 'dart:convert' show utf8;
 
 import 'package:clock/clock.dart' show clock;
 import 'package:crypto/crypto.dart' show sha256;
-import 'package:librelab_server/auth/authenticate_failures.dart';
+import 'package:librelab_server/auth/auth_service/authenticate_failures.dart';
 import 'package:librelab_server/auth/login_attempt/login_attempt.dart';
 import 'package:librelab_server/auth/login_attempt/login_attempt_repository.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository.dart';
-import 'package:librelab_server/auth/refresh_token_failures.dart';
+import 'package:librelab_server/auth/auth_service/refresh_token_failures.dart';
 import 'package:librelab_server/auth/security/commonly_used_passwords.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/auth/security/password_hasher/password_hasher.dart';
-import 'package:librelab_server/auth/user_login_failures.dart';
-import 'package:librelab_server/auth/user_register_failures.dart';
+import 'package:librelab_server/auth/auth_service/user_login_failures.dart';
+import 'package:librelab_server/auth/auth_service/user_register_failures.dart';
 import 'package:librelab_server/user/user.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/utils/security/random_string.dart';
@@ -20,10 +20,10 @@ import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
 
-export 'package:librelab_server/auth/authenticate_failures.dart';
-export 'package:librelab_server/auth/refresh_token_failures.dart';
-export 'package:librelab_server/auth/user_login_failures.dart';
-export 'package:librelab_server/auth/user_register_failures.dart';
+export 'package:librelab_server/auth/auth_service/authenticate_failures.dart';
+export 'package:librelab_server/auth/auth_service/refresh_token_failures.dart';
+export 'package:librelab_server/auth/auth_service/user_login_failures.dart';
+export 'package:librelab_server/auth/auth_service/user_register_failures.dart';
 
 @immutable
 class const AuthToken({

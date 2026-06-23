@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show AuthErrorCodes, PermissionJson, ServerErrorResponse;
-import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';

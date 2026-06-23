@@ -1,6 +1,6 @@
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
-import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';

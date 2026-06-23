@@ -1,5 +1,5 @@
 import 'package:librelab_api_contract/librelab_api_contract.dart' as dto;
-import 'package:librelab_server/auth/auth_service.dart';
+import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/user/role/mapper.dart';
 import 'package:librelab_server/user/user.dart';
 
