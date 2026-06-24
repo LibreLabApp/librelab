@@ -1,6 +1,10 @@
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
+import 'package:librelab_server/database/sql_executor/sql_executor.dart';
+import 'package:librelab_server/database/sql_executor/sql_executor_postgres.dart';
+import 'package:librelab_server/database/transaction_runner/transaction_runner.dart';
+import 'package:librelab_server/database/transaction_runner/transaction_runner_postgres.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 import 'package:postgres/postgres.dart';
@@ -30,7 +34,7 @@ Future<void> main() async {
       updateColumnDefaults: {'updated_at': 'now()'},
       applyMigrations: (databaseConnection) async {
         await DatabaseMigrationRunner(
-          client: DatabaseClient.fromConnection(databaseConnection),
+          db: _DatabaseAccessConnection._(databaseConnection),
           migrations: DatabaseMigrations.list,
           latestVersion: DatabaseMigrations.latest,
           logger: Logger('DatabaseMigrationRunner'),
@@ -38,4 +42,32 @@ Future<void> main() async {
       },
     ),
   );
+}
+
+class _DatabaseAccessConnection implements SqlDatabaseAccess {
+  _DatabaseAccessConnection._(Connection connection)
+    : _executor = SqlExecutorPostgres(connection),
+      _runner = TransactionRunnerPostgres(connection);
+
+  final SqlExecutor _executor;
+  final TransactionRunner _runner;
+
+  @override
+  Future<Result> execute(
+    String statement, {
+    Map<String, Object?>? parameters,
+    bool ignoreRows = false,
+    bool useSimpleQueryMode = false,
+  }) => _executor.execute(
+    statement,
+    parameters: parameters,
+    ignoreRows: ignoreRows,
+    useSimpleQueryMode: useSimpleQueryMode,
+  );
+
+  @override
+  Future<T> transaction<T>(
+    Future<T> Function(TransactionSqlExecutor executor) fn, {
+    TransactionSettings? settings,
+  }) => _runner.transaction(fn, settings: settings);
 }

@@ -12,14 +12,12 @@ typedef _Rp = RolePermissionsTable;
 
 const _rolePermissionsAlias = 'role_permissions';
 
-class UserRepositoryPostgres(final DatabaseClient _client)
+class UserRepositoryPostgres(final SqlDatabaseAccess _db)
     implements UserRepository {
   @override
   Future<bool> hasUsers() async {
-    final result = await _client.execute(
-      .new('''
-SELECT EXISTS (SELECT 1 FROM ${_U.tableName} LIMIT 1)
-'''),
+    final result = await _db.execute(
+      'SELECT EXISTS (SELECT 1 FROM ${_U.tableName} LIMIT 1)',
     );
     return result.first[0]! as bool;
   }
@@ -35,11 +33,11 @@ SELECT EXISTS (SELECT 1 FROM ${_U.tableName} LIMIT 1)
 
   @override
   Future<int?> findTokenVersionById(String id) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 SELECT ${_U.tokenVersion} FROM ${_U.tableName}
 WHERE ${_U.id} = @id
-'''),
+''',
       parameters: {'id': id},
     );
     final row = result.firstOrNull;
@@ -51,8 +49,8 @@ WHERE ${_U.id} = @id
 
   @override
   Future<AuthUser?> findAuthUserById(String id) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 SELECT u.${_U.tokenVersion}, u.${_U.isSuperuser},
   ${arrayAggAsText(expression: 'rp.${_Rp.permission}', alias: _rolePermissionsAlias)}
 FROM ${_U.tableName} u
@@ -60,7 +58,7 @@ LEFT JOIN ${_Rp.tableName} rp ON rp.${_Rp.roleId} = u.${_U.roleId}
 WHERE u.${_U.id} = @id
 GROUP BY u.${_U.id}
 LIMIT 1
-'''),
+''',
       parameters: {'id': id},
     );
     final row = result.firstOrNull;
@@ -92,8 +90,7 @@ LIMIT 1
       columns: _R.columns,
     );
 
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute('''
 SELECT
   u.*,
   ${roleProjection.build()},
@@ -104,9 +101,7 @@ LEFT JOIN ${_Rp.tableName} rp ON rp.${_Rp.roleId} = r.${_R.id}
 ${where != null ? 'WHERE u.${where.$1.columnName} = @v' : ''}
 GROUP BY u.${_U.id}, r.${_R.id}
 ${where != null ? 'LIMIT 1' : ''}
-'''),
-      parameters: where != null ? {'v': where.$2} : null,
-    );
+''', parameters: where != null ? {'v': where.$2} : null);
 
     return result.map((row) {
       final map = row.toColumnMap();
@@ -124,14 +119,14 @@ ${where != null ? 'LIMIT 1' : ''}
 
   @override
   Future<bool> isEmailUsed(String email) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 SELECT EXISTS (
   SELECT 1
   FROM ${_U.tableName}
   WHERE ${_U.email} = @email
 )
-'''),
+''',
       parameters: {'email': email},
     );
     return result.first[0]! as bool;
@@ -180,13 +175,13 @@ SELECT EXISTS (
       roleId: roleId,
     );
 
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 INSERT INTO ${_U.tableName}
 (${params.keys.join(', ')})
 VALUES (${params.keys.map((key) => '@$key').join(', ')})
 RETURNING ${_U.id}
-'''),
+''',
       parameters: {...params},
     );
 
@@ -196,12 +191,12 @@ RETURNING ${_U.id}
 
   @override
   Future<bool> delete(String id) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 DELETE FROM ${_U.tableName}
 WHERE ${_U.id} = @id
 RETURNING ${_U.id}
-'''),
+''',
       parameters: {'id': id},
     );
     return result.isNotEmpty;
@@ -219,13 +214,13 @@ RETURNING ${_U.id}
       roleId: patch.roleId,
     );
 
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 UPDATE ${_U.tableName}
 SET ${params.keys.map((key) => '$key = @$key').join(', ')}
 WHERE ${_U.id} = @id
 RETURNING ${_U.id}
-'''),
+''',
       parameters: {'id': id, ...params},
     );
     if (result.isEmpty) {

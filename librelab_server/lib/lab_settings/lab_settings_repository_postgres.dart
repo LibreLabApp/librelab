@@ -6,7 +6,7 @@ import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 typedef _T = LabSettingsTable;
 typedef _Row = LabSettingsRow;
 
-class LabSettingsRepositoryPostgres(final DatabaseClient _client)
+class LabSettingsRepositoryPostgres(final SqlDatabaseAccess _db)
     implements LabSettingsRepository {
   LabSettings? _cached;
 
@@ -21,17 +21,14 @@ class LabSettingsRepositoryPostgres(final DatabaseClient _client)
       loginDisabled: patch.loginDisabled,
     );
 
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute('''
 INSERT INTO ${_T.tableName} (${params.keys.join(', ')})
 VALUES (${params.keys.map((key) => '@$key').join(', ')})
 ON CONFLICT (${_T.id})
 DO UPDATE SET
   ${params.keys.map((key) => '$key = EXCLUDED.$key').join(', ')}
 RETURNING *
-'''),
-      parameters: params,
-    );
+''', parameters: params);
 
     final row = LabSettingsRow.fromMap(result.first.toColumnMap());
 
@@ -43,8 +40,8 @@ RETURNING *
 
   @override
   Future<LabSettings?> load() async {
-    final result = await _client.execute(
-      .named('SELECT * FROM ${_T.tableName} WHERE ${_T.id} = @id'),
+    final result = await _db.execute(
+      'SELECT * FROM ${_T.tableName} WHERE ${_T.id} = @id',
       parameters: {'id': _id},
     );
 

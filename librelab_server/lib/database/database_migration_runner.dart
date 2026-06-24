@@ -3,7 +3,7 @@ import 'package:librelab_server/database/database_migration.dart';
 import 'package:logging/logging.dart';
 
 class DatabaseMigrationRunner({
-  required final DatabaseClient _client,
+  required final SqlDatabaseAccess _db,
   required final List<DatabaseMigration> _migrations,
   required final int _latestVersion,
   required final Logger _logger,
@@ -22,8 +22,8 @@ class DatabaseMigrationRunner({
   /// - [_defaultVersion] if table exists but has no rows
   Future<int?> _getCurrentVersion() async {
     try {
-      final result = await _client.execute(
-        Sql('SELECT MAX($_versionColumn) as current_version FROM $_tableName'),
+      final result = await _db.execute(
+        'SELECT MAX($_versionColumn) as current_version FROM $_tableName',
       );
       final value = result.first[0];
       if (value == null) {
@@ -46,14 +46,12 @@ class DatabaseMigrationRunner({
   }
 
   Future<void> _createTable() async {
-    await _client.execute(
-      Sql('''
+    await _db.execute('''
 CREATE TABLE $_tableName (
   $_versionColumn INTEGER PRIMARY KEY,
   $_appliedAtColumn TIMESTAMP NOT NULL DEFAULT now()
 )
-'''),
-    );
+''');
   }
 
   Future<int> _getOrCreateCurrentVersion() async {
@@ -92,16 +90,14 @@ CREATE TABLE $_tableName (
     for (final migration in pending) {
       _logger.info('Applying migration ${migration.version}...');
 
-      await _client.transaction((tx) async {
-        await tx.execute(
-          Sql(migration.sql),
+      await _db.transaction((t) async {
+        await t.execute(
+          migration.sql,
           // Allows multi-statements
-          queryMode: .simple,
+          useSimpleQueryMode: true,
         );
-        await tx.execute(
-          Sql.named(
-            'INSERT INTO $_tableName ($_versionColumn) VALUES (@version)',
-          ),
+        await t.execute(
+          'INSERT INTO $_tableName ($_versionColumn) VALUES (@version)',
           parameters: {'version': migration.version},
         );
       });

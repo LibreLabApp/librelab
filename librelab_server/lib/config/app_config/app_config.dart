@@ -5,6 +5,7 @@ import 'package:librelab_server/database/postgres_constants.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:yaml/yaml.dart';
 
+part 'database_config.dart';
 part 'api_server_config.dart';
 part 'app_config.freezed.dart';
 
@@ -17,26 +18,22 @@ class const AppConfig({
   required final DatabaseConfig database,
   required final SetupPromptDeclinedConfig setupPromptDeclined,
 }) with _$AppConfig {
-  factory defaultConfig({
+  new defaultConfig({
     required int port,
     required MdnsServicePublishConfig mdnsServicePublish,
-  }) => AppConfig(
-    apiServer: ApiServerConfig.defaultConfig(port: port),
-    mdnsServicePublish: mdnsServicePublish,
-    database: DatabaseConfig.defaultConfig(),
-    setupPromptDeclined: SetupPromptDeclinedConfig.defaultConfig(),
-  );
+  }) : this(
+         apiServer: .defaultConfig(port: port),
+         mdnsServicePublish: mdnsServicePublish,
+         database: const .defaultConfig(),
+         setupPromptDeclined: const .defaultConfig(),
+       );
 
   factory fromYaml(YamlMap yaml) {
-    return AppConfig(
-      apiServer: ApiServerConfig.fromYaml(yaml['apiServer'] as YamlMap),
-      mdnsServicePublish: MdnsServicePublishConfig.fromYaml(
-        yaml['mdnsServicePublish'] as YamlMap,
-      ),
-      database: DatabaseConfig.fromYaml(yaml['database'] as YamlMap),
-      setupPromptDeclined: SetupPromptDeclinedConfig.fromYaml(
-        yaml['setupPromptDeclined'] as YamlMap,
-      ),
+    return .new(
+      apiServer: .fromYaml(yaml['apiServer'] as YamlMap),
+      mdnsServicePublish: .fromYaml(yaml['mdnsServicePublish'] as YamlMap),
+      database: .fromYaml(yaml['database'] as YamlMap),
+      setupPromptDeclined: .fromYaml(yaml['setupPromptDeclined'] as YamlMap),
     );
   }
   Map<String, Object?> toYaml() {
@@ -55,7 +52,7 @@ class const MdnsServicePublishConfig({
   required final String instanceName,
 }) {
   factory fromYaml(YamlMap yaml) {
-    return MdnsServicePublishConfig(
+    return .new(
       enabled: yaml['enabled'] as bool,
       instanceName: yaml['instanceName'] as String,
     );
@@ -65,75 +62,16 @@ class const MdnsServicePublishConfig({
   }
 }
 
-@immutable
-class const DatabaseConfig({
-  required final String host,
-  required final int port,
-  required final String name,
-  required final String user,
-  required final DatabaseSslMode sslMode,
-}) {
-  factory defaultConfig() => const DatabaseConfig(
-    // PostgreSQL install prompt is disabled for remote databases (non-localhost hosts)
-    host: 'localhost',
-    port: PostgresConstants.defaultPort,
-    name: ProjectConstants.defaultDbName,
-    user: ProjectConstants.defaultUsername,
-    sslMode: .disable,
-  );
-
-  factory fromYaml(YamlMap yaml) {
-    return DatabaseConfig(
-      host: yaml['host'] as String,
-      port: yaml['port'] as int,
-      name: yaml['name'] as String,
-      user: yaml['user'] as String,
-      sslMode: DatabaseSslMode.fromYaml(yaml['sslMode'] as String),
-    );
-  }
-  Map<String, Object?> toYaml() {
-    return {
-      'host': host,
-      'port': port,
-      'name': name,
-      'user': user,
-      'sslMode': sslMode.toYaml(),
-    };
-  }
-}
-
-enum DatabaseSslMode {
-  disable,
-  require,
-  verifyFull;
-
-  factory fromYaml(String value) => switch (value) {
-    'disable' => .disable,
-    'require' => .require,
-    'verifyFull' => .verifyFull,
-    String() => throw UnsupportedError('Unsupported database SSL mode: $value'),
-  };
-
-  String toYaml() => switch (this) {
-    .disable => 'disable',
-    .require => 'require',
-    .verifyFull => 'verifyFull',
-  };
-}
-
 @freezed
 @immutable
 class const SetupPromptDeclinedConfig({
   required final bool postgres,
   required final bool systemMdnsService,
 }) with _$SetupPromptDeclinedConfig {
-  factory defaultConfig() => const SetupPromptDeclinedConfig(
-    postgres: false,
-    systemMdnsService: false,
-  );
+  const new defaultConfig() : this(postgres: false, systemMdnsService: false);
 
   factory fromYaml(YamlMap yaml) {
-    return SetupPromptDeclinedConfig(
+    return .new(
       postgres: yaml['postgres'] as bool,
       systemMdnsService: yaml['systemMdnsService'] as bool,
     );

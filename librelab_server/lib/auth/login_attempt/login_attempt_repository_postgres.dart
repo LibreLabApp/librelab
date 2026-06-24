@@ -6,7 +6,7 @@ import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = LoginAttemptsTable;
 
-class LoginAttemptRepositoryPostgres(final DatabaseClient _client)
+class LoginAttemptRepositoryPostgres(final SqlDatabaseAccess _db)
     implements LoginAttemptRepository {
   @override
   Future<LoginAttempt> create(LoginAttemptCreate create) async {
@@ -17,22 +17,19 @@ class LoginAttemptRepositoryPostgres(final DatabaseClient _client)
       ipAddress: create.ipAddress,
       userAgent: create.userAgent,
     );
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute('''
 INSERT INTO ${_T.tableName}
 (${params.keys.join(', ')})
 VALUES (${params.keys.map((key) => '@$key').join(', ')})
 RETURNING $_selectColumns
-'''),
-      parameters: params,
-    );
+''', parameters: params);
     final row = LoginAttemptsRow.fromMap(result.first.toColumnMap());
     return row._toDomain();
   }
 
   @override
   Future<void> deleteAll() async {
-    await _client.execute(.new('TRUNCATE TABLE ${_T.tableName}'));
+    await _db.execute('TRUNCATE TABLE ${_T.tableName}', ignoreRows: true);
   }
 
   String get _selectColumns => _T.columns

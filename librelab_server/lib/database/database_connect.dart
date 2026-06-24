@@ -10,7 +10,7 @@ Future<DatabaseClient> connectDatabase({
   required Shutdown shutdown,
 }) async {
   try {
-    final client = await DatabaseClient.connect(
+    final client = DatabaseClient.pool(
       host: databaseConfig.host,
       port: databaseConfig.port,
       database: databaseConfig.name,
@@ -21,7 +21,12 @@ Future<DatabaseClient> connectDatabase({
         .require => .require,
         .verifyFull => .verifyFull,
       },
+      poolMaxConnectionCount: databaseConfig.pool.maxConnectionCount,
     );
+
+    // Fails fast if the database is unreachable or misconfigured.
+    await client.testConnection();
+
     return client;
   } on Exception catch (e) {
     final String message;

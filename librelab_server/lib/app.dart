@@ -153,7 +153,7 @@ Future<void> run(List<String> args) async {
 
   if (autoApplyMigrations) {
     final migrationRunner = DatabaseMigrationRunner(
-      client: databaseClient,
+      db: databaseClient,
       migrations: DatabaseMigrations.list,
       latestVersion: DatabaseMigrations.latest,
       logger: Logger('DatabaseMigrationRunner'),
@@ -192,8 +192,6 @@ Future<void> run(List<String> args) async {
       databaseClient,
     ),
     loginAttemptRepository: LoginAttemptRepositoryPostgres(databaseClient),
-    // TODO: (REMOVE_SERVERPOD) Implement audit_logs
-    // TODO: (REMOVE_SERVERPOD) Allow admins disabling login
     loginDisabled: () => labSettingsRepository.cached.loginDisabled,
   );
   final authorizationService = AuthorizationService(authService: authService);

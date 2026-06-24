@@ -6,7 +6,7 @@ import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = UserRefreshTokensTable;
 
-class UserRefreshTokenRepositoryPostgres(final DatabaseClient _client)
+class UserRefreshTokenRepositoryPostgres(final SqlDatabaseAccess _db)
     implements UserRefreshTokenRepository {
   @override
   Future<UserRefreshToken> create(UserRefreshTokenCreate create) async {
@@ -18,27 +18,24 @@ class UserRefreshTokenRepositoryPostgres(final DatabaseClient _client)
       userAgent: create.clientMetadata.userAgent,
       expiresAt: create.expiresAt,
     );
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute('''
 INSERT INTO ${_T.tableName}
 (${params.keys.join(', ')})
 VALUES (${params.keys.map((key) => '@$key').join(', ')})
 RETURNING $_selectColumns
-'''),
-      parameters: params,
-    );
+''', parameters: params);
     final row = UserRefreshTokensRow.fromMap(result.first.toColumnMap());
     return row._toDomain();
   }
 
   @override
   Future<UserRefreshToken?> findByTokenHash(String tokenHash) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 SELECT $_selectColumns FROM ${_T.tableName}
 WHERE ${_T.tokenHash} = @tokenHash
 LIMIT 1
-'''),
+''',
       parameters: {'tokenHash': tokenHash},
     );
     final row = result.firstOrNull;
@@ -52,11 +49,11 @@ LIMIT 1
   Future<List<UserRefreshToken>> findRefreshTokensByUserId(
     String userId,
   ) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 SELECT $_selectColumns FROM ${_T.tableName}
 WHERE ${_T.userId} = @userId
-'''),
+''',
       parameters: {'userId': userId},
     );
     return result
@@ -68,12 +65,12 @@ WHERE ${_T.userId} = @userId
 
   @override
   Future<bool> deleteById(int id) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 DELETE FROM ${_T.tableName}
 WHERE ${_T.id} = @id
 RETURNING ${_T.id}
-'''),
+''',
       parameters: {'id': id},
     );
     return result.isNotEmpty;
@@ -81,12 +78,12 @@ RETURNING ${_T.id}
 
   @override
   Future<bool> deleteByTokenHash(String tokenHash) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 DELETE FROM ${_T.tableName}
 WHERE ${_T.tokenHash} = @tokenHash
 RETURNING ${_T.id}
-'''),
+''',
       parameters: {'tokenHash': tokenHash},
     );
     return result.isNotEmpty;
@@ -94,12 +91,12 @@ RETURNING ${_T.id}
 
   @override
   Future<int> deleteRefreshTokensByUserId(String userId) async {
-    final result = await _client.execute(
-      .named('''
+    final result = await _db.execute(
+      '''
 DELETE FROM ${_T.tableName}
 WHERE ${_T.userId} = @userId
 RETURNING ${_T.id}
-'''),
+''',
       parameters: {'userId': userId},
     );
     return result.length;
@@ -107,13 +104,11 @@ RETURNING ${_T.id}
 
   @override
   Future<int> deleteExpiredRefreshTokens() async {
-    final result = await _client.execute(
-      .new('''
+    final result = await _db.execute('''
 DELETE FROM ${_T.tableName}
 WHERE ${_T.expiresAt} < now()
 RETURNING ${_T.id}
-'''),
-    );
+''');
     return result.length;
   }
 

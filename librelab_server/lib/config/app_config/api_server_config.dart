@@ -5,14 +5,15 @@ class const ApiServerConfig({
   required final ApiServerListenConfig listen,
   required final ApiServerPublicConfig public,
 }) {
-  factory defaultConfig({required int port}) => ApiServerConfig(
-    listen: ApiServerListenConfig(port: port, address: '0.0.0.0'),
-    public: ApiServerPublicConfig(
-      host: 'localhost',
-      port: port,
-      scheme: 'http',
-    ),
-  );
+  new defaultConfig({required int port})
+    : this(
+        listen: ApiServerListenConfig(port: port, address: '0.0.0.0'),
+        public: ApiServerPublicConfig(
+          host: 'localhost',
+          port: port,
+          scheme: 'http',
+        ),
+      );
 
   factory fromYaml(YamlMap yaml) {
     return ApiServerConfig(

@@ -1,48 +1,71 @@
+import 'package:librelab_server/database/sql_executor/sql_executor.dart';
+import 'package:librelab_server/database/sql_executor/sql_executor_postgres.dart';
+import 'package:librelab_server/database/transaction_runner/transaction_runner.dart';
+import 'package:librelab_server/database/transaction_runner/transaction_runner_postgres.dart';
 import 'package:postgres/postgres.dart';
 
-export 'package:postgres/postgres.dart'
-    show PgException, Result, ServerException, Sql, SslMode;
+export 'package:postgres/postgres.dart' show PgException, ServerException;
 
-class DatabaseClient {
-  DatabaseClient._(this._connection);
+abstract interface class SqlDatabaseAccess
+    implements SqlExecutor, TransactionRunner {}
 
-  new fromConnection(Connection connection) : _connection = connection;
-
-  final Connection _connection;
-
-  static Future<DatabaseClient> connect({
+class DatabaseClient implements SqlDatabaseAccess {
+  new pool({
     required String host,
     required int port,
     required String database,
     required String username,
     required String password,
     required SslMode sslMode,
-  }) async {
-    final connection = await Connection.open(
-      Endpoint(
-        host: host,
-        port: port,
-        database: database,
-        username: username,
-        password: password,
-      ),
-      settings: ConnectionSettings(sslMode: sslMode),
-    );
+    required int poolMaxConnectionCount,
+  }) : this._(
+         Pool<void>.withEndpoints(
+           [
+             Endpoint(
+               host: host,
+               port: port,
+               database: database,
+               username: username,
+               password: password,
+             ),
+           ],
+           settings: PoolSettings(
+             sslMode: sslMode,
+             maxConnectionCount: poolMaxConnectionCount,
+           ),
+         ),
+       );
 
-    return DatabaseClient._(connection);
+  DatabaseClient._(this._pool)
+    : _executor = SqlExecutorPostgres(_pool),
+      _transactionRunner = TransactionRunnerPostgres(_pool);
+
+  final Pool<void> _pool;
+  final SqlExecutor _executor;
+  final TransactionRunner _transactionRunner;
+
+  Future<void> testConnection() async {
+    await execute('SELECT 1', ignoreRows: true);
   }
 
-  Future<Result> execute(Sql sql, {Map<String, Object?>? parameters}) async {
-    final result = await _connection.execute(sql, parameters: parameters);
-    return result;
-  }
+  @override
+  Future<Result> execute(
+    String statement, {
+    Map<String, Object?>? parameters,
+    bool ignoreRows = false,
+    bool useSimpleQueryMode = false,
+  }) => _executor.execute(
+    statement,
+    parameters: parameters,
+    ignoreRows: ignoreRows,
+    useSimpleQueryMode: useSimpleQueryMode,
+  );
 
+  @override
   Future<T> transaction<T>(
-    Future<T> Function(TxSession session) fn, {
+    Future<T> Function(TransactionSqlExecutor executor) fn, {
     TransactionSettings? settings,
-  }) async {
-    return _connection.runTx(fn, settings: settings);
-  }
+  }) => _transactionRunner.transaction(fn, settings: settings);
 
-  Future<void> close() => _connection.close();
+  Future<void> close() => _pool.close();
 }
