@@ -1,22 +1,15 @@
 part of 'generator.dart';
 
 @immutable
-class Config {
-  const Config({
-    required this.input,
-    required this.dartOutput,
-    required this.outputClassName,
-    required this.requiredTypesImport,
-  });
+class const Config({
+  required final ApiGroup input,
 
-  final ApiGroup input;
-
-  final String dartOutput;
-  final String outputClassName;
+  required final String dartOutput,
+  required final String outputClassName,
 
   /// The import that provides [HttpEndpoint], [WebSocketEndpoint], and [HttpMethod].
   ///
   /// These types exist in the code generator.
   /// However they are different in the final generated code.
-  final String requiredTypesImport;
-}
+  required final String requiredTypesImport,
+});
