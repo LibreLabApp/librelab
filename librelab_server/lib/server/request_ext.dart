@@ -2,6 +2,7 @@ import 'dart:io' show HttpConnectionInfo;
 
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiHttpHeaders;
+import 'package:librelab_server/audit_log/audit_log.dart';
 import 'package:shelf/shelf.dart';
 
 extension RequestExt on Request {
@@ -10,8 +11,9 @@ extension RequestExt on Request {
       context['shelf.io.connection_info'] as HttpConnectionInfo?;
 
   String? get ipAddress => connectionInfo?.remoteAddress.address;
-
   String? get userAgent => headers[ApiHttpHeaders.userAgent];
+  RequestMetadata get requestMetadata =>
+      .new(ipAddress: ipAddress, userAgent: userAgent);
 
   String? extractBearerToken() {
     final header = headers[ApiHttpHeaders.authorization];

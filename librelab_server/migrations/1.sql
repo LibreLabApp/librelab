@@ -102,13 +102,20 @@ CREATE TABLE lab_settings (
 );
 
 CREATE TYPE audit_action AS ENUM (
-  'lab_settings:update'
+  'create',
+  'update',
+  'delete'
+);
+
+CREATE TYPE audit_entity_type AS ENUM (
+  'lab_settings'
 );
 
 CREATE TABLE audit_logs (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   user_id UUID NOT NULL,
   action audit_action NOT NULL,
+  entity_type audit_entity_type NOT NULL,
   entity_id TEXT NOT NULL,
   old_value JSONB NOT NULL,
   new_value JSONB NOT NULL,

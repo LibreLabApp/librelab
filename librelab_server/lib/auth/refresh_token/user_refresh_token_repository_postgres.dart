@@ -5,12 +5,13 @@ import 'package:librelab_server/database/database_schema.g.dart';
 import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = UserRefreshTokensTable;
+typedef _Row = UserRefreshTokensRow;
 
 class UserRefreshTokenRepositoryPostgres(final SqlDatabaseAccess _db)
     implements UserRefreshTokenRepository {
   @override
   Future<UserRefreshToken> create(UserRefreshTokenCreate create) async {
-    final Map<String, Object?> params = _T.insert(
+    final Map<String, Object> params = _T.insert(
       userId: create.userId,
       tokenHash: create.tokenHash,
       deviceId: create.clientMetadata.deviceId,
@@ -24,7 +25,7 @@ INSERT INTO ${_T.tableName}
 VALUES (${params.keys.map((key) => '@$key').join(', ')})
 RETURNING $_selectColumns
 ''', parameters: params);
-    final row = UserRefreshTokensRow.fromMap(result.first.toColumnMap());
+    final row = _Row.fromMap(result.first.toColumnMap());
     return row._toDomain();
   }
 
@@ -42,7 +43,7 @@ LIMIT 1
     if (row == null) {
       return null;
     }
-    return UserRefreshTokensRow.fromMap(row.toColumnMap())._toDomain();
+    return _Row.fromMap(row.toColumnMap())._toDomain();
   }
 
   @override
@@ -57,9 +58,7 @@ WHERE ${_T.userId} = @userId
       parameters: {'userId': userId},
     );
     return result
-        .map(
-          (row) => UserRefreshTokensRow.fromMap(row.toColumnMap())._toDomain(),
-        )
+        .map((row) => _Row.fromMap(row.toColumnMap())._toDomain())
         .toList();
   }
 
@@ -122,12 +121,12 @@ RETURNING ${_T.id}
       .join(', ');
 }
 
-extension on UserRefreshTokensRow {
-  UserRefreshToken _toDomain() => UserRefreshToken(
+extension on _Row {
+  UserRefreshToken _toDomain() => .new(
     id: id,
     userId: userId,
     tokenHash: tokenHash,
-    clientMetadata: UserRefreshTokenClientMetadata(
+    clientMetadata: .new(
       deviceId: deviceId,
       ipAddress: ipAddress,
       userAgent: userAgent,

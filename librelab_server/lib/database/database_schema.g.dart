@@ -27,13 +27,31 @@ Map<String, Object?> _buildFieldMap<T>(
 
 /// Generated enum from PostgreSQL enum `audit_action`.
 enum AuditActionPgEnum {
-  labSettingsUpdate('lab_settings:update');
+  create('create'),
+  update('update'),
+  delete('delete');
 
   const AuditActionPgEnum(this.text);
 
   final String text;
 
   static AuditActionPgEnum fromText(String value) {
+    return values.firstWhere(
+      (e) => e.text == value,
+      orElse: () => throw ArgumentError('Unknown enum value: $value'),
+    );
+  }
+}
+
+/// Generated enum from PostgreSQL enum `audit_entity_type`.
+enum AuditEntityTypePgEnum {
+  labSettings('lab_settings');
+
+  const AuditEntityTypePgEnum(this.text);
+
+  final String text;
+
+  static AuditEntityTypePgEnum fromText(String value) {
     return values.firstWhere(
       (e) => e.text == value,
       orElse: () => throw ArgumentError('Unknown enum value: $value'),
@@ -92,6 +110,8 @@ abstract final class AuditLogsTable {
 
   static const String action = 'action';
 
+  static const String entityType = 'entity_type';
+
   static const String entityId = 'entity_id';
 
   static const String oldValue = 'old_value';
@@ -108,6 +128,7 @@ abstract final class AuditLogsTable {
     id,
     userId,
     action,
+    entityType,
     entityId,
     oldValue,
     newValue,
@@ -120,6 +141,7 @@ abstract final class AuditLogsTable {
     int? id,
     required String userId,
     required String action,
+    required String entityType,
     required String entityId,
     required String oldValue,
     required String newValue,
@@ -130,6 +152,7 @@ abstract final class AuditLogsTable {
     AuditLogsTable.id: ?id,
     AuditLogsTable.userId: userId,
     AuditLogsTable.action: action,
+    AuditLogsTable.entityType: entityType,
     AuditLogsTable.entityId: entityId,
     AuditLogsTable.oldValue: oldValue,
     AuditLogsTable.newValue: newValue,
@@ -142,6 +165,7 @@ abstract final class AuditLogsTable {
     Field<int> id = const .absent(),
     required Field<String> userId,
     required Field<String> action,
+    required Field<String> entityType,
     required Field<String> entityId,
     required Field<String> oldValue,
     required Field<String> newValue,
@@ -153,6 +177,7 @@ abstract final class AuditLogsTable {
       (AuditLogsTable.id, id),
       (AuditLogsTable.userId, userId),
       (AuditLogsTable.action, action),
+      (AuditLogsTable.entityType, entityType),
       (AuditLogsTable.entityId, entityId),
       (AuditLogsTable.oldValue, oldValue),
       (AuditLogsTable.newValue, newValue),
@@ -174,6 +199,7 @@ final class AuditLogsRow {
     required this.id,
     required this.userId,
     required this.action,
+    required this.entityType,
     required this.entityId,
     required this.oldValue,
     required this.newValue,
@@ -186,6 +212,7 @@ final class AuditLogsRow {
     id: (map[AuditLogsTable.id]! as int),
     userId: (map[AuditLogsTable.userId]! as String),
     action: (map[AuditLogsTable.action]! as String),
+    entityType: (map[AuditLogsTable.entityType]! as String),
     entityId: (map[AuditLogsTable.entityId]! as String),
     oldValue: (map[AuditLogsTable.oldValue]! as String),
     newValue: (map[AuditLogsTable.newValue]! as String),
@@ -200,6 +227,9 @@ final class AuditLogsRow {
 
   /// Requires casting to TEXT when selecting this column (i..e, SELECT action::text)
   final String action;
+
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT entity_type::text)
+  final String entityType;
 
   final String entityId;
 

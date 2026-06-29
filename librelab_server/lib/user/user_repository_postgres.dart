@@ -166,7 +166,7 @@ SELECT EXISTS (
       throw ArgumentError('A non-superuser needs a role');
     }
 
-    final Map<String, Object?> params = _U.insert(
+    final Map<String, Object> params = _U.insert(
       email: email,
       passwordHash: passwordHash,
       fullName: fullName,

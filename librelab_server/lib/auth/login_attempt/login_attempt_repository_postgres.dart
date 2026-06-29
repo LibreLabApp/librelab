@@ -5,12 +5,13 @@ import 'package:librelab_server/database/database_schema.g.dart';
 import 'package:librelab_server/database/utils/postgresql_utils.dart';
 
 typedef _T = LoginAttemptsTable;
+typedef _Row = LoginAttemptsRow;
 
 class LoginAttemptRepositoryPostgres(final SqlDatabaseAccess _db)
     implements LoginAttemptRepository {
   @override
   Future<LoginAttempt> create(LoginAttemptCreate create) async {
-    final Map<String, Object?> params = _T.insert(
+    final Map<String, Object> params = _T.insert(
       userId: create.userId,
       email: create.email,
       result: create.loginResult._toDto().text,
@@ -23,7 +24,7 @@ INSERT INTO ${_T.tableName}
 VALUES (${params.keys.map((key) => '@$key').join(', ')})
 RETURNING $_selectColumns
 ''', parameters: params);
-    final row = LoginAttemptsRow.fromMap(result.first.toColumnMap());
+    final row = _Row.fromMap(result.first.toColumnMap());
     return row._toDomain();
   }
 
@@ -69,7 +70,7 @@ extension on LoginResultPgEnum {
   };
 }
 
-extension on LoginAttemptsRow {
+extension on _Row {
   LoginAttempt _toDomain() => .new(
     id: id,
     userId: userId,

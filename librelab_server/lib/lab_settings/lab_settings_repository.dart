@@ -1,3 +1,4 @@
+import 'package:librelab_server/database/sql_executor/sql_executor.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 
 /// Backed by a single persistent row.
@@ -6,7 +7,7 @@ abstract interface class LabSettingsRepository {
   ///
   /// Returns the resulting [LabSettings] after applying [patch].
   /// Also updates the in-memory cached value.
-  Future<LabSettings> update(LabSettingsPatch patch);
+  Future<LabSettings> update(LabSettingsPatch patch, {SqlExecutor? executor});
 
   /// Loads the settings from persistence.
   ///

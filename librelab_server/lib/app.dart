@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:librelab_server/app_file_paths.dart';
+import 'package:librelab_server/audit_log/audit_log_repository_postgres.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
@@ -22,6 +23,7 @@ import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
 import 'package:librelab_server/lab_settings/lab_settings_routes.dart';
+import 'package:librelab_server/lab_settings/lab_settings_service.dart';
 import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
@@ -205,7 +207,11 @@ Future<void> run(List<String> args) async {
       AuthRoutes(service: authService, authorization: authorizationService),
       LabSettingsRoutes(
         authorization: authorizationService,
-        repository: labSettingsRepository,
+        service: LabSettingsService(
+          db: databaseClient,
+          labSettingsRepository: labSettingsRepository,
+          auditLogRepository: AuditLogRepositoryPostgres(databaseClient),
+        ),
       ),
     ],
   );
