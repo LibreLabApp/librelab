@@ -12,8 +12,8 @@ class const AuditLog({
   required final AuditAction action,
   required final AuditEntityType entityType,
   required final String entityId,
-  required final String oldValue,
-  required final String newValue,
+  required final JsonMap oldValue,
+  required final JsonMap newValue,
   required final RequestMetadata requestMetadata,
   required final DateTime createdAt,
 });

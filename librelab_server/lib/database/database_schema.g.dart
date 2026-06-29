@@ -4,8 +4,9 @@
 /// Instead, modify and then run: dart scripts/database_schema/generate.dart
 library;
 
-import 'package:meta/meta.dart';
-import 'package:optional_field/optional_field.dart';
+import 'package:json_utils/json_utils.dart' show JsonMap;
+import 'package:meta/meta.dart' show immutable;
+import 'package:optional_field/optional_field.dart' show Field, Present;
 
 Map<String, Object?> _buildFieldMap<T>(
   List<(String key, Field<T> field)> entries,
@@ -143,8 +144,8 @@ abstract final class AuditLogsTable {
     required String action,
     required String entityType,
     required String entityId,
-    required String oldValue,
-    required String newValue,
+    required JsonMap oldValue,
+    required JsonMap newValue,
     required String? ipAddress,
     required String? userAgent,
     DateTime? createdAt,
@@ -167,8 +168,8 @@ abstract final class AuditLogsTable {
     required Field<String> action,
     required Field<String> entityType,
     required Field<String> entityId,
-    required Field<String> oldValue,
-    required Field<String> newValue,
+    required Field<JsonMap> oldValue,
+    required Field<JsonMap> newValue,
     required Field<String?> ipAddress,
     required Field<String?> userAgent,
     Field<DateTime> createdAt = const .absent(),
@@ -214,8 +215,8 @@ final class AuditLogsRow {
     action: (map[AuditLogsTable.action]! as String),
     entityType: (map[AuditLogsTable.entityType]! as String),
     entityId: (map[AuditLogsTable.entityId]! as String),
-    oldValue: (map[AuditLogsTable.oldValue]! as String),
-    newValue: (map[AuditLogsTable.newValue]! as String),
+    oldValue: (map[AuditLogsTable.oldValue]! as JsonMap),
+    newValue: (map[AuditLogsTable.newValue]! as JsonMap),
     ipAddress: (map[AuditLogsTable.ipAddress] as String?),
     userAgent: (map[AuditLogsTable.userAgent] as String?),
     createdAt: (map[AuditLogsTable.createdAt]! as DateTime),
@@ -233,9 +234,9 @@ final class AuditLogsRow {
 
   final String entityId;
 
-  final String oldValue;
+  final JsonMap oldValue;
 
-  final String newValue;
+  final JsonMap newValue;
 
   /// Requires casting to TEXT when selecting this column (i..e, SELECT ip_address::text)
   final String? ipAddress;

@@ -6,25 +6,17 @@ import 'package:meta/meta.dart';
 import 'package:postgres/postgres.dart';
 import '../../../scripts/_utils.dart';
 
-class Config {
-  const Config({
-    required this.input,
-    required this.dartOutput,
-    required this.optionalInsertColumns,
-    required this.optionalUpdateColumns,
-    required this.updateColumnDefaults,
-    required this.requiredTypesImport,
-    required this.applyMigrations,
-  });
-
-  final Endpoint input;
-  final String dartOutput;
-  final List<String> optionalInsertColumns;
-  final List<String> optionalUpdateColumns;
-  final Map<String, String> updateColumnDefaults;
-  final String requiredTypesImport;
-  final Future<void> Function(Connection databaseConnection) applyMigrations;
-}
+@immutable
+class const Config({
+  required final Endpoint input,
+  required final String dartOutput,
+  required final List<String> optionalInsertColumns,
+  required final List<String> optionalUpdateColumns,
+  required final Map<String, String> updateColumnDefaults,
+  required final List<(String, List<String>)> requiredTypeImports,
+  required final Future<void> Function(Connection databaseConnection)
+  applyMigrations,
+});
 
 Future<void> generate(Config config) async {
   final outputFile = File(config.dartOutput);
@@ -49,7 +41,7 @@ Future<void> generate(Config config) async {
       optionalInsertColumns: config.optionalInsertColumns,
       optionalUpdateColumns: config.optionalUpdateColumns,
       updateColumnDefaults: config.updateColumnDefaults,
-      requiredTypesImport: config.requiredTypesImport,
+      requiredTypeImports: config.requiredTypeImports,
     );
 
     await outputFile.writeAsString(generatedCode);
@@ -66,7 +58,7 @@ String _generateDartCode({
   required List<String> optionalInsertColumns,
   required List<String> optionalUpdateColumns,
   required Map<String, String> updateColumnDefaults,
-  required String requiredTypesImport,
+  required List<(String, List<String>)> requiredTypeImports,
 }) {
   final enums = <Enum>[];
 
@@ -406,10 +398,9 @@ Map<String, Object?> _buildFieldMap<T>(
 
   final library = Library(
     (b) => b
-      ..directives.addAll([
-        Directive.import('package:meta/meta.dart'),
-        Directive.import(requiredTypesImport),
-      ])
+      ..directives.addAll(
+        requiredTypeImports.map((e) => Directive.import(e.$1, show: e.$2)),
+      )
       ..docs.addAll([
         '// coverage:ignore-file',
         '// ignore_for_file: unnecessary_parenthesis',
@@ -544,7 +535,7 @@ class const _TableColumnInfo({
       'timestamp' => const _DartType('DateTime'),
       'timestamptz' => const _DartType('DateTime'),
       'bool' => const _DartType('bool'),
-      'jsonb' => const _DartType('String'),
+      'jsonb' => const _DartType('JsonMap'),
       String() => throw StateError(
         'Unexpected udt_name value for column "$columnName": $udtName (Human readable name: $dataType)',
       ),

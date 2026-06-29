@@ -1,4 +1,3 @@
-import 'package:json_utils/json_utils.dart' show jsonEncode;
 import 'package:librelab_server/audit_log/audit_log.dart';
 import 'package:librelab_server/audit_log/audit_log_repository.dart';
 import 'package:librelab_server/database/database_schema.g.dart';
@@ -22,8 +21,8 @@ final class AuditLogRepositoryPostgres(super.db)
       action: create.action._toDto().text,
       entityType: create.entityType._toDto().text,
       entityId: create.entityId,
-      oldValue: jsonEncode(create.oldValue),
-      newValue: jsonEncode(create.newValue),
+      oldValue: create.oldValue,
+      newValue: create.newValue,
       ipAddress: create.requestMetadata.ipAddress,
       userAgent: create.requestMetadata.userAgent,
     );
@@ -48,12 +47,6 @@ RETURNING $_selectColumns
         }
         if (e == _T.ipAddress) {
           return castColumnToText(_T.ipAddress);
-        }
-        if (e == _T.oldValue) {
-          return castColumnToText(_T.oldValue);
-        }
-        if (e == _T.newValue) {
-          return castColumnToText(_T.newValue);
         }
         return e;
       })

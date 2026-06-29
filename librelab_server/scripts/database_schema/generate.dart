@@ -28,10 +28,14 @@ Future<void> main() async {
         port: 8090,
       ),
       dartOutput: 'lib/database/database_schema.g.dart',
-      requiredTypesImport: 'package:optional_field/optional_field.dart',
-      optionalInsertColumns: ['id', 'created_at', 'updated_at'],
-      optionalUpdateColumns: ['id', 'created_at'],
-      updateColumnDefaults: {'updated_at': 'now()'},
+      requiredTypeImports: const [
+        ('package:json_utils/json_utils.dart', ['JsonMap']),
+        ('package:meta/meta.dart', ['immutable']),
+        ('package:optional_field/optional_field.dart', ['Field', 'Present']),
+      ],
+      optionalInsertColumns: const ['id', 'created_at', 'updated_at'],
+      optionalUpdateColumns: const ['id', 'created_at'],
+      updateColumnDefaults: const {'updated_at': 'now()'},
       applyMigrations: (databaseConnection) async {
         await DatabaseMigrationRunner(
           db: _DatabaseAccessConnection._(databaseConnection),
