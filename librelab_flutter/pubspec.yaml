@@ -14,32 +14,38 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   librelab_api_contract: ^0.0.1
+  librelab_api_client: ^0.0.1
+  librelab_shared: ^1.0.0
   slang: ^4.14.0
   slang_flutter: ^4.14.0
   go_router: ^17.2.2
-  lottie: ^3.3.3
   flutter_window_close: ^1.3.0
+  # Provider is used mainly for dependency injection.
+  provider: ^6.1.5+1
   bloc: ^9.2.0
   flutter_bloc: ^9.1.1
   meta: ^1.17.0
-  freezed_annotation: ^3.1.0
   collection: ^1.19.1
-  librelab_shared: ^1.0.0
-  equatable: ^2.0.8
   logging: ^1.3.0
+  freezed_annotation: ^3.1.0
+  equatable: ^2.0.8
   mdns_discovery: ^1.0.0
   mdns_discovery_bonsoir: ^1.0.0
   mdns_discovery_raw: ^1.0.0
+  mdns_platform_check: ^1.0.0
   url_launcher: ^6.3.2
   connectivity_plus_linux_portal: ^0.0.3
-  mdns_platform_check: ^1.0.0
-  stepper_flow: ^0.0.1
+  http: ^1.6.0
+  cupertino_http: ^3.0.2
+  win_http: ^0.2.1
+  ok_http: ^0.1.0
   api_client:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: 570a0327c20ca5985e36c386ed6c63c59215e1bd
+      ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
       path: packages/api_client
-  http: ^1.6.0
+  stepper_flow: ^0.0.1
+  lottie: ^3.3.3
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +56,14 @@ dev_dependencies:
   flutter_gen_runner: ^5.14.1
   freezed: ^4.0.0-dev.3
   flutter_launcher_icons: ^0.14.4
+
+dependency_overrides:
+  # https://github.com/dart-lang/http/pull/1943
+  ok_http:
+    git:
+      url: https://github.com/EchoEllet/http.git
+      ref: chore/update-jni
+      path: pkgs/ok_http
 
 flutter:
   uses-material-design: true

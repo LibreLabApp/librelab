@@ -37,6 +37,7 @@ class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
     );
   }
 
+  /// Must not be called on the web
   Future<void> scan({bool refresh = false}) async {
     if (state.isLoading) {
       return;

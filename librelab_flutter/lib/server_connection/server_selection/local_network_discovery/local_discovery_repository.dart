@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:librelab_flutter/common/io_utils.dart';
+import 'package:http/http.dart' show Client;
+import 'package:librelab_api_contract/api_endpoint_definition.dart';
+import 'package:librelab_flutter/common/network/http_latency.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 
-class LocalDiscoveryRepository {
-  LocalDiscoveryRepository({required this._discovery, required this._logger});
-
-  final MdnsServiceDiscovery _discovery;
-  final Logger _logger;
-
+class LocalDiscoveryRepository({
+  required final MdnsServiceDiscovery _discovery,
+  required final Logger _logger,
+  required final Client _client,
+}) {
   bool _isScanning = false;
   bool get isScanning => _isScanning;
 
@@ -45,8 +46,9 @@ class LocalDiscoveryRepository {
     _isScanning = false;
   }
 
-  final Duration _timeout = const Duration(seconds: 7);
+  final Duration _timeout = const Duration(seconds: 5);
 
+  /// Must not be called on the web
   Future<void> scan() async {
     if (!_isClientOpen) {
       await _startClient();
@@ -58,7 +60,6 @@ class LocalDiscoveryRepository {
       final serviceInfo = event.serviceInfo;
       switch (event) {
         case Resolved():
-          await _upsertServer(serviceInfo);
         case Updated():
           await _upsertServer(serviceInfo);
         case Lost():
@@ -78,12 +79,6 @@ class LocalDiscoveryRepository {
       info.txtRecords,
     );
 
-    final Duration? latency = await measureLatency(
-      ipAddress ?? hostname,
-      port,
-      logger: _logger,
-    );
-
     if (txtRecords == null) {
       _logger.warning('($hostname) TXT records for are missing');
     }
@@ -93,7 +88,7 @@ class LocalDiscoveryRepository {
       localHostname: hostname,
       ipAddress: info.ipAddress,
       port: port,
-      latencyMs: latency?.inMilliseconds,
+      latencyMs: null,
       serverVersion: txtRecords?['version'],
       supportsTls: () {
         if (txtRecords == null) {
@@ -117,13 +112,40 @@ class LocalDiscoveryRepository {
       }(),
     );
 
-    final index = _servers.indexWhere((e) => e.uri == server.uri);
+    final index = _servers.indexWhere((e) => e.url == server.url);
 
     if (index == -1) {
       _servers.add(server);
     } else {
       _servers[index] = server;
     }
+
+    _pushUpdate();
+
+    unawaited(_measureLatency(server, hostname: hostname));
+  }
+
+  Future<void> _measureLatency(
+    DiscoveredServer server, {
+    required String hostname,
+  }) async {
+    final latency = await measureHttpLatency(
+      // TODO: Avoid hardcoding, try to determine this dynamically (try with HTTPs first)
+      //  also avoid hardcoding in DiscoveredServer.url
+      Uri.http(
+        '${server.ipAddress ?? hostname}:${server.port}',
+        ApiEndpointDefinitions.ping$HEAD.path,
+      ),
+      logger: _logger,
+      client: _client,
+    );
+
+    final index = _servers.indexWhere((e) => e.url == server.url);
+    if (index == -1) {
+      return;
+    }
+
+    _servers[index] = _servers[index].copyWithLatency(latency?.inMilliseconds);
 
     _pushUpdate();
   }
@@ -135,7 +157,7 @@ class LocalDiscoveryRepository {
         port: info.port,
       ),
     );
-    final index = _servers.indexWhere((e) => e.uri == serverUri);
+    final index = _servers.indexWhere((e) => e.url == serverUri);
 
     if (index != -1) {
       _servers.removeAt(index);

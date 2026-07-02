@@ -31,10 +31,20 @@ class const DiscoveredServer({
       latencyMs != null && latencyMs! < _lowLatencyThresholdMs;
 
   // TODO: Finish from here, should we default to false somehwere else?
-  Uri get uri =>
+  Uri get url =>
       (supportsTls ?? false) ? Uri.https(authority) : Uri.http(authority);
 
   @override
   String toString() =>
       'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, ipAddress: $ipAddress, port: $port, latencyMs: $latencyMs, serverVersion: $serverVersion, supportsTls: $supportsTls)';
+
+  DiscoveredServer copyWithLatency(int? updated) => .new(
+    instanceName: instanceName,
+    localHostname: localHostname,
+    ipAddress: ipAddress,
+    port: port,
+    latencyMs: updated,
+    serverVersion: serverVersion,
+    supportsTls: supportsTls,
+  );
 }

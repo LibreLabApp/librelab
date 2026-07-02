@@ -1,6 +1,5 @@
-part of 'platform_check.dart';
+const _name = 'FLATPAK_APP_ID';
 
-bool get isFlatpak {
-  final env = Platform.environment;
-  return env.containsKey('FLATPAK_ID') || env['container'] == 'flatpak';
-}
+const bool isFlatpak = bool.hasEnvironment(_name);
+
+const String? flatpakId = isFlatpak ? String.fromEnvironment(_name) : null;

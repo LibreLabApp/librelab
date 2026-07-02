@@ -1,12 +1,13 @@
-import 'dart:io' show Platform, stderr, stdout;
+import 'dart:io' show stderr, stdout;
 
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalMaterialLocalizations;
 import 'package:go_router/go_router.dart';
-
+import 'package:librelab_flutter/common/network/http_client_deps_provider.dart';
 import 'package:librelab_flutter/common/platform/platform_check.dart';
+import 'package:librelab_flutter/common/platform/platform_check_flatpak.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
@@ -55,13 +56,16 @@ void main() async {
     }
   });
 
-  if (isLinux) {
-    _maybeUseNetworkMonitorPortal();
+  if (isLinux && isFlatpak) {
+    _logger.fine(
+      'Using org.freedesktop.portal.NetworkMonitor for connectivity status.',
+    );
+    ConnectivityPlusLinuxPortalPlugin.registerWith();
   }
 
   await LocaleSettings.useDeviceLocale();
 
-  runApp(TranslationProvider(child: const MainApp()));
+  runApp(TranslationProvider(child: const HttpClientDepsProvider(MainApp())));
 
   if (isDesktop) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -75,18 +79,6 @@ void main() async {
         setupWindowCloseHandler(context);
       }
     });
-  }
-}
-
-void _maybeUseNetworkMonitorPortal() {
-  final backend = Platform.environment['CONNECTIVITY_BACKEND'];
-  final usePortal = isFlatpak || backend == 'portal';
-
-  if (usePortal) {
-    _logger.fine(
-      'Using org.freedesktop.portal.NetworkMonitor for connectivity status.',
-    );
-    ConnectivityPlusLinuxPortalPlugin.registerWith();
   }
 }
 

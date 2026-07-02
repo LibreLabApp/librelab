@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:librelab_shared/librelab_shared.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Unsupported on web due to lack of native mDNS service discovery.
 class LocalServerDiscoveryCard extends StatefulWidget {
   const LocalServerDiscoveryCard({super.key});
 
@@ -20,6 +22,11 @@ class LocalServerDiscoveryCard extends StatefulWidget {
 class _LocalServerDiscoveryCardState extends State<LocalServerDiscoveryCard> {
   @override
   void initState() {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        '$LocalServerDiscoveryCard widget must not be used on the web',
+      );
+    }
     context.read<LocalDiscoveryCubit>().scan();
     super.initState();
   }

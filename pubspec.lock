@@ -29,11 +29,11 @@ packages:
     dependency: transitive
     description:
       path: "packages/api_client"
-      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
-      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
+      ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
+      resolved-ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
-    version: "1.0.0"
+    version: "0.0.1"
   archive:
     dependency: "direct dev"
     description:
@@ -210,6 +210,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
+  checks:
+    dependency: transitive
+    description:
+      name: checks
+      sha256: "016871c84732c1ac9856b8940236d5a5802ba638b3bd3e0ea7027b51a35f7aa7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   cli_config:
     dependency: transitive
     description:
@@ -234,6 +242,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.2"
+  code_assets:
+    dependency: transitive
+    description:
+      name: code_assets
+      sha256: bf394f466ba9205f1812a0433b392d6af280f155f56651eda7c18cc32ed493b8
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   code_builder:
     dependency: transitive
     description:
@@ -298,6 +314,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  cupertino_http:
+    dependency: transitive
+    description:
+      name: cupertino_http
+      sha256: "3c8c69cc1b94b9c7570d9454bf1e11fa7010b248547a0760843adc71f0c08fbe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   dart_jsonwebtoken:
     dependency: transitive
     description:
@@ -510,6 +534,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  hooks:
+    dependency: transitive
+    description:
+      name: hooks
+      sha256: "9a62a50b50b769a737bc0a8ff381f333529df3ab746b2f6b02e83760231455ba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   http:
     dependency: transitive
     description:
@@ -518,15 +550,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.0"
-  http_method:
+  http_method_enum:
     dependency: transitive
     description:
-      path: "packages/http_method"
-      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
-      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
-      url: "https://github.com/EchoEllet/dart-packages.git"
-    source: git
-    version: "0.0.1"
+      name: http_method_enum
+      sha256: "1af0a672afeb235aaf1505918d546dd63937ba19ac564ef225245f6080516eb0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   http_methods:
     dependency: transitive
     description:
@@ -551,6 +582,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  http_profile:
+    dependency: transitive
+    description:
+      name: http_profile
+      sha256: "7e679e355b09aaee2ab5010915c932cce3f2d1c11c3b2dc177891687014ffa78"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   image:
     dependency: transitive
     description:
@@ -571,10 +610,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
+      sha256: "1ca20c894b1717686a2319b8548763d812bc0aabdac580420a44c5178c57a867"
       url: "https://pub.dev"
     source: hosted
-    version: "0.20.2"
+    version: "0.20.3"
   io:
     dependency: transitive
     description:
@@ -599,6 +638,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  jni_flutter:
+    dependency: transitive
+    description:
+      name: jni_flutter
+      sha256: "8b59e590786050b1cd866677dddaf76b1ade5e7bc751abe04b86e84d379d3ba6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   jnigen:
     dependency: transitive
     description:
@@ -615,6 +662,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.12.0"
+  json_safe:
+    dependency: transitive
+    description:
+      name: json_safe
+      sha256: "1bfa7517999793bd20b914380ba8d9e8cbd5faf727fe1f28f8ad96ee9d4c12e1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   json_serializable:
     dependency: transitive
     description:
@@ -623,15 +678,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.14.0"
-  json_utils:
-    dependency: transitive
-    description:
-      path: "packages/json_utils"
-      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
-      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
-      url: "https://github.com/EchoEllet/dart-packages.git"
-    source: git
-    version: "1.0.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -676,10 +722,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: "8b6359a7422167014aa73ce763fa133fb832065dcc0ac4d1dec1f603a5cef7d0"
+      sha256: "9f050d75e94e783537454b4f14a10f690fc24e83dab6520ef5a4bb185b6d6da3"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.3"
+    version: "3.4.0"
   matcher:
     dependency: transitive
     description:
@@ -729,6 +775,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.3+1"
+  native_toolchain_c:
+    dependency: transitive
+    description:
+      name: native_toolchain_c
+      sha256: f9c168717100ae6d9fee9ffb0be379bf1f8b26b0f6bcbd4fdddcd931993a6a72
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.2"
   nested:
     dependency: transitive
     description:
@@ -745,6 +799,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  objective_c:
+    dependency: transitive
+    description:
+      name: objective_c
+      sha256: "6cb691c686fa2838c6deb34980d426145c2a5d537491cb83d463c33cdbc726ed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.4.1"
+  ok_http:
+    dependency: "direct overridden"
+    description:
+      path: "pkgs/ok_http"
+      ref: "chore/update-jni"
+      resolved-ref: "4e649bdad3d62b293c1f245e74afe7b2e2f7f3ba"
+      url: "https://github.com/EchoEllet/http.git"
+    source: git
+    version: "0.1.2-wip"
   package_config:
     dependency: transitive
     description:
@@ -773,10 +844,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_linux
-      sha256: f7a1fe3a634fe7734c8d3f2766ad746ae2a2884abe22e241a8b301bf5cac3279
+      sha256: "58c2005f147315b11e9b4a7bc889cd5203e250cba8e3f012dae259b4972b5c16"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   path_provider_platform_interface:
     dependency: transitive
     description:
@@ -873,12 +944,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  record_use:
+    dependency: transitive
+    description:
+      name: record_use
+      sha256: "2551bd8eecfe95d14ae75f6021ad0248be5c27f138c2ec12fcb52b500b3ba1ed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   result:
     dependency: transitive
     description:
       path: "packages/result"
-      ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
-      resolved-ref: "570a0327c20ca5985e36c386ed6c63c59215e1bd"
+      ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
+      resolved-ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
       url: "https://github.com/EchoEllet/dart-packages.git"
     source: git
     version: "1.0.0"
@@ -995,18 +1074,18 @@ packages:
     dependency: transitive
     description:
       name: slang
-      sha256: fe12e1eeb1fae0dd8e4e453ef6bb39dabb1fa2460a33ebfcdd3f84c8748d28b6
+      sha256: "76dbf1f8e87ed1c417026e93a57512f6b6b597104ce72eed99b24a3ed08f0ba2"
       url: "https://pub.dev"
     source: hosted
-    version: "4.16.0"
+    version: "4.18.0"
   slang_flutter:
     dependency: transitive
     description:
       name: slang_flutter
-      sha256: ee9dbb86bc58994eb0a5cd5f17de484daa70e7224c62cc69b8620065b213dc73
+      sha256: "7523a9389b44210eabcfd58412d9131f284b9b3c22d731614f0016e9582ee996"
       url: "https://pub.dev"
     source: hosted
-    version: "4.16.0"
+    version: "4.18.0"
   smooth_page_indicator:
     dependency: transitive
     description:
@@ -1287,6 +1366,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  win_http:
+    dependency: transitive
+    description:
+      name: win_http
+      sha256: a50a14f1bf32bc5c9b39add9baa01658b97146b21de25237810ca6b850a6704e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   xdg_desktop_portal:
     dependency: transitive
     description:

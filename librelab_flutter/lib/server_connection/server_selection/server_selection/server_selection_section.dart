@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
@@ -90,10 +91,13 @@ class _ServerSelectionMethodContainerState
 
     return Column(
       children: [
-        SizedBox(
-          width: .infinity,
-          child: _methodSelector(cubit, selectedMethod),
-        ),
+        /// Server selection controls are omitted on web due to lack of
+        /// native mDNS service discovery support.
+        if (!kIsWeb)
+          SizedBox(
+            width: .infinity,
+            child: _methodSelector(cubit, selectedMethod),
+          ),
         const SizedBox(height: 16),
         _body(cubit, selectedMethod),
       ],

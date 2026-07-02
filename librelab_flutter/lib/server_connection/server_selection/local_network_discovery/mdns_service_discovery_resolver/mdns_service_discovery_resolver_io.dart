@@ -13,30 +13,34 @@ enum _MdnsImpl({required final String envValue}) {
   raw(envValue: 'raw'),
   platform(envValue: 'platform');
 
-  // Raw implementation used pure Dart mDNS (multicast_dns) with raw sockets.
-  // This approach was unstable on some Windows 10/11 systems due to multicast socket errors.
-  //
-  // ```console
-  // Example failure:
-  // [ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: OS Error:
-  // An unknown, invalid, or unsupported option or level was specified in a getsockopt or setsockopt call, errno = 10042
-  // #0      _NativeSocket._nativeJoinMulticast (dart:io-patch/socket_patch.dart:2131)
-  // #1      _NativeSocket.joinMulticast (dart:io-patch/socket_patch.dart:2001)
-  // #2      _RawDatagramSocket.joinMulticast (dart:io-patch/socket_patch.dart:3044)
-  // #3      MDnsClient.start (package:multicast_dns/multicast_dns.dart:158)
-  // <asynchronous suspension>
-  // ```
-  //
-  // Due to this platform-specific socket limitation, the implementation was switched
-  // to use native platform APIs instead of raw multicast socket handling.
+  /// Raw implementation used pure Dart mDNS (multicast_dns) with raw sockets.
+  /// This approach was unstable on some Windows 10/11 systems due to multicast socket errors.
+  ///
+  /// ```console
+  /// Example failure:
+  /// [ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: OS Error:
+  /// An unknown, invalid, or unsupported option or level was specified in a getsockopt or setsockopt call, errno = 10042
+  /// #0      _NativeSocket._nativeJoinMulticast (dart:io-patch/socket_patch.dart:2131)
+  /// #1      _NativeSocket.joinMulticast (dart:io-patch/socket_patch.dart:2001)
+  /// #2      _RawDatagramSocket.joinMulticast (dart:io-patch/socket_patch.dart:3044)
+  /// #3      MDnsClient.start (package:multicast_dns/multicast_dns.dart:158)
+  /// <asynchronous suspension>
+  /// ```
+  ///
+  /// Due to this platform-specific socket limitation, the implementation was switched
+  /// to use native platform APIs instead of raw multicast socket handling.
   static _MdnsImpl defaultValue = .platform;
 }
 
 Future<_MdnsImpl> _resolveMdnsImpl() async {
   final envVariable = Platform.environment['MDNS_DISCOVERY_IMPL'];
   if (envVariable != null) {
-    return .values.firstWhereOrNull((e) => e.envValue == envVariable) ??
-        .defaultValue;
+    final fromEnv = _MdnsImpl.values.firstWhereOrNull(
+      (e) => e.envValue == envVariable,
+    );
+    if (fromEnv != null) {
+      return fromEnv;
+    }
   }
 
   if (!await MdnsPlatformCheck().supportsPlatformApi()) {
@@ -76,11 +80,11 @@ Future<MdnsServiceDiscovery> resolveMdnsServiceDiscoveryImpl() async {
             : RawDatagramSocket.bind,
       ),
       serviceType: serviceType,
-      logger: Logger('RawMdnsServiceDiscovery'),
+      logger: Logger('$MdnsServiceDiscoveryRaw'),
     ),
     .platform => MdnsServiceDiscoveryBonsoir(
       discoveryFactory: () => BonsoirDiscovery(type: serviceType),
-      logger: Logger('BonsoirMdnsServiceDiscovery'),
+      logger: Logger('$MdnsServiceDiscoveryBonsoir'),
     ),
   };
 }

@@ -1,10 +1,6 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 export 'package:librelab_shared/librelab_shared.dart' show DesktopPlatform;
-
-part 'platform_check_flatpak.dart';
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isWindows =>
@@ -22,6 +18,9 @@ bool get isAndroid =>
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isIos => defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb;
+
+@pragma('vm:platform-const-if', !kDebugMode)
+bool get isDarwin => isIos || isMacOS;
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isDesktop =>

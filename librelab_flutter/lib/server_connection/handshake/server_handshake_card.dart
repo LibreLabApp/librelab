@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/server_connection/handshake/repository/server_handshake_repository.dart';
@@ -64,23 +60,23 @@ class ServerHandshakeCard extends StatelessWidget {
               return;
             }
 
-            final client = http.Client();
             final repository = ServerHandshakeRepository(
-              apiClient: HttpApiClient(client),
+              client: context.read()..setBaseUrl(Uri.parse(selected)),
             );
 
             try {
-              final response = await repository.check(selected);
+              final response = await repository.check();
 
               messenger.showSnackBar(
                 SnackBar(
                   content: Text('Successful handshake: ${response.status}'),
                 ),
               );
-            } on TlsException catch (e) {
+              // TODO: (HTTP_CLIENT) May handle this
+            } /*on TlsException catch (e) {
               messenger.showSnackBar(SnackBar(content: Text('TLS: $e')));
               logger.warning('$HandshakeException: $e');
-            } on Exception catch (e) {
+            } */ on Exception catch (e) {
               messenger.showSnackBar(
                 SnackBar(content: Text('Handshake failed: $e')),
               );
@@ -88,8 +84,6 @@ class ServerHandshakeCard extends StatelessWidget {
               // ignore: avoid_catching_errors
             } on TypeError catch (e) {
               logger.warning('Response deserialization failed: $e');
-            } finally {
-              client.close();
             }
             // END
           },

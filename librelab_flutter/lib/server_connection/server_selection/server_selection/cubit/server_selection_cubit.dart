@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Import only for referencing LocalDiscoveryState in doc comments
@@ -15,7 +16,13 @@ class ServerSelectionCubit extends Cubit<ServerSelectionState> {
     emit(state.copyWith(manualServerUrl: value));
   }
 
+  /// Must not be called on the web
   void setSelectionMethod(ServerSelectionMethod method) {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        'Selection method must not be changed on the web (default is fixed: ${state.selectionMethod}).',
+      );
+    }
     emit(state.copyWith(selectionMethod: method));
   }
 }

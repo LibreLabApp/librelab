@@ -7,6 +7,9 @@ enum ServerSelectionMethod { localNetworkDiscovery, manual }
 @freezed
 @immutable
 class const ServerSelectionState({
+  /// Defaults to [ServerSelectionMethod.manual] on web due to lack of
+  /// native mDNS service discovery support.
+  /// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web.
   required final ServerSelectionMethod selectionMethod,
 
   /// The server base URL provided by the user to connect to the server.
@@ -18,8 +21,8 @@ class const ServerSelectionState({
   ///
   required final String? manualServerUrl,
 }) with _$ServerSelectionState {
-  factory initialState() => const ServerSelectionState(
-    selectionMethod: .localNetworkDiscovery,
+  factory initialState() => const .new(
+    selectionMethod: kIsWeb ? .manual : .localNetworkDiscovery,
     manualServerUrl: null,
   );
 }
