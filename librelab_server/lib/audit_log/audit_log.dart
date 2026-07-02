@@ -1,4 +1,4 @@
-import 'package:librelab_server/utils/json_map.dart';
+import 'package:librelab_server/utils/json_types.dart';
 import 'package:meta/meta.dart';
 
 enum AuditAction { create, update, delete }

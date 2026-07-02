@@ -13,5 +13,5 @@ class ShutdownHookRegistry {
     _hooks.clear();
   }
 
-  Map<String, ShutdownHook> get hooks => Map.unmodifiable(_hooks);
+  Map<String, ShutdownHook> get hooks => .unmodifiableOf(_hooks);
 }

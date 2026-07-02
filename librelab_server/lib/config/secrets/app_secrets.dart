@@ -33,5 +33,5 @@ class const AppSecrets({
   }
 
   static List<String> get requiredSecretKeys =>
-      List.unmodifiable([databasePasswordKey, jwtAccessTokenSecretKey]);
+      .unmodifiableOf([databasePasswordKey, jwtAccessTokenSecretKey]);
 }

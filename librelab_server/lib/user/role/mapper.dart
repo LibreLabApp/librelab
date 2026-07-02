@@ -13,7 +13,9 @@ extension RoleMapper on Role {
   dto.Role toResponse() => .new(
     id: id,
     name: name,
-    permissions: .unmodifiable(permissions.map((e) => e.toResponse()).toList()),
+    permissions: .unmodifiableOf(
+      permissions.map((e) => e.toResponse()).toList(),
+    ),
     createdAt: createdAt,
     updatedAt: updatedAt,
   );

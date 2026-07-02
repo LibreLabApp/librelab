@@ -6,15 +6,11 @@ class AppSecretsRepository({
   required final YamlStorage _storage,
   required final Map<String, String> _platformEnvironment,
 }) {
-  AppSecrets? _secrets;
-
-  AppSecrets? get secrets => _secrets;
-  AppSecrets get secretsOrThrow =>
-      secrets ?? (throw StateError('$AppSecrets must not be null'));
+  AppSecrets? _cached;
 
   /// Returns `null` if the [_file] does not exist.
   Future<AppSecrets?> load() async {
-    final secrets = _secrets;
+    final secrets = _cached;
     if (secrets != null) {
       throw StateError('Must load the app secrets only once');
     }
@@ -39,7 +35,7 @@ class AppSecretsRepository({
       databasePassword: databasePassword,
       jwtAccessTokenSecret: jwtAccessTokenSecret,
     );
-    _secrets = secrets;
+    _cached = secrets;
     return secrets;
   }
 
@@ -52,12 +48,12 @@ class AppSecretsRepository({
     return secret;
   }
 
-  // File-only (by-design)
+  /// File-only (by-design)
   Future<void> save(AppSecrets secrets) async {
-    if (_secrets != null) {
+    if (_cached != null) {
       throw StateError('Secrets cannot be modified when already loaded');
     }
-    _secrets = secrets;
+    _cached = secrets;
 
     await _storage.write(_storageId, secrets.toYaml());
   }

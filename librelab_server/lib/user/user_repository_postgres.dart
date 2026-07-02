@@ -71,7 +71,7 @@ LIMIT 1
       id: id,
       tokenVersion: map[_U.tokenVersion] as int,
       isSuperUser: map[_U.isSuperuser] as bool,
-      permissions: .unmodifiable(_mapRolePermissionsFromRow(map)),
+      permissions: .unmodifiableOf(_mapRolePermissionsFromRow(map)),
     );
   }
 
@@ -264,7 +264,7 @@ extension on RolesRow {
     return Role(
       id: id,
       name: name,
-      permissions: .unmodifiable(permissions()),
+      permissions: .unmodifiableOf(permissions()),
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

@@ -400,7 +400,7 @@ Future<bool> _isPostgresDockerContainerPresent() async {
   return output.split('\n').any((name) => name.trim() == 'postgres');
 }
 
-final List<String> _pathExecutables = List.unmodifiable(['psql', 'postgres']);
+final List<String> _pathExecutables = .unmodifiableOf(['psql', 'postgres']);
 
 Future<bool> _isPostgresCliAvailable() async {
   try {
@@ -421,7 +421,7 @@ Future<bool> _isPostgresCliAvailable() async {
               .toList()
         : <String>[];
 
-    final List<String> executables = List.unmodifiable([
+    final List<String> executables = .unmodifiableOf([
       ..._pathExecutables,
       ...absoluteExecutables,
     ]);

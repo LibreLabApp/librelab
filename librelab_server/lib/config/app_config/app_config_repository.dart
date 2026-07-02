@@ -5,14 +5,12 @@ class AppConfigRepository({
   required final String _storageId,
   required final YamlStorage _storage,
 }) {
-  AppConfig? _config;
-
-  AppConfig? get config => _config;
-  AppConfig get configOrThrow =>
-      config ?? (throw StateError('$AppConfig must not be null'));
+  AppConfig? _cached;
+  AppConfig get cached =>
+      _cached ?? (throw StateError('$AppConfig must not be null'));
 
   Future<AppConfig?> load() async {
-    final config = _config;
+    final config = _cached;
     if (config != null) {
       throw StateError('Must load the app config only once');
     }
@@ -21,17 +19,16 @@ class AppConfigRepository({
     if (root == null) {
       return null;
     }
-    return _config = AppConfig.fromYaml(root);
+    return _cached = AppConfig.fromYaml(root);
   }
 
   Future<void> save(AppConfig config) async {
-    _config = config;
-
+    _cached = config;
     await _storage.write(_storageId, config.toYaml());
   }
 
   Future<void> update({SetupPromptDeclinedConfig? setupPromptDeclined}) async {
-    var newConfig = configOrThrow;
+    var newConfig = cached;
     if (setupPromptDeclined != null) {
       newConfig = newConfig.copyWith(setupPromptDeclined: setupPromptDeclined);
     }

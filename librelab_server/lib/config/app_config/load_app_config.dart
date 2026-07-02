@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:librelab_server/config/app_config/app_config.dart';
-import 'package:librelab_server/config/app_config_repository.dart';
+import 'package:librelab_server/config/app_config/app_config_repository.dart';
 import 'package:librelab_server/mdns/prompt_config.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';

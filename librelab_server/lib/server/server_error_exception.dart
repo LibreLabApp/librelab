@@ -1,6 +1,6 @@
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
-import 'package:librelab_server/utils/json_map.dart';
+import 'package:librelab_server/utils/json_types.dart';
 import 'package:meta/meta.dart';
 
 /// Exception handled by the server layer and mapped to a [ServerErrorResponse]

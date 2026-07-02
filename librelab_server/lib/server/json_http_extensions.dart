@@ -28,7 +28,7 @@ extension RequestX on Request {
   }) async {
     final body = await readAsString();
     try {
-      return deserializeJson(body, fromJson);
+      return await deserializeJson(body, fromJson);
     } on JsonParseException catch (e) {
       return switch (e) {
         JsonDecodingException(:final reason) =>
