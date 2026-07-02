@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:librelab_api_contract/librelab_api_contract.dart';
+import 'package:librelab_server/server/cors_headers.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server_error_exception.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
+import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -39,6 +41,10 @@ Future<HttpServer> startServer({
 
   final handler = const Pipeline()
       .addMiddleware(withErrorHandling)
+      // TODO: Current cors() implementation is not production-ready and does not
+      //  take into account authentication, caching, different origins (needs careful review).
+      //  Find a reliable solution in production mode for the web
+      .addMiddleware(cors(allowedOrigins: kDebugMode ? null : {}))
       .addHandler(app.call);
 
   final server = await shelf_io.serve(handler, address, port);
@@ -86,25 +92,28 @@ Response _mapException(Exception e) {
     ServerErrorResponse errorResponse,
     HttpStatusCode statusCode,
   ) = switch (e) {
-    InvalidJsonRequestBodyException() => (
-      const ServerErrorResponse(
+    InvalidJsonRequestBodyException(:final message) => (
+      ServerErrorResponse(
         code: 'MALFORMED_JSON',
         message: 'Malformed or unparsable JSON payload.',
+        details: kDebugMode ? {'debug': message} : null,
       ),
       .badRequest,
     ),
-    InvalidJsonRequestBodySchemaException() => (
-      const ServerErrorResponse(
+    InvalidJsonRequestBodySchemaException(:final message) => (
+      ServerErrorResponse(
         code: 'JSON_SCHEMA_MISMATCH',
         message: 'Payload schema mismatch. A client update may be required.',
+        details: kDebugMode ? {'debug': message} : null,
       ),
       .badRequest,
     ),
     ServerErrorException(:final httpStatus) => (e.toResponse(), httpStatus),
     Exception() => (
-      const ServerErrorResponse(
+      ServerErrorResponse(
         message: 'INTERNAL_SERVER_ERROR',
         code: 'Unhandled server error',
+        details: kDebugMode ? {'debug': e.toString()} : null,
       ),
       .internalServerError,
     ),

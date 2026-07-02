@@ -4,7 +4,7 @@
 /// Instead, modify and then run: dart scripts/database_schema/generate.dart
 library;
 
-import 'package:json_utils/json_utils.dart' show JsonMap;
+import 'package:json_safe/json_safe.dart' show JsonMap;
 import 'package:meta/meta.dart' show immutable;
 import 'package:optional_field/optional_field.dart' show Field, Present;
 

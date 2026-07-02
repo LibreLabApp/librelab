@@ -18,7 +18,8 @@ import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
-import 'package:librelab_server/handshake/handshake_routes.dart';
+import 'package:librelab_server/handshake/handshake_route.dart';
+import 'package:librelab_server/handshake/ping_route.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
@@ -158,7 +159,7 @@ Future<void> run(List<String> args) async {
       db: databaseClient,
       migrations: DatabaseMigrations.list,
       latestVersion: DatabaseMigrations.latest,
-      logger: Logger('DatabaseMigrationRunner'),
+      logger: Logger('$DatabaseMigrationRunner'),
     );
     await migrationRunner.run();
   }
@@ -203,7 +204,7 @@ Future<void> run(List<String> args) async {
     port: apiServerPort,
     address: apiServerAddress,
     routeModules: <RouteModule>[
-      HandshakeRoutes(),
+      HandshakeRoute(),
       AuthRoutes(service: authService, authorization: authorizationService),
       LabSettingsRoutes(
         authorization: authorizationService,
@@ -213,6 +214,7 @@ Future<void> run(List<String> args) async {
           auditLogRepository: AuditLogRepositoryPostgres(databaseClient),
         ),
       ),
+      PingRoute(),
     ],
   );
 

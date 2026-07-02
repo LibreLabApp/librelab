@@ -14,7 +14,7 @@ import 'package:shelf_router/shelf_router.dart';
 //
 // NOTE: For this API specifically, we strongly prefer non-breaking changes,
 // even at the expense of a less-clean API.
-class HandshakeRoutes implements RouteModule {
+class HandshakeRoute implements RouteModule {
   @override
   Router get router =>
       .new()..register(ApiEndpointDefinitions.handshake$POST, _handler);

@@ -29,7 +29,7 @@ Future<void> main() async {
       ),
       dartOutput: 'lib/database/database_schema.g.dart',
       requiredTypeImports: const [
-        ('package:json_utils/json_utils.dart', ['JsonMap']),
+        ('package:json_safe/json_safe.dart', ['JsonMap']),
         ('package:meta/meta.dart', ['immutable']),
         ('package:optional_field/optional_field.dart', ['Field', 'Present']),
       ],
@@ -41,7 +41,7 @@ Future<void> main() async {
           db: _DatabaseAccessConnection._(databaseConnection),
           migrations: DatabaseMigrations.list,
           latestVersion: DatabaseMigrations.latest,
-          logger: Logger('DatabaseMigrationRunner'),
+          logger: Logger('$DatabaseMigrationRunner'),
         ).run();
       },
     ),

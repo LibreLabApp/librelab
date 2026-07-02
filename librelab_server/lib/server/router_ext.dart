@@ -8,6 +8,8 @@ extension RouterExt on Router {
         switch (method) {
           case .get:
             get(path, handler);
+          case .head:
+            head(path, handler);
           case .post:
             post(path, handler);
           case .put:

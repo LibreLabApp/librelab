@@ -1,8 +1,7 @@
 import 'dart:io' show HttpHeaders;
 
-import 'package:json_utils/json_utils.dart';
+import 'package:json_safe/json_safe.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
-import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 
 class InvalidJsonRequestBodyException({
@@ -28,22 +27,26 @@ extension RequestX on Request {
     required T Function(JsonMap json) fromJson,
   }) async {
     final body = await readAsString();
-    switch (tryJsonParse(body, fromJson)) {
-      case SuccessResult<T, JsonParseFailure>(:final value):
-        return value;
-      case FailureResult<T, JsonParseFailure>(:final failure):
-        switch (failure) {
-          case JsonDecodingFailure(:final reason):
-            throw InvalidJsonRequestBodyException(
-              requestBody: body,
-              message: reason,
-            );
-          case JsonDeserializationFailure(:final reason, :final decodedJson):
-            throw InvalidJsonRequestBodySchemaException(
-              message: reason,
-              requestBody: decodedJson,
-            );
-        }
+    try {
+      return deserializeJson(body, fromJson);
+    } on JsonParseException catch (e) {
+      return switch (e) {
+        JsonDecodingException(:final reason) =>
+          throw InvalidJsonRequestBodyException(
+            requestBody: body,
+            message: reason,
+          ),
+        JsonObjectExpectedException(:final actualType) =>
+          throw InvalidJsonRequestBodyException(
+            requestBody: body,
+            message: 'Expected a $JsonMap but got $actualType',
+          ),
+        JsonDeserializationException(:final reason, :final decodedJson) =>
+          throw InvalidJsonRequestBodySchemaException(
+            message: reason,
+            requestBody: decodedJson,
+          ),
+      };
     }
   }
 }
