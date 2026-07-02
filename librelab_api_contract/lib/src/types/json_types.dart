@@ -1,1 +1,1 @@
-export 'package:json_utils/json_utils.dart' show JsonMap;
+export 'package:json_safe/json_safe.dart' show JsonMap;

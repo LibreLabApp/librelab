@@ -14,6 +14,12 @@ import 'package:librelab_api_contract/src/api_endpoint_definition/types.dart';
 /// The server exposes/implements the API, and the API client consumes it.
 /// This contract does not include request/response schemas, headers, or other metadata.
 abstract final class ApiEndpointDefinitions {
+  /// HTTP HEAD /ping
+  static const HttpEndpoint ping$HEAD = HttpEndpoint(
+    method: HttpMethod.head,
+    path: '/ping',
+  );
+
   /// HTTP POST /handshake
   static const HttpEndpoint handshake$POST = HttpEndpoint(
     method: HttpMethod.post,

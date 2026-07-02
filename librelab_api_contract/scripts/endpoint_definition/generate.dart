@@ -1,6 +1,7 @@
 import 'generator/generator.dart';
 
 final List<ApiNode> _input = [
+  HttpEndpoint(.head, 'ping'),
   HttpEndpoint(.post, 'handshake'),
   ApiGroup('auth', [
     HttpEndpoint(.post, 'login'),

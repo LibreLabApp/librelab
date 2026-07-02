@@ -13,16 +13,8 @@ environment:
 dependencies:
   json_annotation: ^4.12.0
   meta: ^1.18.0
-  json_utils:
-    git:
-      url: https://github.com/EchoEllet/dart-packages.git
-      ref: 570a0327c20ca5985e36c386ed6c63c59215e1bd
-      path: packages/json_utils
-  http_method:
-    git:
-      url: https://github.com/EchoEllet/dart-packages.git
-      ref: 570a0327c20ca5985e36c386ed6c63c59215e1bd
-      path: packages/http_method
+  json_safe: ^0.0.1
+  http_method_enum: ^0.0.2
   collection: ^1.19.1
 
 dev_dependencies:
