@@ -1,5 +1,6 @@
 /// Constants that contain values specific to this project.
 abstract final class ProjectConstants {
+  static const String website = 'https://librelab.app';
   static const String _repo = 'https://github.com/LibreLabApp/librelab';
 
   // (LATER) TODO: Replace the placeholder link once we have a website
@@ -7,6 +8,7 @@ abstract final class ProjectConstants {
       '$_repo/guides/how-to-host-a-server.md';
 
   static const String displayName = 'LibreLab';
+  static const String userAgentAppName = displayName;
 
   // Hardcoded in Info.plist (macOS and iOS platform runners)
   static const String mdnsServiceType = '_librelab._tcp';
