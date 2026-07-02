@@ -1,6 +1,5 @@
-import 'package:json_utils/json_utils.dart';
+import 'package:json_safe/json_safe.dart';
 import 'package:logging/logging.dart';
-import 'package:result/result.dart';
 import 'package:string_storage/string_storage.dart';
 
 class JsonStorage({
@@ -14,16 +13,15 @@ class JsonStorage({
     if (content == null) {
       return null;
     }
-    return switch (tryJsonDecode(content)) {
-      SuccessResult<JsonMap, JsonDecodingFailure>(value: final json) => json,
-      FailureResult<JsonMap, JsonDecodingFailure>(:final failure) => () {
-        _logger?.warning(
-          'Unexpected file content format (${_storage.resolvePath(key)})',
-          failure.toString(),
-        );
-        return null;
-      }(),
-    };
+    try {
+      return decodeJsonStringToMap(content);
+    } on JsonParseException catch (e) {
+      _logger?.warning(
+        'Unexpected file content format (${_storage.resolvePath(key)})',
+        e,
+      );
+      return null;
+    }
   }
 
   Future<void> write(String key, JsonMap value) async {
