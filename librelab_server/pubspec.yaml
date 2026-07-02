@@ -6,7 +6,7 @@ publish_to: 'none'
 resolution: workspace
 
 environment:
-  sdk: ^3.13.0-103.1.beta
+  sdk: ^3.13.0-167.1.beta
 
 dependencies:
   meta: ^1.18.0
@@ -30,8 +30,8 @@ dependencies:
   optional_field: ^1.0.0
   crypto: ^3.0.7
   clock: ^1.1.2
-  string_storage: ^1.0.0
-  yaml_storage: ^1.0.0
+  string_storage: ^0.0.1
+  yaml_storage: ^0.0.1
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'

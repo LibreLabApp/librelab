@@ -5,7 +5,7 @@ publish_to: 'none'
 resolution: workspace
 
 environment:
-  sdk: ^3.13.0-103.1.beta
+  sdk: ^3.13.0-167.1.beta
 
 # win32_registry_value_reader exists to avoid exposing all win32_registry APIs to the project
 dependencies:

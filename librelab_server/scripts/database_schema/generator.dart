@@ -36,8 +36,8 @@ Future<void> generate(Config config) async {
     final (tables, enums) = await _readTypesFromDatabase(connection);
 
     final generatedCode = _generateDartCode(
-      tables: List.unmodifiable(tables),
-      pgEnums: List.unmodifiable(enums),
+      tables: .unmodifiableOf(tables),
+      pgEnums: .unmodifiableOf(enums),
       optionalInsertColumns: config.optionalInsertColumns,
       optionalUpdateColumns: config.optionalUpdateColumns,
       updateColumnDefaults: config.updateColumnDefaults,

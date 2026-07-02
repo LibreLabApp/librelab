@@ -2,8 +2,6 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  enable-experiment:
-    - primary-constructors
   language:
     strict-casts: true
     strict-inference: true
@@ -40,6 +38,7 @@ linter:
     - unnecessary_breaks
     - unnecessary_await_in_return
     - unawaited_futures
+    - unnecessary_ignore
     # - discarded_futures
     - type_annotate_public_apis
     - tighten_type_of_initializing_formals

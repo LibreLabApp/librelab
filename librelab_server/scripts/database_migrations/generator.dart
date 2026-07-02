@@ -69,7 +69,7 @@ Future<void> generate(Config config) async {
   // Consumers should not depend on the order of the generated code.
   migrations.sort((a, b) => a.version.compareTo(b.version));
 
-  final generatedCode = _generateDartCode(.unmodifiable(migrations), config);
+  final generatedCode = _generateDartCode(.unmodifiableOf(migrations), config);
 
   await outputFile.writeAsString(generatedCode);
 

@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
@@ -23,7 +22,7 @@ Future<void> generate(Config config) async {
 
   final generatedCode = _generateDartCode(
     config,
-    endpoints: UnmodifiableListView(endpoints),
+    endpoints: .unmodifiableOf(endpoints),
   );
 
   await outputFile.writeAsString(generatedCode);
@@ -33,7 +32,7 @@ Future<void> generate(Config config) async {
 
 String _generateDartCode(
   Config config, {
-  required UnmodifiableListView<(EndpointDefinition, String)> endpoints,
+  required List<(EndpointDefinition, String)> endpoints,
 }) {
   final fields = <Field>[];
   final methods = <Method>[];

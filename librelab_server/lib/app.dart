@@ -72,7 +72,7 @@ Future<void> run(List<String> args) async {
   final createSuperUser = argResults.wasParsed(CliOptions.createSuperUserFlag);
   final autoApplyMigrations = argResults.flag(CliOptions.applyMigrationsFlag);
 
-  final workingDirectory = kDebugMode ? Directory('data') : null;
+  final workingDirectory = kDebugMode ? Directory('run_workdir') : null;
   if (workingDirectory != null && !workingDirectory.existsSync()) {
     await workingDirectory.create();
   }
@@ -103,7 +103,7 @@ Future<void> run(List<String> args) async {
   final databaseConfig = config.database;
   final isLocalHostDatabase = _isLocalHost(databaseConfig.host);
 
-  final mdnsConfig = configRepository.configOrThrow.mdnsServicePublish;
+  final mdnsConfig = configRepository.cached.mdnsServicePublish;
 
   final secretsRepository = AppSecretsRepository(
     storage: yamlStorage,
