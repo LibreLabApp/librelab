@@ -11,14 +11,13 @@ dependencies:
   api_client:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: 570a0327c20ca5985e36c386ed6c63c59215e1bd
+      ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
       path: packages/api_client
   clock: ^1.1.2
   librelab_api_contract: ^0.0.1
   logging: ^1.3.0
   meta: ^1.18.0
-  result:
-    git:
-      url: https://github.com/EchoEllet/dart-packages.git
-      ref: 570a0327c20ca5985e36c386ed6c63c59215e1bd
-      path: packages/result
+
+dev_dependencies:
+  test: ^1.31.1
+  checks: ^0.3.1
