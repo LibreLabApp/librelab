@@ -4,8 +4,6 @@
 
 ### Lottie Animations
 
-<!-- TODO: Migrate from .json to .lottie -->
-
 - https://lottiefiles.com/free-animation/empty-5bQSRJ9xHc
 - https://lottiefiles.com/free-animation/radar-8SB5jLVHFj
 - https://lottiefiles.com/free-animation/server-KYPiZrY6df

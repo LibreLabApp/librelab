@@ -20,7 +20,7 @@ class const ThemeModeListTile({super.key}) extends StatelessWidget {
             ? Icons.nightlight
             : Icons.wb_sunny_outlined,
       ),
-      // TODO: The trailing is taking too much width on some real devices, leaving little space to the text
+      // TODO: The trailing is taking too much width on some real devices, leaving little space for the text
       trailing: SegmentedButton<AppThemeMode>(
         segments: AppThemeMode.values.map((e) {
           final (icon, tooltip) = switch (e) {

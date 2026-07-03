@@ -12,11 +12,10 @@ import 'package:logging/logging.dart';
 ///
 /// The handshake verifies that a selected server is reachable and
 /// compatible with the current app version.
-class ServerHandshakeCard extends StatelessWidget {
-  const ServerHandshakeCard({super.key, required this.requestServerUrlFocus});
-
-  final void Function() requestServerUrlFocus;
-
+class const ServerHandshakeCard({
+  super.key,
+  required final void Function() requestServerUrlFocus,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: (MDNS) Disable if no server is selected
