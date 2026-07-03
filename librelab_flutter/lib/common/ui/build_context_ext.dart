@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:librelab_flutter/generated/i18n/strings.g.dart';
+import 'package:librelab_flutter/generated/i18n/strings.g.dart'
+    show Translations;
+
+export 'package:librelab_flutter/generated/i18n/strings.g.dart'
+    show Translations;
 
 extension BuildContextExt on BuildContext {
   Translations get t => Translations.of(this);

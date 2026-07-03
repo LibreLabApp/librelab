@@ -15,6 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ServerSelectionState {
 
+/// Defaults to [ServerSelectionMethod.manual] on web due to lack of
+/// native mDNS service discovery support.
+/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web.
  ServerSelectionMethod get selectionMethod;/// The server base URL provided by the user to connect to the server.
 ///
 /// Should be only used if [selectionMethod] is [ServerSelectionMethod.manual].
@@ -218,6 +221,9 @@ class _ServerSelectionState extends ServerSelectionState {
   const _ServerSelectionState({required this.selectionMethod, required this.manualServerUrl}): super(selectionMethod: selectionMethod, manualServerUrl: manualServerUrl);
   
 
+/// Defaults to [ServerSelectionMethod.manual] on web due to lack of
+/// native mDNS service discovery support.
+/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web.
 @override final  ServerSelectionMethod selectionMethod;
 /// The server base URL provided by the user to connect to the server.
 ///

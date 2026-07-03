@@ -45,6 +45,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$serverHandshake$en serverHandshake = Translations$serverHandshake$en.internal(_root);
 	late final Translations$serverSelection$en serverSelection = Translations$serverSelection$en.internal(_root);
 	late final Translations$workInProgress$en workInProgress = Translations$workInProgress$en.internal(_root);
+	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -149,6 +150,20 @@ class Translations$workInProgress$en {
 	String get subtitle => 'Watch your step! We are still laying down the code for this feature. Check back soon!';
 }
 
+// Path: settings
+class Translations$settings$en {
+	Translations$settings$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$settings$locale$en locale = Translations$settings$locale$en.internal(_root);
+	late final Translations$settings$themeMode$en themeMode = Translations$settings$themeMode$en.internal(_root);
+	late final Translations$settings$useSystemColors$en useSystemColors = Translations$settings$useSystemColors$en.internal(_root);
+	late final Translations$settings$useCustomAccentColor$en useCustomAccentColor = Translations$settings$useCustomAccentColor$en.internal(_root);
+	late final Translations$settings$sendCrashReports$en sendCrashReports = Translations$settings$sendCrashReports$en.internal(_root);
+}
+
 // Path: initialSetupPage.steps
 class Translations$initialSetupPage$steps$en {
 	Translations$initialSetupPage$steps$en.internal(this._root);
@@ -229,6 +244,88 @@ class Translations$serverSelection$manualAddress$en {
 	String get tooltip => 'Manually providing a server address.';
 
 	late final Translations$serverSelection$manualAddress$textField$en textField = Translations$serverSelection$manualAddress$textField$en.internal(_root);
+}
+
+// Path: settings.locale
+class Translations$settings$locale$en {
+	Translations$settings$locale$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'App Language'
+	String get title => 'App Language';
+
+	/// en: 'Choose your preferred language'
+	String get subtitle => 'Choose your preferred language';
+
+	/// en: 'System'
+	String get systemDefault => 'System';
+}
+
+// Path: settings.themeMode
+class Translations$settings$themeMode$en {
+	Translations$settings$themeMode$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Theme Mode'
+	String get title => 'Theme Mode';
+
+	/// en: 'Select dark, light or system theme'
+	String get subtitle => 'Select dark, light or system theme';
+
+	late final Translations$settings$themeMode$options$en options = Translations$settings$themeMode$options$en.internal(_root);
+}
+
+// Path: settings.useSystemColors
+class Translations$settings$useSystemColors$en {
+	Translations$settings$useSystemColors$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Inherit System Colors'
+	String get title => 'Inherit System Colors';
+
+	/// en: 'Automatically adapt to the system colors'
+	String get subtitle => 'Automatically adapt to the system colors';
+}
+
+// Path: settings.useCustomAccentColor
+class Translations$settings$useCustomAccentColor$en {
+	Translations$settings$useCustomAccentColor$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Custom Accent Color'
+	String get title => 'Custom Accent Color';
+
+	/// en: 'Customize the accent color of the app theme'
+	String get subtitle => 'Customize the accent color of the app theme';
+
+	late final Translations$settings$useCustomAccentColor$pickColorDialog$en pickColorDialog = Translations$settings$useCustomAccentColor$pickColorDialog$en.internal(_root);
+}
+
+// Path: settings.sendCrashReports
+class Translations$settings$sendCrashReports$en {
+	Translations$settings$sendCrashReports$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Send Crash Reports'
+	String get title => 'Send Crash Reports';
+
+	/// en: 'Help Improve $appName by sending anonymous crash reports'
+	String subtitle({required Object appName}) => 'Help Improve ${appName} by sending anonymous crash reports';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -321,6 +418,39 @@ class Translations$serverSelection$manualAddress$textField$en {
 
 	/// en: 'Can be provided by a service administrator or self-hosted.'
 	String get infoTooltip => 'Can be provided by a service administrator or self-hosted.';
+}
+
+// Path: settings.themeMode.options
+class Translations$settings$themeMode$options$en {
+	Translations$settings$themeMode$options$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'System'
+	String get system => 'System';
+
+	/// en: 'Dark'
+	String get dark => 'Dark';
+
+	/// en: 'Light'
+	String get light => 'Light';
+}
+
+// Path: settings.useCustomAccentColor.pickColorDialog
+class Translations$settings$useCustomAccentColor$pickColorDialog$en {
+	Translations$settings$useCustomAccentColor$pickColorDialog$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Pick a Color'
+	String get title => 'Pick a Color';
+
+	/// en: 'Close'
+	String get close => 'Close';
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -624,6 +754,22 @@ extension on Translations {
 			'serverSelection.manualAddress.textField.infoTooltip' => 'Can be provided by a service administrator or self-hosted.',
 			'workInProgress.title' => 'Under Construction!',
 			'workInProgress.subtitle' => 'Watch your step! We are still laying down the code for this feature. Check back soon!',
+			'settings.locale.title' => 'App Language',
+			'settings.locale.subtitle' => 'Choose your preferred language',
+			'settings.locale.systemDefault' => 'System',
+			'settings.themeMode.title' => 'Theme Mode',
+			'settings.themeMode.subtitle' => 'Select dark, light or system theme',
+			'settings.themeMode.options.system' => 'System',
+			'settings.themeMode.options.dark' => 'Dark',
+			'settings.themeMode.options.light' => 'Light',
+			'settings.useSystemColors.title' => 'Inherit System Colors',
+			'settings.useSystemColors.subtitle' => 'Automatically adapt to the system colors',
+			'settings.useCustomAccentColor.title' => 'Custom Accent Color',
+			'settings.useCustomAccentColor.subtitle' => 'Customize the accent color of the app theme',
+			'settings.useCustomAccentColor.pickColorDialog.title' => 'Pick a Color',
+			'settings.useCustomAccentColor.pickColorDialog.close' => 'Close',
+			'settings.sendCrashReports.title' => 'Send Crash Reports',
+			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'Help Improve ${appName} by sending anonymous crash reports',
 			_ => null,
 		};
 	}

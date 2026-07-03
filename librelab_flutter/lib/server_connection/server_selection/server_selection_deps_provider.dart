@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http show Client;
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/local_discovery_repository.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/mdns_service_discovery_resolver/mdns_service_discovery_resolver.dart';
@@ -9,14 +8,10 @@ import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 
 /// Provides the dependencies required by the server selection feature.
-///
-/// Requires an [http.Client] to be available from an ancestor
-/// `Provider<http.Client>` in the widget tree.
-class ServerSelectionDepsProvider extends StatefulWidget {
-  const ServerSelectionDepsProvider({super.key, required this.child});
-
-  final Widget child;
-
+class const ServerSelectionDepsProvider({
+  required final Widget child,
+  super.key,
+}) extends StatefulWidget {
   @override
   State<ServerSelectionDepsProvider> createState() =>
       _ServerSelectionDepsProviderState();
@@ -24,7 +19,7 @@ class ServerSelectionDepsProvider extends StatefulWidget {
 
 class _ServerSelectionDepsProviderState
     extends State<ServerSelectionDepsProvider> {
-  late Future<MdnsServiceDiscovery> _future;
+  late final Future<MdnsServiceDiscovery> _future;
 
   @override
   void initState() {
@@ -36,18 +31,17 @@ class _ServerSelectionDepsProviderState
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _future,
-      builder: (context, asyncSnapshot) {
-        if (!asyncSnapshot.hasData) {
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == .waiting) {
           return const SizedBox.shrink();
         }
-        final discovery = asyncSnapshot.requireData;
+        final discovery = snapshot.requireData;
         return MultiBlocProvider(
           providers: [
             RepositoryProvider(
               create: (context) => LocalDiscoveryRepository(
                 logger: Logger('$LocalDiscoveryRepository'),
                 discovery: discovery,
-                client: context.read<http.Client>(),
               ),
               dispose: (repository) => repository.close(),
             ),

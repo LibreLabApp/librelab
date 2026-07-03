@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart' hide Step;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/send_crash_reports.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/theme_mode.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/use_custom_accent_color.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/use_system_theme_color.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/work_in_progress.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
@@ -44,9 +49,21 @@ class _Body extends StatelessWidget {
             return Step(
               nav: e.getStepNav(t),
               contentHeading: currentStep.getStepContentHeading(t),
-              stepBuilder: (context) => e == .server
-                  ? ServerSelectionSection()
-                  : const WorkInProgress(),
+              stepBuilder: (context) => switch (e) {
+                .preferences => const Column(
+                  spacing: 16,
+                  children: [
+                    AppLocaleListTile(),
+                    ThemeModeListTile(),
+                    UseSystemThemeColorListTile(),
+                    UseCustomAccentColorListTile(),
+                    SendCrashReportsListTile(),
+                  ],
+                ),
+                .server => ServerSelectionSection(),
+                .account => const WorkInProgress(),
+                .complete => const WorkInProgress(),
+              },
             );
           }).toList(),
           stepHero: StepHero(

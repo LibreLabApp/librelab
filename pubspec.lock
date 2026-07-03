@@ -410,6 +410,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  flex_color_picker:
+    dependency: transitive
+    description:
+      name: flex_color_picker
+      sha256: a0979dd61f21b634717b98eb4ceaed2bfe009fe020ce8597aaf164b9eeb57aaa
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.8.0"
+  flex_seed_scheme:
+    dependency: transitive
+    description:
+      name: flex_seed_scheme
+      sha256: a3183753bbcfc3af106224bff3ab3e1844b73f58062136b7499919f49f3667e7
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter:
     dependency: transitive
     description: flutter
@@ -840,6 +856,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  path_provider:
+    dependency: transitive
+    description:
+      name: path_provider
+      sha256: a7f4874f987173da295a61c181b8ee71dab59b332a486b391babf26a1b884825
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.6"
+  path_provider_android:
+    dependency: transitive
+    description:
+      name: path_provider_android
+      sha256: "69cbd515a62b94d32a7944f086b2f82b4ac40a1d45bebfc00813a430ab2dabcd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.1"
+  path_provider_foundation:
+    dependency: transitive
+    description:
+      name: path_provider_foundation
+      sha256: "2a376b7d6392d80cd3705782d2caa734ca4727776db0b6ec36ef3f1855197699"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.0"
   path_provider_linux:
     dependency: transitive
     description:
@@ -1166,6 +1206,70 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  system_accent_color:
+    dependency: transitive
+    description:
+      name: system_accent_color
+      sha256: "2141116bab8376b2454b3241b41a6bc78860febe842d010fa0dda1ae7e644026"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_android:
+    dependency: transitive
+    description:
+      name: system_accent_color_android
+      sha256: d051d9db4857924c0c2f689f2630e5c937b29139c57cace462f70b642166ccde
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_ios:
+    dependency: transitive
+    description:
+      name: system_accent_color_ios
+      sha256: ead9d0092f4cb92e886a0a0371d23f07e0e030a8b09721f0da00d06ad852f2d4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_linux:
+    dependency: transitive
+    description:
+      name: system_accent_color_linux
+      sha256: d8350b15e80b087fc0b1e2935bce708e4a84b4477ef46630477cf822785f56b3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_macos:
+    dependency: transitive
+    description:
+      name: system_accent_color_macos
+      sha256: f1d73d6f3731da314d1794dd25db7fa77e3da2de9d12f2577b639b043728583b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_platform_interface:
+    dependency: transitive
+    description:
+      name: system_accent_color_platform_interface
+      sha256: "5980e798f531f3fb77e591b6d1d08f0c8fbc89afc8a797aec14cb4949dc2d483"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_web:
+    dependency: transitive
+    description:
+      name: system_accent_color_web
+      sha256: "2740a119cf3a1f4c4f76f5edfe3baffb3db898aef825c3996f497419583f5e48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_windows:
+    dependency: transitive
+    description:
+      name: system_accent_color_windows
+      sha256: "73080771d206fe1f0a94dc88adb2b42923ce2e7780539f18c2b7872bf40a5488"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   term_glyph:
     dependency: transitive
     description:
@@ -1415,5 +1519,5 @@ packages:
     source: hosted
     version: "2.2.4"
 sdks:
-  dart: ">=3.13.0-103.1.beta <4.0.0"
+  dart: ">=3.13.0-167.1.beta <4.0.0"
   flutter: ">=3.44.0"

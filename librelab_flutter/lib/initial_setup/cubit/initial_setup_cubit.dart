@@ -13,7 +13,7 @@ final class const ServerNotConfigured() extends StepAccessDeniedReason;
 final class const AccountSetupNotConfigured() extends StepAccessDeniedReason;
 
 class InitialSetupCubit extends Cubit<InitialSetupState> {
-  InitialSetupCubit() : super(.initialState());
+  InitialSetupCubit() : super(const .initialState());
 
   void setStep(InitialSetupStep step) {
     emit(state.copyWith(currentStep: step));

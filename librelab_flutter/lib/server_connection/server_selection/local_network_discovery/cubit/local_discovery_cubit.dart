@@ -11,7 +11,7 @@ part 'local_discovery_cubit.freezed.dart';
 
 class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
   LocalDiscoveryCubit({required this._localDiscoveryRepository})
-    : super(LocalDiscoveryState.initialState()) {
+    : super(const LocalDiscoveryState.initialState()) {
     _streamSubscription = _localDiscoveryRepository.serversStream.listen(
       _onServersChanged,
     );

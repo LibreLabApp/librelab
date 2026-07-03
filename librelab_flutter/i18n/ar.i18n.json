@@ -1,6 +1,161 @@
 {
     "@@locale": "ar",
     "initialSetupPage": {
-        "title": "الإعداد الأولي"
+        "title": "الإعداد الأولي",
+        "steps": {
+            "preferences": {
+                "nav": {
+                    "title": "التفضيلات",
+                    "subtitle": "اختر تفضيلاتك"
+                },
+                "content": {
+                    "title": "التخصيص",
+                    "subtitle": "اضبط المظهر واللغة وخيارات الواجهة"
+                }
+            },
+            "server": {
+                "nav": {
+                    "title": "الخادم",
+                    "subtitle": "إعداد الاتصال بالخادم",
+                    "prerequisiteStepIncomplete": "يرجى اختيار خادم واختبار الاتصال أولا"
+                },
+                "content": {
+                    "title": "الاتصال بالخادم",
+                    "subtitle": "اتصل بخادم للوصول إلى بياناتك ومزامنتها"
+                }
+            },
+            "account": {
+                "nav": {
+                    "title": "الحساب",
+                    "subtitle": "سجل الدخول باستخدام بياناتك",
+                    "prerequisiteStepIncomplete": "أكمل إعداد الحساب أولا"
+                },
+                "content": {
+                    "title": "تسجيل الدخول",
+                    "subtitle": "سجل الدخول لمتابعة الإعداد"
+                }
+            },
+            "complete": {
+                "nav": {
+                    "title": "اكتمل",
+                    "subtitle": "إنهاء الإعداد"
+                },
+                "content": {
+                    "title": "كل شيء جاهز!",
+                    "subtitle": "اكتمل إعداد التطبيق"
+                }
+            }
+        },
+        "next": "التالي",
+        "back": "السابق",
+        "decorativeAnimation": {
+            "title": "أوشكنا على الانتهاء!",
+            "subtitle": "لنكمل إعداد التطبيق"
+        }
+    },
+    "confirmProgramExitDialog": {
+        "title": "تأكيد الخروج",
+        "message": "هل أنت متأكد من رغبتك في الخروج؟ قد تفقد أي تغييرات غير محفوظة.",
+        "backupCheckbox": "نسخ البيانات احتياطيا قبل الإغلاق",
+        "cancelButton": "إلغاء",
+        "confirmButton": "خروج"
+    },
+    "serverHandshake": {
+        "title": "اختبار الاتصال",
+        "subtitle": "تأكد من إمكانية الاتصال بالخادم قبل المتابعة.",
+        "button": "اختبار الاتصال"
+    },
+    "serverSelection": {
+        "localNetworkDiscovery": {
+            "button": "البحث في الشبكة",
+            "tooltip": "البحث عن الخوادم المتوفرة على الشبكة المحلية",
+            "refreshServersButton": "تحديث",
+            "serverListTitle": "الخوادم المتوفرة",
+            "discoveredServerPrompt": "اختر خادما تم العثور عليه على الشبكة المحلية.",
+            "discoveredServersCount": {
+                "one": "تم العثور على خادم واحد",
+                "other": "تم العثور على $n خوادم"
+            },
+            "tileMenu": {
+                "copyIpAddressEndpoint": "نسخ عنوان IP والمنفذ",
+                "copyLocalHostnameEndpoint": "نسخ اسم المضيف والمنفذ"
+            },
+            "noServersFound": {
+                "doneScanning": {
+                    "title": "لم يتم العثور على خوادم",
+                    "subtitle": "تم فحص الشبكة المحلية، ولكن لم يتم العثور على أي خوادم $appName.",
+                    "troubleshootingTips": {
+                        "title": "جرب ما يلي:",
+                        "toggleButtonLabel": "استكشاف الأخطاء",
+                        "serverNotRunning": "تأكد من أن الخادم قيد التشغيل",
+                        "sameNetwork": "تأكد من اتصال الجهاز والخادم بالشبكة نفسها",
+                        "refreshList": "حدث القائمة ثم أعد المحاولة",
+                        "manualEntry": "أو أدخل عنوان الخادم يدويا"
+                    },
+                    "hostServerGuideButton": {
+                        "tooltip": "تعرف على كيفية إعداد واستضافة خادم",
+                        "label": "كيفية استضافة خادم"
+                    }
+                },
+                "stillScanning": {
+                    "title": "جار فحص الشبكة...",
+                    "subtitle": "يتم البحث عن خوادم $appName على الشبكة المحلية. قد يستغرق ذلك بضع لحظات."
+                }
+            }
+        },
+        "manualAddress": {
+            "button": "إدخال عنوان الخادم",
+            "tooltip": "إدخال عنوان الخادم يدويا",
+            "textField": {
+                "validationErrors": {
+                    "emptyInput": "عنوان الخادم مطلوب",
+                    "invalidUri": "يجب إدخال عنوان URL صالح",
+                    "missingScheme": "البروتوكول مطلوب (مثل https://)",
+                    "unsupportedScheme": "بروتوكول غير مدعوم: $scheme",
+                    "missingHost": "اسم المضيف مطلوب",
+                    "invalidPort": "منفذ غير صالح: $port"
+                },
+                "hint": "مثال: https://example.com",
+                "label": "عنوان الخادم",
+                "helper": "أدخل عنوان URL الخاص بالخادم",
+                "infoTooltip": "يمكن الحصول عليه من مسؤول الخدمة أو من خادم مستضاف ذاتيا."
+            }
+        }
+    },
+    "workInProgress": {
+        "title": "قيد التطوير",
+        "subtitle": "هذه الميزة لا تزال قيد التطوير وستتوفر قريبا."
+    },
+    "settings": {
+        "locale": {
+            "title": "لغة التطبيق",
+            "subtitle": "اختر لغتك المفضلة",
+            "systemDefault": "لغة النظام"
+        },
+        "themeMode": {
+            "title": "المظهر",
+            "subtitle": "اختر مظهر التطبيق",
+            "options": {
+                "system": "النظام",
+                "dark": "داكن",
+                "light": "فاتح"
+            }
+        },
+        "useSystemColors": {
+            "title": "استخدام الوان النظام",
+            "subtitle": "التكيف تلقائيا مع الوان النظام"
+        },
+        "useCustomAccentColor": {
+            "title": "لون مميز مخصص",
+            "subtitle": "تخصيص لون التمييز للتطبيق",
+            "pickColorDialog": {
+                "title": "اختر لونًا",
+                "close": "إغلاق"
+            }
+        },
+        "sendCrashReports": {
+            "title": "إرسال تقارير الأعطال",
+            "subtitle": "المساعدة في تحسين $appName بإرسال تقارير أعطال مجهولة الهوية"
+        }
     }
 }

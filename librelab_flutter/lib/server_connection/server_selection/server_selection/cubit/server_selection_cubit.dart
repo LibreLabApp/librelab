@@ -10,7 +10,7 @@ part 'server_selection_cubit.freezed.dart';
 part 'server_selection_state.dart';
 
 class ServerSelectionCubit extends Cubit<ServerSelectionState> {
-  ServerSelectionCubit() : super(ServerSelectionState.initialState());
+  ServerSelectionCubit() : super(const .initialState());
 
   void setManualServerUrl(String value) {
     emit(state.copyWith(manualServerUrl: value));

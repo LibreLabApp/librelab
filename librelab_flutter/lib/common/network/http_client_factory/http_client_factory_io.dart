@@ -14,7 +14,7 @@ Client createHttpClient() {
 }
 
 String _buildUserAgent() {
-  return '${ProjectConstants.userAgentAppName}/${Pubspec.fullVersion} (${Platform.operatingSystem}; ${Platform.operatingSystemVersion.split(' ')[1]}; +${ProjectConstants.website})';
+  return '${ProjectConstants.userAgentAppName}/${Pubspec.fullVersion} (${Platform.operatingSystem}; ${Platform.operatingSystemVersion}; +${ProjectConstants.website})';
 }
 
 BaseClient _createPlatformClient() {

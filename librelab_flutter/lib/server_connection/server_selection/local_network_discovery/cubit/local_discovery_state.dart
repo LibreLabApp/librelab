@@ -10,10 +10,11 @@ class const LocalDiscoveryState({
   required final bool isLoading,
   required final bool hasLoadedOnce,
 }) with _$LocalDiscoveryState {
-  factory initialState() => const LocalDiscoveryState(
-    discoveredServers: [],
-    selectedServerId: null,
-    isLoading: false,
-    hasLoadedOnce: false,
-  );
+  const new initialState()
+    : this(
+        discoveredServers: const [],
+        selectedServerId: null,
+        isLoading: false,
+        hasLoadedOnce: false,
+      );
 }

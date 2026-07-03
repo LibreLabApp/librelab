@@ -20,6 +20,9 @@ bool get isAndroid =>
 bool get isIos => defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb;
 
 @pragma('vm:platform-const-if', !kDebugMode)
+bool get isMobile => isAndroid || isIos;
+
+@pragma('vm:platform-const-if', !kDebugMode)
 bool get isDarwin => isIos || isMacOS;
 
 @pragma('vm:platform-const-if', !kDebugMode)

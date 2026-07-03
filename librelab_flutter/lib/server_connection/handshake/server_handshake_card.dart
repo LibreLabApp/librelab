@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
-import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_flutter/server_connection/handshake/repository/server_handshake_repository.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
 import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';

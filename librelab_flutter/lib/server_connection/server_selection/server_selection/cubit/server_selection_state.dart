@@ -21,8 +21,9 @@ class const ServerSelectionState({
   ///
   required final String? manualServerUrl,
 }) with _$ServerSelectionState {
-  factory initialState() => const .new(
-    selectionMethod: kIsWeb ? .manual : .localNetworkDiscovery,
-    manualServerUrl: null,
-  );
+  const new initialState()
+    : this(
+        selectionMethod: kIsWeb ? .manual : .localNetworkDiscovery,
+        manualServerUrl: null,
+      );
 }

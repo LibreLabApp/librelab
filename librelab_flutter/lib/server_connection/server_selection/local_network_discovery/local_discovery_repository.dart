@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:http/http.dart' show Client;
-import 'package:librelab_api_contract/api_endpoint_definition.dart';
-import 'package:librelab_flutter/common/network/http_latency.dart';
+import 'package:librelab_flutter/common/network/socket_latency.dart';
 import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
@@ -10,7 +8,6 @@ import 'package:mdns_discovery/mdns_discovery.dart';
 class LocalDiscoveryRepository({
   required final MdnsServiceDiscovery _discovery,
   required final Logger _logger,
-  required final Client _client,
 }) {
   bool _isScanning = false;
   bool get isScanning => _isScanning;
@@ -129,15 +126,12 @@ class LocalDiscoveryRepository({
     DiscoveredServer server, {
     required String hostname,
   }) async {
-    final latency = await measureHttpLatency(
+    final latency = await measureLatency(
       // TODO: Avoid hardcoding, try to determine this dynamically (try with HTTPs first)
       //  also avoid hardcoding in DiscoveredServer.url
-      Uri.http(
-        '${server.ipAddress ?? hostname}:${server.port}',
-        ApiEndpointDefinitions.ping$HEAD.path,
-      ),
+      host: server.ipAddress ?? hostname,
+      port: server.port,
       logger: _logger,
-      client: _client,
     );
 
     final index = _servers.indexWhere((e) => e.url == server.url);
@@ -167,7 +161,7 @@ class LocalDiscoveryRepository({
     }
   }
 
-  void _pushUpdate() => _serversController.add(List.unmodifiable(_servers));
+  void _pushUpdate() => _serversController.add(.unmodifiableOf(_servers));
 
   Future<void> close() async {
     await _serversController.close();

@@ -133,5 +133,37 @@
   "workInProgress": {
     "title": "Under Construction!",
     "subtitle": "Watch your step! We are still laying down the code for this feature. Check back soon!"
+  },
+  "settings": {
+    "locale": {
+      "title": "App Language",
+      "subtitle": "Choose your preferred language",
+      "systemDefault": "System"
+    },
+    "themeMode": {
+      "title": "Theme Mode",
+      "subtitle": "Select dark, light or system theme",
+      "options": {
+        "system": "System",
+        "dark": "Dark",
+        "light": "Light"
+      }
+    },
+    "useSystemColors": {
+      "title": "Inherit System Colors",
+      "subtitle": "Automatically adapt to the system colors"
+    },
+    "useCustomAccentColor": {
+      "title": "Custom Accent Color",
+      "subtitle": "Customize the accent color of the app theme",
+      "pickColorDialog": {
+        "title": "Pick a Color",
+        "close": "Close"
+      }
+    },
+    "sendCrashReports": {
+      "title": "Send Crash Reports",
+      "subtitle": "Help Improve $appName by sending anonymous crash reports"
+    }
   }
 }
