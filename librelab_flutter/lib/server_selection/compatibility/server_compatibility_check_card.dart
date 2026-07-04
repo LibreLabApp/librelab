@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
-import 'package:librelab_flutter/server_connection/handshake/repository/server_handshake_repository.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
+import 'package:librelab_flutter/server_selection/compatibility/server_compatibility_repository.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 
-/// A card that triggers a server handshake via an action button.
+/// A card that triggers an API server compatibility check via an action button.
 ///
-/// The handshake verifies that a selected server is reachable and
+/// Verifies that a selected server is reachable and
 /// compatible with the current app version.
-class const ServerHandshakeCard({
+class const ServerCompatibilityCheckCard({
   super.key,
   required final void Function() requestServerUrlFocus,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: (MDNS) Disable if no server is selected
-    final t = context.t.serverHandshake;
+    final t = context.t.serverCompatibility.check;
     return AlertCard(
       type: .note,
       prefixIcon: Icons.wifi,
@@ -59,7 +59,7 @@ class const ServerHandshakeCard({
               return;
             }
 
-            final repository = ServerHandshakeRepository(
+            final repository = ServerCompatibilityRepository(
               client: context.read()..setBaseUrl(Uri.parse(selected)),
             );
 
@@ -67,19 +67,17 @@ class const ServerHandshakeCard({
               final response = await repository.check();
 
               messenger.showSnackBar(
-                SnackBar(
-                  content: Text('Successful handshake: ${response.status}'),
-                ),
+                SnackBar(content: Text('Successful check: ${response.status}')),
               );
               // TODO: (HTTP_CLIENT) May handle this
             } /*on TlsException catch (e) {
               messenger.showSnackBar(SnackBar(content: Text('TLS: $e')));
-              logger.warning('$HandshakeException: $e');
+              logger.warning('$TlsException: $e');
             } */ on Exception catch (e) {
               messenger.showSnackBar(
-                SnackBar(content: Text('Handshake failed: $e')),
+                SnackBar(content: Text('Check failed: $e')),
               );
-              logger.warning('Handshake failed: $e');
+              logger.warning('Check failed: $e');
               // ignore: avoid_catching_errors
             } on TypeError catch (e) {
               logger.warning('Response deserialization failed: $e');

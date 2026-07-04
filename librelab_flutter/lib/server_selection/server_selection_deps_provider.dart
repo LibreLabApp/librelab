@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/local_discovery_repository.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/mdns_service_discovery_resolver/mdns_service_discovery_resolver.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/local_discovery_repository.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/mdns_service_discovery_resolver/mdns_service_discovery_resolver.dart';
+import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 

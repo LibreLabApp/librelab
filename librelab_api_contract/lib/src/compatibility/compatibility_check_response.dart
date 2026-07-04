@@ -2,9 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:librelab_api_contract/src/types/json_types.dart';
 import 'package:meta/meta.dart';
 
-part 'handshake_response.g.dart';
+part 'compatibility_check_response.g.dart';
 
-enum ApiContractHandshakeStatus {
+enum ApiContractCompatibilityStatus {
   /// Client and server API contract versions are identical.
   fullyCompatible,
 
@@ -23,15 +23,15 @@ enum ApiContractHandshakeStatus {
 
 @immutable
 @JsonSerializable()
-class const HandshakeResponse({
+class const CompatibilityCheckResponse({
   required final int serverBuildNumber,
   required final String serverVersion,
   @JsonKey(
     // Adding a new enum not considered a breaking change.
-    unknownEnumValue: ApiContractHandshakeStatus.updateClient,
+    unknownEnumValue: ApiContractCompatibilityStatus.updateClient,
   )
-  required final ApiContractHandshakeStatus status,
+  required final ApiContractCompatibilityStatus status,
 }) {
-  factory fromJson(JsonMap json) => _$HandshakeResponseFromJson(json);
-  JsonMap toJson() => _$HandshakeResponseToJson(this);
+  factory fromJson(JsonMap json) => _$CompatibilityCheckResponseFromJson(json);
+  JsonMap toJson() => _$CompatibilityCheckResponseToJson(this);
 }

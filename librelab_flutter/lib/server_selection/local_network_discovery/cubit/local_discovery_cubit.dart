@@ -3,21 +3,20 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:librelab_flutter/common/bloc_ext.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/local_discovery_repository.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/local_discovery_repository.dart';
 
 part 'local_discovery_state.dart';
 part 'local_discovery_cubit.freezed.dart';
 
-class LocalDiscoveryCubit extends Cubit<LocalDiscoveryState> {
-  LocalDiscoveryCubit({required this._localDiscoveryRepository})
-    : super(const LocalDiscoveryState.initialState()) {
+class LocalDiscoveryCubit({
+  required final LocalDiscoveryRepository _localDiscoveryRepository,
+}) extends Cubit<LocalDiscoveryState> {
+  this : super(const LocalDiscoveryState.initialState()) {
     _streamSubscription = _localDiscoveryRepository.serversStream.listen(
       _onServersChanged,
     );
   }
-
-  final LocalDiscoveryRepository _localDiscoveryRepository;
 
   late final StreamSubscription<List<DiscoveredServer>> _streamSubscription;
 

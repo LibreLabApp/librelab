@@ -27,11 +27,11 @@ class InitialSetupCubit extends Cubit<InitialSetupState> {
 
     return switch (targetStep) {
       .preferences => null,
-      .server => null,
+      .serverSelection => null,
       // TODO: (Account validation) Server URL must not be null & connection test must succeed for that URL
-      .account => const ServerNotConfigured(),
+      .login => const ServerNotConfigured(),
       // TODO: (Complete validation) Email / password fields must not be null & login credentials are valid
-      .complete => canGoTo(.account) ?? const AccountSetupNotConfigured(),
+      .complete => canGoTo(.login) ?? const AccountSetupNotConfigured(),
     };
   }
 }

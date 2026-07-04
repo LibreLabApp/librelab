@@ -41,7 +41,6 @@ final List<ApiNode> _input = [
 +  ApiGroup('backup', [
 +    HttpEndpoint(.post, 'create')
 +  ]),
-  HttpEndpoint(.post, 'handshake'),
   ApiGroup('messages', [
     WebSocketEndpoint('listen'),
     HttpEndpoint(.post, 'upload-image'),

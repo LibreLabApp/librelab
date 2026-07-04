@@ -7,34 +7,36 @@ import 'package:librelab_server/server/router_ext.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-/// Performs API contract handshake with this server instance.
+/// Performs API contract compatibility check with this server instance.
 ///
 /// Validates client/server compatibility only: no external version lookup
 /// or update service is involved.
 //
-// NOTE: For this API specifically, we strongly prefer non-breaking changes,
+// NOTE: For this API, we strongly prefer non-breaking changes,
 // even at the expense of a less-clean API.
-class HandshakeRoute implements RouteModule {
+class CompatibilityRoutes implements RouteModule {
   @override
   Router get router =>
-      .new()..register(ApiEndpointDefinitions.handshake$POST, _handler);
+      .new()
+        ..register(ApiEndpointDefinitions.compatibility_check$POST, _handler);
 
   Future<Response> _handler(Request request) async {
     final body = await request.readJsonBody(
-      fromJson: HandshakeRequest.fromJson,
+      fromJson: CompatibilityCheckRequest.fromJson,
     );
     final clientApiContractVersion = body.clientApiContractVersion;
 
     return _check(version: clientApiContractVersion).toJson().httpResponse(.ok);
   }
 
-  HandshakeResponse _check({required int version}) => HandshakeResponse(
-    status: _resolve(client: version),
-    serverBuildNumber: Pubspec.versionBuildNumber,
-    serverVersion: Pubspec.version,
-  );
+  CompatibilityCheckResponse _check({required int version}) =>
+      CompatibilityCheckResponse(
+        status: _resolve(client: version),
+        serverBuildNumber: Pubspec.versionBuildNumber,
+        serverVersion: Pubspec.version,
+      );
 
-  ApiContractHandshakeStatus _resolve({required int client}) {
+  ApiContractCompatibilityStatus _resolve({required int client}) {
     const server = ApiContractVersionConstants.version;
     const minClient = ApiContractVersionConstants.minSupportedVersion;
 

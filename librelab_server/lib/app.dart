@@ -12,14 +12,13 @@ import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_ha
 import 'package:librelab_server/auth/superuser_initializer.dart';
 import 'package:librelab_server/cli/arg_parser.dart';
 import 'package:librelab_server/cli/cli_constants.dart';
+import 'package:librelab_server/compatibility/compatibility_routes.dart';
 import 'package:librelab_server/config/config.dart';
 import 'package:librelab_server/database/database_connect.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
-import 'package:librelab_server/handshake/handshake_route.dart';
-import 'package:librelab_server/handshake/ping_route.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
@@ -35,6 +34,7 @@ import 'package:librelab_server/utils/platform_check.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
+import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 import 'package:string_storage/string_storage.dart';
 import 'package:string_storage/string_storage_file.dart';
@@ -57,7 +57,13 @@ Future<void> run(List<String> args) async {
 
   stdout.writeln('Run mode: ${serverRunMode.name}\n');
 
-  _setupLogger();
+  setupLogger((message, {required bool hasError}) {
+    if (hasError) {
+      stderr.writeln(message);
+    } else {
+      stdout.writeln(message);
+    }
+  });
 
   final shutdownHookRegistry = ShutdownHookRegistry();
   final shutdown = Shutdown(hookRegistry: shutdownHookRegistry);
@@ -204,7 +210,7 @@ Future<void> run(List<String> args) async {
     port: apiServerPort,
     address: apiServerAddress,
     routeModules: <RouteModule>[
-      HandshakeRoute(),
+      CompatibilityRoutes(),
       AuthRoutes(service: authService, authorization: authorizationService),
       LabSettingsRoutes(
         authorization: authorizationService,
@@ -214,7 +220,6 @@ Future<void> run(List<String> args) async {
           auditLogRepository: AuditLogRepositoryPostgres(databaseClient),
         ),
       ),
-      PingRoute(),
     ],
   );
 
@@ -240,29 +245,6 @@ Future<void> run(List<String> args) async {
       shutdown: shutdown,
     ),
   );
-}
-
-void _setupLogger() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    final level = record.level;
-    final message = '${record.level.name}: ${record.time}: ${record.message}';
-
-    final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
-    if (errorLevels.contains(level)) {
-      final error = record.error;
-      final stacktrace = record.stackTrace;
-
-      final messageWithError = StringBuffer('$message\n')
-        ..writeAll([
-          if (error != null) '  Error: $error\n',
-          if (stacktrace != null) '  StackTrace: $stacktrace\n',
-        ]);
-      stderr.writeln(messageWithError);
-    } else {
-      stdout.writeln(message);
-    }
-  });
 }
 
 Future<void> _initializeSuperUser({

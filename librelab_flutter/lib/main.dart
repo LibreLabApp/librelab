@@ -18,10 +18,10 @@ import 'package:librelab_flutter/common/platform/platform_check_flatpak.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
+import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_storage/string_storage_file.dart';
 import 'package:string_storage_shared_preferences/string_storage_shared_preferences.dart';
 
@@ -41,32 +41,16 @@ final _logger = Logger('Main');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    final level = record.level;
-    final message = '${record.level.name}: ${record.time}: ${record.message}';
+  setupLogger((message, {required bool hasError}) {
+    if (!isDesktop) {
+      // ignore: avoid_print
+      print(message);
+    }
 
-    final errorLevels = {Level.WARNING, Level.SEVERE, Level.SHOUT};
-
-    if (errorLevels.contains(level)) {
-      final errorMessage =
-          '$message\n'
-          '  Error: ${record.error}\n'
-          '  StackTrace: ${record.stackTrace}\n';
-
-      if (isDesktop) {
-        stderr.writeln(errorMessage);
-      } else {
-        // ignore: avoid_print
-        print(errorMessage);
-      }
+    if (hasError) {
+      stderr.writeln(message);
     } else {
-      if (isDesktop) {
-        stdout.writeln(message);
-      } else {
-        // ignore: avoid_print
-        print(message);
-      }
+      stdout.writeln(message);
     }
   });
 
@@ -83,7 +67,7 @@ void main() async {
   final filePaths = AppFilePaths(workingDirectory: workingDirectory?.path);
 
   final StringStorage stringStorage = kIsWeb || isMobile
-      ? StringStorageSharedPreferences(SharedPreferencesAsync())
+      ? StringStorageSharedPreferences(.new())
       : StringStorageFile((storageId) => .new(storageId));
 
   final jsonStorage = JsonStorage(

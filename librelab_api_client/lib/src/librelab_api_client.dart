@@ -1,4 +1,4 @@
-// TODO: (REMOVE_SERVERPOD) Implement handshake
+// TODO: (REMOVE_SERVERPOD) Implement compatibility check route
 
 import 'dart:async';
 

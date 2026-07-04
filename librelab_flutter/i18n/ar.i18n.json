@@ -13,26 +13,26 @@
                     "subtitle": "اضبط المظهر واللغة وخيارات الواجهة"
                 }
             },
-            "server": {
+            "serverSelection": {
                 "nav": {
                     "title": "الخادم",
-                    "subtitle": "إعداد الاتصال بالخادم",
+                    "subtitle": "اختر الخادم",
                     "prerequisiteStepIncomplete": "يرجى اختيار خادم واختبار الاتصال أولا"
                 },
                 "content": {
-                    "title": "الاتصال بالخادم",
-                    "subtitle": "اتصل بخادم للوصول إلى بياناتك ومزامنتها"
+                    "title": "تحديد الخادم",
+                    "subtitle": "اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك"
                 }
             },
-            "account": {
+            "login": {
                 "nav": {
-                    "title": "الحساب",
+                    "title": "تسجيل الدخول",
                     "subtitle": "سجل الدخول باستخدام بياناتك",
                     "prerequisiteStepIncomplete": "أكمل إعداد الحساب أولا"
                 },
                 "content": {
-                    "title": "تسجيل الدخول",
-                    "subtitle": "سجل الدخول لمتابعة الإعداد"
+                    "title": "المصادقة",
+                    "subtitle": "قم بالمصادقة للوصول إلى حسابك"
                 }
             },
             "complete": {
@@ -60,10 +60,12 @@
         "cancelButton": "إلغاء",
         "confirmButton": "خروج"
     },
-    "serverHandshake": {
-        "title": "اختبار الاتصال",
-        "subtitle": "تأكد من إمكانية الاتصال بالخادم قبل المتابعة.",
-        "button": "اختبار الاتصال"
+    "serverCompatibility": {
+        "check": {
+            "title": "اختبار التوافق",
+            "subtitle": "تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.",
+            "button": "اختبار"
+        }
     },
     "serverSelection": {
         "localNetworkDiscovery": {
@@ -76,9 +78,12 @@
                 "one": "تم العثور على خادم واحد",
                 "other": "تم العثور على $n خوادم"
             },
-            "tileMenu": {
-                "copyIpAddressEndpoint": "نسخ عنوان IP والمنفذ",
-                "copyLocalHostnameEndpoint": "نسخ اسم المضيف والمنفذ"
+            "tile": {
+                "menu": {
+                    "copyIpAddressEndpoint": "نسخ عنوان IP والمنفذ",
+                    "copyLocalHostnameEndpoint": "نسخ اسم المضيف والمنفذ"
+                },
+                "serverConnectionLatency": "$latencyMs ms"
             },
             "noServersFound": {
                 "doneScanning": {

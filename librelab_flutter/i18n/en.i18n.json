@@ -2,7 +2,7 @@
   "@@locale": "en",
   "initialSetupPage": {
     "title": "Initial Setup",
-    "@title": "Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server connection, and account setup.",
+    "@title": "Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server selection, and account setup.",
     "steps": {
       "preferences": {
         "nav": {
@@ -14,26 +14,26 @@
           "subtitle": "Adjust theme, language and interface options"
         }
       },
-      "server": {
+      "serverSelection": {
         "nav": {
           "title": "Server",
-          "subtitle": "Configure your server connection",
+          "subtitle": "Select the server",
           "prerequisiteStepIncomplete": "Please select a server and test the connection first"
         },
         "content": {
-          "title": "Server Connection",
-          "subtitle": "Connect to a server to access and sync your data"
+          "title": "Server Selection",
+          "subtitle": "Select a server to connect to and access your data"
         }
       },
-      "account": {
+      "login": {
         "nav": {
-          "title": "Account",
-          "subtitle": "Login using your credentials",
-          "prerequisiteStepIncomplete": "Complete account setup first"
+          "title": "Log in",
+          "subtitle": "Log in with your credentials",
+          "prerequisiteStepIncomplete": "Complete log in first"
         },
         "content": {
-          "title": "Sign In",
-          "subtitle": "Authenticate to continue the setup process"
+          "title": "Authenticate",
+          "subtitle": "Authenticate to access your account"
         }
       },
       "complete": {
@@ -68,10 +68,12 @@
     "confirmButton": "Exit",
     "@confirmButton": "Primary button text to confirm closing the application."
   },
-  "serverHandshake": {
-    "title": "Test your connection",
-    "subtitle": "Make sure you can connect to your server before continuing.",
-    "button": "Test Connection"
+  "serverCompatibility": {
+    "check": {
+      "title": "Verify compatibility",
+      "subtitle": "Verify the server is reachable before continuing.",
+      "button": "Test"
+    }
   },
   "serverSelection": {
     "localNetworkDiscovery": {
@@ -84,9 +86,12 @@
         "one": "Found $n server",
         "other": "Found $n servers"
       },
-      "tileMenu": {
-        "copyIpAddressEndpoint": "Copy IP & Port",
-        "copyLocalHostnameEndpoint": "Copy Hostname & Port"
+      "tile": {
+        "menu": {
+          "copyIpAddressEndpoint": "Copy IP & Port",
+          "copyLocalHostnameEndpoint": "Copy Hostname & Port"
+        },
+        "serverConnectionLatency": "$latencyMs ms"
       },
       "noServersFound": {
         "doneScanning": {

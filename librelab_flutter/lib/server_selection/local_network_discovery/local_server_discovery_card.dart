@@ -4,16 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Unsupported on web due to lack of native mDNS service discovery.
-class LocalServerDiscoveryCard extends StatefulWidget {
-  const LocalServerDiscoveryCard({super.key});
-
+class const LocalServerDiscoveryCard({super.key}) extends StatefulWidget {
   @override
   State<LocalServerDiscoveryCard> createState() =>
       _LocalServerDiscoveryCardState();
@@ -286,7 +284,7 @@ class const _ServerTile({
     final selectedServerId = context.select(
       (LocalDiscoveryCubit c) => c.state.selectedServerId,
     );
-    final t = context.t.serverSelection.localNetworkDiscovery.tileMenu;
+    final t = context.t.serverSelection.localNetworkDiscovery.tile;
 
     return RadioGroup<String>(
       onChanged: (newId) =>
@@ -309,8 +307,9 @@ class const _ServerTile({
                         );
                       },
                 child: Text(switch (e) {
-                  .copyIpAddressEndpoint => t.copyIpAddressEndpoint,
-                  .copyLocalHostnameEndpoint => t.copyLocalHostnameEndpoint,
+                  .copyIpAddressEndpoint => t.menu.copyIpAddressEndpoint,
+                  .copyLocalHostnameEndpoint =>
+                    t.menu.copyLocalHostnameEndpoint,
                 }),
               ),
             )
@@ -348,22 +347,24 @@ class const _ServerTile({
               ),
             ],
           ),
-          trailing: server.latencyMs == null
-              ? null
-              : Row(
-                  mainAxisSize: .min,
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: server.hasLowLatency
-                          ? Colors.green
-                          : Colors.orange,
-                    ),
-                    const SizedBox(width: 6),
-                    Text('${server.latencyMs!} ms'),
-                  ],
+          trailing: () {
+            final latencyMs = server.latencyMs;
+            if (latencyMs == null) {
+              return null;
+            }
+            return Row(
+              mainAxisSize: .min,
+              children: [
+                Icon(
+                  Icons.circle,
+                  size: 10,
+                  color: server.hasLowLatency ? Colors.green : Colors.orange,
                 ),
+                const SizedBox(width: 6),
+                Text(t.serverConnectionLatency(latencyMs: latencyMs)),
+              ],
+            );
+          }(),
         ),
       ),
     );

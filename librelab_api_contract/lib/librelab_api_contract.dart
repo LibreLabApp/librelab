@@ -1,4 +1,3 @@
-export 'src/api_contract_version_constants.dart';
 export 'src/auth/auth_token.dart';
 export 'src/auth/login/login_request.dart';
 export 'src/auth/login/login_response.dart';
@@ -6,8 +5,9 @@ export 'src/auth/logout/logout_request.dart';
 export 'src/auth/logout/logout_response.dart';
 export 'src/auth/refresh_token/refresh_token_request.dart';
 export 'src/auth/refresh_token/refresh_token_response.dart';
-export 'src/handshake/handshake_request.dart';
-export 'src/handshake/handshake_response.dart';
+export 'src/compatibility/api_contract_version_constants.dart';
+export 'src/compatibility/compatibility_check_request.dart';
+export 'src/compatibility/compatibility_check_response.dart';
 export 'src/headers.dart';
 export 'src/lab_settings/lab_settings_response.dart';
 export 'src/lab_settings/update_lab_settings_request.dart';

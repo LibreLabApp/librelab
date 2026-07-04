@@ -25,8 +25,8 @@ final _pathParamRegex = RegExp(r'\{([^}]+)\}');
 ///
 /// Example:
 ///
-/// - `/handshake`: `false`
-/// - `/users/{userId}`
+/// - `/users`: `false`
+/// - `/users/{userId}`: `true`
 bool _hasPathParams(String path) {
   return _pathParamRegex.hasMatch(path);
 }

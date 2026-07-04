@@ -4,9 +4,20 @@ import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:stepper_flow/stepper_flow.dart';
 
 enum InitialSetupStep {
+  /// Allows configuring preferences such as the theme mode,
+  /// language, and other application settings.
   preferences,
-  server,
-  account,
+
+  /// Allows selecting the server instance that the application
+  /// should use, including validating connectivity and compatibility.
+  serverSelection,
+
+  /// Allows logging in with an email address and password.
+  login,
+
+  /// Final step of the setup process. May require completing
+  /// the initial laboratory configuration if it has not
+  /// already been completed.
   complete;
 
   InitialSetupStep get next => values[index + 1];
@@ -18,54 +29,50 @@ extension InitialSetupStepExt on InitialSetupStep {
   StepNav getStepNav(Translations t) {
     final steps = t.initialSetupPage.steps;
     final title = switch (this) {
-      InitialSetupStep.preferences => steps.preferences.nav.title,
-      InitialSetupStep.server => steps.server.nav.title,
-      InitialSetupStep.account => steps.account.nav.title,
-      InitialSetupStep.complete => steps.complete.nav.title,
+      .preferences => steps.preferences.nav.title,
+      .serverSelection => steps.serverSelection.nav.title,
+      .login => steps.login.nav.title,
+      .complete => steps.complete.nav.title,
     };
     final subtitle = switch (this) {
-      InitialSetupStep.preferences => steps.preferences.nav.subtitle,
-      InitialSetupStep.server => steps.server.nav.subtitle,
-      InitialSetupStep.account => steps.account.nav.subtitle,
-      InitialSetupStep.complete => steps.complete.nav.subtitle,
+      .preferences => steps.preferences.nav.subtitle,
+      .serverSelection => steps.serverSelection.nav.subtitle,
+      .login => steps.login.nav.subtitle,
+      .complete => steps.complete.nav.subtitle,
     };
-    return StepNav(title, subtitle);
+    return .new(title, subtitle);
   }
 
   String getLottieAsset() {
     return switch (this) {
-      InitialSetupStep.preferences => Assets.lottie.settings,
-      InitialSetupStep.server => Assets.lottie.server,
-      InitialSetupStep.account => Assets.lottie.account,
-      InitialSetupStep.complete => Assets.lottie.rocket,
+      .preferences => Assets.lottie.settings,
+      .serverSelection => Assets.lottie.server,
+      .login => Assets.lottie.account,
+      .complete => Assets.lottie.rocket,
     }.path;
   }
 
   StepContentHeading getStepContentHeading(Translations t) {
     final steps = t.initialSetupPage.steps;
     final title = switch (this) {
-      InitialSetupStep.preferences => steps.preferences.content.title,
-      InitialSetupStep.server => steps.server.content.title,
-      InitialSetupStep.account => steps.account.content.title,
-      InitialSetupStep.complete => steps.complete.content.title,
+      .preferences => steps.preferences.content.title,
+      .serverSelection => steps.serverSelection.content.title,
+      .login => steps.login.content.title,
+      .complete => steps.complete.content.title,
     };
     final subtitle = switch (this) {
-      InitialSetupStep.preferences => steps.preferences.content.subtitle,
-      InitialSetupStep.server => steps.server.content.subtitle,
-      InitialSetupStep.account => steps.account.content.subtitle,
-      InitialSetupStep.complete => steps.complete.content.subtitle,
+      .preferences => steps.preferences.content.subtitle,
+      .serverSelection => steps.serverSelection.content.subtitle,
+      .login => steps.login.content.subtitle,
+      .complete => steps.complete.content.subtitle,
     };
     final iconData = switch (this) {
-      InitialSetupStep.preferences => Icons.tune,
-      InitialSetupStep.server => Icons.link,
-      InitialSetupStep.account => Icons.account_circle,
-      InitialSetupStep.complete => Icons.check,
+      .preferences => Icons.tune,
+      .serverSelection => Icons.link,
+      .login => Icons.account_circle,
+      .complete => Icons.check,
     };
 
-    return StepContentHeading(
-      title: title,
-      subtitle: subtitle,
-      iconData: iconData,
-    );
+    return .new(title: title, subtitle: subtitle, iconData: iconData);
   }
 }

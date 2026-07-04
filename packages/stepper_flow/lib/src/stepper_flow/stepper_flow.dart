@@ -79,7 +79,7 @@ class const StepperFlow({
             SizedBox(
               width: direction == .horizontal ? 220 : null,
               child: Padding(
-                padding: const EdgeInsets.only(top: 24, left: 16),
+                padding: const EdgeInsetsDirectional.only(top: 24, start: 16),
                 child: usesSidebar
                     ? _StepProgressIndicatorSidebar(
                         currentStepIndex: currentStepIndex,

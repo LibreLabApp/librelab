@@ -41,7 +41,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	// Translations
 	@override late final _Translations$initialSetupPage$ar initialSetupPage = _Translations$initialSetupPage$ar._(_root);
 	@override late final _Translations$confirmProgramExitDialog$ar confirmProgramExitDialog = _Translations$confirmProgramExitDialog$ar._(_root);
-	@override late final _Translations$serverHandshake$ar serverHandshake = _Translations$serverHandshake$ar._(_root);
+	@override late final _Translations$serverCompatibility$ar serverCompatibility = _Translations$serverCompatibility$ar._(_root);
 	@override late final _Translations$serverSelection$ar serverSelection = _Translations$serverSelection$ar._(_root);
 	@override late final _Translations$workInProgress$ar workInProgress = _Translations$workInProgress$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
@@ -75,16 +75,14 @@ class _Translations$confirmProgramExitDialog$ar extends Translations$confirmProg
 	@override String get confirmButton => 'خروج';
 }
 
-// Path: serverHandshake
-class _Translations$serverHandshake$ar extends Translations$serverHandshake$en {
-	_Translations$serverHandshake$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: serverCompatibility
+class _Translations$serverCompatibility$ar extends Translations$serverCompatibility$en {
+	_Translations$serverCompatibility$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'اختبار الاتصال';
-	@override String get subtitle => 'تأكد من إمكانية الاتصال بالخادم قبل المتابعة.';
-	@override String get button => 'اختبار الاتصال';
+	@override late final _Translations$serverCompatibility$check$ar check = _Translations$serverCompatibility$check$ar._(_root);
 }
 
 // Path: serverSelection
@@ -131,8 +129,8 @@ class _Translations$initialSetupPage$steps$ar extends Translations$initialSetupP
 
 	// Translations
 	@override late final _Translations$initialSetupPage$steps$preferences$ar preferences = _Translations$initialSetupPage$steps$preferences$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$server$ar server = _Translations$initialSetupPage$steps$server$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$account$ar account = _Translations$initialSetupPage$steps$account$ar._(_root);
+	@override late final _Translations$initialSetupPage$steps$serverSelection$ar serverSelection = _Translations$initialSetupPage$steps$serverSelection$ar._(_root);
+	@override late final _Translations$initialSetupPage$steps$login$ar login = _Translations$initialSetupPage$steps$login$ar._(_root);
 	@override late final _Translations$initialSetupPage$steps$complete$ar complete = _Translations$initialSetupPage$steps$complete$ar._(_root);
 }
 
@@ -145,6 +143,18 @@ class _Translations$initialSetupPage$decorativeAnimation$ar extends Translations
 	// Translations
 	@override String get title => 'أوشكنا على الانتهاء!';
 	@override String get subtitle => 'لنكمل إعداد التطبيق';
+}
+
+// Path: serverCompatibility.check
+class _Translations$serverCompatibility$check$ar extends Translations$serverCompatibility$check$en {
+	_Translations$serverCompatibility$check$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'اختبار التوافق';
+	@override String get subtitle => 'تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.';
+	@override String get button => 'اختبار';
 }
 
 // Path: serverSelection.localNetworkDiscovery
@@ -163,7 +173,7 @@ class _Translations$serverSelection$localNetworkDiscovery$ar extends Translation
 		one: 'تم العثور على خادم واحد',
 		other: 'تم العثور على ${n} خوادم',
 	);
-	@override late final _Translations$serverSelection$localNetworkDiscovery$tileMenu$ar tileMenu = _Translations$serverSelection$localNetworkDiscovery$tileMenu$ar._(_root);
+	@override late final _Translations$serverSelection$localNetworkDiscovery$tile$ar tile = _Translations$serverSelection$localNetworkDiscovery$tile$ar._(_root);
 	@override late final _Translations$serverSelection$localNetworkDiscovery$noServersFound$ar noServersFound = _Translations$serverSelection$localNetworkDiscovery$noServersFound$ar._(_root);
 }
 
@@ -248,26 +258,26 @@ class _Translations$initialSetupPage$steps$preferences$ar extends Translations$i
 	@override late final _Translations$initialSetupPage$steps$preferences$content$ar content = _Translations$initialSetupPage$steps$preferences$content$ar._(_root);
 }
 
-// Path: initialSetupPage.steps.server
-class _Translations$initialSetupPage$steps$server$ar extends Translations$initialSetupPage$steps$server$en {
-	_Translations$initialSetupPage$steps$server$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: initialSetupPage.steps.serverSelection
+class _Translations$initialSetupPage$steps$serverSelection$ar extends Translations$initialSetupPage$steps$serverSelection$en {
+	_Translations$initialSetupPage$steps$serverSelection$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$server$nav$ar nav = _Translations$initialSetupPage$steps$server$nav$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$server$content$ar content = _Translations$initialSetupPage$steps$server$content$ar._(_root);
+	@override late final _Translations$initialSetupPage$steps$serverSelection$nav$ar nav = _Translations$initialSetupPage$steps$serverSelection$nav$ar._(_root);
+	@override late final _Translations$initialSetupPage$steps$serverSelection$content$ar content = _Translations$initialSetupPage$steps$serverSelection$content$ar._(_root);
 }
 
-// Path: initialSetupPage.steps.account
-class _Translations$initialSetupPage$steps$account$ar extends Translations$initialSetupPage$steps$account$en {
-	_Translations$initialSetupPage$steps$account$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: initialSetupPage.steps.login
+class _Translations$initialSetupPage$steps$login$ar extends Translations$initialSetupPage$steps$login$en {
+	_Translations$initialSetupPage$steps$login$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$account$nav$ar nav = _Translations$initialSetupPage$steps$account$nav$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$account$content$ar content = _Translations$initialSetupPage$steps$account$content$ar._(_root);
+	@override late final _Translations$initialSetupPage$steps$login$nav$ar nav = _Translations$initialSetupPage$steps$login$nav$ar._(_root);
+	@override late final _Translations$initialSetupPage$steps$login$content$ar content = _Translations$initialSetupPage$steps$login$content$ar._(_root);
 }
 
 // Path: initialSetupPage.steps.complete
@@ -281,15 +291,15 @@ class _Translations$initialSetupPage$steps$complete$ar extends Translations$init
 	@override late final _Translations$initialSetupPage$steps$complete$content$ar content = _Translations$initialSetupPage$steps$complete$content$ar._(_root);
 }
 
-// Path: serverSelection.localNetworkDiscovery.tileMenu
-class _Translations$serverSelection$localNetworkDiscovery$tileMenu$ar extends Translations$serverSelection$localNetworkDiscovery$tileMenu$en {
-	_Translations$serverSelection$localNetworkDiscovery$tileMenu$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: serverSelection.localNetworkDiscovery.tile
+class _Translations$serverSelection$localNetworkDiscovery$tile$ar extends Translations$serverSelection$localNetworkDiscovery$tile$en {
+	_Translations$serverSelection$localNetworkDiscovery$tile$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get copyIpAddressEndpoint => 'نسخ عنوان IP والمنفذ';
-	@override String get copyLocalHostnameEndpoint => 'نسخ اسم المضيف والمنفذ';
+	@override late final _Translations$serverSelection$localNetworkDiscovery$tile$menu$ar menu = _Translations$serverSelection$localNetworkDiscovery$tile$menu$ar._(_root);
+	@override String serverConnectionLatency({required Object latencyMs}) => '${latencyMs} ms';
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound
@@ -362,50 +372,50 @@ class _Translations$initialSetupPage$steps$preferences$content$ar extends Transl
 	@override String get subtitle => 'اضبط المظهر واللغة وخيارات الواجهة';
 }
 
-// Path: initialSetupPage.steps.server.nav
-class _Translations$initialSetupPage$steps$server$nav$ar extends Translations$initialSetupPage$steps$server$nav$en {
-	_Translations$initialSetupPage$steps$server$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: initialSetupPage.steps.serverSelection.nav
+class _Translations$initialSetupPage$steps$serverSelection$nav$ar extends Translations$initialSetupPage$steps$serverSelection$nav$en {
+	_Translations$initialSetupPage$steps$serverSelection$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
 	@override String get title => 'الخادم';
-	@override String get subtitle => 'إعداد الاتصال بالخادم';
+	@override String get subtitle => 'اختر الخادم';
 	@override String get prerequisiteStepIncomplete => 'يرجى اختيار خادم واختبار الاتصال أولا';
 }
 
-// Path: initialSetupPage.steps.server.content
-class _Translations$initialSetupPage$steps$server$content$ar extends Translations$initialSetupPage$steps$server$content$en {
-	_Translations$initialSetupPage$steps$server$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: initialSetupPage.steps.serverSelection.content
+class _Translations$initialSetupPage$steps$serverSelection$content$ar extends Translations$initialSetupPage$steps$serverSelection$content$en {
+	_Translations$initialSetupPage$steps$serverSelection$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'الاتصال بالخادم';
-	@override String get subtitle => 'اتصل بخادم للوصول إلى بياناتك ومزامنتها';
+	@override String get title => 'تحديد الخادم';
+	@override String get subtitle => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك';
 }
 
-// Path: initialSetupPage.steps.account.nav
-class _Translations$initialSetupPage$steps$account$nav$ar extends Translations$initialSetupPage$steps$account$nav$en {
-	_Translations$initialSetupPage$steps$account$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'الحساب';
-	@override String get subtitle => 'سجل الدخول باستخدام بياناتك';
-	@override String get prerequisiteStepIncomplete => 'أكمل إعداد الحساب أولا';
-}
-
-// Path: initialSetupPage.steps.account.content
-class _Translations$initialSetupPage$steps$account$content$ar extends Translations$initialSetupPage$steps$account$content$en {
-	_Translations$initialSetupPage$steps$account$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: initialSetupPage.steps.login.nav
+class _Translations$initialSetupPage$steps$login$nav$ar extends Translations$initialSetupPage$steps$login$nav$en {
+	_Translations$initialSetupPage$steps$login$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
 	@override String get title => 'تسجيل الدخول';
-	@override String get subtitle => 'سجل الدخول لمتابعة الإعداد';
+	@override String get subtitle => 'سجل الدخول باستخدام بياناتك';
+	@override String get prerequisiteStepIncomplete => 'أكمل إعداد الحساب أولا';
+}
+
+// Path: initialSetupPage.steps.login.content
+class _Translations$initialSetupPage$steps$login$content$ar extends Translations$initialSetupPage$steps$login$content$en {
+	_Translations$initialSetupPage$steps$login$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'المصادقة';
+	@override String get subtitle => 'قم بالمصادقة للوصول إلى حسابك';
 }
 
 // Path: initialSetupPage.steps.complete.nav
@@ -428,6 +438,17 @@ class _Translations$initialSetupPage$steps$complete$content$ar extends Translati
 	// Translations
 	@override String get title => 'كل شيء جاهز!';
 	@override String get subtitle => 'اكتمل إعداد التطبيق';
+}
+
+// Path: serverSelection.localNetworkDiscovery.tile.menu
+class _Translations$serverSelection$localNetworkDiscovery$tile$menu$ar extends Translations$serverSelection$localNetworkDiscovery$tile$menu$en {
+	_Translations$serverSelection$localNetworkDiscovery$tile$menu$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get copyIpAddressEndpoint => 'نسخ عنوان IP والمنفذ';
+	@override String get copyLocalHostnameEndpoint => 'نسخ اسم المضيف والمنفذ';
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning
@@ -508,16 +529,16 @@ extension on TranslationsAr {
 			'initialSetupPage.steps.preferences.nav.subtitle' => 'اختر تفضيلاتك',
 			'initialSetupPage.steps.preferences.content.title' => 'التخصيص',
 			'initialSetupPage.steps.preferences.content.subtitle' => 'اضبط المظهر واللغة وخيارات الواجهة',
-			'initialSetupPage.steps.server.nav.title' => 'الخادم',
-			'initialSetupPage.steps.server.nav.subtitle' => 'إعداد الاتصال بالخادم',
-			'initialSetupPage.steps.server.nav.prerequisiteStepIncomplete' => 'يرجى اختيار خادم واختبار الاتصال أولا',
-			'initialSetupPage.steps.server.content.title' => 'الاتصال بالخادم',
-			'initialSetupPage.steps.server.content.subtitle' => 'اتصل بخادم للوصول إلى بياناتك ومزامنتها',
-			'initialSetupPage.steps.account.nav.title' => 'الحساب',
-			'initialSetupPage.steps.account.nav.subtitle' => 'سجل الدخول باستخدام بياناتك',
-			'initialSetupPage.steps.account.nav.prerequisiteStepIncomplete' => 'أكمل إعداد الحساب أولا',
-			'initialSetupPage.steps.account.content.title' => 'تسجيل الدخول',
-			'initialSetupPage.steps.account.content.subtitle' => 'سجل الدخول لمتابعة الإعداد',
+			'initialSetupPage.steps.serverSelection.nav.title' => 'الخادم',
+			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'اختر الخادم',
+			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'يرجى اختيار خادم واختبار الاتصال أولا',
+			'initialSetupPage.steps.serverSelection.content.title' => 'تحديد الخادم',
+			'initialSetupPage.steps.serverSelection.content.subtitle' => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك',
+			'initialSetupPage.steps.login.nav.title' => 'تسجيل الدخول',
+			'initialSetupPage.steps.login.nav.subtitle' => 'سجل الدخول باستخدام بياناتك',
+			'initialSetupPage.steps.login.nav.prerequisiteStepIncomplete' => 'أكمل إعداد الحساب أولا',
+			'initialSetupPage.steps.login.content.title' => 'المصادقة',
+			'initialSetupPage.steps.login.content.subtitle' => 'قم بالمصادقة للوصول إلى حسابك',
 			'initialSetupPage.steps.complete.nav.title' => 'اكتمل',
 			'initialSetupPage.steps.complete.nav.subtitle' => 'إنهاء الإعداد',
 			'initialSetupPage.steps.complete.content.title' => 'كل شيء جاهز!',
@@ -531,17 +552,18 @@ extension on TranslationsAr {
 			'confirmProgramExitDialog.backupCheckbox' => 'نسخ البيانات احتياطيا قبل الإغلاق',
 			'confirmProgramExitDialog.cancelButton' => 'إلغاء',
 			'confirmProgramExitDialog.confirmButton' => 'خروج',
-			'serverHandshake.title' => 'اختبار الاتصال',
-			'serverHandshake.subtitle' => 'تأكد من إمكانية الاتصال بالخادم قبل المتابعة.',
-			'serverHandshake.button' => 'اختبار الاتصال',
+			'serverCompatibility.check.title' => 'اختبار التوافق',
+			'serverCompatibility.check.subtitle' => 'تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.',
+			'serverCompatibility.check.button' => 'اختبار',
 			'serverSelection.localNetworkDiscovery.button' => 'البحث في الشبكة',
 			'serverSelection.localNetworkDiscovery.tooltip' => 'البحث عن الخوادم المتوفرة على الشبكة المحلية',
 			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'تحديث',
 			'serverSelection.localNetworkDiscovery.serverListTitle' => 'الخوادم المتوفرة',
 			'serverSelection.localNetworkDiscovery.discoveredServerPrompt' => 'اختر خادما تم العثور عليه على الشبكة المحلية.',
 			'serverSelection.localNetworkDiscovery.discoveredServersCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ar'))(n, one: 'تم العثور على خادم واحد', other: 'تم العثور على ${n} خوادم', ), 
-			'serverSelection.localNetworkDiscovery.tileMenu.copyIpAddressEndpoint' => 'نسخ عنوان IP والمنفذ',
-			'serverSelection.localNetworkDiscovery.tileMenu.copyLocalHostnameEndpoint' => 'نسخ اسم المضيف والمنفذ',
+			'serverSelection.localNetworkDiscovery.tile.menu.copyIpAddressEndpoint' => 'نسخ عنوان IP والمنفذ',
+			'serverSelection.localNetworkDiscovery.tile.menu.copyLocalHostnameEndpoint' => 'نسخ اسم المضيف والمنفذ',
+			'serverSelection.localNetworkDiscovery.tile.serverConnectionLatency' => ({required Object latencyMs}) => '${latencyMs} ms',
 			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.title' => 'لم يتم العثور على خوادم',
 			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.subtitle' => ({required Object appName}) => 'تم فحص الشبكة المحلية، ولكن لم يتم العثور على أي خوادم ${appName}.',
 			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.title' => 'جرب ما يلي:',

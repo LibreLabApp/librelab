@@ -20,10 +20,10 @@ abstract final class ApiEndpointDefinitions {
     path: '/ping',
   );
 
-  /// HTTP POST /handshake
-  static const HttpEndpoint handshake$POST = HttpEndpoint(
+  /// HTTP POST /compatibility/check
+  static const HttpEndpoint compatibility_check$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/handshake',
+    path: '/compatibility/check',
   );
 
   /// HTTP POST /auth/login

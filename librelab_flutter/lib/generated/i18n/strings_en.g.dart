@@ -42,7 +42,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final Translations$initialSetupPage$en initialSetupPage = Translations$initialSetupPage$en.internal(_root);
 	late final Translations$confirmProgramExitDialog$en confirmProgramExitDialog = Translations$confirmProgramExitDialog$en.internal(_root);
-	late final Translations$serverHandshake$en serverHandshake = Translations$serverHandshake$en.internal(_root);
+	late final Translations$serverCompatibility$en serverCompatibility = Translations$serverCompatibility$en.internal(_root);
 	late final Translations$serverSelection$en serverSelection = Translations$serverSelection$en.internal(_root);
 	late final Translations$workInProgress$en workInProgress = Translations$workInProgress$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
@@ -56,7 +56,7 @@ class Translations$initialSetupPage$en {
 
 	// Translations
 
-	/// Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server connection, and account setup.
+	/// Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server selection, and account setup.
 	///
 	/// en: 'Initial Setup'
 	String get title => 'Initial Setup';
@@ -106,22 +106,14 @@ class Translations$confirmProgramExitDialog$en {
 	String get confirmButton => 'Exit';
 }
 
-// Path: serverHandshake
-class Translations$serverHandshake$en {
-	Translations$serverHandshake$en.internal(this._root);
+// Path: serverCompatibility
+class Translations$serverCompatibility$en {
+	Translations$serverCompatibility$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Test your connection'
-	String get title => 'Test your connection';
-
-	/// en: 'Make sure you can connect to your server before continuing.'
-	String get subtitle => 'Make sure you can connect to your server before continuing.';
-
-	/// en: 'Test Connection'
-	String get button => 'Test Connection';
+	late final Translations$serverCompatibility$check$en check = Translations$serverCompatibility$check$en.internal(_root);
 }
 
 // Path: serverSelection
@@ -172,8 +164,8 @@ class Translations$initialSetupPage$steps$en {
 
 	// Translations
 	late final Translations$initialSetupPage$steps$preferences$en preferences = Translations$initialSetupPage$steps$preferences$en.internal(_root);
-	late final Translations$initialSetupPage$steps$server$en server = Translations$initialSetupPage$steps$server$en.internal(_root);
-	late final Translations$initialSetupPage$steps$account$en account = Translations$initialSetupPage$steps$account$en.internal(_root);
+	late final Translations$initialSetupPage$steps$serverSelection$en serverSelection = Translations$initialSetupPage$steps$serverSelection$en.internal(_root);
+	late final Translations$initialSetupPage$steps$login$en login = Translations$initialSetupPage$steps$login$en.internal(_root);
 	late final Translations$initialSetupPage$steps$complete$en complete = Translations$initialSetupPage$steps$complete$en.internal(_root);
 }
 
@@ -194,6 +186,24 @@ class Translations$initialSetupPage$decorativeAnimation$en {
 	///
 	/// en: 'Let's get everything set up for you'
 	String get subtitle => 'Let\'s get everything set up for you';
+}
+
+// Path: serverCompatibility.check
+class Translations$serverCompatibility$check$en {
+	Translations$serverCompatibility$check$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Verify compatibility'
+	String get title => 'Verify compatibility';
+
+	/// en: 'Verify the server is reachable before continuing.'
+	String get subtitle => 'Verify the server is reachable before continuing.';
+
+	/// en: 'Test'
+	String get button => 'Test';
 }
 
 // Path: serverSelection.localNetworkDiscovery
@@ -225,7 +235,7 @@ class Translations$serverSelection$localNetworkDiscovery$en {
 		other: 'Found ${n} servers',
 	);
 
-	late final Translations$serverSelection$localNetworkDiscovery$tileMenu$en tileMenu = Translations$serverSelection$localNetworkDiscovery$tileMenu$en.internal(_root);
+	late final Translations$serverSelection$localNetworkDiscovery$tile$en tile = Translations$serverSelection$localNetworkDiscovery$tile$en.internal(_root);
 	late final Translations$serverSelection$localNetworkDiscovery$noServersFound$en noServersFound = Translations$serverSelection$localNetworkDiscovery$noServersFound$en.internal(_root);
 }
 
@@ -339,26 +349,26 @@ class Translations$initialSetupPage$steps$preferences$en {
 	late final Translations$initialSetupPage$steps$preferences$content$en content = Translations$initialSetupPage$steps$preferences$content$en.internal(_root);
 }
 
-// Path: initialSetupPage.steps.server
-class Translations$initialSetupPage$steps$server$en {
-	Translations$initialSetupPage$steps$server$en.internal(this._root);
+// Path: initialSetupPage.steps.serverSelection
+class Translations$initialSetupPage$steps$serverSelection$en {
+	Translations$initialSetupPage$steps$serverSelection$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$server$nav$en nav = Translations$initialSetupPage$steps$server$nav$en.internal(_root);
-	late final Translations$initialSetupPage$steps$server$content$en content = Translations$initialSetupPage$steps$server$content$en.internal(_root);
+	late final Translations$initialSetupPage$steps$serverSelection$nav$en nav = Translations$initialSetupPage$steps$serverSelection$nav$en.internal(_root);
+	late final Translations$initialSetupPage$steps$serverSelection$content$en content = Translations$initialSetupPage$steps$serverSelection$content$en.internal(_root);
 }
 
-// Path: initialSetupPage.steps.account
-class Translations$initialSetupPage$steps$account$en {
-	Translations$initialSetupPage$steps$account$en.internal(this._root);
+// Path: initialSetupPage.steps.login
+class Translations$initialSetupPage$steps$login$en {
+	Translations$initialSetupPage$steps$login$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$account$nav$en nav = Translations$initialSetupPage$steps$account$nav$en.internal(_root);
-	late final Translations$initialSetupPage$steps$account$content$en content = Translations$initialSetupPage$steps$account$content$en.internal(_root);
+	late final Translations$initialSetupPage$steps$login$nav$en nav = Translations$initialSetupPage$steps$login$nav$en.internal(_root);
+	late final Translations$initialSetupPage$steps$login$content$en content = Translations$initialSetupPage$steps$login$content$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps.complete
@@ -372,19 +382,17 @@ class Translations$initialSetupPage$steps$complete$en {
 	late final Translations$initialSetupPage$steps$complete$content$en content = Translations$initialSetupPage$steps$complete$content$en.internal(_root);
 }
 
-// Path: serverSelection.localNetworkDiscovery.tileMenu
-class Translations$serverSelection$localNetworkDiscovery$tileMenu$en {
-	Translations$serverSelection$localNetworkDiscovery$tileMenu$en.internal(this._root);
+// Path: serverSelection.localNetworkDiscovery.tile
+class Translations$serverSelection$localNetworkDiscovery$tile$en {
+	Translations$serverSelection$localNetworkDiscovery$tile$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	late final Translations$serverSelection$localNetworkDiscovery$tile$menu$en menu = Translations$serverSelection$localNetworkDiscovery$tile$menu$en.internal(_root);
 
-	/// en: 'Copy IP & Port'
-	String get copyIpAddressEndpoint => 'Copy IP & Port';
-
-	/// en: 'Copy Hostname & Port'
-	String get copyLocalHostnameEndpoint => 'Copy Hostname & Port';
+	/// en: '$latencyMs ms'
+	String serverConnectionLatency({required Object latencyMs}) => '${latencyMs} ms';
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound
@@ -483,9 +491,9 @@ class Translations$initialSetupPage$steps$preferences$content$en {
 	String get subtitle => 'Adjust theme, language and interface options';
 }
 
-// Path: initialSetupPage.steps.server.nav
-class Translations$initialSetupPage$steps$server$nav$en {
-	Translations$initialSetupPage$steps$server$nav$en.internal(this._root);
+// Path: initialSetupPage.steps.serverSelection.nav
+class Translations$initialSetupPage$steps$serverSelection$nav$en {
+	Translations$initialSetupPage$steps$serverSelection$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -494,59 +502,59 @@ class Translations$initialSetupPage$steps$server$nav$en {
 	/// en: 'Server'
 	String get title => 'Server';
 
-	/// en: 'Configure your server connection'
-	String get subtitle => 'Configure your server connection';
+	/// en: 'Select the server'
+	String get subtitle => 'Select the server';
 
 	/// en: 'Please select a server and test the connection first'
 	String get prerequisiteStepIncomplete => 'Please select a server and test the connection first';
 }
 
-// Path: initialSetupPage.steps.server.content
-class Translations$initialSetupPage$steps$server$content$en {
-	Translations$initialSetupPage$steps$server$content$en.internal(this._root);
+// Path: initialSetupPage.steps.serverSelection.content
+class Translations$initialSetupPage$steps$serverSelection$content$en {
+	Translations$initialSetupPage$steps$serverSelection$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// en: 'Server Connection'
-	String get title => 'Server Connection';
+	/// en: 'Server Selection'
+	String get title => 'Server Selection';
 
-	/// en: 'Connect to a server to access and sync your data'
-	String get subtitle => 'Connect to a server to access and sync your data';
+	/// en: 'Select a server to connect to and access your data'
+	String get subtitle => 'Select a server to connect to and access your data';
 }
 
-// Path: initialSetupPage.steps.account.nav
-class Translations$initialSetupPage$steps$account$nav$en {
-	Translations$initialSetupPage$steps$account$nav$en.internal(this._root);
+// Path: initialSetupPage.steps.login.nav
+class Translations$initialSetupPage$steps$login$nav$en {
+	Translations$initialSetupPage$steps$login$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// en: 'Account'
-	String get title => 'Account';
+	/// en: 'Log in'
+	String get title => 'Log in';
 
-	/// en: 'Login using your credentials'
-	String get subtitle => 'Login using your credentials';
+	/// en: 'Log in with your credentials'
+	String get subtitle => 'Log in with your credentials';
 
-	/// en: 'Complete account setup first'
-	String get prerequisiteStepIncomplete => 'Complete account setup first';
+	/// en: 'Complete log in first'
+	String get prerequisiteStepIncomplete => 'Complete log in first';
 }
 
-// Path: initialSetupPage.steps.account.content
-class Translations$initialSetupPage$steps$account$content$en {
-	Translations$initialSetupPage$steps$account$content$en.internal(this._root);
+// Path: initialSetupPage.steps.login.content
+class Translations$initialSetupPage$steps$login$content$en {
+	Translations$initialSetupPage$steps$login$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// en: 'Sign In'
-	String get title => 'Sign In';
+	/// en: 'Authenticate'
+	String get title => 'Authenticate';
 
-	/// en: 'Authenticate to continue the setup process'
-	String get subtitle => 'Authenticate to continue the setup process';
+	/// en: 'Authenticate to access your account'
+	String get subtitle => 'Authenticate to access your account';
 }
 
 // Path: initialSetupPage.steps.complete.nav
@@ -577,6 +585,21 @@ class Translations$initialSetupPage$steps$complete$content$en {
 
 	/// en: 'Your setup is complete'
 	String get subtitle => 'Your setup is complete';
+}
+
+// Path: serverSelection.localNetworkDiscovery.tile.menu
+class Translations$serverSelection$localNetworkDiscovery$tile$menu$en {
+	Translations$serverSelection$localNetworkDiscovery$tile$menu$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Copy IP & Port'
+	String get copyIpAddressEndpoint => 'Copy IP & Port';
+
+	/// en: 'Copy Hostname & Port'
+	String get copyLocalHostnameEndpoint => 'Copy Hostname & Port';
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning
@@ -694,16 +717,16 @@ extension on Translations {
 			'initialSetupPage.steps.preferences.nav.subtitle' => 'Choose your preferences',
 			'initialSetupPage.steps.preferences.content.title' => 'Personalization',
 			'initialSetupPage.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
-			'initialSetupPage.steps.server.nav.title' => 'Server',
-			'initialSetupPage.steps.server.nav.subtitle' => 'Configure your server connection',
-			'initialSetupPage.steps.server.nav.prerequisiteStepIncomplete' => 'Please select a server and test the connection first',
-			'initialSetupPage.steps.server.content.title' => 'Server Connection',
-			'initialSetupPage.steps.server.content.subtitle' => 'Connect to a server to access and sync your data',
-			'initialSetupPage.steps.account.nav.title' => 'Account',
-			'initialSetupPage.steps.account.nav.subtitle' => 'Login using your credentials',
-			'initialSetupPage.steps.account.nav.prerequisiteStepIncomplete' => 'Complete account setup first',
-			'initialSetupPage.steps.account.content.title' => 'Sign In',
-			'initialSetupPage.steps.account.content.subtitle' => 'Authenticate to continue the setup process',
+			'initialSetupPage.steps.serverSelection.nav.title' => 'Server',
+			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'Select the server',
+			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'Please select a server and test the connection first',
+			'initialSetupPage.steps.serverSelection.content.title' => 'Server Selection',
+			'initialSetupPage.steps.serverSelection.content.subtitle' => 'Select a server to connect to and access your data',
+			'initialSetupPage.steps.login.nav.title' => 'Log in',
+			'initialSetupPage.steps.login.nav.subtitle' => 'Log in with your credentials',
+			'initialSetupPage.steps.login.nav.prerequisiteStepIncomplete' => 'Complete log in first',
+			'initialSetupPage.steps.login.content.title' => 'Authenticate',
+			'initialSetupPage.steps.login.content.subtitle' => 'Authenticate to access your account',
 			'initialSetupPage.steps.complete.nav.title' => 'Complete',
 			'initialSetupPage.steps.complete.nav.subtitle' => 'Finish setup',
 			'initialSetupPage.steps.complete.content.title' => 'Ready to go!',
@@ -717,17 +740,18 @@ extension on Translations {
 			'confirmProgramExitDialog.backupCheckbox' => 'Backup data before closing',
 			'confirmProgramExitDialog.cancelButton' => 'Cancel',
 			'confirmProgramExitDialog.confirmButton' => 'Exit',
-			'serverHandshake.title' => 'Test your connection',
-			'serverHandshake.subtitle' => 'Make sure you can connect to your server before continuing.',
-			'serverHandshake.button' => 'Test Connection',
+			'serverCompatibility.check.title' => 'Verify compatibility',
+			'serverCompatibility.check.subtitle' => 'Verify the server is reachable before continuing.',
+			'serverCompatibility.check.button' => 'Test',
 			'serverSelection.localNetworkDiscovery.button' => 'Find on Network',
 			'serverSelection.localNetworkDiscovery.tooltip' => 'Detect servers available on local network',
 			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'Refresh',
 			'serverSelection.localNetworkDiscovery.serverListTitle' => 'Available Servers',
 			'serverSelection.localNetworkDiscovery.discoveredServerPrompt' => 'Select a server found on your local network.',
 			'serverSelection.localNetworkDiscovery.discoveredServersCount' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Found ${n} server', other: 'Found ${n} servers', ), 
-			'serverSelection.localNetworkDiscovery.tileMenu.copyIpAddressEndpoint' => 'Copy IP & Port',
-			'serverSelection.localNetworkDiscovery.tileMenu.copyLocalHostnameEndpoint' => 'Copy Hostname & Port',
+			'serverSelection.localNetworkDiscovery.tile.menu.copyIpAddressEndpoint' => 'Copy IP & Port',
+			'serverSelection.localNetworkDiscovery.tile.menu.copyLocalHostnameEndpoint' => 'Copy Hostname & Port',
+			'serverSelection.localNetworkDiscovery.tile.serverConnectionLatency' => ({required Object latencyMs}) => '${latencyMs} ms',
 			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.title' => 'No servers found',
 			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.subtitle' => ({required Object appName}) => 'We scanned your local network but did not find\nany ${appName} servers',
 			'serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips.title' => 'What you can do:',

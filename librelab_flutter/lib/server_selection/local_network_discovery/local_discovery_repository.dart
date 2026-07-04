@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:librelab_flutter/common/network/socket_latency.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 

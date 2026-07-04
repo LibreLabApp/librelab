@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-enum ApiContractHandshakeStatus {
+enum ApiContractCompatibilityStatus {
   fullyCompatible,
   compatible,
   updateClient,
@@ -8,8 +8,8 @@ enum ApiContractHandshakeStatus {
 }
 
 @immutable
-class const HandshakeResponse({
+class const ServerCompatibilityCheckResponse({
   required final int serverBuildNumber,
   required final String serverVersion,
-  required final ApiContractHandshakeStatus status,
+  required final ApiContractCompatibilityStatus status,
 });

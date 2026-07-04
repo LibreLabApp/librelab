@@ -9,8 +9,8 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/work_in_progress.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_selection/server_selection_section.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_selection_deps_provider.dart';
+import 'package:librelab_flutter/server_selection/server_selection/server_selection_section.dart';
+import 'package:librelab_flutter/server_selection/server_selection_deps_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stepper_flow/stepper_flow.dart';
 
@@ -60,8 +60,8 @@ class _Body extends StatelessWidget {
                     SendCrashReportsListTile(),
                   ],
                 ),
-                .server => ServerSelectionSection(),
-                .account => const WorkInProgress(),
+                .serverSelection => ServerSelectionSection(),
+                .login => const WorkInProgress(),
                 .complete => const WorkInProgress(),
               },
             );
@@ -78,13 +78,15 @@ class _Body extends StatelessWidget {
           ),
           canGoTo: (i) {
             final cubit = context.read<InitialSetupCubit>();
+
+            final t = context.t.initialSetupPage.steps;
             return switch (cubit.canGoTo(InitialSetupStep.values[i])) {
               null => const StepAllowed(),
               ServerNotConfigured() => StepDenied(
-                t.initialSetupPage.steps.server.nav.prerequisiteStepIncomplete,
+                t.serverSelection.nav.prerequisiteStepIncomplete,
               ),
               AccountSetupNotConfigured() => StepDenied(
-                t.initialSetupPage.steps.account.nav.prerequisiteStepIncomplete,
+                t.login.nav.prerequisiteStepIncomplete,
               ),
             };
           },

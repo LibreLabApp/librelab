@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
-import 'package:librelab_flutter/server_connection/handshake/server_handshake_card.dart';
-import 'package:librelab_flutter/server_connection/server_selection/local_network_discovery/local_server_discovery_card.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_address/server_address_text_field.dart';
-import 'package:librelab_flutter/server_connection/server_selection/server_selection/cubit/server_selection_cubit.dart';
+import 'package:librelab_flutter/server_selection/compatibility/server_compatibility_check_card.dart';
+import 'package:librelab_flutter/server_selection/local_network_discovery/local_server_discovery_card.dart';
+import 'package:librelab_flutter/server_selection/server_address/server_address_text_field.dart';
+import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 
 class ServerSelectionSection extends StatelessWidget {
   ServerSelectionSection({super.key});
@@ -35,15 +35,16 @@ class ServerSelectionSection extends StatelessWidget {
           key: _serverSelectionMethodContainerKey,
         ),
         const SizedBox(height: 18),
-        ServerHandshakeCard(requestServerUrlFocus: _requestServerUrlFocus),
+        ServerCompatibilityCheckCard(
+          requestServerUrlFocus: _requestServerUrlFocus,
+        ),
       ],
     );
   }
 }
 
-class _ServerSelectionMethodContainer extends StatefulWidget {
-  const _ServerSelectionMethodContainer({super.key});
-
+class const _ServerSelectionMethodContainer({super.key})
+    extends StatefulWidget {
   @override
   State<_ServerSelectionMethodContainer> createState() =>
       _ServerSelectionMethodContainerState();
