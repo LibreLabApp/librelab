@@ -1,29 +1,39 @@
+# Generates Dart build_runner outputs for a package
 build-runner package="librelab_api_contract":
   cd {{package}} && dart run build_runner build
 
-run-db:
+# Starts PostgreSQL database server via docker compose
+db-up:
   cd librelab_server && docker compose up
 
-generate-db-migrations:
+# Generates database migration Dart constants from SQL files in migrations/
+server-db-migrations:
   cd librelab_server && dart run scripts/database_migrations/generate.dart
 
-generate-db-schema:
+# Generates Dart types from database schema definitions
+server-db-schema:
   cd librelab_server && dart run scripts/database_schema/generate.dart
 
-run-server:
+# Runs the application server
+server-run:
   cd librelab_server && dart run bin/main.dart
 
-bundle-server:
+# Bundles server into distributable form
+server-bundle:
   cd librelab_server && dart run scripts/bundle_server.dart
 
-generate-endpoints-definition:
+# Generates application API endpoint definitions (shared between API server and API client)
+api-endpoint-definitions:
   cd librelab_api_contract && dart run scripts/endpoint_definition/generate.dart
 
-generate-app-translations:
+# Generates localized app strings from the JSON files
+app-translations:
   cd librelab_flutter && dart run slang slang.yaml
 
-generate-app-asset-paths:
+# Generates asset path bindings/paths
+app-asset-paths:
   cd librelab_flutter && fluttergen
 
-generate-app-icons:
+# Generates app launcher icons
+app-icons:
   cd librelab_flutter && dart run flutter_launcher_icons

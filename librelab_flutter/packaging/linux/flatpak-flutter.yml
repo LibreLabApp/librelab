@@ -1,0 +1,50 @@
+id: app.librelab.librelab
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.llvm20
+command: librelab
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+  - --system-talk-name=org.freedesktop.Avahi
+modules:
+  - name: librelab
+    buildsystem: simple
+    build-options:
+      arch:
+        x86_64:
+          env:
+            BUNDLE_PATH: build/linux/x64/release/bundle
+        aarch64:
+          env:
+            BUNDLE_PATH: build/linux/arm64/release/bundle
+      append-path: /usr/lib/sdk/llvm20/bin:/run/build/librelab/flutter/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
+      env:
+        PUB_CACHE: /run/build/librelab/.pub-cache
+        PACKAGE_PATH: librelab_flutter
+        BINARY_FILE_NAME: librelab
+        APP_ID: app.librelab.librelab
+    build-commands:
+      # Builds the app
+      - cd $PACKAGE_PATH && flutter build linux --release --no-pub --suppress-analytics --dart-define=FLATPAK_APP_ID=$APP_ID
+
+      # Installs the app
+      - cd $PACKAGE_PATH && cp -r $BUNDLE_PATH /app/$APP_ID
+      - cd $PACKAGE_PATH && mkdir -p /app/bin && ln -s /app/$APP_ID/$BINARY_FILE_NAME /app/bin/$BINARY_FILE_NAME
+
+      # Installs .desktop and icons
+      - cd $PACKAGE_PATH && install -Dm644 packaging/linux/$APP_ID.desktop -t /app/share/applications/
+      - cd $PACKAGE_PATH && install -Dm644 assets/branding/icon.svg /app/share/icons/hicolor/scalable/apps/$APP_ID.svg
+    sources:
+      - type: git
+        url: https://github.com/LibreLabApp/librelab.git
+      - type: git
+        url: https://github.com/flutter/flutter.git
+        tag: 3.46.0-0.3.pre
+        dest: flutter
