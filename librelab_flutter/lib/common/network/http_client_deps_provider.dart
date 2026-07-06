@@ -31,7 +31,9 @@ class const HttpClientDepsProvider(final Widget child, {super.key})
           ),
         ),
         Provider<ApiRequestHandler>(
-          create: (context) => ApiRequestHandlerDefault(),
+          create: (context) => ApiRequestHandlerDefault(
+            logger: Logger('$ApiRequestHandlerDefault'),
+          ),
         ),
       ],
       child: child,

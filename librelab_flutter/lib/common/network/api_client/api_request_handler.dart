@@ -5,6 +5,7 @@ import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_flutter/common/json_types.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_failures.dart';
 import 'package:librelab_shared/result.dart';
+import 'package:logging/logging.dart';
 
 typedef ApiRequestResult<T> = Result<T, ApiRequestFailure>;
 
@@ -16,7 +17,8 @@ abstract interface class ApiRequestHandler {
   });
 }
 
-class ApiRequestHandlerDefault implements ApiRequestHandler {
+class ApiRequestHandlerDefault({required final Logger _logger})
+    implements ApiRequestHandler {
   @override
   Future<ApiRequestResult<R>> execute<S, R>(
     Future<LibreLabApiResult<S>> Function() request, {
@@ -52,7 +54,13 @@ class ApiRequestHandlerDefault implements ApiRequestHandler {
         JsonDeserializationException(:final decodedJson, :final reason) =>
           JsonDeserializationFailure(decodedJson, reason),
       });
-    } on Exception catch (e) {
+    } on Exception catch (e, stackTrace) {
+      _logger.warning(
+        'Caught an unhandled exception while sending an API request',
+        e,
+        stackTrace,
+      );
+
       return .failure(UnexpectedFailure(e.toString()));
     }
   }

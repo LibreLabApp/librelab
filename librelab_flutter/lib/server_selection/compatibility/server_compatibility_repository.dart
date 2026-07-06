@@ -58,13 +58,19 @@ class ServerCompatibilityRepository({
               :final hostnameAuthority,
               :final ipAddressAuthority,
             ):
+
+              // Important: each Uri is provided as a lazy factory closure instead of
+              // being constructed eagerly. This avoids triggering FormatException during
+              // list creation when some authority strings are invalid, which could prevent
+              // request execution and leave capturedUri unassigned (leading to LateInitializationError).
+              // Only the selected fallback URI is evaluated and constructed at runtime.
               final result = await requestWithFallbackUris(
                 uris: [
-                  Uri.https(hostnameAuthority),
-                  Uri.http(hostnameAuthority),
+                  () => Uri.https(hostnameAuthority),
+                  () => Uri.http(hostnameAuthority),
                   if (ipAddressAuthority != null) ...[
-                    Uri.https(ipAddressAuthority),
-                    Uri.http(ipAddressAuthority),
+                    () => Uri.https(ipAddressAuthority),
+                    () => Uri.http(ipAddressAuthority),
                   ],
                 ],
                 request: (uri) {

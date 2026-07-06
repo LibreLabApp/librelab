@@ -195,6 +195,10 @@ class MdnsServiceDiscoveryBonsoir({
     if (hostname == null) {
       return null;
     }
+    _logger.fine(
+      'hostAddresses for "${bonsoir.name}": ${bonsoir.hostAddresses}',
+    );
+
     return MdnsServiceInfo(
       hostname: hostname,
       ipAddress: bonsoir.hostAddress,

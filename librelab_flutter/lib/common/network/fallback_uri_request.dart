@@ -5,13 +5,14 @@ import 'package:logging/logging.dart';
 final class RequestResult<T>({required final T value, required final Uri uri});
 
 Future<RequestResult<T>> requestWithFallbackUris<T>({
-  required Iterable<Uri> uris,
+  required Iterable<Uri Function()> uris,
   required Future<T> Function(Uri uri) request,
   required Logger logger,
 }) async {
   Exception? lastException;
 
-  for (final uri in uris) {
+  for (final getUri in uris) {
+    final uri = getUri();
     try {
       logger.fine('Trying request: $uri');
 
