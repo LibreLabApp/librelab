@@ -9,7 +9,7 @@ import 'package:librelab_shared/librelab_shared.dart';
 import 'package:ok_http/ok_http.dart';
 import 'package:win_http/win_http.dart';
 
-Client createHttpClient() {
+BaseClient createHttpClient() {
   return _UserAgentClient(
     _createPlatformClient(),
     userAgent: _buildUserAgent(),

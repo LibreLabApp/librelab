@@ -37,4 +37,5 @@ Except for the window title, app ID, and minimum window size, none at the moment
 ## Android
 
 - Added [network permission](https://docs.flutter.dev/data-and-backend/networking#android).
+- Added `android:usesCleartextTraffic="true"` to `<application>` in `main/AndroidManifest.xml`.
 

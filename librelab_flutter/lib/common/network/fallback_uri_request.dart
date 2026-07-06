@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 
 final class RequestResult<T>({required final T value, required final Uri uri});
 
+// TODO: Need to add a connection and request timeout to prevent waiting too long
 Future<RequestResult<T>> requestWithFallbackUris<T>({
   required Iterable<Uri Function()> uris,
   required Future<T> Function(Uri uri) request,
