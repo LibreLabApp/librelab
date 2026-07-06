@@ -12,7 +12,6 @@ class const ThemeModeListTile({super.key}) extends StatelessWidget {
 
     return ListTile(
       title: Text(t.title),
-      subtitle: Text(t.subtitle),
       leading: Icon(
         context.theme.brightness == Brightness.dark
             ? Icons.nightlight

@@ -154,6 +154,7 @@ class Translations$settings$en {
 	late final Translations$settings$themeMode$en themeMode = Translations$settings$themeMode$en.internal(_root);
 	late final Translations$settings$useSystemColors$en useSystemColors = Translations$settings$useSystemColors$en.internal(_root);
 	late final Translations$settings$useCustomAccentColor$en useCustomAccentColor = Translations$settings$useCustomAccentColor$en.internal(_root);
+	late final Translations$settings$useAnimatedGraphics$en useAnimatedGraphics = Translations$settings$useAnimatedGraphics$en.internal(_root);
 	late final Translations$settings$sendCrashReports$en sendCrashReports = Translations$settings$sendCrashReports$en.internal(_root);
 }
 
@@ -303,9 +304,6 @@ class Translations$settings$locale$en {
 	/// en: 'Language'
 	String get title => 'Language';
 
-	/// en: 'Choose your preferred language'
-	String get subtitle => 'Choose your preferred language';
-
 	/// en: 'System'
 	String get systemDefault => 'System';
 }
@@ -320,9 +318,6 @@ class Translations$settings$themeMode$en {
 
 	/// en: 'Theme Mode'
 	String get title => 'Theme Mode';
-
-	/// en: 'Select dark, light or system theme'
-	String get subtitle => 'Select dark, light or system theme';
 
 	late final Translations$settings$themeMode$options$en options = Translations$settings$themeMode$options$en.internal(_root);
 }
@@ -357,6 +352,21 @@ class Translations$settings$useCustomAccentColor$en {
 	String get subtitle => 'Customize the accent color of the app theme';
 
 	late final Translations$settings$useCustomAccentColor$pickColorDialog$en pickColorDialog = Translations$settings$useCustomAccentColor$pickColorDialog$en.internal(_root);
+}
+
+// Path: settings.useAnimatedGraphics
+class Translations$settings$useAnimatedGraphics$en {
+	Translations$settings$useAnimatedGraphics$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Animated Graphics'
+	String get title => 'Animated Graphics';
+
+	/// en: 'Displays animations instead of static icons'
+	String get subtitle => 'Displays animations instead of static icons';
 }
 
 // Path: settings.sendCrashReports
@@ -1031,10 +1041,8 @@ extension on Translations {
 			'workInProgress.title' => 'Under Construction!',
 			'workInProgress.subtitle' => 'Watch your step! We are still laying down the code for this feature. Check back soon!',
 			'settings.locale.title' => 'Language',
-			'settings.locale.subtitle' => 'Choose your preferred language',
 			'settings.locale.systemDefault' => 'System',
 			'settings.themeMode.title' => 'Theme Mode',
-			'settings.themeMode.subtitle' => 'Select dark, light or system theme',
 			'settings.themeMode.options.system' => 'System',
 			'settings.themeMode.options.dark' => 'Dark',
 			'settings.themeMode.options.light' => 'Light',
@@ -1044,6 +1052,8 @@ extension on Translations {
 			'settings.useCustomAccentColor.subtitle' => 'Customize the accent color of the app theme',
 			'settings.useCustomAccentColor.pickColorDialog.title' => 'Pick a Color',
 			'settings.useCustomAccentColor.pickColorDialog.close' => 'Close',
+			'settings.useAnimatedGraphics.title' => 'Animated Graphics',
+			'settings.useAnimatedGraphics.subtitle' => 'Displays animations instead of static icons',
 			'settings.sendCrashReports.title' => 'Send Crash Reports',
 			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'Help Improve ${appName} by sending anonymous crash reports',
 			'apiRequestFailures.connectionFailure' => 'Unable to connect to the server.',

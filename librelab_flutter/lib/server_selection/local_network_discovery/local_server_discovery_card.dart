@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
+import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
@@ -213,9 +215,14 @@ class _NoServersFound extends StatelessWidget {
     return Column(
       mainAxisSize: .min,
       children: [
-        Lottie.asset(
-          isLoading ? Assets.lottie.radar : Assets.lottie.emptyResult,
-          height: 120,
+        AnimatedVisual(
+          animated: (context) => Lottie.asset(
+            isLoading ? Assets.lottie.radar : Assets.lottie.emptyResult,
+            height: 120,
+          ),
+          fallback: (context) => isLoading
+              ? const CircularProgressIndicator()
+              : const DecorativeIcon(Icons.search_off_rounded),
         ),
         const SizedBox(height: 24),
         Text(

@@ -317,7 +317,8 @@ $TelemetrySettingsCopyWith<$Res> get telemetry {
 mixin _$AppAppearance {
 
 @JsonKey(defaultValue: AppThemeMode.system) AppThemeMode get themeMode;@JsonKey(defaultValue: true) bool get useSystemColors;@JsonKey(defaultValue: false) bool get useAccentColor;/// Stored as ARGB int
-@JsonKey(defaultValue: 0xFFFF5252) int get accentColor;
+@JsonKey(defaultValue: 0xFFFF5252) int get accentColor;/// Whether to use animated graphics instead of static icons for decorative visuals.
+@JsonKey(defaultValue: true) bool get useAnimatedGraphics;
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -328,16 +329,16 @@ $AppAppearanceCopyWith<AppAppearance> get copyWith => _$AppAppearanceCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor);
+int get hashCode => Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,useAnimatedGraphics);
 
 @override
 String toString() {
-  return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor)';
+  return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, useAnimatedGraphics: $useAnimatedGraphics)';
 }
 
 
@@ -348,7 +349,7 @@ abstract mixin class $AppAppearanceCopyWith<$Res>  {
   factory $AppAppearanceCopyWith(AppAppearance value, $Res Function(AppAppearance) _then) = _$AppAppearanceCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor
+@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor,@JsonKey(defaultValue: true) bool useAnimatedGraphics
 });
 
 
@@ -365,13 +366,14 @@ class _$AppAppearanceCopyWithImpl<$Res>
 
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,Object? useAnimatedGraphics = null,}) {
   return _then(AppAppearance(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as AppThemeMode,useSystemColors: null == useSystemColors ? _self.useSystemColors : useSystemColors // ignore: cast_nullable_to_non_nullable
 as bool,useAccentColor: null == useAccentColor ? _self.useAccentColor : useAccentColor // ignore: cast_nullable_to_non_nullable
 as bool,accentColor: null == accentColor ? _self.accentColor : accentColor // ignore: cast_nullable_to_non_nullable
-as int,
+as int,useAnimatedGraphics: null == useAnimatedGraphics ? _self.useAnimatedGraphics : useAnimatedGraphics // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -456,10 +458,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppAppearance() when $default != null:
-return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor);case _:
+return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.useAnimatedGraphics);case _:
   return orElse();
 
 }
@@ -477,10 +479,10 @@ return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)  $default,) {final _that = this;
 switch (_that) {
 case _AppAppearance():
-return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor);case _:
+return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.useAnimatedGraphics);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -497,10 +499,10 @@ return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)?  $default,) {final _that = this;
 switch (_that) {
 case _AppAppearance() when $default != null:
-return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor);case _:
+return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.useAnimatedGraphics);case _:
   return null;
 
 }
@@ -512,7 +514,7 @@ return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that
 
 
 class _AppAppearance extends AppAppearance {
-  const _AppAppearance({@JsonKey(defaultValue: AppThemeMode.system) required this.themeMode, @JsonKey(defaultValue: true) required this.useSystemColors, @JsonKey(defaultValue: false) required this.useAccentColor, @JsonKey(defaultValue: 0xFFFF5252) required this.accentColor}): super(themeMode: themeMode, useSystemColors: useSystemColors, useAccentColor: useAccentColor, accentColor: accentColor);
+  const _AppAppearance({@JsonKey(defaultValue: AppThemeMode.system) required this.themeMode, @JsonKey(defaultValue: true) required this.useSystemColors, @JsonKey(defaultValue: false) required this.useAccentColor, @JsonKey(defaultValue: 0xFFFF5252) required this.accentColor, @JsonKey(defaultValue: true) required this.useAnimatedGraphics}): super(themeMode: themeMode, useSystemColors: useSystemColors, useAccentColor: useAccentColor, accentColor: accentColor, useAnimatedGraphics: useAnimatedGraphics);
   
 
 @override@JsonKey(defaultValue: AppThemeMode.system) final  AppThemeMode themeMode;
@@ -520,6 +522,8 @@ class _AppAppearance extends AppAppearance {
 @override@JsonKey(defaultValue: false) final  bool useAccentColor;
 /// Stored as ARGB int
 @override@JsonKey(defaultValue: 0xFFFF5252) final  int accentColor;
+/// Whether to use animated graphics instead of static icons for decorative visuals.
+@override@JsonKey(defaultValue: true) final  bool useAnimatedGraphics;
 
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
@@ -531,16 +535,16 @@ _$AppAppearanceCopyWith<_AppAppearance> get copyWith => __$AppAppearanceCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor);
+int get hashCode => Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,useAnimatedGraphics);
 
 @override
 String toString() {
-  return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor)';
+  return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, useAnimatedGraphics: $useAnimatedGraphics)';
 }
 
 
@@ -551,7 +555,7 @@ abstract mixin class _$AppAppearanceCopyWith<$Res> implements $AppAppearanceCopy
   factory _$AppAppearanceCopyWith(_AppAppearance value, $Res Function(_AppAppearance) _then) = __$AppAppearanceCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor
+@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor,@JsonKey(defaultValue: true) bool useAnimatedGraphics
 });
 
 
@@ -568,13 +572,14 @@ class __$AppAppearanceCopyWithImpl<$Res>
 
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,Object? useAnimatedGraphics = null,}) {
   return _then(_AppAppearance(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as AppThemeMode,useSystemColors: null == useSystemColors ? _self.useSystemColors : useSystemColors // ignore: cast_nullable_to_non_nullable
 as bool,useAccentColor: null == useAccentColor ? _self.useAccentColor : useAccentColor // ignore: cast_nullable_to_non_nullable
 as bool,accentColor: null == accentColor ? _self.accentColor : accentColor // ignore: cast_nullable_to_non_nullable
-as int,
+as int,useAnimatedGraphics: null == useAnimatedGraphics ? _self.useAnimatedGraphics : useAnimatedGraphics // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

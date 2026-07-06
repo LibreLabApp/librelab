@@ -51,6 +51,10 @@ class const AppAppearance({
   /// Stored as ARGB int
   @JsonKey(defaultValue: 0xFFFF5252) // Colors.redAccent
   required final int accentColor,
+
+  /// Whether to use animated graphics instead of static icons / fallback widgets
+  /// for decorative visuals.
+  @JsonKey(defaultValue: true) required final bool useAnimatedGraphics,
 }) with _$AppAppearance {
   factory fromJson(JsonMap json) => _$AppAppearanceFromJson(json);
   JsonMap toJson() => _$AppAppearanceToJson(this);

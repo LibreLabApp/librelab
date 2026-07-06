@@ -188,12 +188,10 @@
   "settings": {
     "locale": {
       "title": "Language",
-      "subtitle": "Choose your preferred language",
       "systemDefault": "System"
     },
     "themeMode": {
       "title": "Theme Mode",
-      "subtitle": "Select dark, light or system theme",
       "options": {
         "system": "System",
         "dark": "Dark",
@@ -211,6 +209,10 @@
         "title": "Pick a Color",
         "close": "Close"
       }
+    },
+    "useAnimatedGraphics": {
+      "title": "Animated Graphics",
+      "subtitle": "Displays animations instead of static icons"
     },
     "sendCrashReports": {
       "title": "Send Crash Reports",

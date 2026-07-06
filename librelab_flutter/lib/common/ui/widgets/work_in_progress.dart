@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
+import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:lottie/lottie.dart';
 
 /// Indicates that this feature or area of the app is under active development
 /// and is not ready for general use.
-class WorkInProgress extends StatelessWidget {
-  const WorkInProgress({super.key});
-
+class const WorkInProgress({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -16,14 +16,23 @@ class WorkInProgress extends StatelessWidget {
     final t = context.t.workInProgress;
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: .min,
+      mainAxisAlignment: .center,
       children: [
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 400),
-          child: Lottie.asset(
-            Assets.lottie.underConstruction,
-            fit: BoxFit.contain,
+          child: AnimatedVisual(
+            animated: (context) => Lottie.asset(
+              Assets.lottie.underConstruction,
+              fit: BoxFit.contain,
+            ),
+            fallback: (context) => const Column(
+              mainAxisSize: .min,
+              children: [
+                SizedBox(height: 32),
+                DecorativeIcon(Icons.construction_rounded),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 24),

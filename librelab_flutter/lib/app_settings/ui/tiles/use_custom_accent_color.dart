@@ -5,9 +5,7 @@ import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:provider/provider.dart';
 
-class UseCustomAccentColorListTile extends StatelessWidget {
-  const UseCustomAccentColorListTile({super.key});
-
+class const UseCustomAccentColorListTile({super.key}) extends StatelessWidget {
   Future<void> _pickAColor(
     BuildContext context, {
     required Color accentColor,

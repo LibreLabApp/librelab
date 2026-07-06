@@ -1,11 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Step;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/send_crash_reports.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/theme_mode.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/use_animated_graphics.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_custom_accent_color.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_system_theme_color.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
+import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/common/ui/widgets/work_in_progress.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
@@ -54,6 +58,7 @@ class const _Body() extends StatelessWidget {
                 ThemeModeListTile(),
                 UseSystemThemeColorListTile(),
                 UseCustomAccentColorListTile(),
+                if (AnimatedVisual.supported) UseAnimatedGraphicsListTile(),
                 SendCrashReportsListTile(),
               ],
             ),
@@ -66,11 +71,14 @@ class const _Body() extends StatelessWidget {
       stepHero: StepHero(
         title: t.initialSetupPage.decorativeAnimation.title,
         subtitle: t.initialSetupPage.decorativeAnimation.subtitle,
-        animationWidget: Lottie.asset(
-          key: ValueKey(currentStep),
-          currentStep.getLottieAsset(),
-          height: 100,
-          fit: .cover,
+        animationWidget: AnimatedVisual(
+          animated: (context) => Lottie.asset(
+            key: ValueKey(currentStep),
+            currentStep.getLottieAsset(),
+            height: 100,
+            fit: .cover,
+          ),
+          fallback: (context) => DecorativeIcon(currentStep.getIcon()),
         ),
       ),
       canGoTo: (context, i, mode) {

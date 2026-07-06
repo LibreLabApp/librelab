@@ -61,6 +61,8 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
   @override
   Widget build(BuildContext context) {
     final t = context.t.serverSelection.manualAddress.textField;
+
+    // TODO: Cannot focus on a real Android device (WASM and native Android app)
     return TextFormField(
       controller: _controller,
       maxLines: 1,

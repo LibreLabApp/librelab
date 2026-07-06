@@ -33,6 +33,7 @@ AppAppearance _$AppAppearanceFromJson(Map<String, dynamic> json) =>
       useSystemColors: json['useSystemColors'] as bool? ?? true,
       useAccentColor: json['useAccentColor'] as bool? ?? false,
       accentColor: (json['accentColor'] as num?)?.toInt() ?? 4294922834,
+      useAnimatedGraphics: json['useAnimatedGraphics'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$AppAppearanceToJson(AppAppearance instance) =>
@@ -41,6 +42,7 @@ Map<String, dynamic> _$AppAppearanceToJson(AppAppearance instance) =>
       'useSystemColors': instance.useSystemColors,
       'useAccentColor': instance.useAccentColor,
       'accentColor': instance.accentColor,
+      'useAnimatedGraphics': instance.useAnimatedGraphics,
     };
 
 const _$AppThemeModeEnumMap = {

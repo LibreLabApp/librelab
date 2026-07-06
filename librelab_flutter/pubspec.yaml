@@ -81,7 +81,14 @@ flutter:
   generate: true
 
   assets:
-    - assets/lottie/
+    # Exclude Lottie assets from web builds (not used on web)
+    - path: assets/lottie/
+      platforms:
+        - android
+        - ios
+        - macos
+        - linux
+        - windows
 
 flutter_gen:
   output: lib/generated/

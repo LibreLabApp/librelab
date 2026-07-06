@@ -4,8 +4,6 @@
 
 ### Lottie Animations
 
-<!-- TODO: Lottie animations should be an optional feature integration. Disable them on the web -->
-
 - https://lottiefiles.com/free-animation/empty-5bQSRJ9xHc
 - https://lottiefiles.com/free-animation/radar-8SB5jLVHFj
 - https://lottiefiles.com/free-animation/server-KYPiZrY6df

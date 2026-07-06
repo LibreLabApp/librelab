@@ -119,6 +119,7 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override late final _Translations$settings$themeMode$ar themeMode = _Translations$settings$themeMode$ar._(_root);
 	@override late final _Translations$settings$useSystemColors$ar useSystemColors = _Translations$settings$useSystemColors$ar._(_root);
 	@override late final _Translations$settings$useCustomAccentColor$ar useCustomAccentColor = _Translations$settings$useCustomAccentColor$ar._(_root);
+	@override late final _Translations$settings$useAnimatedGraphics$ar useAnimatedGraphics = _Translations$settings$useAnimatedGraphics$ar._(_root);
 	@override late final _Translations$settings$sendCrashReports$ar sendCrashReports = _Translations$settings$sendCrashReports$ar._(_root);
 }
 
@@ -256,6 +257,17 @@ class _Translations$settings$useCustomAccentColor$ar extends Translations$settin
 	@override String get title => 'لون مميز مخصص';
 	@override String get subtitle => 'تخصيص لون التمييز للتطبيق';
 	@override late final _Translations$settings$useCustomAccentColor$pickColorDialog$ar pickColorDialog = _Translations$settings$useCustomAccentColor$pickColorDialog$ar._(_root);
+}
+
+// Path: settings.useAnimatedGraphics
+class _Translations$settings$useAnimatedGraphics$ar extends Translations$settings$useAnimatedGraphics$en {
+	_Translations$settings$useAnimatedGraphics$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الرسومات المتحركة';
+	@override String get subtitle => 'يعرض رسومات متحركة بدلا من الأيقونات الثابتة';
 }
 
 // Path: settings.sendCrashReports
@@ -800,6 +812,8 @@ extension on TranslationsAr {
 			'settings.useCustomAccentColor.subtitle' => 'تخصيص لون التمييز للتطبيق',
 			'settings.useCustomAccentColor.pickColorDialog.title' => 'اختر لونًا',
 			'settings.useCustomAccentColor.pickColorDialog.close' => 'إغلاق',
+			'settings.useAnimatedGraphics.title' => 'الرسومات المتحركة',
+			'settings.useAnimatedGraphics.subtitle' => 'يعرض رسومات متحركة بدلا من الأيقونات الثابتة',
 			'settings.sendCrashReports.title' => 'إرسال تقارير الأعطال',
 			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'المساعدة في تحسين ${appName} بإرسال تقارير أعطال مجهولة الهوية',
 			'apiRequestFailures.connectionFailure' => 'تعذر الاتصال بالخادم.',

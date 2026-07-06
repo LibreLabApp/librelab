@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' show Icons;
+import 'package:flutter/widgets.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:stepper_flow/stepper_flow.dart';
@@ -49,6 +50,15 @@ extension InitialSetupStepExt on InitialSetupStep {
       .serverSelection => Assets.lottie.server,
       .login => Assets.lottie.account,
       .complete => Assets.lottie.rocket,
+    };
+  }
+
+  IconData getIcon() {
+    return switch (this) {
+      .preferences => Icons.tune_rounded,
+      .serverSelection => Icons.dns_rounded,
+      .login => Icons.login_rounded,
+      .complete => Icons.check_circle_rounded,
     };
   }
 
