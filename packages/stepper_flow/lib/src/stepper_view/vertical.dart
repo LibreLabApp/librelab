@@ -2,15 +2,21 @@ part of 'stepper_view.dart';
 
 extension StepperViewVertical on StepperView {
   Widget _vertical({
-    required _StepTileData Function(int index) stepDataBuilder,
+    required _StepTileData Function(BuildContext context, int index)
+    stepDataBuilder,
   }) {
     return Column(
       spacing: 2,
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(steps.length, (i) {
-        final stepData = stepDataBuilder(i);
-        final widget = _VerticalStepTile(stepData: stepData);
-        return builder?.call(i, widget) ?? widget;
+        return Builder(
+          builder: (context) {
+            final widget = _VerticalStepTile(
+              stepData: stepDataBuilder(context, i),
+            );
+            return builder?.call(context, i, widget) ?? widget;
+          },
+        );
       }),
     );
   }
@@ -49,30 +55,36 @@ class _VerticalStepTile extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListTile(
-            title: Text(
-              title,
-              style: textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: stepState == .active
-                    ? colorScheme.primary
-                    : colorScheme.onSurfaceVariant,
-              ),
-            ),
-            subtitle: Text(
-              subtitle,
-              style: textTheme.bodyMedium?.copyWith(
-                fontSize: 13,
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
-            tileColor: stepState == .active
-                ? colorScheme.primaryContainer
-                : null,
-            onTap: onStepTapped != null ? () => onStepTapped.call(index) : null,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+          child: Builder(
+            builder: (context) {
+              return ListTile(
+                title: Text(
+                  title,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: stepState == .active
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                subtitle: Text(
+                  subtitle,
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontSize: 13,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                tileColor: stepState == .active
+                    ? colorScheme.primaryContainer
+                    : null,
+                onTap: onStepTapped != null
+                    ? () => onStepTapped.call(context, index)
+                    : null,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              );
+            },
           ),
         ),
       ],

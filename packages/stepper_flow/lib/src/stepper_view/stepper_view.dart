@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stepper_flow/stepper_flow.dart';
 
 part 'horizontal.dart';
 part 'vertical.dart';
 
-typedef StepTappedCallback = void Function(int newIndex);
+typedef StepTappedCallback = void Function(BuildContext context, int newIndex);
 
 /// Flutter's [Stepper]
 /// is [Material 2 widget](https://docs.flutter.dev/ui/widgets/material2)
@@ -33,15 +34,20 @@ class StepperView extends StatelessWidget {
   /// [3]   content on the right
   final Axis direction;
 
-  final bool Function(int index) isLocked;
-  final Widget Function(int index, Widget child)? builder;
+  final bool Function(
+    BuildContext context,
+    int index,
+    StepAccessEvaluationMode mode,
+  )
+  isLocked;
+  final Widget Function(BuildContext context, int index, Widget child)? builder;
 
-  _StepTileData _stepDataBuilder(int i) {
+  _StepTileData _stepDataBuilder(BuildContext context, int i) {
     final isActive = currentStepIndex == i;
     final isLast = i == steps.length - 1;
     final isComplete = i < currentStepIndex;
 
-    final _StepState stepState = isLocked(i)
+    final _StepState stepState = isLocked(context, i, .build)
         ? .locked
         : isComplete
         ? .complete

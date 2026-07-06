@@ -3,14 +3,21 @@ part of 'stepper_view.dart';
 extension StepperViewHorizontal on StepperView {
   Widget _horizontal({
     required ThemeData theme,
-    required _StepTileData Function(int index) stepDataBuilder,
+    required _StepTileData Function(BuildContext context, int index)
+    stepDataBuilder,
   }) {
     return Row(
       spacing: 2,
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(steps.length, (i) {
-        final widget = _HorizontalStepTile(stepData: stepDataBuilder(i));
-        return builder?.call(i, widget) ?? widget;
+        return Builder(
+          builder: (context) {
+            final widget = _HorizontalStepTile(
+              stepData: stepDataBuilder(context, i),
+            );
+            return builder?.call(context, i, widget) ?? widget;
+          },
+        );
       }),
     );
   }
@@ -57,26 +64,30 @@ class _HorizontalStepTile extends StatelessWidget {
 
     return Row(
       children: [
-        GestureDetector(
-          onTap: () => onStepTapped?.call(index),
-          child: Column(
-            spacing: 4,
-            children: [
-              _StepIcon(index: index, state: stepState),
-              SizedBox(
-                width: 80,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+        Builder(
+          builder: (context) {
+            return GestureDetector(
+              onTap: () => onStepTapped?.call(context, index),
+              child: Column(
+                spacing: 4,
+                children: [
+                  _StepIcon(index: index, state: stepState),
+                  SizedBox(
+                    width: 80,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
         if (!isLast)
           Padding(

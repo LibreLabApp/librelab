@@ -23,8 +23,8 @@ class Pager extends StatelessWidget {
   final NavigationButtonLabels navigationButtonLabels;
   final StepCanGoTo canGoTo;
 
-  void _onPageChanged(int index) {
-    onStepChanged(index);
+  void _onPageChanged(BuildContext context, int index) {
+    onStepChanged(context, index);
   }
 
   Widget _stepContent({required BuildContext context}) => Expanded(
@@ -72,7 +72,7 @@ class Pager extends StatelessWidget {
               effect: JumpingDotEffect(
                 activeDotColor: theme.colorScheme.primary,
               ),
-              onDotClicked: _onPageChanged,
+              onDotClicked: (i) => _onPageChanged(context, i),
             );
 
             if (showHorizontally) {
@@ -109,12 +109,12 @@ class _NavigationButtons extends StatelessWidget {
   final int currentStepIndex;
   final int stepsCount;
 
-  void _moveStep({required bool forward}) {
+  void _moveStep(BuildContext context, {required bool forward}) {
     final newIndex = currentStepIndex + (forward ? 1 : -1);
     if (newIndex == -1 || newIndex >= stepsCount) {
       return;
     }
-    onStepChanged(newIndex);
+    onStepChanged(context, newIndex);
   }
 
   @override
@@ -126,14 +126,20 @@ class _NavigationButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       spacing: 8,
       children: [
-        OutlinedButton(
-          onPressed: () => _moveStep(forward: false),
-          child: Text(navigationButtonLabels.back),
+        Builder(
+          builder: (context) {
+            return OutlinedButton(
+              onPressed: () => _moveStep(context, forward: false),
+              child: Text(navigationButtonLabels.back),
+            );
+          },
         ),
         Builder(
           builder: (context) {
             final String? disabledReason = canGoTo(
+              context,
               currentStepIndex + 1,
+              .build,
             ).disabledReason;
 
             return Tooltip(
@@ -141,7 +147,7 @@ class _NavigationButtons extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: disabledReason != null
                     ? null
-                    : () => _moveStep(forward: true),
+                    : () => _moveStep(context, forward: true),
                 label: Text(navigationButtonLabels.next),
                 icon: const Icon(Icons.arrow_forward_outlined),
                 iconAlignment: IconAlignment.end,

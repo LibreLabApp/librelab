@@ -1,0 +1,1 @@
+enum StepAccessEvaluationMode { build, interaction }

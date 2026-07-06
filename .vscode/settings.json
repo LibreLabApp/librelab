@@ -17,6 +17,7 @@
         "pgsql",
         "psql",
         "pubspec",
+        "Streamable",
         "timestamptz",
         "uuidv"
     ]

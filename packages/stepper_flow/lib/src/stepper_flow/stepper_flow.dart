@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide Step;
+import 'package:stepper_flow/src/step_access_evaluation_mode.dart';
 import 'package:stepper_flow/src/stepper_flow/pager.dart';
 import 'package:stepper_flow/src/stepper_flow/step.dart';
 import 'package:stepper_flow/src/stepper_view/stepper_view.dart';
@@ -26,9 +27,13 @@ final class StepDenied extends StepAccessDecision {
   final String reason;
 }
 
-typedef StepCanGoTo = StepAccessDecision Function(int index);
+typedef StepCanGoTo = StepAccessDecision Function(
+  BuildContext context,
+  int index,
+  StepAccessEvaluationMode mode,
+);
 
-typedef StepChangedCallback = void Function(int newIndex);
+typedef StepChangedCallback = void Function(BuildContext context, int newIndex);
 
 @immutable
 class const NavigationButtonLabels({
@@ -45,10 +50,14 @@ class const StepperFlow({
   required final StepCanGoTo canGoTo,
   required final NavigationButtonLabels navigationButtonLabels,
 }) extends StatelessWidget {
-  void _guardedOnStepChanged(int index) {
-    final String? disabledReason = canGoTo(index).disabledReason;
+  void _guardedOnStepChanged(BuildContext context, int index) {
+    final String? disabledReason = canGoTo(
+      context,
+      index,
+      .interaction,
+    ).disabledReason;
     if (disabledReason == null) {
-      onStepChanged(index);
+      onStepChanged(context, index);
     }
   }
 
@@ -140,9 +149,14 @@ class _StepProgressIndicator extends StatelessWidget {
       currentStepIndex: currentStepIndex,
       onStepTapped: onStepChanged,
       steps: steps.indexed.map((e) => e.$2.nav).toList(),
-      isLocked: (i) => canGoTo(i).disabledReason != null,
-      builder: (i, child) {
-        final String? disabledReason = canGoTo(i).disabledReason;
+      isLocked: (context, i, mode) =>
+          canGoTo(context, i, mode).disabledReason != null,
+      builder: (context, i, child) {
+        final String? disabledReason = canGoTo(
+          context,
+          i,
+          .build,
+        ).disabledReason;
         if (disabledReason != null) {
           return Tooltip(message: disabledReason, child: child);
         }
