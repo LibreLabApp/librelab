@@ -820,7 +820,7 @@ packages:
     description:
       path: "pkgs/ok_http"
       ref: "chore/update-jni"
-      resolved-ref: "4e649bdad3d62b293c1f245e74afe7b2e2f7f3ba"
+      resolved-ref: "69f3d6ca001dcc89b22550967b512d46dc04cb7d"
       url: "https://github.com/EchoEllet/http.git"
     source: git
     version: "0.1.2-wip"

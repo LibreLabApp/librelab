@@ -18,7 +18,7 @@
         "nav": {
           "title": "Server",
           "subtitle": "Select the server",
-          "prerequisiteStepIncomplete": "Please select a server and test the connection first"
+          "prerequisiteStepIncomplete": "Select a server and verify compatibility first."
         },
         "content": {
           "title": "Server Selection",

@@ -49,7 +49,7 @@ extension InitialSetupStepExt on InitialSetupStep {
       .serverSelection => Assets.lottie.server,
       .login => Assets.lottie.account,
       .complete => Assets.lottie.rocket,
-    }.path;
+    };
   }
 
   StepContentHeading getStepContentHeading(Translations t) {

@@ -214,7 +214,7 @@ class _NoServersFound extends StatelessWidget {
       mainAxisSize: .min,
       children: [
         Lottie.asset(
-          isLoading ? Assets.lottie.radar.path : Assets.lottie.emptyResult.path,
+          isLoading ? Assets.lottie.radar : Assets.lottie.emptyResult,
           height: 120,
         ),
         const SizedBox(height: 24),

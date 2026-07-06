@@ -457,7 +457,7 @@ class _Translations$initialSetupPage$steps$serverSelection$nav$ar extends Transl
 	// Translations
 	@override String get title => 'الخادم';
 	@override String get subtitle => 'اختر الخادم';
-	@override String get prerequisiteStepIncomplete => 'يرجى اختيار خادم واختبار الاتصال أولا';
+	@override String get prerequisiteStepIncomplete => 'حدد خادما وتحقق من التوافق أولا';
 }
 
 // Path: initialSetupPage.steps.serverSelection.content
@@ -709,7 +709,7 @@ extension on TranslationsAr {
 			'initialSetupPage.steps.preferences.content.subtitle' => 'اضبط المظهر واللغة وخيارات الواجهة',
 			'initialSetupPage.steps.serverSelection.nav.title' => 'الخادم',
 			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'اختر الخادم',
-			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'يرجى اختيار خادم واختبار الاتصال أولا',
+			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'حدد خادما وتحقق من التوافق أولا',
 			'initialSetupPage.steps.serverSelection.content.title' => 'تحديد الخادم',
 			'initialSetupPage.steps.serverSelection.content.subtitle' => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك',
 			'initialSetupPage.steps.login.nav.title' => 'تسجيل الدخول',

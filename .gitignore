@@ -2,6 +2,7 @@
 .dart_tool/
 .packages
 build/
+build/.last_build_id
 .flutter-plugins-dependencies
 .kotlin
 

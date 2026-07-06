@@ -86,9 +86,10 @@ flutter:
 flutter_gen:
   output: lib/generated/
 
+  # Prefers to import "package:lottie" and use Lottie.asset() explicitly
   integrations:
-    image: true
-    lottie: true
+    image: false
+    lottie: false
 
 flutter_launcher_icons:
   windows:

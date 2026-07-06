@@ -17,7 +17,7 @@
                 "nav": {
                     "title": "الخادم",
                     "subtitle": "اختر الخادم",
-                    "prerequisiteStepIncomplete": "يرجى اختيار خادم واختبار الاتصال أولا"
+                    "prerequisiteStepIncomplete": "حدد خادما وتحقق من التوافق أولا"
                 },
                 "content": {
                     "title": "تحديد الخادم",

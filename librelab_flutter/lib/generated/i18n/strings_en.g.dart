@@ -609,8 +609,8 @@ class Translations$initialSetupPage$steps$serverSelection$nav$en {
 	/// en: 'Select the server'
 	String get subtitle => 'Select the server';
 
-	/// en: 'Please select a server and test the connection first'
-	String get prerequisiteStepIncomplete => 'Please select a server and test the connection first';
+	/// en: 'Select a server and verify compatibility first.'
+	String get prerequisiteStepIncomplete => 'Select a server and verify compatibility first.';
 }
 
 // Path: initialSetupPage.steps.serverSelection.content
@@ -953,7 +953,7 @@ extension on Translations {
 			'initialSetupPage.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
 			'initialSetupPage.steps.serverSelection.nav.title' => 'Server',
 			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'Select the server',
-			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'Please select a server and test the connection first',
+			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'Select a server and verify compatibility first.',
 			'initialSetupPage.steps.serverSelection.content.title' => 'Server Selection',
 			'initialSetupPage.steps.serverSelection.content.subtitle' => 'Select a server to connect to and access your data',
 			'initialSetupPage.steps.login.nav.title' => 'Log in',
