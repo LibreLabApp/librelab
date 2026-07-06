@@ -55,6 +55,7 @@ class _ServerSelectionDepsProviderState
                 serverCompatibilityRepository: ServerCompatibilityRepository(
                   client: context.read<LibreLabApiClient>(),
                   handler: context.read<ApiRequestHandler>(),
+                  logger: Logger('$ServerCompatibilityRepository'),
                 ),
                 logger: Logger('$ServerSelectionCubit'),
               ),

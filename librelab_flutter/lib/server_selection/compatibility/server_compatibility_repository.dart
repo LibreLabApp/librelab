@@ -3,6 +3,7 @@ import 'package:librelab_api_contract/librelab_api_contract.dart' as api;
 import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
 import 'package:librelab_flutter/common/network/fallback_uri_request.dart';
 import 'package:librelab_flutter/server_selection/compatibility/server_compatibility_check_response.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -37,6 +38,7 @@ final class ServerCompatibilityCheckResult({
 class ServerCompatibilityRepository({
   required final LibreLabApiClient _client,
   required final ApiRequestHandler _handler,
+  required final Logger _logger,
 }) {
   Future<ServerCompatibilityCheckResult> check(
     ServerTarget serverTarget,
@@ -69,6 +71,7 @@ class ServerCompatibilityRepository({
                   capturedUri = uri;
                   return _client.endpoints.compatibility.check(uri);
                 },
+                logger: _logger,
               );
               capturedUri = result.uri;
               return result.value;
