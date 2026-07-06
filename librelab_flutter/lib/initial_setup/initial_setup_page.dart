@@ -72,8 +72,8 @@ class const _Body() extends StatelessWidget {
         title: t.initialSetupPage.decorativeAnimation.title,
         subtitle: t.initialSetupPage.decorativeAnimation.subtitle,
         animationWidget: AnimatedVisual(
+          key: ValueKey(currentStep),
           animated: (context) => Lottie.asset(
-            key: ValueKey(currentStep),
             currentStep.getLottieAsset(),
             height: 100,
             fit: .cover,
