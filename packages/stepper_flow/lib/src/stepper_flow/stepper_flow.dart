@@ -43,34 +43,34 @@ class const NavigationButtonLabels({
 
 class const StepperFlow({
   super.key,
-  required final int currentStepIndex,
-  required final StepChangedCallback onStepChanged,
-  required final List<Step> steps,
-  required final StepHero stepHero,
-  required final StepCanGoTo canGoTo,
-  required final NavigationButtonLabels navigationButtonLabels,
+  required final int _currentStepIndex,
+  required final StepChangedCallback _onStepChanged,
+  required final List<Step> _steps,
+  required final StepHero _stepHero,
+  required final StepCanGoTo _canGoTo,
+  required final NavigationButtonLabels _navigationButtonLabels,
 }) extends StatelessWidget {
   void _guardedOnStepChanged(BuildContext context, int index) {
-    final String? disabledReason = canGoTo(
+    final String? disabledReason = _canGoTo(
       context,
       index,
       .interaction,
     ).disabledReason;
     if (disabledReason == null) {
-      onStepChanged(context, index);
+      _onStepChanged(context, index);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (steps.isEmpty) {
+    if (_steps.isEmpty) {
       throw ArgumentError('steps must not be empty');
     }
-    if (currentStepIndex < 0 || currentStepIndex >= steps.length) {
+    if (_currentStepIndex < 0 || _currentStepIndex >= _steps.length) {
       throw ArgumentError.value(
-        currentStepIndex,
+        _currentStepIndex,
         'currentStep',
-        'must be in range 0 <= currentStep < steps.length (${steps.length})',
+        'must be in range 0 <= currentStep < steps.length (${_steps.length})',
       );
     }
 
@@ -79,7 +79,7 @@ class const StepperFlow({
         final usesSidebar = constraints.maxWidth >= 710;
         final Axis direction = usesSidebar ? .horizontal : .vertical;
 
-        final step = steps[currentStepIndex];
+        final step = _steps[_currentStepIndex];
 
         return Flex(
           direction: direction,
@@ -91,32 +91,33 @@ class const StepperFlow({
                 padding: const EdgeInsetsDirectional.only(top: 24, start: 16),
                 child: usesSidebar
                     ? _StepProgressIndicatorSidebar(
-                        currentStepIndex: currentStepIndex,
+                        currentStepIndex: _currentStepIndex,
                         onStepChanged: _guardedOnStepChanged,
-                        steps: steps,
-                        stepHero: stepHero,
-                        canGoTo: canGoTo,
+                        steps: _steps,
+                        stepHero: _stepHero,
+                        canGoTo: _canGoTo,
                       )
                     : _StepProgressIndicator(
                         direction: .horizontal,
-                        currentStepIndex: currentStepIndex,
+                        currentStepIndex: _currentStepIndex,
                         onStepChanged: _guardedOnStepChanged,
-                        steps: steps,
-                        canGoTo: canGoTo,
+                        steps: _steps,
+                        canGoTo: _canGoTo,
                       ),
               ),
             ),
             Expanded(
               child: Card(
                 margin: .zero,
-                child: _Body(
+                child: _StepContent(
                   usesSidebar: usesSidebar,
                   step: step,
-                  currentStepIndex: currentStepIndex,
-                  stepsCount: steps.length,
-                  canGoTo: canGoTo,
+                  currentStepIndex: _currentStepIndex,
+                  stepsCount: _steps.length,
+                  canGoTo: _canGoTo,
                   onStepChanged: _guardedOnStepChanged,
-                  navigationButtonLabels: navigationButtonLabels,
+                  navigationButtonLabels: _navigationButtonLabels,
+                  direction: direction,
                 ),
               ),
             ),
@@ -127,21 +128,13 @@ class const StepperFlow({
   }
 }
 
-class _StepProgressIndicator extends StatelessWidget {
-  const _StepProgressIndicator({
-    required this.direction,
-    required this.currentStepIndex,
-    required this.onStepChanged,
-    required this.steps,
-    required this.canGoTo,
-  });
-
-  final Axis direction;
-  final int currentStepIndex;
-  final StepChangedCallback onStepChanged;
-  final List<Step> steps;
-  final StepCanGoTo canGoTo;
-
+class const _StepProgressIndicator({
+  required final Axis direction,
+  required final int currentStepIndex,
+  required final StepChangedCallback onStepChanged,
+  required final List<Step> steps,
+  required final StepCanGoTo canGoTo,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StepperView(
@@ -166,42 +159,36 @@ class _StepProgressIndicator extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body({
-    required this.usesSidebar,
-    required this.step,
-    required this.stepsCount,
-    required this.currentStepIndex,
-    required this.canGoTo,
-    required this.onStepChanged,
-    required this.navigationButtonLabels,
-  });
-
-  final bool usesSidebar;
-  final int currentStepIndex;
-  final Step step;
-  final int stepsCount;
-  final StepCanGoTo canGoTo;
-  final StepChangedCallback onStepChanged;
-  final NavigationButtonLabels navigationButtonLabels;
-
+class const _StepContent({
+  required final bool _usesSidebar,
+  required final int _currentStepIndex,
+  required final Step _step,
+  required final int _stepsCount,
+  required final StepCanGoTo _canGoTo,
+  required final StepChangedCallback _onStepChanged,
+  required final NavigationButtonLabels _navigationButtonLabels,
+  required final Axis _direction,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: switch (_direction) {
+        Axis.horizontal => const EdgeInsets.all(24),
+        Axis.vertical => const EdgeInsets.all(16),
+      },
       child: Column(
         children: [
-          _StepContentHeading(step.contentHeading),
+          _StepContentHeading(_step.contentHeading),
           const SizedBox(height: 32),
           Expanded(
-            child: Pager(
-              usesSidebar: usesSidebar,
-              currentStepIndex: currentStepIndex,
-              stepBuilder: step.stepBuilder,
-              stepsCount: stepsCount,
-              onStepChanged: onStepChanged,
-              navigationButtonLabels: navigationButtonLabels,
-              canGoTo: canGoTo,
+            child: StepPager(
+              usesSidebar: _usesSidebar,
+              currentStepIndex: _currentStepIndex,
+              stepBuilder: _step.stepBuilder,
+              stepsCount: _stepsCount,
+              onStepChanged: _onStepChanged,
+              navigationButtonLabels: _navigationButtonLabels,
+              canGoTo: _canGoTo,
             ),
           ),
         ],
@@ -210,11 +197,8 @@ class _Body extends StatelessWidget {
   }
 }
 
-class _StepContentHeading extends StatelessWidget {
-  const _StepContentHeading(this.contentHeading);
-
-  final StepContentHeading contentHeading;
-
+class const _StepContentHeading(final StepContentHeading _contentHeading)
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -227,7 +211,7 @@ class _StepContentHeading extends StatelessWidget {
           radius: 24,
           backgroundColor: theme.primaryColor,
           foregroundColor: Colors.white,
-          child: Icon(contentHeading.iconData),
+          child: Icon(_contentHeading.iconData),
         ),
         Expanded(
           child: Column(
@@ -235,10 +219,10 @@ class _StepContentHeading extends StatelessWidget {
             spacing: 6,
             children: [
               Text(
-                contentHeading.title,
+                _contentHeading.title,
                 style: textTheme.headlineMedium?.copyWith(fontWeight: .bold),
               ),
-              Text(contentHeading.subtitle),
+              Text(_contentHeading.subtitle),
             ],
           ),
         ),

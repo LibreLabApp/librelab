@@ -179,7 +179,7 @@
     },
     "settings": {
         "locale": {
-            "title": "لغة التطبيق",
+            "title": "اللغة",
             "subtitle": "اختر لغتك المفضلة",
             "systemDefault": "لغة النظام"
         },

@@ -187,7 +187,7 @@
   },
   "settings": {
     "locale": {
-      "title": "App Language",
+      "title": "Language",
       "subtitle": "Choose your preferred language",
       "systemDefault": "System"
     },

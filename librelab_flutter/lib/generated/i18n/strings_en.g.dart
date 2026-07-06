@@ -300,8 +300,8 @@ class Translations$settings$locale$en {
 
 	// Translations
 
-	/// en: 'App Language'
-	String get title => 'App Language';
+	/// en: 'Language'
+	String get title => 'Language';
 
 	/// en: 'Choose your preferred language'
 	String get subtitle => 'Choose your preferred language';
@@ -1030,7 +1030,7 @@ extension on Translations {
 			'serverSelection.manualAddress.textField.infoTooltip' => 'Can be provided by a service administrator or self-hosted.',
 			'workInProgress.title' => 'Under Construction!',
 			'workInProgress.subtitle' => 'Watch your step! We are still laying down the code for this feature. Check back soon!',
-			'settings.locale.title' => 'App Language',
+			'settings.locale.title' => 'Language',
 			'settings.locale.subtitle' => 'Choose your preferred language',
 			'settings.locale.systemDefault' => 'System',
 			'settings.themeMode.title' => 'Theme Mode',

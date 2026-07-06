@@ -3,18 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 
-class ServerAddressTextField extends StatefulWidget {
-  const ServerAddressTextField({
-    super.key,
-    required this.initialValue,
-    required this.onChanged,
-    required this.focusNode,
-  });
-
-  final String initialValue;
-  final void Function(String value) onChanged;
-  final FocusNode? focusNode;
-
+class const ServerAddressTextField({
+  super.key,
+  required final String _initialValue,
+  required final void Function(String value) _onChanged,
+  required final FocusNode _focusNode,
+}) extends StatefulWidget {
   @override
   State<ServerAddressTextField> createState() => _ServerAddressTextFieldState();
 }
@@ -27,16 +21,16 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
     _controller.removeListener(_onChanged);
     _controller.dispose();
 
-    widget.focusNode?.removeListener(_onFocusChange);
+    widget._focusNode.removeListener(_onFocusChange);
     super.dispose();
   }
 
   @override
   void initState() {
-    _controller.text = widget.initialValue;
+    _controller.text = widget._initialValue;
     _controller.addListener(_onChanged);
 
-    widget.focusNode?.addListener(_onFocusChange);
+    widget._focusNode.addListener(_onFocusChange);
     super.initState();
   }
 
@@ -61,7 +55,7 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
   /// [TextField.onChanged], so updates are captured for both user input and
   /// programmatic assignments (e.g., `controller.text = ...`).
   void _onChanged() {
-    widget.onChanged(_controller.text);
+    widget._onChanged(_controller.text);
   }
 
   @override
@@ -77,7 +71,7 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
       enableSuggestions: false,
       autofillHints: const [AutofillHints.url],
       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
-      focusNode: widget.focusNode,
+      focusNode: widget._focusNode,
       validator: (value) {
         final validationErrorMessages = t.validationErrors;
 

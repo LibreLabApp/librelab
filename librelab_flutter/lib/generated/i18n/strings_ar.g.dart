@@ -218,7 +218,7 @@ class _Translations$settings$locale$ar extends Translations$settings$locale$en {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'لغة التطبيق';
+	@override String get title => 'اللغة';
 	@override String get subtitle => 'اختر لغتك المفضلة';
 	@override String get systemDefault => 'لغة النظام';
 }
@@ -786,7 +786,7 @@ extension on TranslationsAr {
 			'serverSelection.manualAddress.textField.infoTooltip' => 'يمكن الحصول عليه من مسؤول الخدمة أو من خادم مستضاف ذاتيا.',
 			'workInProgress.title' => 'قيد التطوير',
 			'workInProgress.subtitle' => 'هذه الميزة لا تزال قيد التطوير وستتوفر قريبا.',
-			'settings.locale.title' => 'لغة التطبيق',
+			'settings.locale.title' => 'اللغة',
 			'settings.locale.subtitle' => 'اختر لغتك المفضلة',
 			'settings.locale.systemDefault' => 'لغة النظام',
 			'settings.themeMode.title' => 'المظهر',
