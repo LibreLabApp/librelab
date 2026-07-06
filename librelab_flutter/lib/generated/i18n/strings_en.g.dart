@@ -46,6 +46,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$serverSelection$en serverSelection = Translations$serverSelection$en.internal(_root);
 	late final Translations$workInProgress$en workInProgress = Translations$workInProgress$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
+	late final Translations$apiRequestFailures$en apiRequestFailures = Translations$apiRequestFailures$en.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -156,6 +157,45 @@ class Translations$settings$en {
 	late final Translations$settings$sendCrashReports$en sendCrashReports = Translations$settings$sendCrashReports$en.internal(_root);
 }
 
+// Path: apiRequestFailures
+class Translations$apiRequestFailures$en {
+	Translations$apiRequestFailures$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Unable to connect to the server.'
+	String get connectionFailure => 'Unable to connect to the server.';
+
+	/// en: 'An unexpected error occurred.'
+	String get unexpectedFailure => 'An unexpected error occurred.';
+
+	/// en: 'An unexpected server response occurred.'
+	String get unhandledServerResponseFailure => 'An unexpected server response occurred.';
+
+	/// en: 'Too many requests. Please try again later.'
+	String get tooManyRequestsFailure => 'Too many requests. Please try again later.';
+
+	/// en: 'Server is currently unavailable.'
+	String get serviceUnavailableFailure => 'Server is currently unavailable.';
+
+	/// en: 'Internal server error occurred.'
+	String get internalServerFailure => 'Internal server error occurred.';
+
+	/// en: 'Received malformed data from server.'
+	String get malformedJsonFailure => 'Received malformed data from server.';
+
+	/// en: 'Failed to parse server response.'
+	String get jsonDeserializationFailure => 'Failed to parse server response.';
+
+	/// en: 'Authentication failed. Please sign in again.'
+	String get authenticationFailure => 'Authentication failed. Please sign in again.';
+
+	/// en: 'Access denied.'
+	String get authorizationFailure => 'Access denied.';
+}
+
 // Path: initialSetupPage.steps
 class Translations$initialSetupPage$steps$en {
 	Translations$initialSetupPage$steps$en.internal(this._root);
@@ -195,15 +235,11 @@ class Translations$serverCompatibility$check$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Verify compatibility'
-	String get title => 'Verify compatibility';
-
-	/// en: 'Verify the server is reachable before continuing.'
-	String get subtitle => 'Verify the server is reachable before continuing.';
-
-	/// en: 'Test'
-	String get button => 'Test';
+	late final Translations$serverCompatibility$check$button$en button = Translations$serverCompatibility$check$button$en.internal(_root);
+	late final Translations$serverCompatibility$check$idle$en idle = Translations$serverCompatibility$check$idle$en.internal(_root);
+	late final Translations$serverCompatibility$check$loading$en loading = Translations$serverCompatibility$check$loading$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$en success = Translations$serverCompatibility$check$success$en.internal(_root);
+	late final Translations$serverCompatibility$check$failure$en failure = Translations$serverCompatibility$check$failure$en.internal(_root);
 }
 
 // Path: serverSelection.localNetworkDiscovery
@@ -380,6 +416,74 @@ class Translations$initialSetupPage$steps$complete$en {
 	// Translations
 	late final Translations$initialSetupPage$steps$complete$nav$en nav = Translations$initialSetupPage$steps$complete$nav$en.internal(_root);
 	late final Translations$initialSetupPage$steps$complete$content$en content = Translations$initialSetupPage$steps$complete$content$en.internal(_root);
+}
+
+// Path: serverCompatibility.check.button
+class Translations$serverCompatibility$check$button$en {
+	Translations$serverCompatibility$check$button$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Test'
+	String get label => 'Test';
+
+	/// en: 'Select a server to continue.'
+	String get serverSelectionRequired => 'Select a server to continue.';
+}
+
+// Path: serverCompatibility.check.idle
+class Translations$serverCompatibility$check$idle$en {
+	Translations$serverCompatibility$check$idle$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Verify compatibility'
+	String get title => 'Verify compatibility';
+
+	/// en: 'Verify the server is reachable before continuing.'
+	String get subtitle => 'Verify the server is reachable before continuing.';
+}
+
+// Path: serverCompatibility.check.loading
+class Translations$serverCompatibility$check$loading$en {
+	Translations$serverCompatibility$check$loading$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Verifying compatibility...'
+	String get title => 'Verifying compatibility...';
+
+	/// en: 'The server is being checked.'
+	String get subtitle => 'The server is being checked.';
+}
+
+// Path: serverCompatibility.check.success
+class Translations$serverCompatibility$check$success$en {
+	Translations$serverCompatibility$check$success$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$serverCompatibility$check$success$compatibilityStatus$en compatibilityStatus = Translations$serverCompatibility$check$success$compatibilityStatus$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$connectionInfo$en connectionInfo = Translations$serverCompatibility$check$success$connectionInfo$en.internal(_root);
+}
+
+// Path: serverCompatibility.check.failure
+class Translations$serverCompatibility$check$failure$en {
+	Translations$serverCompatibility$check$failure$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Compatibility check failed'
+	String get title => 'Compatibility check failed';
 }
 
 // Path: serverSelection.localNetworkDiscovery.tile
@@ -587,6 +691,31 @@ class Translations$initialSetupPage$steps$complete$content$en {
 	String get subtitle => 'Your setup is complete';
 }
 
+// Path: serverCompatibility.check.success.compatibilityStatus
+class Translations$serverCompatibility$check$success$compatibilityStatus$en {
+	Translations$serverCompatibility$check$success$compatibilityStatus$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en fullyCompatible = Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$compatibilityStatus$compatible$en compatible = Translations$serverCompatibility$check$success$compatibilityStatus$compatible$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$en updateClient = Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$en updateServer = Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$en.internal(_root);
+}
+
+// Path: serverCompatibility.check.success.connectionInfo
+class Translations$serverCompatibility$check$success$connectionInfo$en {
+	Translations$serverCompatibility$check$success$connectionInfo$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$serverCompatibility$check$success$connectionInfo$http$en http = Translations$serverCompatibility$check$success$connectionInfo$http$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$connectionInfo$ipAddress$en ipAddress = Translations$serverCompatibility$check$success$connectionInfo$ipAddress$en.internal(_root);
+	late final Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$en httpAndIpAddress = Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$en.internal(_root);
+}
+
 // Path: serverSelection.localNetworkDiscovery.tile.menu
 class Translations$serverSelection$localNetworkDiscovery$tile$menu$en {
 	Translations$serverSelection$localNetworkDiscovery$tile$menu$en.internal(this._root);
@@ -660,6 +789,111 @@ class Translations$serverSelection$manualAddress$textField$validationErrors$en {
 
 	/// en: 'Invalid port: $port'
 	String invalidPort({required Object port}) => 'Invalid port: ${port}';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.fullyCompatible
+class Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en {
+	Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Server is compatible'
+	String get title => 'Server is compatible';
+
+	/// en: 'The server is reachable and compatible.'
+	String get subtitle => 'The server is reachable and compatible.';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.compatible
+class Translations$serverCompatibility$check$success$compatibilityStatus$compatible$en {
+	Translations$serverCompatibility$check$success$compatibilityStatus$compatible$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Server is compatible'
+	String get title => 'Server is compatible';
+
+	/// en: 'A newer app version is available. Updating is recommended to prevent future breakage.'
+	String get subtitle => 'A newer app version is available. Updating is recommended to prevent future breakage.';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.updateClient
+class Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$en {
+	Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Update required'
+	String get title => 'Update required';
+
+	/// en: 'Update the app to continue with this server.'
+	String get subtitle => 'Update the app to continue with this server.';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.updateServer
+class Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$en {
+	Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Update required'
+	String get title => 'Update required';
+
+	/// en: 'Update the server to continue with this app.'
+	String get subtitle => 'Update the server to continue with this app.';
+}
+
+// Path: serverCompatibility.check.success.connectionInfo.http
+class Translations$serverCompatibility$check$success$connectionInfo$http$en {
+	Translations$serverCompatibility$check$success$connectionInfo$http$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Connected over HTTP'
+	String get title => 'Connected over HTTP';
+
+	/// en: 'This connection is not encrypted. HTTPS is recommended to protect data exchanged with the server.'
+	String get subtitle => 'This connection is not encrypted. HTTPS is recommended to protect data exchanged with the server.';
+}
+
+// Path: serverCompatibility.check.success.connectionInfo.ipAddress
+class Translations$serverCompatibility$check$success$connectionInfo$ipAddress$en {
+	Translations$serverCompatibility$check$success$connectionInfo$ipAddress$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Connected using an IP address'
+	String get title => 'Connected using an IP address';
+
+	/// en: 'The server's IP address may change over time, which can prevent future connections.'
+	String get subtitle => 'The server\'s IP address may change over time, which can prevent future connections.';
+}
+
+// Path: serverCompatibility.check.success.connectionInfo.httpAndIpAddress
+class Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$en {
+	Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Connected over HTTP using an IP address'
+	String get title => 'Connected over HTTP using an IP address';
+
+	/// en: 'This connection is not encrypted, and the server's IP address may change over time, which can prevent future connections.'
+	String get subtitle => 'This connection is not encrypted, and the server\'s IP address may change over time, which can prevent future connections.';
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips
@@ -740,9 +974,27 @@ extension on Translations {
 			'confirmProgramExitDialog.backupCheckbox' => 'Backup data before closing',
 			'confirmProgramExitDialog.cancelButton' => 'Cancel',
 			'confirmProgramExitDialog.confirmButton' => 'Exit',
-			'serverCompatibility.check.title' => 'Verify compatibility',
-			'serverCompatibility.check.subtitle' => 'Verify the server is reachable before continuing.',
-			'serverCompatibility.check.button' => 'Test',
+			'serverCompatibility.check.button.label' => 'Test',
+			'serverCompatibility.check.button.serverSelectionRequired' => 'Select a server to continue.',
+			'serverCompatibility.check.idle.title' => 'Verify compatibility',
+			'serverCompatibility.check.idle.subtitle' => 'Verify the server is reachable before continuing.',
+			'serverCompatibility.check.loading.title' => 'Verifying compatibility...',
+			'serverCompatibility.check.loading.subtitle' => 'The server is being checked.',
+			'serverCompatibility.check.success.compatibilityStatus.fullyCompatible.title' => 'Server is compatible',
+			'serverCompatibility.check.success.compatibilityStatus.fullyCompatible.subtitle' => 'The server is reachable and compatible.',
+			'serverCompatibility.check.success.compatibilityStatus.compatible.title' => 'Server is compatible',
+			'serverCompatibility.check.success.compatibilityStatus.compatible.subtitle' => 'A newer app version is available. Updating is recommended to prevent future breakage.',
+			'serverCompatibility.check.success.compatibilityStatus.updateClient.title' => 'Update required',
+			'serverCompatibility.check.success.compatibilityStatus.updateClient.subtitle' => 'Update the app to continue with this server.',
+			'serverCompatibility.check.success.compatibilityStatus.updateServer.title' => 'Update required',
+			'serverCompatibility.check.success.compatibilityStatus.updateServer.subtitle' => 'Update the server to continue with this app.',
+			'serverCompatibility.check.success.connectionInfo.http.title' => 'Connected over HTTP',
+			'serverCompatibility.check.success.connectionInfo.http.subtitle' => 'This connection is not encrypted. HTTPS is recommended to protect data exchanged with the server.',
+			'serverCompatibility.check.success.connectionInfo.ipAddress.title' => 'Connected using an IP address',
+			'serverCompatibility.check.success.connectionInfo.ipAddress.subtitle' => 'The server\'s IP address may change over time, which can prevent future connections.',
+			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'Connected over HTTP using an IP address',
+			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'This connection is not encrypted, and the server\'s IP address may change over time, which can prevent future connections.',
+			'serverCompatibility.check.failure.title' => 'Compatibility check failed',
 			'serverSelection.localNetworkDiscovery.button' => 'Find on Network',
 			'serverSelection.localNetworkDiscovery.tooltip' => 'Detect servers available on local network',
 			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'Refresh',
@@ -794,6 +1046,16 @@ extension on Translations {
 			'settings.useCustomAccentColor.pickColorDialog.close' => 'Close',
 			'settings.sendCrashReports.title' => 'Send Crash Reports',
 			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'Help Improve ${appName} by sending anonymous crash reports',
+			'apiRequestFailures.connectionFailure' => 'Unable to connect to the server.',
+			'apiRequestFailures.unexpectedFailure' => 'An unexpected error occurred.',
+			'apiRequestFailures.unhandledServerResponseFailure' => 'An unexpected server response occurred.',
+			'apiRequestFailures.tooManyRequestsFailure' => 'Too many requests. Please try again later.',
+			'apiRequestFailures.serviceUnavailableFailure' => 'Server is currently unavailable.',
+			'apiRequestFailures.internalServerFailure' => 'Internal server error occurred.',
+			'apiRequestFailures.malformedJsonFailure' => 'Received malformed data from server.',
+			'apiRequestFailures.jsonDeserializationFailure' => 'Failed to parse server response.',
+			'apiRequestFailures.authenticationFailure' => 'Authentication failed. Please sign in again.',
+			'apiRequestFailures.authorizationFailure' => 'Access denied.',
 			_ => null,
 		};
 	}

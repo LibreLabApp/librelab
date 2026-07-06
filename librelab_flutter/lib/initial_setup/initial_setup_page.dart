@@ -9,6 +9,7 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/work_in_progress.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
+import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_flutter/server_selection/server_selection/server_selection_section.dart';
 import 'package:librelab_flutter/server_selection/server_selection_deps_provider.dart';
 import 'package:lottie/lottie.dart';
@@ -37,14 +38,26 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.t;
 
-    return BlocSelector<InitialSetupCubit, InitialSetupState, InitialSetupStep>(
-      selector: (state) => state.currentStep,
-      builder: (context, currentStep) {
-        final cubit = context.read<InitialSetupCubit>();
+    return Builder(
+      builder: (context) {
+        final currentStep = context.select(
+          (InitialSetupCubit v) => v.state.currentStep,
+        );
+
+        // TODO: Move compatibilityCheckState and selectedServer inside canGoTo() once it accepts a BuildContext
+        final compatibilityCheckState = context.select(
+          (ServerSelectionCubit v) => v.state.compatibilityCheckState,
+        );
+        // TODO: Bad and must be avoided (causing issues when editing the TextField in "Enter Server Address")
+        final selectedServer = context.select(
+          (ServerSelectionCubit v) => v.state.selectedServer,
+        );
 
         return StepperFlow(
           currentStepIndex: currentStep.index,
-          onStepChanged: (i) => cubit.setStep(InitialSetupStep.values[i]),
+          onStepChanged: (i) => context.read<InitialSetupCubit>().setStep(
+            InitialSetupStep.values[i],
+          ),
           steps: InitialSetupStep.values.map((e) {
             return Step(
               nav: e.getStepNav(t),
@@ -77,15 +90,26 @@ class _Body extends StatelessWidget {
             ),
           ),
           canGoTo: (i) {
-            final cubit = context.read<InitialSetupCubit>();
-
             final t = context.t.initialSetupPage.steps;
-            return switch (cubit.canGoTo(InitialSetupStep.values[i])) {
+
+            if (i > InitialSetupStep.values.length - 1) {
+              // TODO: Fix this limitation in the stepper_flow package.
+              //  This if-check workaround should not be needed.
+              return const StepDenied('This is the final step');
+            }
+
+            final canGoResult = _canGoTo(
+              targetStep: InitialSetupStep.values[i],
+              currentStep: currentStep,
+              compatibilityCheckState: compatibilityCheckState,
+              selectedServer: selectedServer,
+            );
+            return switch (canGoResult) {
               null => const StepAllowed(),
-              ServerNotConfigured() => StepDenied(
+              _ServerNotConfigured() => StepDenied(
                 t.serverSelection.nav.prerequisiteStepIncomplete,
               ),
-              AccountSetupNotConfigured() => StepDenied(
+              _AccountSetupNotConfigured() => StepDenied(
                 t.login.nav.prerequisiteStepIncomplete,
               ),
             };
@@ -99,3 +123,35 @@ class _Body extends StatelessWidget {
     );
   }
 }
+
+_StepAccessDeniedReason? _canGoTo({
+  required InitialSetupStep targetStep,
+  required InitialSetupStep currentStep,
+  required ServerCompatibilityCheckState compatibilityCheckState,
+  required SelectedServer? selectedServer,
+}) {
+  final isForward = targetStep.index > currentStep.index;
+  if (!isForward) {
+    return null;
+  }
+
+  final canGoToLogin =
+      compatibilityCheckState is Success &&
+      compatibilityCheckState.server == selectedServer &&
+      compatibilityCheckState.response.status.isCompatible;
+
+  return switch (targetStep) {
+    .preferences => null,
+    .serverSelection => null,
+    .login => canGoToLogin ? null : const _ServerNotConfigured(),
+    // TODO: (Complete validation) Email / password fields must not be null & login credentials are valid
+    .complete => canGoToLogin ? null : const _AccountSetupNotConfigured(),
+  };
+}
+
+@immutable
+sealed class const _StepAccessDeniedReason();
+
+final class const _ServerNotConfigured() extends _StepAccessDeniedReason;
+
+final class const _AccountSetupNotConfigured() extends _StepAccessDeniedReason;

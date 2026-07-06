@@ -4,7 +4,10 @@ enum ApiContractCompatibilityStatus {
   fullyCompatible,
   compatible,
   updateClient,
-  updateServer,
+  updateServer;
+
+  bool get isCompatible => this == compatible || this == fullyCompatible;
+  bool get isIncompatible => this == updateClient || this == updateServer;
 }
 
 @immutable

@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:librelab_flutter/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
+import 'package:librelab_api_client/librelab_api_client.dart';
+import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
+import 'package:librelab_flutter/server_selection/compatibility/server_compatibility_repository.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/local_discovery_repository.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/mdns_service_discovery_resolver/mdns_service_discovery_resolver.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
@@ -8,6 +10,8 @@ import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 
 /// Provides the dependencies required by the server selection feature.
+///
+/// Requires a [LibreLabApiClient] and a [ApiRequestHandler] to be available in the widget tree.
 class const ServerSelectionDepsProvider({
   required final Widget child,
   super.key,
@@ -46,12 +50,15 @@ class _ServerSelectionDepsProviderState
               dispose: (repository) => repository.close(),
             ),
             BlocProvider(
-              create: (context) => LocalDiscoveryCubit(
-                localDiscoveryRepository: context
-                    .read<LocalDiscoveryRepository>(),
+              create: (context) => ServerSelectionCubit(
+                discoveryRepository: context.read<LocalDiscoveryRepository>(),
+                serverCompatibilityRepository: ServerCompatibilityRepository(
+                  client: context.read<LibreLabApiClient>(),
+                  handler: context.read<ApiRequestHandler>(),
+                ),
+                logger: Logger('$ServerSelectionCubit'),
               ),
             ),
-            BlocProvider(create: (context) => ServerSelectionCubit()),
           ],
           child: widget.child,
         );

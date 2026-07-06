@@ -23,7 +23,7 @@ dependencies:
   args: ^2.7.0
   shelf: ^1.4.2
   shelf_router: ^1.1.4
-  json_safe: ^0.0.1
+  json_safe: ^0.0.2
   postgres: ^3.5.11
   bcrypt: ^1.2.0
   dart_jsonwebtoken: ^3.4.1

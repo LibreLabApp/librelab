@@ -45,6 +45,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$serverSelection$ar serverSelection = _Translations$serverSelection$ar._(_root);
 	@override late final _Translations$workInProgress$ar workInProgress = _Translations$workInProgress$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
+	@override late final _Translations$apiRequestFailures$ar apiRequestFailures = _Translations$apiRequestFailures$ar._(_root);
 }
 
 // Path: initialSetupPage
@@ -121,6 +122,25 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override late final _Translations$settings$sendCrashReports$ar sendCrashReports = _Translations$settings$sendCrashReports$ar._(_root);
 }
 
+// Path: apiRequestFailures
+class _Translations$apiRequestFailures$ar extends Translations$apiRequestFailures$en {
+	_Translations$apiRequestFailures$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get connectionFailure => 'تعذر الاتصال بالخادم.';
+	@override String get unexpectedFailure => 'حدث خطأ غير متوقع.';
+	@override String get unhandledServerResponseFailure => 'حدث رد غير متوقع من الخادم.';
+	@override String get tooManyRequestsFailure => 'عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.';
+	@override String get serviceUnavailableFailure => 'الخادم غير متاح حاليا.';
+	@override String get internalServerFailure => 'حدث خطأ داخلي في الخادم.';
+	@override String get malformedJsonFailure => 'تم استلام بيانات غير صالحة من الخادم.';
+	@override String get jsonDeserializationFailure => 'فشل تحليل استجابة الخادم.';
+	@override String get authenticationFailure => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.';
+	@override String get authorizationFailure => 'تم رفض الوصول.';
+}
+
 // Path: initialSetupPage.steps
 class _Translations$initialSetupPage$steps$ar extends Translations$initialSetupPage$steps$en {
 	_Translations$initialSetupPage$steps$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -152,9 +172,11 @@ class _Translations$serverCompatibility$check$ar extends Translations$serverComp
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'اختبار التوافق';
-	@override String get subtitle => 'تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.';
-	@override String get button => 'اختبار';
+	@override late final _Translations$serverCompatibility$check$button$ar button = _Translations$serverCompatibility$check$button$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$idle$ar idle = _Translations$serverCompatibility$check$idle$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$loading$ar loading = _Translations$serverCompatibility$check$loading$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$ar success = _Translations$serverCompatibility$check$success$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$failure$ar failure = _Translations$serverCompatibility$check$failure$ar._(_root);
 }
 
 // Path: serverSelection.localNetworkDiscovery
@@ -289,6 +311,60 @@ class _Translations$initialSetupPage$steps$complete$ar extends Translations$init
 	// Translations
 	@override late final _Translations$initialSetupPage$steps$complete$nav$ar nav = _Translations$initialSetupPage$steps$complete$nav$ar._(_root);
 	@override late final _Translations$initialSetupPage$steps$complete$content$ar content = _Translations$initialSetupPage$steps$complete$content$ar._(_root);
+}
+
+// Path: serverCompatibility.check.button
+class _Translations$serverCompatibility$check$button$ar extends Translations$serverCompatibility$check$button$en {
+	_Translations$serverCompatibility$check$button$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'اختبار';
+	@override String get serverSelectionRequired => 'حدد خادما للمتابعة.';
+}
+
+// Path: serverCompatibility.check.idle
+class _Translations$serverCompatibility$check$idle$ar extends Translations$serverCompatibility$check$idle$en {
+	_Translations$serverCompatibility$check$idle$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'اختبار التوافق';
+	@override String get subtitle => 'تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.';
+}
+
+// Path: serverCompatibility.check.loading
+class _Translations$serverCompatibility$check$loading$ar extends Translations$serverCompatibility$check$loading$en {
+	_Translations$serverCompatibility$check$loading$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'جارٍ التحقق...';
+	@override String get subtitle => 'جارٍ التحقق من الخادم.';
+}
+
+// Path: serverCompatibility.check.success
+class _Translations$serverCompatibility$check$success$ar extends Translations$serverCompatibility$check$success$en {
+	_Translations$serverCompatibility$check$success$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$ar compatibilityStatus = _Translations$serverCompatibility$check$success$compatibilityStatus$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$connectionInfo$ar connectionInfo = _Translations$serverCompatibility$check$success$connectionInfo$ar._(_root);
+}
+
+// Path: serverCompatibility.check.failure
+class _Translations$serverCompatibility$check$failure$ar extends Translations$serverCompatibility$check$failure$en {
+	_Translations$serverCompatibility$check$failure$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'فشل فحص التوافق';
 }
 
 // Path: serverSelection.localNetworkDiscovery.tile
@@ -440,6 +516,31 @@ class _Translations$initialSetupPage$steps$complete$content$ar extends Translati
 	@override String get subtitle => 'اكتمل إعداد التطبيق';
 }
 
+// Path: serverCompatibility.check.success.compatibilityStatus
+class _Translations$serverCompatibility$check$success$compatibilityStatus$ar extends Translations$serverCompatibility$check$success$compatibilityStatus$en {
+	_Translations$serverCompatibility$check$success$compatibilityStatus$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$ar fullyCompatible = _Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$compatible$ar compatible = _Translations$serverCompatibility$check$success$compatibilityStatus$compatible$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$ar updateClient = _Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$ar updateServer = _Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$ar._(_root);
+}
+
+// Path: serverCompatibility.check.success.connectionInfo
+class _Translations$serverCompatibility$check$success$connectionInfo$ar extends Translations$serverCompatibility$check$success$connectionInfo$en {
+	_Translations$serverCompatibility$check$success$connectionInfo$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$serverCompatibility$check$success$connectionInfo$http$ar http = _Translations$serverCompatibility$check$success$connectionInfo$http$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$connectionInfo$ipAddress$ar ipAddress = _Translations$serverCompatibility$check$success$connectionInfo$ipAddress$ar._(_root);
+	@override late final _Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$ar httpAndIpAddress = _Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$ar._(_root);
+}
+
 // Path: serverSelection.localNetworkDiscovery.tile.menu
 class _Translations$serverSelection$localNetworkDiscovery$tile$menu$ar extends Translations$serverSelection$localNetworkDiscovery$tile$menu$en {
 	_Translations$serverSelection$localNetworkDiscovery$tile$menu$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -488,6 +589,83 @@ class _Translations$serverSelection$manualAddress$textField$validationErrors$ar 
 	@override String unsupportedScheme({required Object scheme}) => 'بروتوكول غير مدعوم: ${scheme}';
 	@override String get missingHost => 'اسم المضيف مطلوب';
 	@override String invalidPort({required Object port}) => 'منفذ غير صالح: ${port}';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.fullyCompatible
+class _Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$ar extends Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en {
+	_Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الخادم متوافق';
+	@override String get subtitle => 'الخادم متاح ومتوافق. يمكنك المتابعة.';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.compatible
+class _Translations$serverCompatibility$check$success$compatibilityStatus$compatible$ar extends Translations$serverCompatibility$check$success$compatibilityStatus$compatible$en {
+	_Translations$serverCompatibility$check$success$compatibilityStatus$compatible$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الخادم متوافق';
+	@override String get subtitle => 'يتوفر إصدار أحدث من التطبيق. يُنصح بالتحديث لتجنب حدوث أعطال مستقبلية.';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.updateClient
+class _Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$ar extends Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$en {
+	_Translations$serverCompatibility$check$success$compatibilityStatus$updateClient$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'التحديث مطلوب';
+	@override String get subtitle => 'قم بتحديث التطبيق للمتابعة مع هذا الخادم.';
+}
+
+// Path: serverCompatibility.check.success.compatibilityStatus.updateServer
+class _Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$ar extends Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$en {
+	_Translations$serverCompatibility$check$success$compatibilityStatus$updateServer$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'التحديث مطلوب';
+	@override String get subtitle => 'قم بتحديث الخادم للمتابعة مع هذا التطبيق.';
+}
+
+// Path: serverCompatibility.check.success.connectionInfo.http
+class _Translations$serverCompatibility$check$success$connectionInfo$http$ar extends Translations$serverCompatibility$check$success$connectionInfo$http$en {
+	_Translations$serverCompatibility$check$success$connectionInfo$http$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تم الاتصال عبر HTTP';
+	@override String get subtitle => 'هذا الاتصال غير مشفر. يُنصح باستخدام HTTPS لحماية البيانات المتبادلة مع الخادم.';
+}
+
+// Path: serverCompatibility.check.success.connectionInfo.ipAddress
+class _Translations$serverCompatibility$check$success$connectionInfo$ipAddress$ar extends Translations$serverCompatibility$check$success$connectionInfo$ipAddress$en {
+	_Translations$serverCompatibility$check$success$connectionInfo$ipAddress$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تم الاتصال باستخدام عنوان IP';
+	@override String get subtitle => 'قد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.';
+}
+
+// Path: serverCompatibility.check.success.connectionInfo.httpAndIpAddress
+class _Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$ar extends Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$en {
+	_Translations$serverCompatibility$check$success$connectionInfo$httpAndIpAddress$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تم الاتصال عبر HTTP باستخدام عنوان IP';
+	@override String get subtitle => 'هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.';
 }
 
 // Path: serverSelection.localNetworkDiscovery.noServersFound.doneScanning.troubleshootingTips
@@ -552,9 +730,27 @@ extension on TranslationsAr {
 			'confirmProgramExitDialog.backupCheckbox' => 'نسخ البيانات احتياطيا قبل الإغلاق',
 			'confirmProgramExitDialog.cancelButton' => 'إلغاء',
 			'confirmProgramExitDialog.confirmButton' => 'خروج',
-			'serverCompatibility.check.title' => 'اختبار التوافق',
-			'serverCompatibility.check.subtitle' => 'تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.',
-			'serverCompatibility.check.button' => 'اختبار',
+			'serverCompatibility.check.button.label' => 'اختبار',
+			'serverCompatibility.check.button.serverSelectionRequired' => 'حدد خادما للمتابعة.',
+			'serverCompatibility.check.idle.title' => 'اختبار التوافق',
+			'serverCompatibility.check.idle.subtitle' => 'تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.',
+			'serverCompatibility.check.loading.title' => 'جارٍ التحقق...',
+			'serverCompatibility.check.loading.subtitle' => 'جارٍ التحقق من الخادم.',
+			'serverCompatibility.check.success.compatibilityStatus.fullyCompatible.title' => 'الخادم متوافق',
+			'serverCompatibility.check.success.compatibilityStatus.fullyCompatible.subtitle' => 'الخادم متاح ومتوافق. يمكنك المتابعة.',
+			'serverCompatibility.check.success.compatibilityStatus.compatible.title' => 'الخادم متوافق',
+			'serverCompatibility.check.success.compatibilityStatus.compatible.subtitle' => 'يتوفر إصدار أحدث من التطبيق. يُنصح بالتحديث لتجنب حدوث أعطال مستقبلية.',
+			'serverCompatibility.check.success.compatibilityStatus.updateClient.title' => 'التحديث مطلوب',
+			'serverCompatibility.check.success.compatibilityStatus.updateClient.subtitle' => 'قم بتحديث التطبيق للمتابعة مع هذا الخادم.',
+			'serverCompatibility.check.success.compatibilityStatus.updateServer.title' => 'التحديث مطلوب',
+			'serverCompatibility.check.success.compatibilityStatus.updateServer.subtitle' => 'قم بتحديث الخادم للمتابعة مع هذا التطبيق.',
+			'serverCompatibility.check.success.connectionInfo.http.title' => 'تم الاتصال عبر HTTP',
+			'serverCompatibility.check.success.connectionInfo.http.subtitle' => 'هذا الاتصال غير مشفر. يُنصح باستخدام HTTPS لحماية البيانات المتبادلة مع الخادم.',
+			'serverCompatibility.check.success.connectionInfo.ipAddress.title' => 'تم الاتصال باستخدام عنوان IP',
+			'serverCompatibility.check.success.connectionInfo.ipAddress.subtitle' => 'قد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
+			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'تم الاتصال عبر HTTP باستخدام عنوان IP',
+			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
+			'serverCompatibility.check.failure.title' => 'فشل فحص التوافق',
 			'serverSelection.localNetworkDiscovery.button' => 'البحث في الشبكة',
 			'serverSelection.localNetworkDiscovery.tooltip' => 'البحث عن الخوادم المتوفرة على الشبكة المحلية',
 			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'تحديث',
@@ -606,6 +802,16 @@ extension on TranslationsAr {
 			'settings.useCustomAccentColor.pickColorDialog.close' => 'إغلاق',
 			'settings.sendCrashReports.title' => 'إرسال تقارير الأعطال',
 			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'المساعدة في تحسين ${appName} بإرسال تقارير أعطال مجهولة الهوية',
+			'apiRequestFailures.connectionFailure' => 'تعذر الاتصال بالخادم.',
+			'apiRequestFailures.unexpectedFailure' => 'حدث خطأ غير متوقع.',
+			'apiRequestFailures.unhandledServerResponseFailure' => 'حدث رد غير متوقع من الخادم.',
+			'apiRequestFailures.tooManyRequestsFailure' => 'عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.',
+			'apiRequestFailures.serviceUnavailableFailure' => 'الخادم غير متاح حاليا.',
+			'apiRequestFailures.internalServerFailure' => 'حدث خطأ داخلي في الخادم.',
+			'apiRequestFailures.malformedJsonFailure' => 'تم استلام بيانات غير صالحة من الخادم.',
+			'apiRequestFailures.jsonDeserializationFailure' => 'فشل تحليل استجابة الخادم.',
+			'apiRequestFailures.authenticationFailure' => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.',
+			'apiRequestFailures.authorizationFailure' => 'تم رفض الوصول.',
 			_ => null,
 		};
 	}

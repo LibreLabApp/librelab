@@ -12,6 +12,10 @@ extension BuildContextExt on BuildContext {
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
 
   bool get isDark => theme.isDark;
+
+  void showSnackBarMessage(String message, {Duration? duration}) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
+  }
 }
 
 extension ThemeDataExt on ThemeData {

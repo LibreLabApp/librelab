@@ -155,8 +155,8 @@ Future<void> run(List<String> args) async {
     password: secrets.databasePassword,
     shutdown: shutdown,
   );
-  shutdownHookRegistry.register('closeDatabaseConnection', () async {
-    stderr.writeln('Closing the database connection...');
+  shutdownHookRegistry.register('closeDatabaseConnections', () async {
+    stderr.writeln('Closing the database connections...');
     await databaseClient.close();
   });
 

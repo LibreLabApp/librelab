@@ -362,14 +362,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  equatable:
-    dependency: transitive
-    description:
-      name: equatable
-      sha256: "3e0141505477fd8ad55d6eb4e7776d3fe8430be8e497ccb1521370c3f21a3e2b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -682,10 +674,10 @@ packages:
     dependency: transitive
     description:
       name: json_safe
-      sha256: "1bfa7517999793bd20b914380ba8d9e8cbd5faf727fe1f28f8ad96ee9d4c12e1"
+      sha256: "9ea57e6a2842f76077ae05205e6f388c68931fedeb78e6d441b9db2f97dfeefe"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.2"
   json_serializable:
     dependency: transitive
     description:
@@ -1474,10 +1466,10 @@ packages:
     dependency: transitive
     description:
       name: win_http
-      sha256: a50a14f1bf32bc5c9b39add9baa01658b97146b21de25237810ca6b850a6704e
+      sha256: ebc4d37e2c0e6800cc200e40d289d3bac22fc17d40fce3ae7909d49a20da77bc
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   xdg_desktop_portal:
     dependency: transitive
     description:

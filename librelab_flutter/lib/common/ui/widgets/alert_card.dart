@@ -1,37 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 
-enum AlertType { danger, note }
+enum AlertType { danger, error, warning, note, success }
 
-class AlertCard extends StatelessWidget {
-  const AlertCard({
-    super.key,
-    required this.type,
-    required this.title,
-    required this.subtitle,
-    this.prefixIcon,
-    this.suffix,
-  });
-
-  final AlertType type;
-  final Widget title;
-  final Widget subtitle;
-  final IconData? prefixIcon;
-  final Widget? suffix;
-
+class const AlertCard({
+  super.key,
+  required final AlertType _type,
+  required final Widget _title,
+  required final Widget _subtitle,
+  required final IconData? _prefixIcon,
+  required final Widget Function(Color color)? _suffix,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.theme.colorScheme;
-    final (icon, color, containerColor) = switch (type) {
-      AlertType.danger => (
+    final isDark = context.isDark;
+
+    final (icon, color, containerColor) = switch (_type) {
+      .danger => (
         Icons.warning_amber_rounded,
         colorScheme.error,
         colorScheme.errorContainer,
       ),
-      AlertType.note => (
-        Icons.note,
-        colorScheme.primary,
-        colorScheme.primaryContainer,
+      .error => (
+        Icons.error_outline_rounded,
+        colorScheme.error,
+        colorScheme.errorContainer,
+      ),
+      .note => (Icons.note, colorScheme.primary, colorScheme.primaryContainer),
+      .warning => (
+        Icons.warning_amber_rounded,
+        isDark ? Colors.amber.shade300 : Colors.amber.shade800,
+        isDark ? Colors.amber.shade900 : Colors.amber.shade50,
+      ),
+      .success => (
+        Icons.check_circle_outline_rounded,
+        isDark ? Colors.green.shade300 : Colors.green.shade700,
+        isDark ? Colors.green.shade900 : Colors.green.shade50,
       ),
     };
 
@@ -46,7 +51,7 @@ class AlertCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(prefixIcon ?? icon, color: color, size: 24.0),
+          Icon(_prefixIcon ?? icon, color: color, size: 24.0),
           const SizedBox(width: 12.0),
           Expanded(
             child: Column(
@@ -58,17 +63,17 @@ class AlertCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
                   ),
-                  child: title,
+                  child: _title,
                 ),
                 const SizedBox(height: 4.0),
                 DefaultTextStyle(
                   style: TextStyle(color: colorScheme.onSurfaceVariant),
-                  child: subtitle,
+                  child: _subtitle,
                 ),
               ],
             ),
           ),
-          ?suffix,
+          ?_suffix?.call(color),
         ],
       ),
     );

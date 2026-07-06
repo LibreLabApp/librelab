@@ -1,9 +1,8 @@
-// TODO: (REMOVE_SERVERPOD) Implement compatibility check route
-
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
 import 'package:librelab_api_client/src/auth_session.dart';
+import 'package:librelab_api_client/src/endpoints/endpoints.dart';
 import 'package:librelab_api_client/src/exceptions.dart';
 import 'package:librelab_api_client/src/is_token_expired.dart';
 import 'package:librelab_api_client/src/session_invalidation_reason.dart';
@@ -40,14 +39,15 @@ class LibreLabApiClient({
     _authSession = session;
   }
 
-  Future<HttpStatusResult<S, ServerErrorResponse>> request<S>(
+  Future<LibreLabApiResult<S>> request<S>(
     HttpEndpoint endpoint, {
     Map<String, Iterable<String>>? queryParameters,
     Map<String, String>? headers,
     RequestBody? body,
     required JsonResponseDeserializer<S> deserializeSuccess,
+    Uri? overrideUrl,
   }) async {
-    final url = baseUrlOrThrow.replace(
+    final url = (overrideUrl ?? baseUrlOrThrow).replace(
       path: endpoint.path,
       queryParameters: queryParameters,
     );
@@ -70,7 +70,7 @@ class LibreLabApiClient({
   ///
   /// Throws [AuthApiException] if the session has expired or if the refresh request failed.
   /// For more details, refer to the subclasses of [AuthApiException].
-  Future<HttpStatusResult<S, ServerErrorResponse>> requestAuthenticated<S>(
+  Future<LibreLabApiResult<S>> requestAuthenticated<S>(
     HttpEndpoint endpoint, {
     Map<String, Iterable<String>>? queryParameters,
     Map<String, String>? headers,
@@ -136,8 +136,7 @@ class LibreLabApiClient({
   /// Refreshes the token and then sends the request.
   ///
   /// Must be called when the access token has expired. Part of [requestAuthenticated].
-  Future<HttpStatusResult<S, ServerErrorResponse>>
-  _refreshSessionAndRequest<S>({
+  Future<LibreLabApiResult<S>> _refreshSessionAndRequest<S>({
     required AuthSession authSession,
     required HttpEndpoint endpoint,
     required Map<String, Iterable<String>>? queryParameters,
@@ -240,11 +239,16 @@ class LibreLabApiClient({
     }
   }
 
-  Future<HttpStatusResult<RefreshTokenResponse, ServerErrorResponse>>
-  _refreshToken(String refreshToken) => request(
+  Future<LibreLabApiResult<RefreshTokenResponse>> _refreshToken(
+    String refreshToken,
+  ) => request(
     ApiEndpointDefinitions.auth_refresh_token$POST,
     body: .json(RefreshTokenRequest(refreshToken: refreshToken).toJson()),
     deserializeSuccess: (response) =>
         RefreshTokenResponse.fromJson(response.body),
   );
+
+  late final Endpoints endpoints = Endpoints(this);
 }
+
+typedef LibreLabApiResult<T> = HttpStatusResult<T, ServerErrorResponse>;

@@ -4,11 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
-import 'package:librelab_flutter/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+LocalNetworkDiscoveryController _localNetworkDiscoveryController(
+  BuildContext context,
+) => context.read<ServerSelectionCubit>().localNetworkDiscovery;
 
 /// Unsupported on web due to lack of native mDNS service discovery.
 class const LocalServerDiscoveryCard({super.key}) extends StatefulWidget {
@@ -25,12 +29,18 @@ class _LocalServerDiscoveryCardState extends State<LocalServerDiscoveryCard> {
         '$LocalServerDiscoveryCard widget must not be used on the web',
       );
     }
-    context.read<LocalDiscoveryCubit>().scan();
+    _localNetworkDiscoveryController(context).scan();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        '$LocalServerDiscoveryCard widget must not be used on the web',
+      );
+    }
+
     final theme = context.theme;
     final textTheme = theme.textTheme;
 
@@ -43,10 +53,11 @@ class _LocalServerDiscoveryCardState extends State<LocalServerDiscoveryCard> {
       child: Builder(
         builder: (context) {
           final discoveredServers = context.select(
-            (LocalDiscoveryCubit v) => v.state.discoveredServers,
+            (ServerSelectionCubit v) =>
+                v.state.discoveryState.discoveredServers,
           );
           final isLoading = context.select(
-            (LocalDiscoveryCubit v) => v.state.isLoading,
+            (ServerSelectionCubit v) => v.state.discoveryState.isLoading,
           );
 
           final hasNoServers = discoveredServers.isEmpty;
@@ -70,9 +81,9 @@ class _LocalServerDiscoveryCardState extends State<LocalServerDiscoveryCard> {
                     ),
                     onPressed: isLoading
                         ? null
-                        : () => context.read<LocalDiscoveryCubit>().scan(
-                            refresh: true,
-                          ),
+                        : () => _localNetworkDiscoveryController(
+                            context,
+                          ).scan(refresh: true),
                     label: Text(t.localNetworkDiscovery.refreshServersButton),
                     icon: const Icon(Icons.refresh),
                   ),
@@ -282,13 +293,13 @@ class const _ServerTile({
   @override
   Widget build(BuildContext context) {
     final selectedServerId = context.select(
-      (LocalDiscoveryCubit c) => c.state.selectedServerId,
+      (ServerSelectionCubit c) => c.state.discoveryState.selectedServerId,
     );
     final t = context.t.serverSelection.localNetworkDiscovery.tile;
 
     return RadioGroup<String>(
       onChanged: (newId) =>
-          context.read<LocalDiscoveryCubit>().selectServer(newId),
+          _localNetworkDiscoveryController(context).selectServer(newId),
       groupValue: selectedServerId,
       child: MenuAnchor(
         menuChildren: _ServerTileAction.values
@@ -331,7 +342,7 @@ class const _ServerTile({
         },
         child: ListTile(
           onTap: () =>
-              context.read<LocalDiscoveryCubit>().selectServer(server.id),
+              _localNetworkDiscoveryController(context).selectServer(server.id),
           title: Text(server.instanceName),
           subtitle: Text(server.authority),
           leading: Row(

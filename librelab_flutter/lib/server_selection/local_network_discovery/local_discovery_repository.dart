@@ -80,36 +80,21 @@ class LocalDiscoveryRepository({
       _logger.warning('($hostname) TXT records for are missing');
     }
 
+    final serverVersion = txtRecords?['version'];
+    if (serverVersion == null) {
+      _logger.warning('($hostname) server version is missing');
+    }
+
     final server = DiscoveredServer(
       instanceName: instanceName,
       localHostname: hostname,
       ipAddress: info.ipAddress,
       port: port,
       latencyMs: null,
-      serverVersion: txtRecords?['version'],
-      supportsTls: () {
-        if (txtRecords == null) {
-          return null;
-        }
-
-        const key = 'supportsTls';
-        final record = txtRecords[key];
-        if (record == null) {
-          _logger.warning('($hostname) $key TXT record is missing.');
-          return null;
-        }
-        final parsed = bool.tryParse(record);
-        if (parsed == null) {
-          _logger.warning(
-            '($hostname) Invalid TXT record for $key',
-            'Expected "true" or "false", got "$record"',
-          );
-        }
-        return parsed;
-      }(),
+      serverVersion: serverVersion,
     );
 
-    final index = _servers.indexWhere((e) => e.url == server.url);
+    final index = _servers.indexWhere((e) => e.id == server.id);
 
     if (index == -1) {
       _servers.add(server);
@@ -127,14 +112,12 @@ class LocalDiscoveryRepository({
     required String hostname,
   }) async {
     final latency = await measureLatency(
-      // TODO: Avoid hardcoding, try to determine this dynamically (try with HTTPs first)
-      //  also avoid hardcoding in DiscoveredServer.url
       host: server.ipAddress ?? hostname,
       port: server.port,
       logger: _logger,
     );
 
-    final index = _servers.indexWhere((e) => e.url == server.url);
+    final index = _servers.indexWhere((e) => e.id == server.id);
     if (index == -1) {
       return;
     }
@@ -145,13 +128,11 @@ class LocalDiscoveryRepository({
   }
 
   Future<void> _removeServer(MdnsServiceInfo info) async {
-    final serverUri = Uri.http(
-      DiscoveredServer.getAuthority(
-        localHostname: info.hostname,
-        port: info.port,
-      ),
+    final index = _servers.indexWhere(
+      (e) =>
+          e.id ==
+          DiscoveredServer.getId(localHostname: info.hostname, port: info.port),
     );
-    final index = _servers.indexWhere((e) => e.url == serverUri);
 
     if (index != -1) {
       _servers.removeAt(index);

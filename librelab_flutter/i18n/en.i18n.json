@@ -70,9 +70,55 @@
   },
   "serverCompatibility": {
     "check": {
-      "title": "Verify compatibility",
-      "subtitle": "Verify the server is reachable before continuing.",
-      "button": "Test"
+      "button": {
+        "label": "Test",
+        "serverSelectionRequired": "Select a server to continue."
+      },
+      "idle": {
+        "title": "Verify compatibility",
+        "subtitle": "Verify the server is reachable before continuing."
+      },
+      "loading": {
+        "title": "Verifying compatibility...",
+        "subtitle": "The server is being checked."
+      },
+      "success": {
+        "compatibilityStatus": {
+          "fullyCompatible": {
+            "title": "Server is compatible",
+            "subtitle": "The server is reachable and compatible."
+          },
+          "compatible": {
+            "title": "Server is compatible",
+            "subtitle": "A newer app version is available. Updating is recommended to prevent future breakage."
+          },
+          "updateClient": {
+            "title": "Update required",
+            "subtitle": "Update the app to continue with this server."
+          },
+          "updateServer": {
+            "title": "Update required",
+            "subtitle": "Update the server to continue with this app."
+          }
+        },
+        "connectionInfo": {
+          "http": {
+            "title": "Connected over HTTP",
+            "subtitle": "This connection is not encrypted. HTTPS is recommended to protect data exchanged with the server."
+          },
+          "ipAddress": {
+            "title": "Connected using an IP address",
+            "subtitle": "The server's IP address may change over time, which can prevent future connections."
+          },
+          "httpAndIpAddress": {
+            "title": "Connected over HTTP using an IP address",
+            "subtitle": "This connection is not encrypted, and the server's IP address may change over time, which can prevent future connections."
+          }
+        }
+      },
+      "failure": {
+        "title": "Compatibility check failed"
+      }
     }
   },
   "serverSelection": {
@@ -170,5 +216,17 @@
       "title": "Send Crash Reports",
       "subtitle": "Help Improve $appName by sending anonymous crash reports"
     }
+  },
+  "apiRequestFailures": {
+    "connectionFailure": "Unable to connect to the server.",
+    "unexpectedFailure": "An unexpected error occurred.",
+    "unhandledServerResponseFailure": "An unexpected server response occurred.",
+    "tooManyRequestsFailure": "Too many requests. Please try again later.",
+    "serviceUnavailableFailure": "Server is currently unavailable.",
+    "internalServerFailure": "Internal server error occurred.",
+    "malformedJsonFailure": "Received malformed data from server.",
+    "jsonDeserializationFailure": "Failed to parse server response.",
+    "authenticationFailure": "Authentication failed. Please sign in again.",
+    "authorizationFailure": "Access denied."
   }
 }

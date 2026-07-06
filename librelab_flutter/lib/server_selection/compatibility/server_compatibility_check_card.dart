@@ -1,12 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:librelab_flutter/common/ui/api_request_failure_ui_messages.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
-import 'package:librelab_flutter/server_selection/compatibility/server_compatibility_repository.dart';
-import 'package:librelab_flutter/server_selection/local_network_discovery/cubit/local_discovery_cubit.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
-import 'package:librelab_shared/librelab_shared.dart';
-import 'package:logging/logging.dart';
+
+typedef _RequestServerUrlFocus = void Function();
 
 /// A card that triggers an API server compatibility check via an action button.
 ///
@@ -14,81 +15,156 @@ import 'package:logging/logging.dart';
 /// compatible with the current app version.
 class const ServerCompatibilityCheckCard({
   super.key,
-  required final void Function() requestServerUrlFocus,
+  required final _RequestServerUrlFocus _requestServerUrlFocus,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: (MDNS) Disable if no server is selected
     final t = context.t.serverCompatibility.check;
+
+    final state = context.select(
+      (ServerSelectionCubit v) => v.state.compatibilityCheckState,
+    );
+    final isLoading = state is Load;
+
+    final compatibilityStatus = t.success.compatibilityStatus;
+    final (String title, String subtitle) strings = switch (state) {
+      Initial() => (t.idle.title, t.idle.subtitle),
+      Load() => (t.loading.title, t.loading.subtitle),
+      Success(:final response) => (switch (response.status) {
+        .fullyCompatible => (
+          compatibilityStatus.fullyCompatible.title,
+          compatibilityStatus.fullyCompatible.subtitle,
+        ),
+        .compatible => (
+          compatibilityStatus.compatible.title,
+          compatibilityStatus.compatible.subtitle,
+        ),
+        .updateClient => (
+          compatibilityStatus.updateClient.title,
+          compatibilityStatus.updateClient.subtitle,
+        ),
+        .updateServer => (
+          compatibilityStatus.updateServer.title,
+          compatibilityStatus.updateServer.subtitle,
+        ),
+      }),
+      Failure(:final failure) => (
+        t.failure.title,
+        failure.getUiMessage(context.t),
+      ),
+    };
+    final (title, subtitle) = strings;
+
     return AlertCard(
-      type: .note,
+      type: switch (state) {
+        Initial() => .note,
+        Load() => .note,
+        Success(:final response) =>
+          response.status.isCompatible ? .success : .error,
+        Failure() => .error,
+      },
       prefixIcon: Icons.wifi,
-      suffix: Padding(
+      suffix: (color) => Padding(
         padding: const EdgeInsetsGeometry.only(left: 16, top: 16),
-        child: OutlinedButton(
-          onPressed: () async {
-            // TODO: (MDNS) Temporary prototype code!
-            // START
-            final logger = Logger('TestConnection');
+        child: _ServerSelectionEffectListener(
+          requestServerUrlFocus: _requestServerUrlFocus,
+          child: Builder(
+            builder: (context) {
+              final hasNotSelectedServer = context.select((
+                ServerSelectionCubit v,
+              ) {
+                final state = v.state;
 
-            final selectionState = context.read<ServerSelectionCubit>().state;
-            if (selectionState.selectionMethod == .manual) {
-              final input = selectionState.manualServerUrl ?? '';
-              final isInvalid = validateHttpUrl(input) != null;
-              if (isInvalid) {
-                requestServerUrlFocus();
-                return;
+                final selectionMethod = state.selectionMethod;
+                final hasSelectedDiscoveredServer =
+                    state.discoveryState.selectedServerId != null;
+
+                return selectionMethod == .localNetworkDiscovery &&
+                    !hasSelectedDiscoveredServer;
+              });
+
+              final shouldDisableButton = hasNotSelectedServer || isLoading;
+
+              if (isLoading) {
+                return const CircularProgressIndicator();
               }
-            }
 
-            final selected = switch (selectionState.selectionMethod) {
-              .localNetworkDiscovery => () {
-                final selected = context
-                    .read<LocalDiscoveryCubit>()
-                    .state
-                    .selectedServerId;
-                return selected != null ? 'http://$selected' : null;
-              }(),
-              .manual => selectionState.manualServerUrl,
-            };
-            final messenger = ScaffoldMessenger.of(context);
-            if (selected == null) {
-              messenger.showSnackBar(
-                const SnackBar(content: Text('Please select a server first')),
+              return Tooltip(
+                message: hasNotSelectedServer
+                    ? t.button.serverSelectionRequired
+                    : '',
+                child: OutlinedButton(
+                  onPressed: shouldDisableButton
+                      ? null
+                      : () => context
+                            .read<ServerSelectionCubit>()
+                            .checkServerCompatibility(),
+                  style: OutlinedButton.styleFrom(foregroundColor: color),
+                  child: Text(t.button.label),
+                ),
               );
-              return;
-            }
-
-            final repository = ServerCompatibilityRepository(
-              client: context.read()..setBaseUrl(Uri.parse(selected)),
-            );
-
-            try {
-              final response = await repository.check();
-
-              messenger.showSnackBar(
-                SnackBar(content: Text('Successful check: ${response.status}')),
-              );
-              // TODO: (HTTP_CLIENT) May handle this
-            } /*on TlsException catch (e) {
-              messenger.showSnackBar(SnackBar(content: Text('TLS: $e')));
-              logger.warning('$TlsException: $e');
-            } */ on Exception catch (e) {
-              messenger.showSnackBar(
-                SnackBar(content: Text('Check failed: $e')),
-              );
-              logger.warning('Check failed: $e');
-              // ignore: avoid_catching_errors
-            } on TypeError catch (e) {
-              logger.warning('Response deserialization failed: $e');
-            }
-            // END
-          },
-          child: Text(t.button),
+            },
+          ),
         ),
       ),
-      title: Text(t.title),
-      subtitle: Text(t.subtitle),
+      title: Text(title),
+      subtitle: Tooltip(
+        constraints: const BoxConstraints(maxWidth: 300),
+        message: state is Failure ? state.failure.message : '',
+        child: Text(subtitle),
+      ),
     );
+  }
+}
+
+class const _ServerSelectionEffectListener({
+  required final _RequestServerUrlFocus _requestServerUrlFocus,
+  required final Widget child,
+}) extends StatefulWidget {
+  @override
+  State<_ServerSelectionEffectListener> createState() =>
+      _ServerSelectionEffectListenerState();
+}
+
+class _ServerSelectionEffectListenerState
+    extends State<_ServerSelectionEffectListener> {
+  late final StreamSubscription<ServerSelectionEffect> _effectSubscription;
+
+  @override
+  void initState() {
+    final cubit = context.read<ServerSelectionCubit>();
+
+    _effectSubscription = cubit.effects.listen((effect) {
+      switch (effect) {
+        case FocusServerAddress():
+          widget._requestServerUrlFocus();
+
+        case ShowServerSelectionRequired():
+          final context = this.context;
+          if (context.mounted) {
+            context.showSnackBarMessage(
+              context
+                  .t
+                  .serverCompatibility
+                  .check
+                  .button
+                  .serverSelectionRequired,
+            );
+          }
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _effectSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

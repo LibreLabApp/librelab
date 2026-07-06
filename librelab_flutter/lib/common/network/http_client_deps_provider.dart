@@ -2,6 +2,7 @@ import 'package:api_client/api_client.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http show Client;
 import 'package:librelab_api_client/librelab_api_client.dart';
+import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
 import 'package:librelab_flutter/common/network/http_client_factory/http_client_factory.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,9 @@ class const HttpClientDepsProvider(final Widget child, {super.key})
             // TODO: Implement later
             onAuthSessionRefreshed: null,
           ),
+        ),
+        Provider<ApiRequestHandler>(
+          create: (context) => ApiRequestHandlerDefault(),
         ),
       ],
       child: child,

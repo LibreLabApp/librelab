@@ -32,9 +32,8 @@ dependencies:
   string_storage: ^0.0.1
   string_storage_shared_preferences: ^0.0.1
   json_storage: ^0.0.1
-  json_safe: ^0.0.1
+  json_safe: ^0.0.2
   system_accent_color: ^0.0.2
-  equatable: ^2.0.8
   mdns_discovery: ^1.0.0
   mdns_discovery_bonsoir: ^1.0.0
   mdns_discovery_raw: ^1.0.0

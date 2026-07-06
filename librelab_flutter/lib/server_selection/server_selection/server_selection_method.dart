@@ -1,0 +1,1 @@
+enum ServerSelectionMethod { localNetworkDiscovery, manual }

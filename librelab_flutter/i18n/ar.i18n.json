@@ -62,9 +62,55 @@
     },
     "serverCompatibility": {
         "check": {
-            "title": "اختبار التوافق",
-            "subtitle": "تحقق من إمكانية الوصول إلى الخادم قبل المتابعة.",
-            "button": "اختبار"
+            "button": {
+                "label": "اختبار",
+                "serverSelectionRequired": "حدد خادما للمتابعة."
+            },
+            "idle": {
+                "title": "اختبار التوافق",
+                "subtitle": "تحقق من إمكانية الوصول إلى الخادم قبل المتابعة."
+            },
+            "loading": {
+                "title": "جارٍ التحقق...",
+                "subtitle": "جارٍ التحقق من الخادم."
+            },
+            "success": {
+                "compatibilityStatus": {
+                    "fullyCompatible": {
+                        "title": "الخادم متوافق",
+                        "subtitle": "الخادم متاح ومتوافق. يمكنك المتابعة."
+                    },
+                    "compatible": {
+                        "title": "الخادم متوافق",
+                        "subtitle": "يتوفر إصدار أحدث من التطبيق. يُنصح بالتحديث لتجنب حدوث أعطال مستقبلية."
+                    },
+                    "updateClient": {
+                        "title": "التحديث مطلوب",
+                        "subtitle": "قم بتحديث التطبيق للمتابعة مع هذا الخادم."
+                    },
+                    "updateServer": {
+                        "title": "التحديث مطلوب",
+                        "subtitle": "قم بتحديث الخادم للمتابعة مع هذا التطبيق."
+                    }
+                },
+                "connectionInfo": {
+                    "http": {
+                        "title": "تم الاتصال عبر HTTP",
+                        "subtitle": "هذا الاتصال غير مشفر. يُنصح باستخدام HTTPS لحماية البيانات المتبادلة مع الخادم."
+                    },
+                    "ipAddress": {
+                        "title": "تم الاتصال باستخدام عنوان IP",
+                        "subtitle": "قد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل."
+                    },
+                    "httpAndIpAddress": {
+                        "title": "تم الاتصال عبر HTTP باستخدام عنوان IP",
+                        "subtitle": "هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل."
+                    }
+                }
+            },
+            "failure": {
+                "title": "فشل فحص التوافق"
+            }
         }
     },
     "serverSelection": {
@@ -162,5 +208,17 @@
             "title": "إرسال تقارير الأعطال",
             "subtitle": "المساعدة في تحسين $appName بإرسال تقارير أعطال مجهولة الهوية"
         }
+    },
+    "apiRequestFailures": {
+        "connectionFailure": "تعذر الاتصال بالخادم.",
+        "unexpectedFailure": "حدث خطأ غير متوقع.",
+        "unhandledServerResponseFailure": "حدث رد غير متوقع من الخادم.",
+        "tooManyRequestsFailure": "عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.",
+        "serviceUnavailableFailure": "الخادم غير متاح حاليا.",
+        "internalServerFailure": "حدث خطأ داخلي في الخادم.",
+        "malformedJsonFailure": "تم استلام بيانات غير صالحة من الخادم.",
+        "jsonDeserializationFailure": "فشل تحليل استجابة الخادم.",
+        "authenticationFailure": "فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.",
+        "authorizationFailure": "تم رفض الوصول."
     }
 }

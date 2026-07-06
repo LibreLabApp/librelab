@@ -23,7 +23,7 @@ class MdnsServiceRegistrar({required final MdnsPlatformRegistrar _platform}) {
         instanceName: instanceName,
         port: port,
         serviceType: ProjectConstants.mdnsServiceType,
-        txtRecords: const ['version=${Pubspec.version}', 'supportsTls=false'],
+        txtRecords: const ['version=${Pubspec.version}'],
       ),
     );
     _isRegistered = true;

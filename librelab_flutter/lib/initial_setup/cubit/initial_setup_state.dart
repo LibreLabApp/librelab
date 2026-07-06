@@ -7,5 +7,5 @@ part of 'initial_setup_cubit.dart';
 class const InitialSetupState({required final InitialSetupStep currentStep})
     with _$InitialSetupState {
   /// The initial state of the initial setup page
-  const new initialState() : this(currentStep: .preferences);
+  const new initial() : this(currentStep: .preferences);
 }

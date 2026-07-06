@@ -52,7 +52,7 @@ class AuthorizationService({required final AuthService _authService}) {
         message:
             'The access token must be provided in the headers (Authorization: Bearer ...)',
         code: 'TOKEN_MISSING',
-      ).toJson().httpResponse(.badRequest);
+      ).toJson().httpResponse(.unauthorized);
     }
 
     final result = await authenticate(token);

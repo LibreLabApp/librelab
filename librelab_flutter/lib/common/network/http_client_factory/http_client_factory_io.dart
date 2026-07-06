@@ -10,7 +10,10 @@ import 'package:ok_http/ok_http.dart';
 import 'package:win_http/win_http.dart';
 
 Client createHttpClient() {
-  return _UserAgentClient(_buildUserAgent(), _createPlatformClient());
+  return _UserAgentClient(
+    _createPlatformClient(),
+    userAgent: _buildUserAgent(),
+  );
 }
 
 String _buildUserAgent() {
@@ -31,11 +34,14 @@ BaseClient _createPlatformClient() {
 }
 
 /// Only used on IO platforms. Browsers set the `User-Agent` header automatically.
-class _UserAgentClient(final String userAgent, final Client _inner)
+class _UserAgentClient(final Client _inner, {required final String userAgent})
     extends BaseClient {
   @override
   Future<StreamedResponse> send(BaseRequest request) {
     request.headers[HttpHeaders.userAgentHeader] = userAgent;
     return _inner.send(request);
   }
+
+  @override
+  void close() => _inner.close();
 }

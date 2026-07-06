@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
-// TODO: (MDNS) Another model for the one on disk (presisted)? latency is unncessary and this is just temporary
-//  also do we really need uri getter?
+// TODO: (MDNS) Another model for the one on disk (presisted)?
 
 @immutable
 class const DiscoveredServer({
@@ -11,32 +10,33 @@ class const DiscoveredServer({
   required final int port,
   required final int? latencyMs,
   required final String? serverVersion,
-  required final bool? supportsTls,
 }) {
-  String get authority =>
-      getAuthority(localHostname: localHostname, port: port);
+  String get authority => _getAuthority(host: localHostname, port: port);
+  String? get ipAddressAuthority {
+    final ipAddress = this.ipAddress;
+    return ipAddress != null
+        ? _getAuthority(host: ipAddress, port: port)
+        : null;
+  }
 
-  static String getAuthority({
-    required String localHostname,
-    required int port,
-  }) {
-    return '$localHostname:$port';
+  static String _getAuthority({required String host, required int port}) {
+    return '$host:$port';
   }
 
   String get id => authority;
+
+  static String getId({required String localHostname, required int port}) {
+    return _getAuthority(host: localHostname, port: port);
+  }
 
   static const int _lowLatencyThresholdMs = 20;
 
   bool get hasLowLatency =>
       latencyMs != null && latencyMs! < _lowLatencyThresholdMs;
 
-  // TODO: Finish from here, should we default to false somehwere else?
-  Uri get url =>
-      (supportsTls ?? false) ? Uri.https(authority) : Uri.http(authority);
-
   @override
   String toString() =>
-      'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, ipAddress: $ipAddress, port: $port, latencyMs: $latencyMs, serverVersion: $serverVersion, supportsTls: $supportsTls)';
+      'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, ipAddress: $ipAddress, port: $port, latencyMs: $latencyMs, serverVersion: $serverVersion)';
 
   DiscoveredServer copyWithLatency(int? updated) => .new(
     instanceName: instanceName,
@@ -45,6 +45,5 @@ class const DiscoveredServer({
     port: port,
     latencyMs: updated,
     serverVersion: serverVersion,
-    supportsTls: supportsTls,
   );
 }
