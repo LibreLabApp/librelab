@@ -246,6 +246,116 @@ final class AuditLogsRow {
   final DateTime createdAt;
 }
 
+/// Generated mapping for the `files` table, providing type-safe references
+/// for the table name and column names to avoid hardcoding strings.
+abstract final class FilesTable {
+  static const String tableName = 'files';
+
+  static const String id = 'id';
+
+  static const String storageKey = 'storage_key';
+
+  static const String originalName = 'original_name';
+
+  static const String mimeType = 'mime_type';
+
+  static const String sizeBytes = 'size_bytes';
+
+  static const String checksumSha256 = 'checksum_sha256';
+
+  static const String createdAt = 'created_at';
+
+  static const List<String> columns = [
+    id,
+    storageKey,
+    originalName,
+    mimeType,
+    sizeBytes,
+    checksumSha256,
+    createdAt,
+  ];
+
+  static Map<String, Object> insert({
+    String? id,
+    required String storageKey,
+    required String originalName,
+    required String? mimeType,
+    required int sizeBytes,
+    required String checksumSha256,
+    DateTime? createdAt,
+  }) => {
+    FilesTable.id: ?id,
+    FilesTable.storageKey: storageKey,
+    FilesTable.originalName: originalName,
+    FilesTable.mimeType: ?mimeType,
+    FilesTable.sizeBytes: sizeBytes,
+    FilesTable.checksumSha256: checksumSha256,
+    FilesTable.createdAt: ?createdAt,
+  };
+
+  static Map<String, Object?> update({
+    Field<String> id = const .absent(),
+    required Field<String> storageKey,
+    required Field<String> originalName,
+    required Field<String?> mimeType,
+    required Field<int> sizeBytes,
+    required Field<String> checksumSha256,
+    Field<DateTime> createdAt = const .absent(),
+  }) {
+    return _buildFieldMap([
+      (FilesTable.id, id),
+      (FilesTable.storageKey, storageKey),
+      (FilesTable.originalName, originalName),
+      (FilesTable.mimeType, mimeType),
+      (FilesTable.sizeBytes, sizeBytes),
+      (FilesTable.checksumSha256, checksumSha256),
+      (FilesTable.createdAt, createdAt),
+    ]);
+  }
+}
+
+/// Generated row mapping for the `files` table.
+/// Represents a full-row result where all columns are expected to be present.
+///
+/// This model assumes SELECT queries include all columns defined in the table (i.e., `SELECT * FROM files`).
+/// Partial SELECT projections are **not** supported and may result in runtime errors.
+@immutable
+final class FilesRow {
+  const FilesRow({
+    required this.id,
+    required this.storageKey,
+    required this.originalName,
+    required this.mimeType,
+    required this.sizeBytes,
+    required this.checksumSha256,
+    required this.createdAt,
+  });
+
+  factory FilesRow.fromMap(Map<String, Object?> map) => FilesRow(
+    id: (map[FilesTable.id]! as String),
+    storageKey: (map[FilesTable.storageKey]! as String),
+    originalName: (map[FilesTable.originalName]! as String),
+    mimeType: (map[FilesTable.mimeType] as String?),
+    sizeBytes: (map[FilesTable.sizeBytes]! as int),
+    checksumSha256: (map[FilesTable.checksumSha256]! as String),
+    createdAt: (map[FilesTable.createdAt]! as DateTime),
+  );
+
+  final String id;
+
+  final String storageKey;
+
+  final String originalName;
+
+  final String? mimeType;
+
+  final int sizeBytes;
+
+  final String checksumSha256;
+
+  final DateTime createdAt;
+}
+
 /// Generated mapping for the `lab_settings` table, providing type-safe references
 /// for the table name and column names to avoid hardcoding strings.
 abstract final class LabSettingsTable {

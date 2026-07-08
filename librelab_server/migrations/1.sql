@@ -123,3 +123,13 @@ CREATE TABLE audit_logs (
   user_agent TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE TABLE files (
+  id UUID PRIMARY KEY DEFAULT uuidv7(),
+  storage_key TEXT NOT NULL UNIQUE,
+  original_name TEXT NOT NULL,
+  mime_type TEXT,
+  size_bytes BIGINT NOT NULL,
+  checksum_sha256 TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
