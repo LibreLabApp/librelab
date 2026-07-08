@@ -5,6 +5,7 @@ import 'package:librelab_server/mdns/platform/impls/dns_sd.dart';
 import 'package:librelab_server/utils/cli_helpers.dart';
 import 'package:librelab_server/utils/cpu_architecture.dart';
 import 'package:librelab_server/utils/download_file.dart';
+import 'package:librelab_server/utils/security/checksum_verifier.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:path/path.dart';
 
@@ -18,18 +19,19 @@ import 'package:path/path.dart';
 /// - `AppleSoftwareUpdate.msi`
 /// - `BonjourPS64.msi` and `BonjourPS.msi` (print services)
 /// - `SetupAdmin.exe`
-final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
-  BonjourWindowsInstaller({required this.shutdown});
-
-  final Shutdown shutdown;
-
+final class BonjourWindowsInstaller({required final Shutdown _shutdown})
+    implements MdnsPlatformInstaller {
   // From https://support.apple.com/en-us/106380
   static const String _downloadUrl =
       'https://download.info.apple.com/Mac_OS_X/061-8098.20100603.gthyu/BonjourPSSetup.exe';
+  static const String _sha256Checksum =
+      '7f1ec347cd429cfb25a34b2147e02231334f28290e0c28be213415b0f99da1a0';
 
   @override
   Future<void> install() async {
     final fullInstallerFile = await _downloadFullInstallerFile();
+    await verifyDownloadedFileIntegrity(fullInstallerFile);
+
     final minimalInstallerFile = await _extractMinimalInstallerFile(
       fullInstallerFile,
     );
@@ -65,7 +67,24 @@ final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
       await file.delete();
     }
 
-    await shutdown(isSuccess: false);
+    await _shutdown(isSuccess: false);
+  }
+
+  Future<void> verifyDownloadedFileIntegrity(File file) async {
+    stdout.writeln(
+      'Verifying installer file integrity (SHA-256): ${file.path}',
+    );
+
+    final isValid = await verifySha256(file, _sha256Checksum);
+
+    if (!isValid) {
+      stderr.writeln(
+        'Bonjour for Windows installer checksum verification failed. '
+        'The downloaded file may be corrupted or has been modified.',
+      );
+      await file.delete();
+      await _shutdown(isSuccess: false);
+    }
   }
 
   Future<File> _extractMinimalInstallerFile(File fullInstallerFile) async {
@@ -128,7 +147,7 @@ final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
       await tempExtractDir.delete(recursive: true);
     }
 
-    await shutdown(isSuccess: false);
+    await _shutdown(isSuccess: false);
   }
 
   Future<void> _runInstaller(File installerFile) async {
@@ -170,7 +189,7 @@ final class BonjourWindowsInstaller implements MdnsPlatformInstaller {
       }
     }
 
-    await shutdown(isSuccess: false);
+    await _shutdown(isSuccess: false);
   }
 
   @override

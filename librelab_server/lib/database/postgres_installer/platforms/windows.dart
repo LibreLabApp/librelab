@@ -12,6 +12,7 @@ import 'package:win32_registry_value_reader/win32_registry_value_reader.dart'
 
 final class WindowsPostgresInstaller({required final Shutdown _shutdown})
     extends PostgresPlatformFileInstaller {
+  this : super(shutdown: _shutdown);
   static String _installDir({required int majorVersion}) {
     return join('C:', 'Program Files', 'PostgreSQL', majorVersion.toString());
   }
