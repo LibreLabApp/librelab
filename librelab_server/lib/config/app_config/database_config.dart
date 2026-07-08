@@ -24,7 +24,7 @@ class const DatabaseConfig({
       );
 
   factory fromYaml(YamlMap yaml) {
-    return DatabaseConfig(
+    return .new(
       host: yaml['host'] as String,
       port: yaml['port'] as int,
       name: yaml['name'] as String,

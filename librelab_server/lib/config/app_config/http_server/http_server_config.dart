@@ -42,10 +42,7 @@ class const HttpServerListenConfig({
   required final String address,
 }) {
   factory fromYaml(YamlMap yaml) {
-    return HttpServerListenConfig(
-      port: yaml['port'] as int,
-      address: yaml['address'] as String,
-    );
+    return .new(port: yaml['port'] as int, address: yaml['address'] as String);
   }
   Map<String, Object?> toYaml() {
     return {'port': port, 'address': address};
@@ -59,7 +56,7 @@ class const HttpServerPublicConfig({
   required final String scheme,
 }) {
   factory fromYaml(YamlMap yaml) {
-    return HttpServerPublicConfig(
+    return .new(
       host: yaml['host'] as String,
       port: yaml['port'] as int,
       scheme: yaml['scheme'] as String,
