@@ -14,12 +14,6 @@ import 'package:librelab_api_contract/src/api_endpoint_definition/types.dart';
 /// The server exposes/implements the API, and the API client consumes it.
 /// This contract does not include request/response schemas, headers, or other metadata.
 abstract final class ApiEndpointDefinitions {
-  /// HTTP HEAD /ping
-  static const HttpEndpoint ping$HEAD = HttpEndpoint(
-    method: HttpMethod.head,
-    path: '/ping',
-  );
-
   /// HTTP POST /compatibility/check
   static const HttpEndpoint compatibility_check$POST = HttpEndpoint(
     method: HttpMethod.post,
@@ -38,16 +32,34 @@ abstract final class ApiEndpointDefinitions {
     path: '/auth/logout',
   );
 
-  /// HTTP POST /auth/refresh-token
-  static const HttpEndpoint auth_refresh_token$POST = HttpEndpoint(
+  /// HTTP POST /auth/refresh
+  static const HttpEndpoint auth_refresh$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/refresh-token',
+    path: '/auth/refresh',
   );
 
-  /// HTTP POST /auth/refresh-user
-  static const HttpEndpoint auth_refresh_user$POST = HttpEndpoint(
+  /// HTTP POST /auth/browser/login
+  static const HttpEndpoint auth_browser_login$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/refresh-user',
+    path: '/auth/browser/login',
+  );
+
+  /// HTTP POST /auth/browser/logout
+  static const HttpEndpoint auth_browser_logout$POST = HttpEndpoint(
+    method: HttpMethod.post,
+    path: '/auth/browser/logout',
+  );
+
+  /// HTTP POST /auth/browser/refresh
+  static const HttpEndpoint auth_browser_refresh$POST = HttpEndpoint(
+    method: HttpMethod.post,
+    path: '/auth/browser/refresh',
+  );
+
+  /// HTTP GET /users/me
+  static const HttpEndpoint users_me$GET = HttpEndpoint(
+    method: HttpMethod.get,
+    path: '/users/me',
   );
 
   /// HTTP PATCH /lab-settings

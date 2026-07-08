@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show AuthErrorCodes, PermissionJson, ServerErrorResponse;
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
+import 'package:librelab_server/auth/browser/auth_cookie_names.dart';
+import 'package:librelab_server/auth/browser/request_cookies.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
@@ -46,11 +48,14 @@ class AuthorizationService({required final AuthService _authService}) {
     required Future<Result<T, AuthenticateFailure>> Function(String accessToken)
     authenticate,
   }) async {
-    final token = request.extractBearerToken();
-    if (token == null) {
+    final token =
+        request.extractBearerToken() ??
+        request.cookies.valueOf(AuthCookieNames.accessToken);
+
+    if (token == null || token.trim().isEmpty) {
       return const ServerErrorResponse(
         message:
-            'The access token must be provided in the headers (Authorization: Bearer ...)',
+            'The access token must be provided either in the Authorization header (Bearer) or as a cookie (for browsers).',
         code: 'TOKEN_MISSING',
       ).toJson().httpResponse(.unauthorized);
     }

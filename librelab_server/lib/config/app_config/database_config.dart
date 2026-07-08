@@ -1,4 +1,7 @@
-part of 'app_config.dart';
+import 'package:librelab_server/database/postgres_constants.dart';
+import 'package:librelab_shared/librelab_shared.dart';
+import 'package:meta/meta.dart';
+import 'package:yaml/yaml.dart';
 
 @immutable
 class const DatabaseConfig({

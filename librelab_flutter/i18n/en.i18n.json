@@ -122,6 +122,19 @@
     }
   },
   "serverSelection": {
+    "browserPlatform": {
+      "useWebAppServer": {
+        "title": "Use this server",
+        "subtitle": "Connect to the same server that is hosting this application",
+        "serverAddressLabel": "Server address:",
+        "badge": "Current Server"
+      },
+      "or": "or",
+      "manualAddress": {
+        "title": "Use a different server",
+        "subtitle": "Provide an external server address"
+      }
+    },
     "localNetworkDiscovery": {
       "button": "Find on Network",
       "tooltip": "Detect servers available on local network",
@@ -176,7 +189,7 @@
         },
         "hint": "e.g., https://example.com",
         "label": "Server URL",
-        "helper": "Enter the URL of your server",
+        "helper": "Enter the URL of the server",
         "infoTooltip": "Can be provided by a service administrator or self-hosted."
       }
     }

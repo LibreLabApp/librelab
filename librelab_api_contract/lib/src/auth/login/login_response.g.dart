@@ -23,3 +23,13 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'refreshToken': instance.refreshToken,
       'user': instance.user,
     };
+
+LoginBrowserResponse _$LoginBrowserResponseFromJson(
+  Map<String, dynamic> json,
+) => LoginBrowserResponse(
+  user: User.fromJson(json['user'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$LoginBrowserResponseToJson(
+  LoginBrowserResponse instance,
+) => <String, dynamic>{'user': instance.user};

@@ -124,6 +124,7 @@ class Translations$serverSelection$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	late final Translations$serverSelection$browserPlatform$en browserPlatform = Translations$serverSelection$browserPlatform$en.internal(_root);
 	late final Translations$serverSelection$localNetworkDiscovery$en localNetworkDiscovery = Translations$serverSelection$localNetworkDiscovery$en.internal(_root);
 	late final Translations$serverSelection$manualAddress$en manualAddress = Translations$serverSelection$manualAddress$en.internal(_root);
 }
@@ -241,6 +242,21 @@ class Translations$serverCompatibility$check$en {
 	late final Translations$serverCompatibility$check$loading$en loading = Translations$serverCompatibility$check$loading$en.internal(_root);
 	late final Translations$serverCompatibility$check$success$en success = Translations$serverCompatibility$check$success$en.internal(_root);
 	late final Translations$serverCompatibility$check$failure$en failure = Translations$serverCompatibility$check$failure$en.internal(_root);
+}
+
+// Path: serverSelection.browserPlatform
+class Translations$serverSelection$browserPlatform$en {
+	Translations$serverSelection$browserPlatform$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$serverSelection$browserPlatform$useWebAppServer$en useWebAppServer = Translations$serverSelection$browserPlatform$useWebAppServer$en.internal(_root);
+
+	/// en: 'or'
+	String get or => 'or';
+
+	late final Translations$serverSelection$browserPlatform$manualAddress$en manualAddress = Translations$serverSelection$browserPlatform$manualAddress$en.internal(_root);
 }
 
 // Path: serverSelection.localNetworkDiscovery
@@ -496,6 +512,42 @@ class Translations$serverCompatibility$check$failure$en {
 	String get title => 'Compatibility check failed';
 }
 
+// Path: serverSelection.browserPlatform.useWebAppServer
+class Translations$serverSelection$browserPlatform$useWebAppServer$en {
+	Translations$serverSelection$browserPlatform$useWebAppServer$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Use this server'
+	String get title => 'Use this server';
+
+	/// en: 'Connect to the same server that is hosting this application'
+	String get subtitle => 'Connect to the same server that is hosting this application';
+
+	/// en: 'Server address:'
+	String get serverAddressLabel => 'Server address:';
+
+	/// en: 'Current Server'
+	String get badge => 'Current Server';
+}
+
+// Path: serverSelection.browserPlatform.manualAddress
+class Translations$serverSelection$browserPlatform$manualAddress$en {
+	Translations$serverSelection$browserPlatform$manualAddress$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Use a different server'
+	String get title => 'Use a different server';
+
+	/// en: 'Provide an external server address'
+	String get subtitle => 'Provide an external server address';
+}
+
 // Path: serverSelection.localNetworkDiscovery.tile
 class Translations$serverSelection$localNetworkDiscovery$tile$en {
 	Translations$serverSelection$localNetworkDiscovery$tile$en.internal(this._root);
@@ -535,8 +587,8 @@ class Translations$serverSelection$manualAddress$textField$en {
 	/// en: 'Server URL'
 	String get label => 'Server URL';
 
-	/// en: 'Enter the URL of your server'
-	String get helper => 'Enter the URL of your server';
+	/// en: 'Enter the URL of the server'
+	String get helper => 'Enter the URL of the server';
 
 	/// en: 'Can be provided by a service administrator or self-hosted.'
 	String get infoTooltip => 'Can be provided by a service administrator or self-hosted.';
@@ -1005,6 +1057,13 @@ extension on Translations {
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'Connected over HTTP using an IP address',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'This connection is not encrypted, and the server\'s IP address may change over time, which can prevent future connections.',
 			'serverCompatibility.check.failure.title' => 'Compatibility check failed',
+			'serverSelection.browserPlatform.useWebAppServer.title' => 'Use this server',
+			'serverSelection.browserPlatform.useWebAppServer.subtitle' => 'Connect to the same server that is hosting this application',
+			'serverSelection.browserPlatform.useWebAppServer.serverAddressLabel' => 'Server address:',
+			'serverSelection.browserPlatform.useWebAppServer.badge' => 'Current Server',
+			'serverSelection.browserPlatform.or' => 'or',
+			'serverSelection.browserPlatform.manualAddress.title' => 'Use a different server',
+			'serverSelection.browserPlatform.manualAddress.subtitle' => 'Provide an external server address',
 			'serverSelection.localNetworkDiscovery.button' => 'Find on Network',
 			'serverSelection.localNetworkDiscovery.tooltip' => 'Detect servers available on local network',
 			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'Refresh',
@@ -1036,7 +1095,7 @@ extension on Translations {
 			'serverSelection.manualAddress.textField.validationErrors.invalidPort' => ({required Object port}) => 'Invalid port: ${port}',
 			'serverSelection.manualAddress.textField.hint' => 'e.g., https://example.com',
 			'serverSelection.manualAddress.textField.label' => 'Server URL',
-			'serverSelection.manualAddress.textField.helper' => 'Enter the URL of your server',
+			'serverSelection.manualAddress.textField.helper' => 'Enter the URL of the server',
 			'serverSelection.manualAddress.textField.infoTooltip' => 'Can be provided by a service administrator or self-hosted.',
 			'workInProgress.title' => 'Under Construction!',
 			'workInProgress.subtitle' => 'Watch your step! We are still laying down the code for this feature. Check back soon!',

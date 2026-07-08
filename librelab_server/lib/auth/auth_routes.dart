@@ -1,7 +1,7 @@
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
-import 'package:librelab_server/auth/authorization_service.dart';
+import 'package:librelab_server/auth/browser/auth_browser_routes.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
@@ -14,22 +14,53 @@ import 'package:shelf_router/shelf_router.dart';
 
 class AuthRoutes({
   required final AuthService _service,
-  required final AuthorizationService _authorization,
+  required final bool cookiesRequireSecureConnection,
 }) implements RouteModule {
+  late final AuthBrowserRoutes _browserRoutes = .new(
+    cookiesRequireSecureConnection: cookiesRequireSecureConnection,
+    login: _login,
+    logout: _logout,
+    refresh: _refresh,
+  );
+
   @override
   Router get router => .new()
     ..register(ApiEndpointDefinitions.auth_login$POST, _loginHandler)
     ..register(ApiEndpointDefinitions.auth_logout$POST, _logoutHandler)
+    ..register(ApiEndpointDefinitions.auth_refresh$POST, _refreshHandler)
     ..register(
-      ApiEndpointDefinitions.auth_refresh_token$POST,
-      _refreshTokenHandler,
+      ApiEndpointDefinitions.auth_browser_login$POST,
+      _browserRoutes.loginHandler,
     )
     ..register(
-      ApiEndpointDefinitions.auth_refresh_user$POST,
-      _refreshUserHandler,
+      ApiEndpointDefinitions.auth_browser_logout$POST,
+      _browserRoutes.logoutHandler,
+    )
+    ..register(
+      ApiEndpointDefinitions.auth_browser_refresh$POST,
+      _browserRoutes.refreshHandler,
     );
 
-  Future<Response> _loginHandler(Request request) async {
+  Future<Response> _loginHandler(Request request) => _login(
+    request,
+    success: (session) {
+      final (user, tokens) = session;
+
+      final response = LoginResponse(
+        accessToken: tokens.accessToken.toResponse(),
+        refreshToken: tokens.refreshTokenRaw.toResponse(),
+        user: user.toResponse(),
+      );
+
+      return response.toJson().httpResponse(.ok);
+    },
+  );
+
+  /// Shared between [_loginHandler] and [AuthBrowserRoutes.loginHandler]
+  Future<Response> _login(
+    Request request, {
+    required Response Function(AuthenticatedSession session) success,
+  }) async {
     final body = await request.readJsonBody(fromJson: LoginRequest.fromJson);
 
     final result = await _service.loginUser(
@@ -39,20 +70,10 @@ class AuthRoutes({
     );
 
     switch (result) {
-      case SuccessResult<AuthenticatedSession, UserLoginFailure>(:final value):
-        final (user, tokens) = value;
+      case SuccessResult(:final value):
+        return success(value);
 
-        final response = LoginResponse(
-          accessToken: tokens.accessToken.toResponse(),
-          refreshToken: tokens.refreshTokenRaw.toResponse(),
-          user: user.toResponse(),
-        );
-
-        return response.toJson().httpResponse(.ok);
-
-      case FailureResult<AuthenticatedSession, UserLoginFailure>(
-        :final failure,
-      ):
+      case FailureResult(:final failure):
         switch (failure) {
           case UserNotFoundFailure():
           case InvalidPasswordFailure():
@@ -77,26 +98,73 @@ class AuthRoutes({
   }
 
   Future<Response> _logoutHandler(Request request) async {
-    final body = await request.readJsonBody(fromJson: LogoutRequest.fromJson);
-    final revoked = await _service.logout(refreshTokenRaw: body.refreshToken);
-    return LogoutResponse(tokenRevoked: revoked).toJson().httpResponse(.ok);
+    return _logout(
+      request,
+      readRefreshToken: () async {
+        final body = await request.readJsonBody(
+          fromJson: LogoutRequest.fromJson,
+        );
+        return body.refreshToken;
+      },
+      successHeaders: null,
+    );
   }
 
-  Future<Response> _refreshTokenHandler(Request request) async {
-    final body = await request.readJsonBody(
-      fromJson: RefreshTokenRequest.fromJson,
+  /// Shared between [_logoutHandler] and [AuthBrowserRoutes.logoutHandler]
+  Future<Response> _logout(
+    Request request, {
+    required Future<String?> Function() readRefreshToken,
+    required Map<String, Object> Function()? successHeaders,
+  }) async {
+    final refreshToken = await readRefreshToken();
+    if (refreshToken == null || refreshToken.trim().isEmpty) {
+      return _missingRefreshToken();
+    }
+
+    final revoked = await _service.logout(refreshTokenRaw: refreshToken);
+    return LogoutResponse(
+      tokenRevoked: revoked,
+    ).toJson().httpResponse(.ok, headers: successHeaders?.call());
+  }
+
+  Future<Response> _refreshHandler(Request request) async {
+    return _refresh(
+      request,
+      readRefreshToken: () async {
+        final body = await request.readJsonBody(
+          fromJson: RefreshAuthRequest.fromJson,
+        );
+        return body.refreshToken;
+      },
+      success: (tokens) {
+        return RefreshAuthResponse(
+          accessToken: tokens.accessToken.toResponse(),
+          refreshToken: tokens.refreshTokenRaw.toResponse(),
+        ).toJson().httpResponse(.ok);
+      },
     );
+  }
+
+  /// Shared between [_refreshHandler] and [AuthBrowserRoutes.refreshHandler]
+  Future<Response> _refresh(
+    Request request, {
+    required Future<String?> Function() readRefreshToken,
+    required Response Function(AuthTokens tokens) success,
+  }) async {
+    final refreshToken = await readRefreshToken();
+    if (refreshToken == null || refreshToken.trim().isEmpty) {
+      return _missingRefreshToken();
+    }
+
     final result = await _service.refreshToken(
-      refreshTokenRaw: body.refreshToken,
+      refreshTokenRaw: refreshToken,
       metadata: (request.ipAddress, request.userAgent),
     );
     switch (result) {
-      case SuccessResult<AuthTokens, RefreshTokenFailure>(:final value):
-        return RefreshTokenResponse(
-          accessToken: value.accessToken.toResponse(),
-          refreshToken: value.refreshTokenRaw.toResponse(),
-        ).toJson().httpResponse(.ok);
-      case FailureResult<AuthTokens, RefreshTokenFailure>(:final failure):
+      case SuccessResult(:final value):
+        return success(value);
+
+      case FailureResult(:final failure):
         final (code, message) = switch (failure) {
           TokenNotFoundFailure() => (
             AuthErrorCodes.refreshTokenNotFound,
@@ -120,10 +188,10 @@ class AuthRoutes({
     }
   }
 
-  Future<Response> _refreshUserHandler(Request request) =>
-      _authorization.withFullUser(request, (user) async {
-        return user.toResponse().toJson().httpResponse(.ok);
-      });
+  Response _missingRefreshToken() => const ServerErrorResponse(
+    message: 'MISSING_REFRESH_TOKEN',
+    code: 'Refresh token is required',
+  ).toJson().httpResponse(.badRequest);
 
   UserRefreshTokenClientMetadata _clientMetadata(
     Request request,

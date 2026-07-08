@@ -15,9 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ServerSelectionState {
 
-/// Defaults to [ServerSelectionMethod.manual] on web due to lack of
-/// native mDNS service discovery support.
-/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web.
+/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web
+/// (due to lack of native mDNS service discovery support).
  ServerSelectionMethod get selectionMethod;/// Should be only used if [selectionMethod] is [ServerSelectionMethod.manual].
  String? get manualServerAddress; LocalDiscoveryState get discoveryState; ServerCompatibilityCheckState get compatibilityCheckState;
 /// Create a copy of ServerSelectionState
@@ -235,9 +234,8 @@ class _ServerSelectionState extends ServerSelectionState {
   const _ServerSelectionState({required this.selectionMethod, required this.manualServerAddress, required this.discoveryState, required this.compatibilityCheckState}): super(selectionMethod: selectionMethod, manualServerAddress: manualServerAddress, discoveryState: discoveryState, compatibilityCheckState: compatibilityCheckState);
   
 
-/// Defaults to [ServerSelectionMethod.manual] on web due to lack of
-/// native mDNS service discovery support.
-/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web.
+/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web
+/// (due to lack of native mDNS service discovery support).
 @override final  ServerSelectionMethod selectionMethod;
 /// Should be only used if [selectionMethod] is [ServerSelectionMethod.manual].
 @override final  String? manualServerAddress;
@@ -640,11 +638,12 @@ extension SelectedServerPatterns on SelectedServer {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Manual value)?  manual,TResult Function( Discovered value)?  discovered,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Manual value)?  manual,TResult Function( UseWebAppServer value)?  useWebAppServer,TResult Function( Discovered value)?  discovered,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Manual() when manual != null:
-return manual(_that);case Discovered() when discovered != null:
+return manual(_that);case UseWebAppServer() when useWebAppServer != null:
+return useWebAppServer(_that);case Discovered() when discovered != null:
 return discovered(_that);case _:
   return orElse();
 
@@ -663,11 +662,12 @@ return discovered(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Manual value)  manual,required TResult Function( Discovered value)  discovered,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Manual value)  manual,required TResult Function( UseWebAppServer value)  useWebAppServer,required TResult Function( Discovered value)  discovered,}){
 final _that = this;
 switch (_that) {
 case Manual():
-return manual(_that);case Discovered():
+return manual(_that);case UseWebAppServer():
+return useWebAppServer(_that);case Discovered():
 return discovered(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -682,11 +682,12 @@ return discovered(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Manual value)?  manual,TResult? Function( Discovered value)?  discovered,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Manual value)?  manual,TResult? Function( UseWebAppServer value)?  useWebAppServer,TResult? Function( Discovered value)?  discovered,}){
 final _that = this;
 switch (_that) {
 case Manual() when manual != null:
-return manual(_that);case Discovered() when discovered != null:
+return manual(_that);case UseWebAppServer() when useWebAppServer != null:
+return useWebAppServer(_that);case Discovered() when discovered != null:
 return discovered(_that);case _:
   return null;
 
@@ -704,10 +705,11 @@ return discovered(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String address)?  manual,TResult Function( String id)?  discovered,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String address)?  manual,TResult Function()?  useWebAppServer,TResult Function( String id)?  discovered,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Manual() when manual != null:
-return manual(_that.address);case Discovered() when discovered != null:
+return manual(_that.address);case UseWebAppServer() when useWebAppServer != null:
+return useWebAppServer();case Discovered() when discovered != null:
 return discovered(_that.id);case _:
   return orElse();
 
@@ -726,10 +728,11 @@ return discovered(_that.id);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String address)  manual,required TResult Function( String id)  discovered,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String address)  manual,required TResult Function()  useWebAppServer,required TResult Function( String id)  discovered,}) {final _that = this;
 switch (_that) {
 case Manual():
-return manual(_that.address);case Discovered():
+return manual(_that.address);case UseWebAppServer():
+return useWebAppServer();case Discovered():
 return discovered(_that.id);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -744,10 +747,11 @@ return discovered(_that.id);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String address)?  manual,TResult? Function( String id)?  discovered,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String address)?  manual,TResult? Function()?  useWebAppServer,TResult? Function( String id)?  discovered,}) {final _that = this;
 switch (_that) {
 case Manual() when manual != null:
-return manual(_that.address);case Discovered() when discovered != null:
+return manual(_that.address);case UseWebAppServer() when useWebAppServer != null:
+return useWebAppServer();case Discovered() when discovered != null:
 return discovered(_that.id);case _:
   return null;
 
@@ -821,6 +825,38 @@ as String,
 
 
 }
+
+/// @nodoc
+
+
+class UseWebAppServer implements SelectedServer {
+  const UseWebAppServer();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UseWebAppServer);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SelectedServer.useWebAppServer()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 

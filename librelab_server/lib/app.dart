@@ -29,6 +29,7 @@ import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/user/user_repository_postgres.dart';
+import 'package:librelab_server/user/user_routes.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/platform_check.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
@@ -170,11 +171,11 @@ Future<void> run(List<String> args) async {
     await migrationRunner.run();
   }
 
-  final apiServerPort = config.apiServer.listen.port;
-  final apiServerAddress = config.apiServer.listen.address;
+  final httpServerPort = config.httpServer.listen.port;
+  final httpServerAddress = config.httpServer.listen.address;
 
   await enforcePortAvailability(
-    port: apiServerPort,
+    port: httpServerPort,
     getConfigFilePath: () => appFilePaths.config,
     shutdown: shutdown,
   );
@@ -207,11 +208,15 @@ Future<void> run(List<String> args) async {
 
   // TODO: (REMOVE_SERVERPOD) Implement global rate limit
   final server = await startServer(
-    port: apiServerPort,
-    address: apiServerAddress,
+    port: httpServerPort,
+    address: httpServerAddress,
     routeModules: <RouteModule>[
       CompatibilityRoutes(),
-      AuthRoutes(service: authService, authorization: authorizationService),
+      AuthRoutes(
+        service: authService,
+        cookiesRequireSecureConnection: config.httpServer.api.cookies.secure,
+      ),
+      UserRoutes(authorization: authorizationService),
       LabSettingsRoutes(
         authorization: authorizationService,
         service: LabSettingsService(
@@ -221,6 +226,8 @@ Future<void> run(List<String> args) async {
         ),
       ),
     ],
+    webClientHostingEnabled: config.httpServer.webClientHosting.enabled,
+    webDirFileSystemPath: appFilePaths.webDir,
   );
 
   shutdownHookRegistry.register('closingHttpServer', () async {
@@ -230,7 +237,7 @@ Future<void> run(List<String> args) async {
 
   if (!createSuperUser && mdnsConfig.enabled) {
     await _registerMdnsService(
-      serverPort: apiServerPort,
+      serverPort: httpServerPort,
       shutdownHookRegistry: shutdownHookRegistry,
       instanceName: mdnsConfig.instanceName,
     );

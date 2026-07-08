@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppConfig {
 
- ApiServerConfig get apiServer; MdnsServicePublishConfig get mdnsServicePublish; DatabaseConfig get database; SetupPromptDeclinedConfig get setupPromptDeclined;
+ HttpServerConfig get httpServer; MdnsServicePublishConfig get mdnsServicePublish; DatabaseConfig get database; SetupPromptDeclinedConfig get setupPromptDeclined;
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.apiServer, apiServer) || other.apiServer == apiServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.httpServer, httpServer) || other.httpServer == httpServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,apiServer,mdnsServicePublish,database,setupPromptDeclined);
+int get hashCode => Object.hash(runtimeType,httpServer,mdnsServicePublish,database,setupPromptDeclined);
 
 @override
 String toString() {
-  return 'AppConfig(apiServer: $apiServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
+  return 'AppConfig(httpServer: $httpServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $AppConfigCopyWith<$Res>  {
   factory $AppConfigCopyWith(AppConfig value, $Res Function(AppConfig) _then) = _$AppConfigCopyWithImpl;
 @useResult
 $Res call({
- ApiServerConfig apiServer, MdnsServicePublishConfig mdnsServicePublish, DatabaseConfig database, SetupPromptDeclinedConfig setupPromptDeclined
+ HttpServerConfig httpServer, MdnsServicePublishConfig mdnsServicePublish, DatabaseConfig database, SetupPromptDeclinedConfig setupPromptDeclined
 });
 
 
@@ -63,10 +63,10 @@ class _$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? apiServer = null,Object? mdnsServicePublish = null,Object? database = null,Object? setupPromptDeclined = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? httpServer = null,Object? mdnsServicePublish = null,Object? database = null,Object? setupPromptDeclined = null,}) {
   return _then(AppConfig(
-apiServer: null == apiServer ? _self.apiServer : apiServer // ignore: cast_nullable_to_non_nullable
-as ApiServerConfig,mdnsServicePublish: null == mdnsServicePublish ? _self.mdnsServicePublish : mdnsServicePublish // ignore: cast_nullable_to_non_nullable
+httpServer: null == httpServer ? _self.httpServer : httpServer // ignore: cast_nullable_to_non_nullable
+as HttpServerConfig,mdnsServicePublish: null == mdnsServicePublish ? _self.mdnsServicePublish : mdnsServicePublish // ignore: cast_nullable_to_non_nullable
 as MdnsServicePublishConfig,database: null == database ? _self.database : database // ignore: cast_nullable_to_non_nullable
 as DatabaseConfig,setupPromptDeclined: null == setupPromptDeclined ? _self.setupPromptDeclined : setupPromptDeclined // ignore: cast_nullable_to_non_nullable
 as SetupPromptDeclinedConfig,
@@ -163,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ApiServerConfig apiServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( HttpServerConfig httpServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
+return $default(_that.httpServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
   return orElse();
 
 }
@@ -184,10 +184,10 @@ return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.se
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ApiServerConfig apiServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( HttpServerConfig httpServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig():
-return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
+return $default(_that.httpServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +204,10 @@ return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.se
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ApiServerConfig apiServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( HttpServerConfig httpServer,  MdnsServicePublishConfig mdnsServicePublish,  DatabaseConfig database,  SetupPromptDeclinedConfig setupPromptDeclined)?  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
+return $default(_that.httpServer,_that.mdnsServicePublish,_that.database,_that.setupPromptDeclined);case _:
   return null;
 
 }
@@ -219,10 +219,10 @@ return $default(_that.apiServer,_that.mdnsServicePublish,_that.database,_that.se
 
 
 class _AppConfig extends AppConfig {
-  const _AppConfig({required this.apiServer, required this.mdnsServicePublish, required this.database, required this.setupPromptDeclined}): super(apiServer: apiServer, mdnsServicePublish: mdnsServicePublish, database: database, setupPromptDeclined: setupPromptDeclined);
+  const _AppConfig({required this.httpServer, required this.mdnsServicePublish, required this.database, required this.setupPromptDeclined}): super(httpServer: httpServer, mdnsServicePublish: mdnsServicePublish, database: database, setupPromptDeclined: setupPromptDeclined);
   
 
-@override final  ApiServerConfig apiServer;
+@override final  HttpServerConfig httpServer;
 @override final  MdnsServicePublishConfig mdnsServicePublish;
 @override final  DatabaseConfig database;
 @override final  SetupPromptDeclinedConfig setupPromptDeclined;
@@ -237,16 +237,16 @@ _$AppConfigCopyWith<_AppConfig> get copyWith => __$AppConfigCopyWithImpl<_AppCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.apiServer, apiServer) || other.apiServer == apiServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.httpServer, httpServer) || other.httpServer == httpServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,apiServer,mdnsServicePublish,database,setupPromptDeclined);
+int get hashCode => Object.hash(runtimeType,httpServer,mdnsServicePublish,database,setupPromptDeclined);
 
 @override
 String toString() {
-  return 'AppConfig(apiServer: $apiServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
+  return 'AppConfig(httpServer: $httpServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
 }
 
 
@@ -257,7 +257,7 @@ abstract mixin class _$AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Re
   factory _$AppConfigCopyWith(_AppConfig value, $Res Function(_AppConfig) _then) = __$AppConfigCopyWithImpl;
 @override @useResult
 $Res call({
- ApiServerConfig apiServer, MdnsServicePublishConfig mdnsServicePublish, DatabaseConfig database, SetupPromptDeclinedConfig setupPromptDeclined
+ HttpServerConfig httpServer, MdnsServicePublishConfig mdnsServicePublish, DatabaseConfig database, SetupPromptDeclinedConfig setupPromptDeclined
 });
 
 
@@ -274,10 +274,10 @@ class __$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? apiServer = null,Object? mdnsServicePublish = null,Object? database = null,Object? setupPromptDeclined = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? httpServer = null,Object? mdnsServicePublish = null,Object? database = null,Object? setupPromptDeclined = null,}) {
   return _then(_AppConfig(
-apiServer: null == apiServer ? _self.apiServer : apiServer // ignore: cast_nullable_to_non_nullable
-as ApiServerConfig,mdnsServicePublish: null == mdnsServicePublish ? _self.mdnsServicePublish : mdnsServicePublish // ignore: cast_nullable_to_non_nullable
+httpServer: null == httpServer ? _self.httpServer : httpServer // ignore: cast_nullable_to_non_nullable
+as HttpServerConfig,mdnsServicePublish: null == mdnsServicePublish ? _self.mdnsServicePublish : mdnsServicePublish // ignore: cast_nullable_to_non_nullable
 as MdnsServicePublishConfig,database: null == database ? _self.database : database // ignore: cast_nullable_to_non_nullable
 as DatabaseConfig,setupPromptDeclined: null == setupPromptDeclined ? _self.setupPromptDeclined : setupPromptDeclined // ignore: cast_nullable_to_non_nullable
 as SetupPromptDeclinedConfig,

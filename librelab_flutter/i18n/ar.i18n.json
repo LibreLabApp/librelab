@@ -114,6 +114,19 @@
         }
     },
     "serverSelection": {
+        "browserPlatform": {
+            "useWebAppServer": {
+                "title": "استخدام هذا الخادم",
+                "subtitle": "الاتصال بنفس الخادم الذي يستضيف هذا التطبيق",
+                "serverAddressLabel": "عنوان الخادم:",
+                "badge": "الخادم الحالي"
+            },
+            "or": "أو",
+            "manualAddress": {
+                "title": "استخدام خادم آخر",
+                "subtitle": "أدخل عنوان خادم خارجي"
+            }
+        },
         "localNetworkDiscovery": {
             "button": "البحث في الشبكة",
             "tooltip": "البحث عن الخوادم المتوفرة على الشبكة المحلية",

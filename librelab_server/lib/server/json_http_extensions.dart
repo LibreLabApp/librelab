@@ -1,4 +1,4 @@
-import 'dart:io' show HttpHeaders;
+import 'dart:io' show ContentType, HttpHeaders;
 
 import 'package:json_safe/json_safe.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
@@ -52,13 +52,19 @@ extension RequestX on Request {
 }
 
 extension JsonResponse on JsonMap {
-  Response httpResponse(HttpStatusCode statusCode) {
+  Response httpResponse(
+    HttpStatusCode statusCode, {
+    Map<String, /* String | List<String> */ Object>? headers,
+  }) {
     final jsonMap = this;
 
     return Response(
       statusCode.value,
       body: jsonEncode(jsonMap),
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      headers: {
+        HttpHeaders.contentTypeHeader: ContentType.json.toString(),
+        ...?headers,
+      },
     );
   }
 }

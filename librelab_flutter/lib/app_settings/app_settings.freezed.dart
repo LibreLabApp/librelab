@@ -317,7 +317,8 @@ $TelemetrySettingsCopyWith<$Res> get telemetry {
 mixin _$AppAppearance {
 
 @JsonKey(defaultValue: AppThemeMode.system) AppThemeMode get themeMode;@JsonKey(defaultValue: true) bool get useSystemColors;@JsonKey(defaultValue: false) bool get useAccentColor;/// Stored as ARGB int
-@JsonKey(defaultValue: 0xFFFF5252) int get accentColor;/// Whether to use animated graphics instead of static icons for decorative visuals.
+@JsonKey(defaultValue: 0xFFFF5252) int get accentColor;/// Whether to use animated graphics instead of static icons / fallback widgets
+/// for decorative visuals.
 @JsonKey(defaultValue: true) bool get useAnimatedGraphics;
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
@@ -522,7 +523,8 @@ class _AppAppearance extends AppAppearance {
 @override@JsonKey(defaultValue: false) final  bool useAccentColor;
 /// Stored as ARGB int
 @override@JsonKey(defaultValue: 0xFFFF5252) final  int accentColor;
-/// Whether to use animated graphics instead of static icons for decorative visuals.
+/// Whether to use animated graphics instead of static icons / fallback widgets
+/// for decorative visuals.
 @override@JsonKey(defaultValue: true) final  bool useAnimatedGraphics;
 
 /// Create a copy of AppAppearance

@@ -5,9 +5,8 @@ part of 'server_selection_cubit.dart';
 @freezed
 @immutable
 class const ServerSelectionState({
-  /// Defaults to [ServerSelectionMethod.manual] on web due to lack of
-  /// native mDNS service discovery support.
-  /// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web.
+  /// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web
+  /// (due to lack of native mDNS service discovery support).
   required final ServerSelectionMethod selectionMethod,
 
   /// Should be only used if [selectionMethod] is [ServerSelectionMethod.manual].
@@ -18,7 +17,7 @@ class const ServerSelectionState({
 }) with _$ServerSelectionState {
   const new initial()
     : this(
-        selectionMethod: kIsWeb ? .manual : .localNetworkDiscovery,
+        selectionMethod: kIsWeb ? .useWebAppServer : .localNetworkDiscovery,
         manualServerAddress: null,
         discoveryState: const .initial(),
         compatibilityCheckState: const .initial(),
@@ -50,9 +49,11 @@ sealed class SelectedServer with _$SelectedServer {
   /// The server base URL provided by the user to connect to the server.
   const factory manual(String address) = Manual;
 
+  /// Uses the server hosting the web application.
+  const factory useWebAppServer() = UseWebAppServer;
+
   /// Pointer to an item in [LocalDiscoveryState.discoveredServers] list.
   /// Uses [DiscoveredServer.id].
-  ///
   const factory discovered(String id) = Discovered;
 }
 
@@ -62,9 +63,10 @@ extension ServerSelectionStateExt on ServerSelectionState {
     final manual = manualServerAddress;
 
     return switch (selectionMethod) {
-      ServerSelectionMethod.localNetworkDiscovery =>
+      .localNetworkDiscovery =>
         discovered != null ? .discovered(discovered) : null,
-      ServerSelectionMethod.manual => manual != null ? .manual(manual) : null,
+      .manual => manual != null ? .manual(manual) : null,
+      ServerSelectionMethod.useWebAppServer => const .useWebAppServer(),
     };
   }
 }

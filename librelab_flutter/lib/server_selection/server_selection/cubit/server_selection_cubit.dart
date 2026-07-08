@@ -57,14 +57,13 @@ class ServerSelectionCubit({
         ));
   }
 
-  /// Must not be called on the web.
-  ///
-  /// [ServerSelectionState.selectionMethod] is set to [ServerSelectionMethod.manual]
-  /// in [ServerSelectionState].
   void setSelectionMethod(ServerSelectionMethod method) {
-    if (kIsWeb) {
-      throw UnsupportedError(
-        'Selection method must not be changed on the web (default is fixed: ${state.selectionMethod}).',
+    if (kIsWeb && method == .localNetworkDiscovery ||
+        !kIsWeb && method == .useWebAppServer) {
+      throw ArgumentError.value(
+        method,
+        'method'
+        'must not be changed to ${method.name} on this platform (current: ${state.selectionMethod}).',
       );
     }
     emit(state.copyWith(selectionMethod: method));
@@ -97,6 +96,12 @@ class ServerSelectionCubit({
           ipAddressAuthority: server.ipAddressAuthority,
         );
       }(),
+
+      /// Web only: Uses the server hosting the web application as the API server.
+      ///
+      /// Internally represented by an empty URI, which resolves requests against the
+      /// browser's current origin.
+      UseWebAppServer() => ServerTarget.manual(Uri()),
     };
 
     emit(state.copyWith(compatibilityCheckState: const .load()));

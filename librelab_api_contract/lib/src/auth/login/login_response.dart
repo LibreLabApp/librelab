@@ -16,3 +16,10 @@ class const LoginResponse({
   factory fromJson(JsonMap json) => _$LoginResponseFromJson(json);
   JsonMap toJson() => _$LoginResponseToJson(this);
 }
+
+@immutable
+@JsonSerializable()
+class const LoginBrowserResponse({required final User user}) {
+  factory fromJson(JsonMap json) => _$LoginBrowserResponseFromJson(json);
+  JsonMap toJson() => _$LoginBrowserResponseToJson(this);
+}

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:librelab_server/config/app_config/app_config.dart';
+import 'package:librelab_server/config/app_config/database_config.dart';
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 

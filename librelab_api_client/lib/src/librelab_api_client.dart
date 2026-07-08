@@ -10,6 +10,8 @@ import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:logging/logging.dart';
 
+// TODO: Update to support /auth/browser routes (fix old assumptions)
+
 class LibreLabApiClient({
   required final HttpApiClient _apiClient,
   final Logger? _logger,
@@ -239,13 +241,13 @@ class LibreLabApiClient({
     }
   }
 
-  Future<LibreLabApiResult<RefreshTokenResponse>> _refreshToken(
+  Future<LibreLabApiResult<RefreshAuthResponse>> _refreshToken(
     String refreshToken,
   ) => request(
-    ApiEndpointDefinitions.auth_refresh_token$POST,
-    body: .json(RefreshTokenRequest(refreshToken: refreshToken).toJson()),
+    ApiEndpointDefinitions.auth_refresh$POST,
+    body: .json(RefreshAuthRequest(refreshToken: refreshToken).toJson()),
     deserializeSuccess: (response) =>
-        RefreshTokenResponse.fromJson(response.body),
+        RefreshAuthResponse.fromJson(response.body),
   );
 
   late final Endpoints endpoints = Endpoints(this);

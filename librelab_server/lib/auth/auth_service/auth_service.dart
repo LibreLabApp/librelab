@@ -1,6 +1,5 @@
 import 'dart:convert' show utf8;
 
-import 'package:clock/clock.dart' show clock;
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:librelab_server/auth/auth_service/authenticate_failures.dart';
 import 'package:librelab_server/auth/auth_service/refresh_token_failures.dart';
@@ -16,6 +15,7 @@ import 'package:librelab_server/auth/security/password_hasher/password_hasher.da
 import 'package:librelab_server/user/user.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/utils/security/random_string.dart';
+import 'package:librelab_server/utils/time_now_utc.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
@@ -347,7 +347,4 @@ String _hashToken(String token) {
   return digest.toString();
 }
 
-/// Returns the current time in UTC.
-DateTime _timeNowUTC() {
-  return clock.now().toUtc();
-}
+DateTime _timeNowUTC() => timeNowUTC();

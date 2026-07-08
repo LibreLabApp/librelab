@@ -1,19 +1,17 @@
 // ignore_for_file: annotate_overrides
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:librelab_server/database/postgres_constants.dart';
-import 'package:librelab_shared/librelab_shared.dart';
+import 'package:librelab_server/config/app_config/database_config.dart';
+import 'package:librelab_server/config/app_config/http_server/http_server_config.dart';
 import 'package:yaml/yaml.dart';
 
-part 'database_config.dart';
-part 'api_server_config.dart';
 part 'app_config.freezed.dart';
 
 /// Infrastructure configuration (deployment/runtime, not application settings)
 @freezed
 @immutable
 class const AppConfig({
-  required final ApiServerConfig apiServer,
+  required final HttpServerConfig httpServer,
   required final MdnsServicePublishConfig mdnsServicePublish,
   required final DatabaseConfig database,
   required final SetupPromptDeclinedConfig setupPromptDeclined,
@@ -21,8 +19,12 @@ class const AppConfig({
   new defaultConfig({
     required int port,
     required MdnsServicePublishConfig mdnsServicePublish,
+    required bool enableWebClientHosting,
   }) : this(
-         apiServer: .defaultConfig(port: port),
+         httpServer: .defaultConfig(
+           port: port,
+           enableWebClientHosting: enableWebClientHosting,
+         ),
          mdnsServicePublish: mdnsServicePublish,
          database: const .defaultConfig(),
          setupPromptDeclined: const .defaultConfig(),
@@ -30,7 +32,7 @@ class const AppConfig({
 
   factory fromYaml(YamlMap yaml) {
     return .new(
-      apiServer: .fromYaml(yaml['apiServer'] as YamlMap),
+      httpServer: .fromYaml(yaml['httpServer'] as YamlMap),
       mdnsServicePublish: .fromYaml(yaml['mdnsServicePublish'] as YamlMap),
       database: .fromYaml(yaml['database'] as YamlMap),
       setupPromptDeclined: .fromYaml(yaml['setupPromptDeclined'] as YamlMap),
@@ -38,7 +40,7 @@ class const AppConfig({
   }
   Map<String, Object?> toYaml() {
     return {
-      'apiServer': apiServer.toYaml(),
+      'httpServer': httpServer.toYaml(),
       'mdnsServicePublish': mdnsServicePublish.toYaml(),
       'database': database.toYaml(),
       'setupPromptDeclined': setupPromptDeclined.toYaml(),

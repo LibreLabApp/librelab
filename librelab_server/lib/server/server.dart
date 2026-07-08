@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
+import 'package:shelf_static/shelf_static.dart';
 
 final _logger = Logger('Server');
 
@@ -18,8 +19,10 @@ Future<HttpServer> startServer({
   required int port,
   required String address,
   required List<RouteModule> routeModules,
+  required bool webClientHostingEnabled,
+  required String webDirFileSystemPath,
 }) async {
-  final app = Router(
+  final router = Router(
     notFoundHandler: (request) => ServerErrorResponse(
       message: 'Route not found',
       code: 'NOT_FOUND',
@@ -31,12 +34,12 @@ Future<HttpServer> startServer({
     ).toJson().httpResponse(.notFound),
   );
 
-  app.get('/', (Request _) {
+  router.get('/', (Request _) {
     return Response.ok('OK');
   });
 
   for (final module in routeModules) {
-    app.mount('/', module.router.call);
+    router.mount('/', module.router.call);
   }
 
   final handler = const Pipeline()
@@ -44,11 +47,33 @@ Future<HttpServer> startServer({
       // TODO: Current cors() implementation is not production-ready and does not
       //  take into account authentication, caching, different origins (needs careful review).
       //  Find a reliable solution in production mode for the web
+      //  or remove in non-debug builds
       .addMiddleware(cors(allowedOrigins: kDebugMode ? null : {}))
-      .addHandler(app.call);
+      .addHandler(router.call);
 
   final server = await shelf_io.serve(handler, address, port);
   server.autoCompress = true;
+
+  if (webClientHostingEnabled) {
+    // TODO: Need to automatically download the web app build,
+    //  maintain updates, and maybe print the addresses
+    if (Directory(webDirFileSystemPath).existsSync()) {
+      router.mount(
+        '/web/',
+        createStaticHandler(
+          webDirFileSystemPath,
+          defaultDocument: 'index.html',
+        ),
+      );
+    } else {
+      router.get('/web/', (Request req) {
+        return Response.notFound(
+          'The directory "$webDirFileSystemPath" was not found.\n'
+          'Restart the server after the directory has been created.',
+        );
+      });
+    }
+  }
 
   return server;
 }

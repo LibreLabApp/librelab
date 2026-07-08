@@ -36,11 +36,12 @@ Middleware cors({required Set<String>? allowedOrigins}) {
 
       final response = await inner(request);
 
+      // Avoid spreading `response.headers` into `response.change(headers: ...)`.
+      // The flattened headers map cannot preserve multiple `Set-Cookie` headers,
+      // causing them to be collapsed into a single comma-separated header.
+      // https://github.com/dart-lang/shelf/issues/521#issuecomment-4918308266
       return response.change(
-        headers: {
-          ...response.headers,
-          if (allowOrigin) 'Access-Control-Allow-Origin': origin,
-        },
+        headers: {if (allowOrigin) 'Access-Control-Allow-Origin': origin},
       );
     };
   };

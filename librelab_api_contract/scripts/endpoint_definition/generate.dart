@@ -5,9 +5,17 @@ final List<ApiNode> _input = [
   ApiGroup('auth', [
     HttpEndpoint(.post, 'login'),
     HttpEndpoint(.post, 'logout'),
-    HttpEndpoint(.post, 'refresh-token'),
-    HttpEndpoint(.post, 'refresh-user'),
+    HttpEndpoint(.post, 'refresh'),
+    // Important: 'auth/browser' is hardcoded in auth_browser_routes.dart
+    ApiGroup('browser', [
+      // These endpoints exist because their authentication contract
+      // depends on browser-specific capabilities (i.e., HttpOnly cookies).
+      HttpEndpoint(.post, 'login'),
+      HttpEndpoint(.post, 'logout'),
+      HttpEndpoint(.post, 'refresh'),
+    ]),
   ]),
+  ApiGroup('users', [HttpEndpoint(.get, 'me')]),
   ApiGroup('lab-settings', [
     HttpEndpoint(.patch, null),
     HttpEndpoint(.get, null),

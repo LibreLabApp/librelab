@@ -11,11 +11,26 @@ class const ServerConnectionInfoCard({
   required final ConnectionNoticeType type,
   required final Uri uri,
 }) extends StatelessWidget {
+  static bool _isHttp(Uri uri) {
+    if (kIsWeb) {
+      // On web, an empty base URL resolves requests against the browser origin.
+      // Therefore, the browser origin scheme determines the actual request scheme.
+      final usesCurrentBrowserOrigin = uri.scheme.isEmpty;
+      final browserOrigin = Uri.base;
+
+      if (usesCurrentBrowserOrigin && browserOrigin.isHttp) {
+        return true;
+      }
+    }
+    return uri.isHttp;
+  }
+
   static ConnectionNoticeType? getNoticeType(Uri uri) {
     // TODO: Implement isIpAddress on the web
     // ignore: avoid_bool_literals_in_conditional_expressions
     final isIpAddress = kIsWeb ? false : uri.isIpAddress;
-    final isHttp = uri.isHttp;
+    final isHttp = _isHttp(uri);
+
     if (isHttp && isIpAddress) {
       return .httpAndIpAddress;
     }

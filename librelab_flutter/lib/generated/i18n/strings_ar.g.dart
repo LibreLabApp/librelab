@@ -93,6 +93,7 @@ class _Translations$serverSelection$ar extends Translations$serverSelection$en {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
+	@override late final _Translations$serverSelection$browserPlatform$ar browserPlatform = _Translations$serverSelection$browserPlatform$ar._(_root);
 	@override late final _Translations$serverSelection$localNetworkDiscovery$ar localNetworkDiscovery = _Translations$serverSelection$localNetworkDiscovery$ar._(_root);
 	@override late final _Translations$serverSelection$manualAddress$ar manualAddress = _Translations$serverSelection$manualAddress$ar._(_root);
 }
@@ -178,6 +179,18 @@ class _Translations$serverCompatibility$check$ar extends Translations$serverComp
 	@override late final _Translations$serverCompatibility$check$loading$ar loading = _Translations$serverCompatibility$check$loading$ar._(_root);
 	@override late final _Translations$serverCompatibility$check$success$ar success = _Translations$serverCompatibility$check$success$ar._(_root);
 	@override late final _Translations$serverCompatibility$check$failure$ar failure = _Translations$serverCompatibility$check$failure$ar._(_root);
+}
+
+// Path: serverSelection.browserPlatform
+class _Translations$serverSelection$browserPlatform$ar extends Translations$serverSelection$browserPlatform$en {
+	_Translations$serverSelection$browserPlatform$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$serverSelection$browserPlatform$useWebAppServer$ar useWebAppServer = _Translations$serverSelection$browserPlatform$useWebAppServer$ar._(_root);
+	@override String get or => 'أو';
+	@override late final _Translations$serverSelection$browserPlatform$manualAddress$ar manualAddress = _Translations$serverSelection$browserPlatform$manualAddress$ar._(_root);
 }
 
 // Path: serverSelection.localNetworkDiscovery
@@ -377,6 +390,30 @@ class _Translations$serverCompatibility$check$failure$ar extends Translations$se
 
 	// Translations
 	@override String get title => 'فشل فحص التوافق';
+}
+
+// Path: serverSelection.browserPlatform.useWebAppServer
+class _Translations$serverSelection$browserPlatform$useWebAppServer$ar extends Translations$serverSelection$browserPlatform$useWebAppServer$en {
+	_Translations$serverSelection$browserPlatform$useWebAppServer$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'استخدام هذا الخادم';
+	@override String get subtitle => 'الاتصال بنفس الخادم الذي يستضيف هذا التطبيق';
+	@override String get serverAddressLabel => 'عنوان الخادم:';
+	@override String get badge => 'الخادم الحالي';
+}
+
+// Path: serverSelection.browserPlatform.manualAddress
+class _Translations$serverSelection$browserPlatform$manualAddress$ar extends Translations$serverSelection$browserPlatform$manualAddress$en {
+	_Translations$serverSelection$browserPlatform$manualAddress$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'استخدام خادم آخر';
+	@override String get subtitle => 'أدخل عنوان خادم خارجي';
 }
 
 // Path: serverSelection.localNetworkDiscovery.tile
@@ -763,6 +800,13 @@ extension on TranslationsAr {
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'تم الاتصال عبر HTTP باستخدام عنوان IP',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
 			'serverCompatibility.check.failure.title' => 'فشل فحص التوافق',
+			'serverSelection.browserPlatform.useWebAppServer.title' => 'استخدام هذا الخادم',
+			'serverSelection.browserPlatform.useWebAppServer.subtitle' => 'الاتصال بنفس الخادم الذي يستضيف هذا التطبيق',
+			'serverSelection.browserPlatform.useWebAppServer.serverAddressLabel' => 'عنوان الخادم:',
+			'serverSelection.browserPlatform.useWebAppServer.badge' => 'الخادم الحالي',
+			'serverSelection.browserPlatform.or' => 'أو',
+			'serverSelection.browserPlatform.manualAddress.title' => 'استخدام خادم آخر',
+			'serverSelection.browserPlatform.manualAddress.subtitle' => 'أدخل عنوان خادم خارجي',
 			'serverSelection.localNetworkDiscovery.button' => 'البحث في الشبكة',
 			'serverSelection.localNetworkDiscovery.tooltip' => 'البحث عن الخوادم المتوفرة على الشبكة المحلية',
 			'serverSelection.localNetworkDiscovery.refreshServersButton' => 'تحديث',

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Step;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
@@ -14,7 +13,7 @@ import 'package:librelab_flutter/common/ui/widgets/work_in_progress.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
-import 'package:librelab_flutter/server_selection/server_selection/server_selection_section.dart';
+import 'package:librelab_flutter/server_selection/server_selection/ui/server_selection_section.dart';
 import 'package:librelab_flutter/server_selection/server_selection_deps_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stepper_flow/stepper_flow.dart';
