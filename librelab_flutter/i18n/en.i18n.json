@@ -114,7 +114,8 @@
             "title": "Connected over HTTP using an IP address",
             "subtitle": "This connection is not encrypted, and the server's IP address may change over time, which can prevent future connections."
           }
-        }
+        },
+        "serverVersion": "Server version: $version+$buildNumber"
       },
       "failure": {
         "title": "Compatibility check failed"

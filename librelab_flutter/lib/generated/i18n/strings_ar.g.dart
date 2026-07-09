@@ -380,6 +380,7 @@ class _Translations$serverCompatibility$check$success$ar extends Translations$se
 	// Translations
 	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$ar compatibilityStatus = _Translations$serverCompatibility$check$success$compatibilityStatus$ar._(_root);
 	@override late final _Translations$serverCompatibility$check$success$connectionInfo$ar connectionInfo = _Translations$serverCompatibility$check$success$connectionInfo$ar._(_root);
+	@override String serverVersion({required Object version, required Object buildNumber}) => 'إصدار الخادم: ${version}+${buildNumber}';
 }
 
 // Path: serverCompatibility.check.failure
@@ -799,6 +800,7 @@ extension on TranslationsAr {
 			'serverCompatibility.check.success.connectionInfo.ipAddress.subtitle' => 'قد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'تم الاتصال عبر HTTP باستخدام عنوان IP',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
+			'serverCompatibility.check.success.serverVersion' => ({required Object version, required Object buildNumber}) => 'إصدار الخادم: ${version}+${buildNumber}',
 			'serverCompatibility.check.failure.title' => 'فشل فحص التوافق',
 			'serverSelection.browserPlatform.useWebAppServer.title' => 'استخدام هذا الخادم',
 			'serverSelection.browserPlatform.useWebAppServer.subtitle' => 'الاتصال بنفس الخادم الذي يستضيف هذا التطبيق',

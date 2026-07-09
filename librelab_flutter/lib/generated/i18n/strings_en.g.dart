@@ -498,6 +498,9 @@ class Translations$serverCompatibility$check$success$en {
 	// Translations
 	late final Translations$serverCompatibility$check$success$compatibilityStatus$en compatibilityStatus = Translations$serverCompatibility$check$success$compatibilityStatus$en.internal(_root);
 	late final Translations$serverCompatibility$check$success$connectionInfo$en connectionInfo = Translations$serverCompatibility$check$success$connectionInfo$en.internal(_root);
+
+	/// en: 'Server version: $version+$buildNumber'
+	String serverVersion({required Object version, required Object buildNumber}) => 'Server version: ${version}+${buildNumber}';
 }
 
 // Path: serverCompatibility.check.failure
@@ -1056,6 +1059,7 @@ extension on Translations {
 			'serverCompatibility.check.success.connectionInfo.ipAddress.subtitle' => 'The server\'s IP address may change over time, which can prevent future connections.',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'Connected over HTTP using an IP address',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'This connection is not encrypted, and the server\'s IP address may change over time, which can prevent future connections.',
+			'serverCompatibility.check.success.serverVersion' => ({required Object version, required Object buildNumber}) => 'Server version: ${version}+${buildNumber}',
 			'serverCompatibility.check.failure.title' => 'Compatibility check failed',
 			'serverSelection.browserPlatform.useWebAppServer.title' => 'Use this server',
 			'serverSelection.browserPlatform.useWebAppServer.subtitle' => 'Connect to the same server that is hosting this application',

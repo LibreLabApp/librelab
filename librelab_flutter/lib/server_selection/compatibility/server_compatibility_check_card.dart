@@ -110,13 +110,25 @@ class const ServerCompatibilityCheckCard({
       title: Text(title),
       subtitle: Tooltip(
         constraints: const BoxConstraints(maxWidth: 300),
-        message: state is Failure ? state.failure.message : '',
+        message: () {
+          if (state is Failure) {
+            return state.failure.message;
+          }
+          if (state is Success) {
+            return t.success.serverVersion(
+              version: state.response.serverVersion,
+              buildNumber: state.response.serverBuildNumber,
+            );
+          }
+          return '';
+        }(),
         child: Text(subtitle),
       ),
     );
   }
 }
 
+// TODO: Refactor to be reusable
 class const _ServerSelectionEffectListener({
   required final _RequestServerUrlFocus _requestServerUrlFocus,
   required final Widget child,
