@@ -9,6 +9,7 @@ import 'package:librelab_server/auth/browser/request_cookies.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/user/mapper.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
+import 'package:librelab_server/utils/json_types.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthBrowserRoutes({
@@ -115,9 +116,9 @@ class AuthBrowserRoutes({
         final refreshCookie = _refreshTokenCookie(
           .set(refreshToken.token, refreshToken.expiresAt),
         );
-        return Response(
-          HttpStatusCode.noContent.value,
-          body: null,
+
+        return emptyJson.httpResponse(
+          HttpStatusCode.ok,
           headers: {
             HttpHeaders.setCookieHeader: <String>[
               accessCookie.toString(),

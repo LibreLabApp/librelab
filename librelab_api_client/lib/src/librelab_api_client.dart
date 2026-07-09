@@ -27,6 +27,8 @@ class LibreLabApiClient({
     _baseUrl = baseUrl;
   }
 
+  late final Endpoints endpoints = Endpoints(this);
+
   AuthSession? _authSession;
   AuthSession? get authSession => _authSession;
 
@@ -41,21 +43,36 @@ class LibreLabApiClient({
     _authSession = session;
   }
 
+  Uri _buildUrl(
+    HttpEndpoint endpoint, {
+    required Map<String, Iterable<String>>? queryParameters,
+    required Uri? overrideBaseUrl,
+  }) {
+    final baseUrl =
+        overrideBaseUrl ??
+        _baseUrl ??
+        (throw StateError('The server base URL was not provided'));
+
+    return baseUrl.replace(
+      path: endpoint.path,
+      queryParameters: queryParameters,
+    );
+  }
+
   Future<LibreLabApiResult<S>> request<S>(
     HttpEndpoint endpoint, {
     Map<String, Iterable<String>>? queryParameters,
     Map<String, String>? headers,
     RequestBody? body,
     required JsonResponseDeserializer<S> deserializeSuccess,
-    Uri? overrideUrl,
+    Uri? overrideBaseUrl,
   }) async {
-    final url = (overrideUrl ?? baseUrlOrThrow).replace(
-      path: endpoint.path,
-      queryParameters: queryParameters,
-    );
-
-    final result = await _apiClient.requestJson(
-      url,
+    return _apiClient.requestJson(
+      _buildUrl(
+        endpoint,
+        queryParameters: queryParameters,
+        overrideBaseUrl: overrideBaseUrl,
+      ),
       method: endpoint.method,
       body: body,
       deserializeSuccess: deserializeSuccess,
@@ -63,8 +80,6 @@ class LibreLabApiClient({
           ServerErrorResponse.fromJson(response.body),
       headers: headers,
     );
-
-    return result;
   }
 
   /// This is either the original request response (no refresh was attempted)
@@ -243,14 +258,7 @@ class LibreLabApiClient({
 
   Future<LibreLabApiResult<RefreshAuthResponse>> _refreshToken(
     String refreshToken,
-  ) => request(
-    ApiEndpointDefinitions.auth_refresh$POST,
-    body: .json(RefreshAuthRequest(refreshToken: refreshToken).toJson()),
-    deserializeSuccess: (response) =>
-        RefreshAuthResponse.fromJson(response.body),
-  );
-
-  late final Endpoints endpoints = Endpoints(this);
+  ) => endpoints.auth.refresh(RefreshAuthRequest(refreshToken: refreshToken));
 }
 
 typedef LibreLabApiResult<T> = HttpStatusResult<T, ServerErrorResponse>;

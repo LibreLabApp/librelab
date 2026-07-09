@@ -11,8 +11,7 @@ class CompatibilityEndpoints(final LibreLabApiClient _client) {
             clientApiContractVersion: ApiContractVersionConstants.version,
           ).toJson(),
         ),
-        deserializeSuccess: (response) =>
-            CompatibilityCheckResponse.fromJson(response.body),
-        overrideUrl: url,
+        deserializeSuccess: (response) => .fromJson(response.body),
+        overrideBaseUrl: url,
       );
 }
