@@ -113,15 +113,17 @@ class AuthRoutes({
   /// Shared between [_logoutHandler] and [AuthBrowserRoutes.logoutHandler]
   Future<Response> _logout(
     Request request, {
-    required Future<String?> Function() readRefreshToken,
+    required Future<String> Function() readRefreshToken,
     required Map<String, Object> Function()? successHeaders,
   }) async {
     final refreshToken = await readRefreshToken();
-    if (refreshToken == null || refreshToken.trim().isEmpty) {
-      return _missingRefreshToken();
+
+    if (refreshToken.trim().isEmpty) {
+      return _emptyRefreshTokenResponse();
     }
 
     final revoked = await _service.logout(refreshTokenRaw: refreshToken);
+
     return LogoutResponse(
       tokenRevoked: revoked,
     ).toJson().httpResponse(.ok, headers: successHeaders?.call());
@@ -148,49 +150,57 @@ class AuthRoutes({
   /// Shared between [_refreshHandler] and [AuthBrowserRoutes.refreshHandler]
   Future<Response> _refresh(
     Request request, {
-    required Future<String?> Function() readRefreshToken,
+    required Future<String> Function() readRefreshToken,
     required Response Function(AuthTokens tokens) success,
   }) async {
     final refreshToken = await readRefreshToken();
-    if (refreshToken == null || refreshToken.trim().isEmpty) {
-      return _missingRefreshToken();
+
+    if (refreshToken.trim().isEmpty) {
+      return _emptyRefreshTokenResponse();
     }
 
     final result = await _service.refreshToken(
       refreshTokenRaw: refreshToken,
       metadata: (request.ipAddress, request.userAgent),
     );
+
     switch (result) {
       case SuccessResult(:final value):
         return success(value);
 
       case FailureResult(:final failure):
-        final (code, message) = switch (failure) {
+        final (code, message, reason) = switch (failure) {
           TokenNotFoundFailure() => (
-            AuthErrorCodes.refreshTokenNotFound,
+            AuthErrorCodes.reAuthenticationRequired,
             'The refresh token was not found. '
                 'The refresh token and/or the user may have been removed.',
+            'REFRESH_TOKEN_NOT_FOUND',
           ),
           TokenExpiredFailure() => (
-            AuthErrorCodes.refreshTokenExpired,
+            AuthErrorCodes.reAuthenticationRequired,
             'The refresh token has expired',
+            'REFRESH_TOKEN_EXPIRED',
           ),
           UserMissingForValidTokenFailure() => (
-            'USER_MISSING_FOR_VALID_TOKEN',
+            'USER_MISSING_FOR_VALID_TOKEN_BUG',
             'The refresh token is valid and found in the database but the corresponding user does not exist. '
                 'This is likely a bug in the system.',
+            null,
           ),
         };
         return ServerErrorResponse(
           message: message,
           code: code,
+          details: reason != null
+              ? {AuthErrorDetailsKeys.reason: reason}
+              : null,
         ).toJson().httpResponse(.unauthorized);
     }
   }
 
-  Response _missingRefreshToken() => const ServerErrorResponse(
-    message: 'MISSING_REFRESH_TOKEN',
-    code: 'Refresh token is required',
+  Response _emptyRefreshTokenResponse() => const ServerErrorResponse(
+    message: 'EMPTY_REFRESH_TOKEN',
+    code: 'Refresh token is empty',
   ).toJson().httpResponse(.badRequest);
 
   UserRefreshTokenClientMetadata _clientMetadata(

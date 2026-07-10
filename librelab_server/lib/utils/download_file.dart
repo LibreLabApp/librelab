@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:librelab_server/utils/is_debug_mode.dart';
+
 final class DownloadFileException({
   required final int statusCode,
   required final Uri url,
@@ -15,8 +17,7 @@ HttpClient _createHttpClient() {
 
   // During development only: allow bypassing bad certificates validation
   // for Windows 11 guest OS in VM testing
-  // ignore: prefer_asserts_with_message
-  assert(() {
+  if (kDebugMode) {
     final allowBadCertificates =
         Platform.environment['ALLOW_BAD_CERTIFICATES']?.trim().toLowerCase() ==
         'true';
@@ -26,9 +27,7 @@ HttpClient _createHttpClient() {
         return true;
       };
     }
-
-    return true;
-  }());
+  }
 
   return client;
 }

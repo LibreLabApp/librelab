@@ -17,6 +17,7 @@
         "pgsql",
         "psql",
         "pubspec",
+        "REAUTHENTICATION",
         "Streamable",
         "timestamptz",
         "uuidv"

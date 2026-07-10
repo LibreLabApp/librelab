@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:librelab_api_contract/librelab_api_contract.dart'
-    show AuthErrorCodes, PermissionJson, ServerErrorResponse;
+    show
+        AuthErrorCodes,
+        AuthErrorDetailsKeys,
+        PermissionJson,
+        ServerErrorResponse;
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/browser/auth_cookie_names.dart';
 import 'package:librelab_server/auth/browser/request_cookies.dart';
@@ -55,49 +59,61 @@ class AuthorizationService({required final AuthService _authService}) {
     if (token == null || token.trim().isEmpty) {
       return const ServerErrorResponse(
         message:
-            'The access token must be provided either in the Authorization header (Bearer) or as a cookie (for browsers).',
-        code: 'TOKEN_MISSING',
+            'Provide an access token either in the Authorization '
+            'header (Bearer) or, for browser clients, as a cookie.\n',
+        code: AuthErrorCodes.unauthenticated,
+        details: {AuthErrorDetailsKeys.reason: 'TOKEN_MISSING'},
       ).toJson().httpResponse(.unauthorized);
     }
 
     final result = await authenticate(token);
 
     switch (result) {
-      case SuccessResult<T, AuthenticateFailure>(:final value):
+      case SuccessResult(:final value):
         return await handler(value);
 
-      case FailureResult<T, AuthenticateFailure>(:final failure):
-        final (code, message) = switch (failure) {
+      case FailureResult(:final failure):
+        final (code, message, String? reason) = switch (failure) {
           JwtValidationFailureWrapped(:final wrapped) => switch (wrapped) {
             JwtExpiredFailure() => (
               AuthErrorCodes.accessTokenExpired,
               'Access token expired',
+              null,
             ),
             JwtSignatureVerificationFailure() => (
               'INVALID_TOKEN_SIGNATURE',
               'Token signature verification failed',
+              null,
             ),
             JwtParseFailure() => (
               'INVALID_TOKEN_FORMAT',
               'Invalid token format/structure',
+              null,
             ),
             JwtUnknownFailure(:final message) => (
               'UNKNOWN',
               kDebugMode ? message : 'Unknown token parsing failure',
+              null,
             ),
           },
           UserDeletedFailure() => (
-            AuthErrorCodes.userNotFound,
+            AuthErrorCodes.reAuthenticationRequired,
             'User not found (may have been deleted)',
+            'USER_NOT_FOUND',
           ),
           TokenVersionMismatchFailure() => (
-            'TOKEN_REVOKED',
+            AuthErrorCodes.reAuthenticationRequired,
             'Token revoked (version mismatch)',
+            'ACCESS_TOKEN_VERSION_MISMATCH',
           ),
         };
+
         return ServerErrorResponse(
-          message: message,
           code: code,
+          message: message,
+          details: reason != null
+              ? {AuthErrorDetailsKeys.reason: reason}
+              : null,
         ).toJson().httpResponse(.unauthorized);
     }
   }

@@ -54,6 +54,7 @@ Future<HttpServer> startServer({
   final server = await shelf_io.serve(handler, address, port);
   server.autoCompress = true;
 
+  // TODO: (API_PATH) Change from /web/ to /
   if (webClientHostingEnabled) {
     // TODO: Need to automatically download the web app build,
     //  maintain updates, and maybe print the addresses

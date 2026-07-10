@@ -1,3 +1,4 @@
+export 'src/auth/auth_error_codes.dart';
 export 'src/auth/auth_token.dart';
 export 'src/auth/login/login_request.dart';
 export 'src/auth/login/login_response.dart';
@@ -11,7 +12,6 @@ export 'src/compatibility/compatibility_check_response.dart';
 export 'src/headers.dart';
 export 'src/lab_settings/lab_settings_response.dart';
 export 'src/lab_settings/update_lab_settings_request.dart';
-export 'src/server_error_response/server_error_codes.dart';
 export 'src/server_error_response/server_error_response.dart';
 export 'src/user/role/role.dart';
 export 'src/user/user.dart';

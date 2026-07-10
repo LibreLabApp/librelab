@@ -6,14 +6,14 @@ for LibreLab.
 
 ## Version
 
-[`api_contract_version_constants.dart`](./lib/src/api_contract_version_constants.dart)
+[`api_contract_version_constants.dart`](./lib/src/compatibility/api_contract_version_constants.dart)
 contains important doc comments about the current and minimum required version.
 
 ## Client-server type-safe communication
 
 > [!TIP]
-> This is a minimal example of how to get started.
-> It does not follow practices or the desired or ideal API design.
+> This is a minimal example of how to add new endpoints to get started.
+> It does not follow best practices or the desired or ideal API design.
 > It assumes the working directory is the `librelab_api_contract` package.
 
 ### Shared DTOs

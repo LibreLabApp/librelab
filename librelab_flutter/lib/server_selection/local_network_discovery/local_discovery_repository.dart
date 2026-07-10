@@ -112,6 +112,7 @@ class LocalDiscoveryRepository({
     required String hostname,
   }) async {
     final latency = await measureLatency(
+      // TODO: (API_PATH) Declare API specific endpoint (/ping or /test)
       host: server.ipAddress ?? hostname,
       port: server.port,
       logger: _logger,

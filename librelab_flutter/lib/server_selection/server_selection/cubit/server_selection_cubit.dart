@@ -97,6 +97,7 @@ class ServerSelectionCubit({
         );
       }(),
 
+      // TODO: (API_PATH) Must include "/api" in the URI after the API path migration
       /// Web only: Uses the server hosting the web application as the API server.
       ///
       /// Internally represented by an empty URI, which resolves requests against the

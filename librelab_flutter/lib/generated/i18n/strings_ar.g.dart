@@ -233,7 +233,6 @@ class _Translations$settings$locale$ar extends Translations$settings$locale$en {
 
 	// Translations
 	@override String get title => 'اللغة';
-	@override String get subtitle => 'اختر لغتك المفضلة';
 	@override String get systemDefault => 'لغة النظام';
 }
 
@@ -245,7 +244,6 @@ class _Translations$settings$themeMode$ar extends Translations$settings$themeMod
 
 	// Translations
 	@override String get title => 'المظهر';
-	@override String get subtitle => 'اختر مظهر التطبيق';
 	@override late final _Translations$settings$themeMode$options$ar options = _Translations$settings$themeMode$options$ar._(_root);
 }
 
@@ -845,10 +843,8 @@ extension on TranslationsAr {
 			'workInProgress.title' => 'قيد التطوير',
 			'workInProgress.subtitle' => 'هذه الميزة لا تزال قيد التطوير وستتوفر قريبا.',
 			'settings.locale.title' => 'اللغة',
-			'settings.locale.subtitle' => 'اختر لغتك المفضلة',
 			'settings.locale.systemDefault' => 'لغة النظام',
 			'settings.themeMode.title' => 'المظهر',
-			'settings.themeMode.subtitle' => 'اختر مظهر التطبيق',
 			'settings.themeMode.options.system' => 'النظام',
 			'settings.themeMode.options.dark' => 'داكن',
 			'settings.themeMode.options.light' => 'فاتح',

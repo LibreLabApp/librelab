@@ -21,13 +21,13 @@ class AuthBrowserRoutes({
   _login,
   required final Future<Response> Function(
     Request request, {
-    required Future<String?> Function() readRefreshToken,
+    required Future<String> Function() readRefreshToken,
     required Map<String, Object> Function()? successHeaders,
   })
   _logout,
   required final Future<Response> Function(
     Request request, {
-    required Future<String?> Function() readRefreshToken,
+    required Future<String> Function() readRefreshToken,
     required Response Function(AuthTokens tokens) success,
   })
   _refresh,
@@ -51,20 +51,16 @@ class AuthBrowserRoutes({
           ).toJson().httpResponse(.internalServerError);
         }
 
-        final accessCookie = _accessTokenCookie(
-          .set(accessToken.token, accessToken.expiresAt),
-        );
-
-        final refreshCookie = _refreshTokenCookie(
-          .set(refreshToken.token, refreshToken.expiresAt),
-        );
-
         return response.toJson().httpResponse(
           .ok,
           headers: {
             HttpHeaders.setCookieHeader: <String>[
-              accessCookie.toString(),
-              refreshCookie.toString(),
+              _accessTokenCookie(
+                .set(accessToken.token, accessToken.expiresAt),
+              ).toString(),
+              _refreshTokenCookie(
+                .set(refreshToken.token, refreshToken.expiresAt),
+              ).toString(),
             ],
           },
         );
@@ -76,53 +72,61 @@ class AuthBrowserRoutes({
     return cookies.valueOf(AuthCookieNames.refreshToken);
   }
 
-  Future<Response> logoutHandler(Request request) {
+  Future<Response> logoutHandler(Request request) async {
+    final headers = {
+      HttpHeaders.setCookieHeader: <String>[
+        _accessTokenCookie(const .remove()).toString(),
+        _refreshTokenCookie(const .remove()).toString(),
+      ],
+    };
+
+    final cookies = request.cookies;
+    final refreshToken = _refreshTokenFromCookies(cookies);
+
+    if (refreshToken == null) {
+      return const LogoutResponse(
+        tokenRevoked: false,
+      ).toJson().httpResponse(.ok, headers: headers);
+    }
+
     return _logout(
       request,
-      readRefreshToken: () async {
-        final cookies = request.cookies;
-        return _refreshTokenFromCookies(cookies);
-      },
-      successHeaders: () {
-        final accessCookie = _accessTokenCookie(const .remove());
-        final refreshCookie = _refreshTokenCookie(const .remove());
-        return {
-          HttpHeaders.setCookieHeader: <String>[
-            accessCookie.toString(),
-            refreshCookie.toString(),
-          ],
-        };
-      },
+      readRefreshToken: () async => refreshToken,
+      successHeaders: () => headers,
     );
   }
 
   Future<Response> refreshHandler(Request request) async {
+    final cookies = request.cookies;
+    final refreshToken = _refreshTokenFromCookies(cookies);
+    if (refreshToken == null) {
+      return const ServerErrorResponse(
+        code: AuthErrorCodes.reAuthenticationRequired,
+        message:
+            'The refresh token cookie was not found. It may have been expired.',
+        details: {AuthErrorDetailsKeys.reason: 'REFRESH_TOKEN_COOKIE_MISSING'},
+      ).toJson().httpResponse(.unauthorized);
+    }
+
     return _refresh(
       request,
-      readRefreshToken: () async {
-        final cookies = request.cookies;
-        return _refreshTokenFromCookies(cookies);
-      },
+      readRefreshToken: () async => refreshToken,
       success: (tokens) {
         final (accessToken, refreshToken) = (
           tokens.accessToken,
           tokens.refreshTokenRaw,
         );
 
-        final accessCookie = _accessTokenCookie(
-          .set(accessToken.token, accessToken.expiresAt),
-        );
-
-        final refreshCookie = _refreshTokenCookie(
-          .set(refreshToken.token, refreshToken.expiresAt),
-        );
-
         return emptyJson.httpResponse(
           HttpStatusCode.ok,
           headers: {
             HttpHeaders.setCookieHeader: <String>[
-              accessCookie.toString(),
-              refreshCookie.toString(),
+              _accessTokenCookie(
+                .set(accessToken.token, accessToken.expiresAt),
+              ).toString(),
+              _refreshTokenCookie(
+                .set(refreshToken.token, refreshToken.expiresAt),
+              ).toString(),
             ],
           },
         );
@@ -161,6 +165,7 @@ class AuthBrowserRoutes({
         // maintainer will update the path below as well.
         // ignore: unnecessary_statements
         ApiEndpointDefinitions.auth_browser_refresh$POST.path;
+        // TODO: (API_PATH) Needs updating
         return '/auth/browser';
       }()
       ..expires = expires

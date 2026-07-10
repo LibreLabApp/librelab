@@ -38,7 +38,7 @@ AppAppearance _$AppAppearanceFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AppAppearanceToJson(AppAppearance instance) =>
     <String, dynamic>{
-      'themeMode': _$AppThemeModeEnumMap[instance.themeMode]!,
+      'themeMode': _$AppThemeModeEnumMap[instance.themeMode],
       'useSystemColors': instance.useSystemColors,
       'useAccentColor': instance.useAccentColor,
       'accentColor': instance.accentColor,

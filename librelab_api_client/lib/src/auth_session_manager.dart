@@ -1,9 +1,9 @@
 import 'package:api_client/api_client.dart';
+import 'package:dart_build_constants/dart_build_constants.dart';
 import 'package:librelab_api_client/src/auth_session.dart';
 import 'package:librelab_api_client/src/exceptions.dart';
 import 'package:librelab_api_client/src/is_token_expired.dart';
 import 'package:librelab_api_client/src/librelab_api_client.dart';
-import 'package:librelab_api_client/src/session_invalidation_reason.dart';
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:logging/logging.dart';
@@ -71,12 +71,22 @@ class AuthSessionManager(
     switch (result) {
       case HttpStatusSuccess():
         return result;
+
       case HttpStatusError(:final response):
         final code = response.body.code;
-        if (code == AuthErrorCodes.userNotFound) {
-          throw SessionExpiredException(session, .userNotFound);
-        }
-        if (code == AuthErrorCodes.accessTokenExpired) {
+
+        // Web only: attempt one refresh because the browser may have
+        // silently removed an expired HttpOnly access-token cookie while
+        // the refresh-token cookie may still be valid.
+        //
+        // Non-browser clients explicitly send the access token in the
+        // Authorization header, allowing the server to distinguish an
+        // expired access token from a missing one.
+        final shouldAttemptTokenRefresh =
+            code == AuthErrorCodes.accessTokenExpired ||
+            (kIsWeb && code == AuthErrorCodes.unauthenticated);
+
+        if (shouldAttemptTokenRefresh) {
           return _refreshSessionAndRequest(
             authSession: session,
             endpoint: endpoint,
@@ -88,8 +98,32 @@ class AuthSessionManager(
           );
         }
 
+        if (code == AuthErrorCodes.reAuthenticationRequired) {
+          throw AuthApiException.sessionExpired(
+            session,
+            .serverDetermined(
+              _reAuthenticationRequiredReason(response.body),
+              response.body.message,
+            ),
+          );
+        }
+
         return result;
     }
+  }
+
+  String? _reAuthenticationRequiredReason(ServerErrorResponse response) {
+    final reason = response.details?[AuthErrorDetailsKeys.reason] as String?;
+    if (kDebugMode && reason == null) {
+      throw StateError(
+        '(DEBUG_BUILD_ONLY) When error code is ${AuthErrorCodes.reAuthenticationRequired}, the reason must be provided in the details.\n'
+        'Response: $response',
+      );
+    }
+    _logger?.warning(
+      'Error code is ${AuthErrorCodes.reAuthenticationRequired} but the reason was not provided',
+    );
+    return reason;
   }
 
   /// Refreshes the token and then sends the request.
@@ -111,7 +145,10 @@ class AuthSessionManager(
     }
 
     if (isTokenExpired(authSession.refreshToken.expiresAt)) {
-      throw SessionExpiredException(authSession, .expiredByLocalCheck);
+      throw AuthApiException.sessionExpired(
+        authSession,
+        const .expiredByLocalCheck(),
+      );
     }
 
     final refreshedSession = await _refreshSessionDeduplicated(authSession);
@@ -172,29 +209,17 @@ class AuthSessionManager(
       case HttpStatusError(:final response):
         final code = response.body.code;
 
-        if (AuthErrorCodes.isInvalidRefreshToken(code)) {
-          final SessionInvalidationReason reason = switch (code) {
-            AuthErrorCodes.refreshTokenNotFound => .refreshTokenNotFound,
-            AuthErrorCodes.refreshTokenExpired => .expiredByServer,
-            String() => () {
-              assert(() {
-                throw StateError('Unknown response code: $code');
-              }(), null);
-
-              const fallback = SessionInvalidationReason.refreshTokenNotFound;
-
-              _logger?.warning(
-                'Unknown auth error response code: $code\n'
-                'Falling back to: $fallback',
-              );
-
-              return fallback;
-            }(),
-          };
-          throw SessionExpiredException(authSession, reason);
+        if (code == AuthErrorCodes.reAuthenticationRequired) {
+          throw AuthApiException.sessionExpired(
+            authSession,
+            .serverDetermined(
+              _reAuthenticationRequiredReason(response.body),
+              response.body.message,
+            ),
+          );
         }
 
-        throw RefreshTokenRequestException(response);
+        throw AuthApiException.refreshTokenRequest(response);
     }
   }
 

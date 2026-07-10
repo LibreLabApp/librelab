@@ -330,6 +330,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.9"
+  dart_build_constants:
+    dependency: transitive
+    description:
+      name: dart_build_constants
+      sha256: "181657b8174999577ffe4e4ed0bac79126e200792bc18bdaf7928a76f6d75747"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   dart_jsonwebtoken:
     dependency: transitive
     description:
@@ -342,10 +350,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "0ed2b79a33d65b89bdc548cf81d0bf4bb1fb3615937ac48b54e9daef9575f1fb"
+      sha256: b60b8cb28aa514346eb8f6b005c60484ea65190f213b1986f6e391e0292d18f4
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.10"
+    version: "3.1.11"
   dartx:
     dependency: transitive
     description:

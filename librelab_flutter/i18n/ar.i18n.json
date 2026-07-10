@@ -194,12 +194,10 @@
     "settings": {
         "locale": {
             "title": "اللغة",
-            "subtitle": "اختر لغتك المفضلة",
             "systemDefault": "لغة النظام"
         },
         "themeMode": {
             "title": "المظهر",
-            "subtitle": "اختر مظهر التطبيق",
             "options": {
                 "system": "النظام",
                 "dark": "داكن",

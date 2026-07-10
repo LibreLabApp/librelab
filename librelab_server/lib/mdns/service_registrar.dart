@@ -23,6 +23,7 @@ class MdnsServiceRegistrar({required final MdnsPlatformRegistrar _platform}) {
         instanceName: instanceName,
         port: port,
         serviceType: ProjectConstants.mdnsServiceType,
+        // TODO: (API_PATH) Share between server and client (avoid hardcoding) and include path=/api
         txtRecords: const ['version=${Pubspec.version}'],
       ),
     );
