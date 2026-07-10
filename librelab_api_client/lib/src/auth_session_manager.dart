@@ -104,6 +104,7 @@ class AuthSessionManager(
             .serverDetermined(
               _reAuthenticationRequiredReason(response.body),
               response.body.message,
+              isDuringTokenRefresh: false,
             ),
           );
         }
@@ -215,6 +216,7 @@ class AuthSessionManager(
             .serverDetermined(
               _reAuthenticationRequiredReason(response.body),
               response.body.message,
+              isDuringTokenRefresh: true,
             ),
           );
         }
