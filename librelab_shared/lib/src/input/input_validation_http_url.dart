@@ -5,8 +5,6 @@ sealed class const HttpUrlValidationFailure();
 
 final class const InvalidUri() extends HttpUrlValidationFailure;
 
-final class const MissingScheme() extends HttpUrlValidationFailure;
-
 final class const UnsupportedScheme(final String scheme)
     extends HttpUrlValidationFailure;
 
@@ -22,14 +20,12 @@ HttpUrlValidationFailure? validateHttpUrl(String input) {
     return const InvalidUri();
   }
 
-  if (!uri.hasScheme) {
-    return const MissingScheme();
-  }
-
   final allowed = {'http', 'https'};
 
-  if (!allowed.contains(uri.scheme)) {
-    return UnsupportedScheme(uri.scheme);
+  if (uri.hasScheme) {
+    if (!allowed.contains(uri.scheme)) {
+      return UnsupportedScheme(uri.scheme);
+    }
   }
 
   if (!uri.hasAuthority) {

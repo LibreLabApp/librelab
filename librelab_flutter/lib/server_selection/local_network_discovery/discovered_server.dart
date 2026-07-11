@@ -10,6 +10,7 @@ class const DiscoveredServer({
   required final int port,
   required final int? latencyMs,
   required final String? serverVersion,
+  required final String? apiPath,
 }) {
   String get authority => _getAuthority(host: localHostname, port: port);
   String? get ipAddressAuthority {
@@ -36,7 +37,7 @@ class const DiscoveredServer({
 
   @override
   String toString() =>
-      'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, ipAddress: $ipAddress, port: $port, latencyMs: $latencyMs, serverVersion: $serverVersion)';
+      'DiscoveredServer(instanceName: $instanceName, localHostname: $localHostname, ipAddress: $ipAddress, port: $port, latencyMs: $latencyMs, serverVersion: $serverVersion, apiPath: $apiPath)';
 
   DiscoveredServer copyWithLatency(int? updated) => .new(
     instanceName: instanceName,
@@ -45,5 +46,6 @@ class const DiscoveredServer({
     port: port,
     latencyMs: updated,
     serverVersion: serverVersion,
+    apiPath: apiPath,
   );
 }

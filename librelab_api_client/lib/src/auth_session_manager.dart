@@ -7,6 +7,7 @@ import 'package:librelab_api_client/src/librelab_api_client.dart';
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 typedef OnAuthSessionRefreshed = Future<void> Function(AuthSession session);
 
@@ -36,7 +37,7 @@ class AuthSessionManager(
     required RequestBody? body,
     required JsonResponseDeserializer<S> deserializeSuccess,
     required AuthSession? overrideAuthSession,
-    required bool enableAutoTokenRefresh,
+    @mustBeConst required bool enableAutoTokenRefresh,
   }) async {
     final session = overrideAuthSession ?? _authSession;
 

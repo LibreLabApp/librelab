@@ -17,7 +17,7 @@ List<(EndpointDefinition endpoint, String path)> _flatten(
   }
 }
 
-String _joinPath(List<String> segments) => '/${segments.join('/')}';
+String _joinPath(List<String> segments) => segments.join('/');
 
 final _pathParamRegex = RegExp(r'\{([^}]+)\}');
 

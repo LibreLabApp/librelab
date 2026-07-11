@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/server_selection/server_address/server_address_input_validation.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 
 class const ServerAddressTextField({
@@ -21,7 +22,6 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
     _controller.removeListener(_onChanged);
     _controller.dispose();
 
-    widget._focusNode.removeListener(_onFocusChange);
     super.dispose();
   }
 
@@ -30,25 +30,7 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
     _controller.text = widget._initialValue;
     _controller.addListener(_onChanged);
 
-    widget._focusNode.addListener(_onFocusChange);
     super.initState();
-  }
-
-  void _onFocusChange() {
-    final text = _controller.text.trim();
-
-    if (text.isEmpty) {
-      return;
-    }
-
-    final normalized = prependsHttpsIfNoScheme(text);
-
-    if (normalized != text) {
-      _controller.value = TextEditingValue(
-        text: normalized,
-        selection: TextSelection.collapsed(offset: normalized.length),
-      );
-    }
   }
 
   /// Note: This subscribes to [_controller] changes instead of relying on
@@ -80,14 +62,10 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
         if (input == null || input.isEmpty) {
           return validationErrorMessages.emptyInput;
         }
-        // TODO: Avoid prepending "https://" and instead, keep it is-as,
-        //  try with HTTPS first, then fallback to HTTP.
-        final normalizedInput = prependsHttpsIfNoScheme(input);
 
-        return switch (validateHttpUrl(normalizedInput)) {
+        return switch (validateServerAddressInput(input)) {
           null => null,
           InvalidUri() => validationErrorMessages.invalidUri,
-          MissingScheme() => validationErrorMessages.missingScheme,
           UnsupportedScheme(:final scheme) =>
             validationErrorMessages.unsupportedScheme(scheme: scheme),
           MissingAuthority() => validationErrorMessages.missingHost,

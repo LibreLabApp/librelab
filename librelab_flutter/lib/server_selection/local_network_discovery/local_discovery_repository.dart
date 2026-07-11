@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:librelab_flutter/common/network/socket_latency.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
+import 'package:librelab_shared/librelab_shared.dart' show MdnsTxtRecordKeys;
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
 
@@ -80,9 +81,14 @@ class LocalDiscoveryRepository({
       _logger.warning('($hostname) TXT records for are missing');
     }
 
-    final serverVersion = txtRecords?['version'];
+    final serverVersion = txtRecords?[MdnsTxtRecordKeys.version];
     if (serverVersion == null) {
       _logger.warning('($hostname) server version is missing');
+    }
+
+    final apiPath = txtRecords?[MdnsTxtRecordKeys.path];
+    if (apiPath == null) {
+      _logger.warning('($hostname) API path missing');
     }
 
     final server = DiscoveredServer(
@@ -92,6 +98,7 @@ class LocalDiscoveryRepository({
       port: port,
       latencyMs: null,
       serverVersion: serverVersion,
+      apiPath: apiPath,
     );
 
     final index = _servers.indexWhere((e) => e.id == server.id);
@@ -112,7 +119,6 @@ class LocalDiscoveryRepository({
     required String hostname,
   }) async {
     final latency = await measureLatency(
-      // TODO: (API_PATH) Declare API specific endpoint (/ping or /test)
       host: server.ipAddress ?? hostname,
       port: server.port,
       logger: _logger,

@@ -107,7 +107,7 @@
                         "subtitle": "هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل."
                     }
                 },
-                "serverVersion": "إصدار الخادم: $version+$buildNumber"
+                "serverConnectionDetailsTooltip": "إصدار الخادم: $version+$buildNumber\nعنوان الاتصال: $serverUrl"
             },
             "failure": {
                 "title": "فشل فحص التوافق"
@@ -175,7 +175,6 @@
                 "validationErrors": {
                     "emptyInput": "عنوان الخادم مطلوب",
                     "invalidUri": "يجب إدخال عنوان URL صالح",
-                    "missingScheme": "البروتوكول مطلوب (مثل https://)",
                     "unsupportedScheme": "بروتوكول غير مدعوم: $scheme",
                     "missingHost": "اسم المضيف مطلوب",
                     "invalidPort": "منفذ غير صالح: $port"

@@ -1,7 +1,8 @@
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/mdns/platform/platform_registrar.dart';
 import 'package:librelab_server/mdns/service_config.dart';
-import 'package:librelab_shared/librelab_shared.dart';
+import 'package:librelab_shared/librelab_shared.dart'
+    show ApiDeployment, MdnsTxtRecordKeys, ProjectConstants;
 
 /// Registers and publishes the application mDNS service on the local network.
 ///
@@ -23,8 +24,10 @@ class MdnsServiceRegistrar({required final MdnsPlatformRegistrar _platform}) {
         instanceName: instanceName,
         port: port,
         serviceType: ProjectConstants.mdnsServiceType,
-        // TODO: (API_PATH) Share between server and client (avoid hardcoding) and include path=/api
-        txtRecords: const ['version=${Pubspec.version}'],
+        txtRecords: const [
+          '${MdnsTxtRecordKeys.version}=${Pubspec.version}',
+          '${MdnsTxtRecordKeys.path}=${ApiDeployment.rootPath}',
+        ],
       ),
     );
     _isRegistered = true;

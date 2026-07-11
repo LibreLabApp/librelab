@@ -2,9 +2,13 @@ import 'package:http/http.dart' as http;
 import 'package:librelab_flutter/common/network/tls_exception/tls_exception.dart';
 import 'package:logging/logging.dart';
 
-final class RequestResult<T>({required final T value, required final Uri uri});
+final class RequestResult<T>({required final T value});
 
 // TODO: Need to add a connection and request timeout to prevent waiting too long
+/// Executes [request] against each URI until one succeeds.
+///
+/// Only connection-related exceptions trigger a fallback to the next URI.
+/// HTTP response status codes can be handled by [request].
 Future<RequestResult<T>> requestWithFallbackUris<T>({
   required Iterable<Uri Function()> uris,
   required Future<T> Function(Uri uri) request,
@@ -21,7 +25,7 @@ Future<RequestResult<T>> requestWithFallbackUris<T>({
 
       logger.fine('Request succeeded: $uri');
 
-      return RequestResult(value: value, uri: uri);
+      return RequestResult(value: value);
     } on http.ClientException catch (e) {
       // Do not pass an exception as an error argument to logger, as it
       // adds noise and may indicate unhandled exceptions when it is

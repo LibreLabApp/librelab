@@ -61,7 +61,7 @@ class const _Body() extends StatelessWidget {
                 SendCrashReportsListTile(),
               ],
             ),
-            .serverSelection => ServerSelectionSection(),
+            .serverSelection => const ServerSelectionSection(),
             .login => const WorkInProgress(),
             .complete => const WorkInProgress(),
           },

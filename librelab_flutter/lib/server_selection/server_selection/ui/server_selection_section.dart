@@ -81,7 +81,7 @@ class const _ServerSelectionMethodContainer({
     );
     final cubit = context.read<ServerSelectionCubit>();
 
-    return builderServerSelectionMethodContainer(
+    return buildServerSelectionMethodContainer(
       context,
       selectedMethod,
       cubit,

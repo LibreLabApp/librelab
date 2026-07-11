@@ -1,7 +1,9 @@
+export 'src/api_deployment.dart';
 export 'src/constants/project_constants.dart';
 export 'src/empty_json.dart';
 export 'src/input/input_normalization.dart';
 export 'src/input/input_validation.dart';
+export 'src/mdns_txt_record_keys.dart';
 export 'src/platform.dart';
 export 'src/setup_logging.dart';
 export 'src/uri_ext.dart';

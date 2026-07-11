@@ -378,7 +378,7 @@ class _Translations$serverCompatibility$check$success$ar extends Translations$se
 	// Translations
 	@override late final _Translations$serverCompatibility$check$success$compatibilityStatus$ar compatibilityStatus = _Translations$serverCompatibility$check$success$compatibilityStatus$ar._(_root);
 	@override late final _Translations$serverCompatibility$check$success$connectionInfo$ar connectionInfo = _Translations$serverCompatibility$check$success$connectionInfo$ar._(_root);
-	@override String serverVersion({required Object version, required Object buildNumber}) => 'إصدار الخادم: ${version}+${buildNumber}';
+	@override String serverConnectionDetailsTooltip({required Object version, required Object buildNumber, required Object serverUrl}) => 'إصدار الخادم: ${version}+${buildNumber}\nعنوان الاتصال: ${serverUrl}';
 }
 
 // Path: serverCompatibility.check.failure
@@ -633,7 +633,6 @@ class _Translations$serverSelection$manualAddress$textField$validationErrors$ar 
 	// Translations
 	@override String get emptyInput => 'عنوان الخادم مطلوب';
 	@override String get invalidUri => 'يجب إدخال عنوان URL صالح';
-	@override String get missingScheme => 'البروتوكول مطلوب (مثل https://)';
 	@override String unsupportedScheme({required Object scheme}) => 'بروتوكول غير مدعوم: ${scheme}';
 	@override String get missingHost => 'اسم المضيف مطلوب';
 	@override String invalidPort({required Object port}) => 'منفذ غير صالح: ${port}';
@@ -798,7 +797,7 @@ extension on TranslationsAr {
 			'serverCompatibility.check.success.connectionInfo.ipAddress.subtitle' => 'قد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'تم الاتصال عبر HTTP باستخدام عنوان IP',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'هذا الاتصال غير مشفر، وقد يتغير عنوان IP الخاص بالخادم بمرور الوقت، مما قد يمنع الاتصال به في المستقبل.',
-			'serverCompatibility.check.success.serverVersion' => ({required Object version, required Object buildNumber}) => 'إصدار الخادم: ${version}+${buildNumber}',
+			'serverCompatibility.check.success.serverConnectionDetailsTooltip' => ({required Object version, required Object buildNumber, required Object serverUrl}) => 'إصدار الخادم: ${version}+${buildNumber}\nعنوان الاتصال: ${serverUrl}',
 			'serverCompatibility.check.failure.title' => 'فشل فحص التوافق',
 			'serverSelection.browserPlatform.useWebAppServer.title' => 'استخدام هذا الخادم',
 			'serverSelection.browserPlatform.useWebAppServer.subtitle' => 'الاتصال بنفس الخادم الذي يستضيف هذا التطبيق',
@@ -832,7 +831,6 @@ extension on TranslationsAr {
 			'serverSelection.manualAddress.tooltip' => 'إدخال عنوان الخادم يدويا',
 			'serverSelection.manualAddress.textField.validationErrors.emptyInput' => 'عنوان الخادم مطلوب',
 			'serverSelection.manualAddress.textField.validationErrors.invalidUri' => 'يجب إدخال عنوان URL صالح',
-			'serverSelection.manualAddress.textField.validationErrors.missingScheme' => 'البروتوكول مطلوب (مثل https://)',
 			'serverSelection.manualAddress.textField.validationErrors.unsupportedScheme' => ({required Object scheme}) => 'بروتوكول غير مدعوم: ${scheme}',
 			'serverSelection.manualAddress.textField.validationErrors.missingHost' => 'اسم المضيف مطلوب',
 			'serverSelection.manualAddress.textField.validationErrors.invalidPort' => ({required Object port}) => 'منفذ غير صالح: ${port}',

@@ -7,7 +7,9 @@ import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server_error_exception.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
+import 'package:librelab_shared/librelab_shared.dart' show ApiDeployment;
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
@@ -22,7 +24,9 @@ Future<HttpServer> startServer({
   required bool webClientHostingEnabled,
   required String webDirFileSystemPath,
 }) async {
-  final router = Router(
+  final router = Router();
+
+  final apiRouter = Router(
     notFoundHandler: (request) => ServerErrorResponse(
       message: 'Route not found',
       code: 'NOT_FOUND',
@@ -34,52 +38,62 @@ Future<HttpServer> startServer({
     ).toJson().httpResponse(.notFound),
   );
 
-  router.get('/', (Request _) {
-    return Response.ok('OK');
-  });
-
   for (final module in routeModules) {
-    router.mount('/', module.router.call);
+    apiRouter.mount('/', module.router.call);
+  }
+
+  router.mount(ApiDeployment.rootPath, apiRouter.call);
+
+  // The API routes must be registered before the web client hosting route.
+  // The web client is mounted at '/' and would otherwise catch API requests.
+  if (webClientHostingEnabled) {
+    // TODO: Need to automatically download the Flutter web build,
+    //  maintain updates, and maybe print the addresses
+    _registerWebClientHosting(
+      router,
+      webDirFileSystemPath: webDirFileSystemPath,
+    );
+  } else {
+    router.get('/', (Request _) {
+      return Response.ok('OK');
+    });
   }
 
   final handler = const Pipeline()
-      .addMiddleware(withErrorHandling)
-      // TODO: Current cors() implementation is not production-ready and does not
-      //  take into account authentication, caching, different origins (needs careful review).
-      //  Find a reliable solution in production mode for the web
-      //  or remove in non-debug builds
-      .addMiddleware(cors(allowedOrigins: kDebugMode ? null : {}))
+      .addMiddleware(_withErrorHandling)
+      // This CORS configuration is for development only.
+      // It is not production-ready and does not account for
+      // authentication or caching.
+      // In production, the web app is served from the same origin.
+      .when(kDebugMode, (p) => p.addMiddleware(cors(allowedOrigins: null)))
       .addHandler(router.call);
 
   final server = await shelf_io.serve(handler, address, port);
   server.autoCompress = true;
 
-  // TODO: (API_PATH) Change from /web/ to /
-  if (webClientHostingEnabled) {
-    // TODO: Need to automatically download the web app build,
-    //  maintain updates, and maybe print the addresses
-    if (Directory(webDirFileSystemPath).existsSync()) {
-      router.mount(
-        '/web/',
-        createStaticHandler(
-          webDirFileSystemPath,
-          defaultDocument: 'index.html',
-        ),
-      );
-    } else {
-      router.get('/web/', (Request req) {
-        return Response.notFound(
-          'The directory "$webDirFileSystemPath" was not found.\n'
-          'Restart the server after the directory has been created.',
-        );
-      });
-    }
-  }
-
   return server;
 }
 
-Handler withErrorHandling(Handler innerHandler) {
+void _registerWebClientHosting(
+  Router router, {
+  required String webDirFileSystemPath,
+}) {
+  if (Directory(webDirFileSystemPath).existsSync()) {
+    router.mount(
+      '/',
+      createStaticHandler(webDirFileSystemPath, defaultDocument: 'index.html'),
+    );
+  } else {
+    router.get('/', (Request _) {
+      return Response.notFound(
+        'The directory "$webDirFileSystemPath" was not found.\n'
+        'Restart the server after the directory has been created.',
+      );
+    });
+  }
+}
+
+Handler _withErrorHandling(Handler innerHandler) {
   return (Request request) async {
     try {
       return await innerHandler(request);
@@ -146,4 +160,14 @@ Response _mapException(Exception e) {
   };
 
   return errorResponse.toJson().httpResponse(statusCode);
+}
+
+extension on Pipeline {
+  Pipeline when(
+    // ignore: avoid_positional_boolean_parameters
+    @mustBeConst bool condition,
+    Pipeline Function(Pipeline) transform,
+  ) {
+    return condition ? transform(this) : this;
+  }
 }

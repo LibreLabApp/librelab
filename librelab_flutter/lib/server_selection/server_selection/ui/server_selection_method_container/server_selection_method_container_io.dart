@@ -3,7 +3,7 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/local_server_discovery_card.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 
-Widget builderServerSelectionMethodContainer(
+Widget buildServerSelectionMethodContainer(
   BuildContext context,
   ServerSelectionMethod selectedMethod,
   ServerSelectionCubit cubit, {

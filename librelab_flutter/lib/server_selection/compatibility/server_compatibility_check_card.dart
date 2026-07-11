@@ -115,9 +115,10 @@ class const ServerCompatibilityCheckCard({
             return state.failure.message;
           }
           if (state is Success) {
-            return t.success.serverVersion(
+            return t.success.serverConnectionDetailsTooltip(
               version: state.response.serverVersion,
               buildNumber: state.response.serverBuildNumber,
+              serverUrl: state.uri.toString(),
             );
           }
           return '';

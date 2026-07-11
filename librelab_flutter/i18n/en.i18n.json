@@ -115,7 +115,7 @@
             "subtitle": "This connection is not encrypted, and the server's IP address may change over time, which can prevent future connections."
           }
         },
-        "serverVersion": "Server version: $version+$buildNumber"
+        "serverConnectionDetailsTooltip": "Server version: $version+$buildNumber\nConnection URL: $serverUrl"
       },
       "failure": {
         "title": "Compatibility check failed"
@@ -183,7 +183,6 @@
         "validationErrors": {
           "emptyInput": "A URL is required",
           "invalidUri": "Must be a valid URL",
-          "missingScheme": "Protocol is required (e.g., https://)",
           "unsupportedScheme": "Unsupported protocol: $scheme",
           "missingHost": "A host is required",
           "invalidPort": "Invalid port: $port"

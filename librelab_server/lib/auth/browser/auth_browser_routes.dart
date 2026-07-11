@@ -9,7 +9,7 @@ import 'package:librelab_server/auth/browser/request_cookies.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/user/mapper.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
-import 'package:librelab_server/utils/json_types.dart';
+import 'package:librelab_shared/librelab_shared.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthBrowserRoutes({
@@ -134,28 +134,56 @@ class AuthBrowserRoutes({
     );
   }
 
+  /// Returns API root path, guaranteed to start with `/` and not end with `/`.
+  String get _apiPath {
+    const apiPath = ApiDeployment.rootPath;
+    if (!apiPath.startsWith('/') || apiPath.endsWith('/')) {
+      throw ArgumentError.value(
+        apiPath,
+        'apiPath',
+        'must start with "/" and must not end with "/"',
+      );
+    }
+    return apiPath;
+  }
+
+  Cookie _createCookie({
+    required String name,
+    required String value,
+    required String path,
+    required DateTime expires,
+    required int maxAge,
+  }) => Cookie(name, value)
+    ..httpOnly = true
+    ..secure = _cookiesRequireSecureConnection
+    ..sameSite = .strict
+    ..path = path
+    ..expires = expires
+    ..maxAge = maxAge;
+
   Cookie _accessTokenCookie(CookieOperation operation) {
     final (String value, DateTime expires, int maxAge) = operation
         .cookieParameters();
 
-    return Cookie(AuthCookieNames.accessToken, value)
-      ..httpOnly = true
-      ..secure = _cookiesRequireSecureConnection
-      ..sameSite = .strict
-      ..path = '/'
-      ..expires = expires
-      ..maxAge = maxAge;
+    return _createCookie(
+      name: AuthCookieNames.accessToken,
+      value: value,
+      path: '$_apiPath/',
+      expires: expires,
+      maxAge: maxAge,
+    );
   }
 
   Cookie _refreshTokenCookie(CookieOperation operation) {
     final (String value, DateTime expires, int maxAge) = operation
         .cookieParameters();
 
-    return Cookie(AuthCookieNames.refreshToken, value)
-      ..httpOnly = true
-      ..secure = _cookiesRequireSecureConnection
-      ..sameSite = .strict
-      ..path = () {
+    return _createCookie(
+      name: AuthCookieNames.refreshToken,
+      value: value,
+      path: () {
+        final apiPath = _apiPath;
+
         // Due to the limitation of the current ApiEndpointDefinitions
         // code generator, which does not expose API group paths,
         // this API group path is hardcoded.
@@ -165,10 +193,12 @@ class AuthBrowserRoutes({
         // maintainer will update the path below as well.
         // ignore: unnecessary_statements
         ApiEndpointDefinitions.auth_browser_refresh$POST.path;
-        // TODO: (API_PATH) Needs updating
-        return '/auth/browser';
-      }()
-      ..expires = expires
-      ..maxAge = maxAge;
+        const authPath = 'auth/browser/';
+
+        return '$apiPath/$authPath';
+      }(),
+      expires: expires,
+      maxAge: maxAge,
+    );
   }
 }

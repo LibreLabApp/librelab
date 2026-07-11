@@ -3,24 +3,40 @@ import 'package:shelf_router/shelf_router.dart';
 
 extension RouterExt on Router {
   void register(EndpointDefinition endpoint, Function handler) {
+    final normalizedPath = endpoint.normalizedPath;
+
     switch (endpoint) {
-      case HttpEndpoint(:final method, :final path):
+      case HttpEndpoint(:final method):
         switch (method) {
           case .get:
-            get(path, handler);
+            get(normalizedPath, handler);
           case .head:
-            head(path, handler);
+            head(normalizedPath, handler);
           case .post:
-            post(path, handler);
+            post(normalizedPath, handler);
           case .put:
-            put(path, handler);
+            put(normalizedPath, handler);
           case .patch:
-            patch(path, handler);
+            patch(normalizedPath, handler);
           case .delete:
-            delete(path, handler);
+            delete(normalizedPath, handler);
         }
-      case WebSocketEndpoint(:final path):
-        get(path, handler);
+
+      case WebSocketEndpoint():
+        get(normalizedPath, handler);
     }
+  }
+}
+
+extension on EndpointDefinition {
+  String get normalizedPath {
+    if (path.startsWith('/')) {
+      throw ArgumentError.value(
+        path,
+        'endpointPath',
+        'must not start with "/"',
+      );
+    }
+    return '/$path';
   }
 }

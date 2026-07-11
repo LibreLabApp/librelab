@@ -10,8 +10,8 @@ import 'package:librelab_flutter/server_selection/compatibility/server_compatibi
 
 import 'package:librelab_flutter/server_selection/local_network_discovery/discovered_server.dart';
 import 'package:librelab_flutter/server_selection/local_network_discovery/local_discovery_repository.dart';
+import 'package:librelab_flutter/server_selection/server_address/server_address_input_validation.dart';
 import 'package:librelab_flutter/server_selection/server_selection/server_selection_method.dart';
-import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:logging/logging.dart';
 
@@ -72,7 +72,7 @@ class ServerSelectionCubit({
   Future<void> checkServerCompatibility() async {
     if (state.selectionMethod == .manual) {
       final input = state.manualServerAddress ?? '';
-      final isInvalid = validateHttpUrl(input) != null;
+      final isInvalid = validateServerAddressInput(input) != null;
       if (isInvalid) {
         emitEffect(const .focusServerAddress());
         return;
@@ -86,7 +86,8 @@ class ServerSelectionCubit({
     }
 
     final ServerTarget serverTarget = switch (selectedServer) {
-      Manual(:final address) => .manual(Uri.parse(address)),
+      Manual(:final address) => .userProvided(address),
+
       Discovered(:final id) => () {
         final server = state.discoveryState.discoveredServers.firstWhere(
           (e) => e.id == id,
@@ -94,15 +95,15 @@ class ServerSelectionCubit({
         return ServerTarget.discoveredServer(
           hostnameAuthority: server.authority,
           ipAddressAuthority: server.ipAddressAuthority,
+          apiPath: server.apiPath,
         );
       }(),
 
-      // TODO: (API_PATH) Must include "/api" in the URI after the API path migration
       /// Web only: Uses the server hosting the web application as the API server.
       ///
       /// Internally represented by an empty URI, which resolves requests against the
       /// browser's current origin.
-      UseWebAppServer() => ServerTarget.manual(Uri()),
+      UseWebAppServer() => const .useWebAppServer(),
     };
 
     emit(state.copyWith(compatibilityCheckState: const .load()));
@@ -123,6 +124,7 @@ class ServerSelectionCubit({
 
       case FailureResult(:final failure):
         emit(state.copyWith(compatibilityCheckState: .failure(failure)));
+
         _logger.warning(
           'Failed to check server compatibility for ${serverTarget.endpoint}',
           failure.message,

@@ -499,8 +499,8 @@ class Translations$serverCompatibility$check$success$en {
 	late final Translations$serverCompatibility$check$success$compatibilityStatus$en compatibilityStatus = Translations$serverCompatibility$check$success$compatibilityStatus$en.internal(_root);
 	late final Translations$serverCompatibility$check$success$connectionInfo$en connectionInfo = Translations$serverCompatibility$check$success$connectionInfo$en.internal(_root);
 
-	/// en: 'Server version: $version+$buildNumber'
-	String serverVersion({required Object version, required Object buildNumber}) => 'Server version: ${version}+${buildNumber}';
+	/// en: 'Server version: $version+$buildNumber Connection URL: $serverUrl'
+	String serverConnectionDetailsTooltip({required Object version, required Object buildNumber, required Object serverUrl}) => 'Server version: ${version}+${buildNumber}\nConnection URL: ${serverUrl}';
 }
 
 // Path: serverCompatibility.check.failure
@@ -843,9 +843,6 @@ class Translations$serverSelection$manualAddress$textField$validationErrors$en {
 	/// en: 'Must be a valid URL'
 	String get invalidUri => 'Must be a valid URL';
 
-	/// en: 'Protocol is required (e.g., https://)'
-	String get missingScheme => 'Protocol is required (e.g., https://)';
-
 	/// en: 'Unsupported protocol: $scheme'
 	String unsupportedScheme({required Object scheme}) => 'Unsupported protocol: ${scheme}';
 
@@ -1059,7 +1056,7 @@ extension on Translations {
 			'serverCompatibility.check.success.connectionInfo.ipAddress.subtitle' => 'The server\'s IP address may change over time, which can prevent future connections.',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.title' => 'Connected over HTTP using an IP address',
 			'serverCompatibility.check.success.connectionInfo.httpAndIpAddress.subtitle' => 'This connection is not encrypted, and the server\'s IP address may change over time, which can prevent future connections.',
-			'serverCompatibility.check.success.serverVersion' => ({required Object version, required Object buildNumber}) => 'Server version: ${version}+${buildNumber}',
+			'serverCompatibility.check.success.serverConnectionDetailsTooltip' => ({required Object version, required Object buildNumber, required Object serverUrl}) => 'Server version: ${version}+${buildNumber}\nConnection URL: ${serverUrl}',
 			'serverCompatibility.check.failure.title' => 'Compatibility check failed',
 			'serverSelection.browserPlatform.useWebAppServer.title' => 'Use this server',
 			'serverSelection.browserPlatform.useWebAppServer.subtitle' => 'Connect to the same server that is hosting this application',
@@ -1093,7 +1090,6 @@ extension on Translations {
 			'serverSelection.manualAddress.tooltip' => 'Manually providing a server address.',
 			'serverSelection.manualAddress.textField.validationErrors.emptyInput' => 'A URL is required',
 			'serverSelection.manualAddress.textField.validationErrors.invalidUri' => 'Must be a valid URL',
-			'serverSelection.manualAddress.textField.validationErrors.missingScheme' => 'Protocol is required (e.g., https://)',
 			'serverSelection.manualAddress.textField.validationErrors.unsupportedScheme' => ({required Object scheme}) => 'Unsupported protocol: ${scheme}',
 			'serverSelection.manualAddress.textField.validationErrors.missingHost' => 'A host is required',
 			'serverSelection.manualAddress.textField.validationErrors.invalidPort' => ({required Object port}) => 'Invalid port: ${port}',

@@ -28,8 +28,8 @@ class LibreLabApiClient({
 
   late final Endpoints endpoints = Endpoints(this);
 
-  Uri _buildUrl(
-    HttpEndpoint endpoint, {
+  Uri _buildRequestUrl(
+    EndpointDefinition endpoint, {
     required Map<String, Iterable<String>>? queryParameters,
     required Uri? overrideBaseUrl,
   }) {
@@ -38,10 +38,21 @@ class LibreLabApiClient({
         _baseUrl ??
         (throw StateError('The server base URL was not provided'));
 
-    return baseUrl.replace(
-      path: endpoint.path,
-      queryParameters: queryParameters,
-    );
+    final normalizedBaseUrl = baseUrl.path.endsWith('/')
+        ? baseUrl
+        : baseUrl.replace(path: '${baseUrl.path}/');
+
+    if (endpoint.path.startsWith('/')) {
+      throw ArgumentError.value(
+        endpoint.path,
+        'endpointPath',
+        'must not start with "/"',
+      );
+    }
+
+    return normalizedBaseUrl
+        .resolve(endpoint.path)
+        .replace(queryParameters: queryParameters);
   }
 
   Future<LibreLabApiResult<S>> request<S>(
@@ -53,7 +64,7 @@ class LibreLabApiClient({
     Uri? overrideBaseUrl,
   }) async {
     return _apiClient.requestJson(
-      _buildUrl(
+      _buildRequestUrl(
         endpoint,
         queryParameters: queryParameters,
         overrideBaseUrl: overrideBaseUrl,

@@ -14,63 +14,63 @@ import 'package:librelab_api_contract/src/api_endpoint_definition/types.dart';
 /// The server exposes/implements the API, and the API client consumes it.
 /// This contract does not include request/response schemas, headers, or other metadata.
 abstract final class ApiEndpointDefinitions {
-  /// HTTP POST /compatibility/check
+  /// HTTP POST compatibility/check
   static const HttpEndpoint compatibility_check$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/compatibility/check',
+    path: 'compatibility/check',
   );
 
-  /// HTTP POST /auth/login
+  /// HTTP POST auth/login
   static const HttpEndpoint auth_login$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/login',
+    path: 'auth/login',
   );
 
-  /// HTTP POST /auth/logout
+  /// HTTP POST auth/logout
   static const HttpEndpoint auth_logout$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/logout',
+    path: 'auth/logout',
   );
 
-  /// HTTP POST /auth/refresh
+  /// HTTP POST auth/refresh
   static const HttpEndpoint auth_refresh$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/refresh',
+    path: 'auth/refresh',
   );
 
-  /// HTTP POST /auth/browser/login
+  /// HTTP POST auth/browser/login
   static const HttpEndpoint auth_browser_login$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/browser/login',
+    path: 'auth/browser/login',
   );
 
-  /// HTTP POST /auth/browser/logout
+  /// HTTP POST auth/browser/logout
   static const HttpEndpoint auth_browser_logout$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/browser/logout',
+    path: 'auth/browser/logout',
   );
 
-  /// HTTP POST /auth/browser/refresh
+  /// HTTP POST auth/browser/refresh
   static const HttpEndpoint auth_browser_refresh$POST = HttpEndpoint(
     method: HttpMethod.post,
-    path: '/auth/browser/refresh',
+    path: 'auth/browser/refresh',
   );
 
-  /// HTTP GET /users/me
+  /// HTTP GET users/me
   static const HttpEndpoint users_me$GET = HttpEndpoint(
     method: HttpMethod.get,
-    path: '/users/me',
+    path: 'users/me',
   );
 
-  /// HTTP PATCH /lab-settings
+  /// HTTP PATCH lab-settings
   static const HttpEndpoint lab_settings$PATCH = HttpEndpoint(
     method: HttpMethod.patch,
-    path: '/lab-settings',
+    path: 'lab-settings',
   );
 
-  /// HTTP GET /lab-settings
+  /// HTTP GET lab-settings
   static const HttpEndpoint lab_settings$GET = HttpEndpoint(
     method: HttpMethod.get,
-    path: '/lab-settings',
+    path: 'lab-settings',
   );
 }
