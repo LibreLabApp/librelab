@@ -62,7 +62,6 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
   Widget build(BuildContext context) {
     final t = context.t.serverSelection.manualAddress.textField;
 
-    // TODO: Cannot focus on a real Android device (WASM and native Android app)
     return TextFormField(
       controller: _controller,
       maxLines: 1,
@@ -81,6 +80,8 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
         if (input == null || input.isEmpty) {
           return validationErrorMessages.emptyInput;
         }
+        // TODO: Avoid prepending "https://" and instead, keep it is-as,
+        //  try with HTTPS first, then fallback to HTTP.
         final normalizedInput = prependsHttpsIfNoScheme(input);
 
         return switch (validateHttpUrl(normalizedInput)) {
