@@ -6,24 +6,21 @@ import 'package:librelab_flutter/server_selection/server_address/server_address_
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_flutter/server_selection/server_selection/ui/server_selection_method_container/server_selection_method_container.dart';
 
-class ServerSelectionSection extends StatelessWidget {
-  ServerSelectionSection({super.key});
+class const ServerSelectionSection({super.key}) extends StatefulWidget {
+  @override
+  State<ServerSelectionSection> createState() => _ServerSelectionSectionState();
+}
 
-  final _serverSelectionMethodContainerKey =
-      GlobalKey<_ServerSelectionMethodContainerState>();
+class _ServerSelectionSectionState extends State<ServerSelectionSection> {
+  final _formKey = GlobalKey<FormState>();
+  final _serverAddressFocusNode = FocusNode();
 
   void _requestServerUrlFocus() {
-    final state =
-        _serverSelectionMethodContainerKey.currentState ??
-        (throw StateError(
-          '$_ServerSelectionMethodContainer state is not available.',
-        ));
-
-    (state._formKey.currentState ??
+    (_formKey.currentState ??
             (throw StateError('$Form state is not available')))
         .validate();
 
-    state._serverAddressFocusNode.requestFocus();
+    _serverAddressFocusNode.requestFocus();
   }
 
   @override
@@ -31,7 +28,8 @@ class ServerSelectionSection extends StatelessWidget {
     return Column(
       children: [
         _ServerSelectionMethodContainer(
-          key: _serverSelectionMethodContainerKey,
+          formKey: _formKey,
+          serverAddressFocusNode: _serverAddressFocusNode,
         ),
         const SizedBox(height: 18),
         ServerCompatibilityCheckCard(
@@ -62,24 +60,10 @@ class ServerSelectionSection extends StatelessWidget {
   }
 }
 
-class const _ServerSelectionMethodContainer({super.key})
-    extends StatefulWidget {
-  @override
-  State<_ServerSelectionMethodContainer> createState() =>
-      _ServerSelectionMethodContainerState();
-}
-
-class _ServerSelectionMethodContainerState
-    extends State<_ServerSelectionMethodContainer> {
-  final _formKey = GlobalKey<FormState>();
-  final _serverAddressFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _serverAddressFocusNode.dispose();
-    super.dispose();
-  }
-
+class const _ServerSelectionMethodContainer({
+  required final FocusNode _serverAddressFocusNode,
+  required final GlobalKey<FormState> _formKey,
+}) extends StatelessWidget {
   Form _serverAddressTextField(ServerSelectionCubit cubit) => Form(
     key: _formKey,
     autovalidateMode: .onUserInteraction,
