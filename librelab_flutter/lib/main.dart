@@ -42,9 +42,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setupLogger((message, {required bool hasError}) {
-    if (!isDesktop) {
+    if (isMobile || kIsWeb) {
       // ignore: avoid_print
       print(message);
+      return;
     }
 
     if (hasError) {
