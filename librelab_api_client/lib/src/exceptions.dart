@@ -33,7 +33,7 @@ final class const RefreshTokenRequestException(
 ) extends AuthApiException {
   @override
   String toString() =>
-      '$RefreshTokenRequestException: The refresh token request failed (request was made due to expired access token).\n'
+      'RefreshTokenRequestException: The refresh token request failed (request was made due to expired access token).\n'
       'Response: $response';
 }
 
@@ -44,6 +44,6 @@ final class const SessionExpiredException(
 ) extends AuthApiException {
   @override
   String toString() =>
-      '$SessionExpiredException: Session has expired (re-authentication is required) for User "${session.userId}".\n'
+      'SessionExpiredException: Session has expired (re-authentication is required) for User "${session.userId}".\n'
       'Invalidation reason: $reason';
 }

@@ -15,7 +15,7 @@ sealed class const SessionInvalidationReason() {
 /// based on its stored expiration time (`expiresAt`).
 final class const ExpiredByLocalCheck() extends SessionInvalidationReason {
   @override
-  String toString() => '$ExpiredByLocalCheck()';
+  String toString() => 'ExpiredByLocalCheck()';
 }
 
 /// The server determined that the current session is no longer valid and
@@ -44,5 +44,5 @@ final class const ServerDetermined(
 }) extends SessionInvalidationReason {
   @override
   String toString() =>
-      '$ServerDetermined(reason: $reason, isDuringTokenRefresh: $isDuringTokenRefresh, message: $message)';
+      'ServerDetermined(reason: $reason, isDuringTokenRefresh: $isDuringTokenRefresh, message: $message)';
 }

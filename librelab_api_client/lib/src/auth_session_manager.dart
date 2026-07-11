@@ -116,15 +116,17 @@ class AuthSessionManager(
 
   String? _reAuthenticationRequiredReason(ServerErrorResponse response) {
     final reason = response.details?[AuthErrorDetailsKeys.reason] as String?;
-    if (kDebugMode && reason == null) {
-      throw StateError(
-        '(DEBUG_BUILD_ONLY) When error code is ${AuthErrorCodes.reAuthenticationRequired}, the reason must be provided in the details.\n'
-        'Response: $response',
-      );
+    if (reason == null) {
+      final message =
+          'When error code is ${AuthErrorCodes.reAuthenticationRequired}, the reason must be provided in the details.\n'
+          'Response: $response';
+      if (kDebugMode) {
+        throw StateError('(DEBUG_BUILD_ONLY) $message');
+      }
+
+      _logger?.warning(message);
     }
-    _logger?.warning(
-      'Error code is ${AuthErrorCodes.reAuthenticationRequired} but the reason was not provided',
-    );
+
     return reason;
   }
 
