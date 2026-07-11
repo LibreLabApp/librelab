@@ -2,7 +2,6 @@ import 'package:api_client/api_client.dart';
 import 'package:dart_build_constants/dart_build_constants.dart';
 import 'package:librelab_api_client/src/auth_session.dart';
 import 'package:librelab_api_client/src/exceptions.dart';
-import 'package:librelab_api_client/src/is_token_expired.dart';
 import 'package:librelab_api_client/src/librelab_api_client.dart';
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
@@ -45,7 +44,7 @@ class AuthSessionManager(
       throw StateError('Auth session is required to make this request.');
     }
 
-    if (isTokenExpired(session.accessToken.expiresAt)) {
+    if (session.isAccessTokenExpired() ?? false) {
       return _refreshSessionAndRequest(
         authSession: session,
         endpoint: endpoint,
@@ -64,8 +63,9 @@ class AuthSessionManager(
       deserializeSuccess: deserializeSuccess,
       headers: {
         ...?headers,
-        ApiHttpHeaders.authorization:
-            ApiHttpHeaders.bearerPrefix + session.accessToken.token,
+        if (session case AuthSessionMemory(:final accessToken))
+          ApiHttpHeaders.authorization:
+              ApiHttpHeaders.bearerPrefix + accessToken.token,
       },
     );
 
@@ -146,7 +146,7 @@ class AuthSessionManager(
       );
     }
 
-    if (isTokenExpired(authSession.refreshToken.expiresAt)) {
+    if (authSession.isRefreshTokenExpired() ?? false) {
       throw AuthApiException.sessionExpired(
         authSession,
         const .expiredByLocalCheck(),
@@ -188,47 +188,66 @@ class AuthSessionManager(
   Future<AuthSession> _refreshSession(AuthSession authSession) async {
     final versionBeforeRefresh = _sessionVersion;
 
-    final refreshResult = await _refreshToken(authSession.refreshToken.token);
+    switch (authSession) {
+      case AuthSessionMemory(:final refreshToken):
+        switch (await _refresh(refreshToken.token)) {
+          case HttpStatusSuccess(:final response):
+            final refreshedSession = authSession.copyWith(
+              accessToken: response.body.accessToken,
+              refreshToken: response.body.refreshToken,
+            );
 
-    switch (refreshResult) {
-      case HttpStatusSuccess(:final response):
-        final refreshedSession = authSession.copyWith(
-          accessToken: response.body.accessToken,
-          refreshToken: response.body.refreshToken,
-        );
-
-        if (versionBeforeRefresh == _sessionVersion) {
-          _authSession = refreshedSession;
-          await _onAuthSessionRefreshed?.call(refreshedSession);
-        } else {
-          _logger?.fine(
-            'Session version changed during refresh. Global auth session update skipped.\n'
-            'Refreshed session applied only to current in-flight request.\n'
-            'versionBeforeRefresh=$versionBeforeRefresh, currentSessionVersion=$_sessionVersion',
-          );
-        }
-        return refreshedSession;
-      case HttpStatusError(:final response):
-        final code = response.body.code;
-
-        if (code == AuthErrorCodes.reAuthenticationRequired) {
-          throw AuthApiException.sessionExpired(
-            authSession,
-            .serverDetermined(
-              _reAuthenticationRequiredReason(response.body),
-              response.body.message,
-              isDuringTokenRefresh: true,
-            ),
-          );
+            if (versionBeforeRefresh == _sessionVersion) {
+              _authSession = refreshedSession;
+              await _onAuthSessionRefreshed?.call(refreshedSession);
+            } else {
+              _logger?.fine(
+                'Session version changed during refresh. Global auth session update skipped.\n'
+                'Refreshed session applied only to current in-flight request.\n'
+                'versionBeforeRefresh=$versionBeforeRefresh, currentSessionVersion=$_sessionVersion',
+              );
+            }
+            return refreshedSession;
+          case HttpStatusError(:final response):
+            _handleRefreshTokenError(response, authSession: authSession);
         }
 
-        throw AuthApiException.refreshTokenRequest(response);
+      case AuthSessionBrowserCookie():
+        switch (await _refreshBrowser()) {
+          case HttpStatusSuccess():
+            return authSession;
+          case HttpStatusError(:final response):
+            return _handleRefreshTokenError(response, authSession: authSession);
+        }
     }
   }
 
-  Future<LibreLabApiResult<RefreshAuthResponse>> _refreshToken(
+  Never _handleRefreshTokenError(
+    HttpResponse<ServerErrorResponse> response, {
+    required AuthSession authSession,
+  }) {
+    final code = response.body.code;
+
+    if (code == AuthErrorCodes.reAuthenticationRequired) {
+      throw AuthApiException.sessionExpired(
+        authSession,
+        .serverDetermined(
+          _reAuthenticationRequiredReason(response.body),
+          response.body.message,
+          isDuringTokenRefresh: true,
+        ),
+      );
+    }
+
+    throw AuthApiException.refreshTokenRequest(response);
+  }
+
+  Future<LibreLabApiResult<RefreshAuthResponse>> _refresh(
     String refreshToken,
   ) => _client.endpoints.auth.refresh(
     RefreshAuthRequest(refreshToken: refreshToken),
   );
+
+  Future<LibreLabApiResult<void>> _refreshBrowser() =>
+      _client.endpoints.auth.browser.refresh();
 }

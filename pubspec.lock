@@ -350,10 +350,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: b60b8cb28aa514346eb8f6b005c60484ea65190f213b1986f6e391e0292d18f4
+      sha256: "3f88fc9c96c568d631356507355a2d1e983ee000c9ac008bdcb39b5bf53ce777"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.11"
+    version: "3.1.12"
   dartx:
     dependency: transitive
     description:

@@ -9,8 +9,6 @@ import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:logging/logging.dart';
 
-// TODO: Update to support /auth/browser routes (fix old assumptions)
-
 class LibreLabApiClient({
   required final HttpApiClient _apiClient,
   required final Logger? _logger,
