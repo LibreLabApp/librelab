@@ -56,10 +56,10 @@ class AuthBrowserRoutes({
           headers: {
             HttpHeaders.setCookieHeader: <String>[
               _accessTokenCookie(
-                .set(accessToken.token, accessToken.expiresAt),
+                .set(accessToken.value, accessToken.expiresAt),
               ).toString(),
               _refreshTokenCookie(
-                .set(refreshToken.token, refreshToken.expiresAt),
+                .set(refreshToken.value, refreshToken.expiresAt),
               ).toString(),
             ],
           },
@@ -122,10 +122,10 @@ class AuthBrowserRoutes({
           headers: {
             HttpHeaders.setCookieHeader: <String>[
               _accessTokenCookie(
-                .set(accessToken.token, accessToken.expiresAt),
+                .set(accessToken.value, accessToken.expiresAt),
               ).toString(),
               _refreshTokenCookie(
-                .set(refreshToken.token, refreshToken.expiresAt),
+                .set(refreshToken.value, refreshToken.expiresAt),
               ).toString(),
             ],
           },

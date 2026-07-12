@@ -27,7 +27,7 @@ export 'package:librelab_server/auth/auth_service/user_register_failures.dart';
 
 @immutable
 class const AuthToken({
-  required final String token,
+  required final String value,
   required final DateTime expiresAt,
 });
 
@@ -204,7 +204,7 @@ class AuthService({
       const expiresIn = _accessTokenExpiryDuration;
       final expiresAt = _timeNowUTC().add(expiresIn);
       return .new(
-        token: _jwtService.issueToken(
+        value: _jwtService.issueToken(
           JwtPayload(sub: userId, tokenVersion: tokenVersion),
           expiresIn: expiresIn,
         ),
@@ -226,7 +226,7 @@ class AuthService({
       );
 
       return .new(
-        token: refreshTokenRaw,
+        value: refreshTokenRaw,
         expiresAt: userRefreshToken.expiresAt,
       );
     }
