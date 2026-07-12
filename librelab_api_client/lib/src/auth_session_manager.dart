@@ -65,7 +65,7 @@ class AuthSessionManager(
         ...?headers,
         if (session case AuthSessionMemory(:final accessToken))
           ApiHttpHeaders.authorization:
-              ApiHttpHeaders.bearerPrefix + accessToken.token,
+              ApiHttpHeaders.bearerPrefix + accessToken.value,
       },
     );
 
@@ -192,7 +192,7 @@ class AuthSessionManager(
 
     switch (authSession) {
       case AuthSessionMemory(:final refreshToken):
-        switch (await _refresh(refreshToken.token)) {
+        switch (await _refresh(refreshToken.value)) {
           case HttpStatusSuccess(:final response):
             final refreshedSession = authSession.copyWith(
               accessToken: response.body.accessToken,

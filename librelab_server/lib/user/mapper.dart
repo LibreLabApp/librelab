@@ -4,7 +4,7 @@ import 'package:librelab_server/user/role/mapper.dart';
 import 'package:librelab_server/user/user.dart';
 
 extension AuthTokenMapper on AuthToken {
-  dto.AuthToken toResponse() => .new(token: token, expiresAt: expiresAt);
+  dto.AuthToken toResponse() => .new(value: token, expiresAt: expiresAt);
 }
 
 extension UserMapper on User {

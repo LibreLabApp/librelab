@@ -7,7 +7,7 @@ part 'auth_token.g.dart';
 @immutable
 @JsonSerializable()
 class const AuthToken({
-  required final String token,
+  required final String value,
   required final DateTime expiresAt,
 }) {
   factory fromJson(JsonMap json) => _$AuthTokenFromJson(json);
