@@ -7,7 +7,7 @@ build-runner-package package="librelab_api_contract":
   cd {{package}} && dart run build_runner build
 
 # Starts PostgreSQL database server via docker compose
-db-up:
+db-run:
   cd librelab_server && docker compose up
 
 # Generates database migration Dart constants from SQL files in migrations/

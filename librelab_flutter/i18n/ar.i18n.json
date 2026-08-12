@@ -225,15 +225,15 @@
         }
     },
     "apiRequestFailures": {
-        "connectionFailure": "تعذر الاتصال بالخادم.",
-        "unexpectedFailure": "حدث خطأ غير متوقع.",
-        "unhandledServerResponseFailure": "حدث رد غير متوقع من الخادم.",
-        "tooManyRequestsFailure": "عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.",
-        "serviceUnavailableFailure": "الخادم غير متاح حاليا.",
-        "internalServerFailure": "حدث خطأ داخلي في الخادم.",
-        "malformedJsonFailure": "تم استلام بيانات غير صالحة من الخادم.",
-        "jsonDeserializationFailure": "فشل تحليل استجابة الخادم.",
-        "authenticationFailure": "فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.",
-        "authorizationFailure": "تم رفض الوصول."
+        "connection": "تعذر الاتصال بالخادم.",
+        "unexpected": "حدث خطأ غير متوقع.",
+        "unhandledServerResponse": "حدث رد غير متوقع من الخادم.",
+        "tooManyRequests": "عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.",
+        "serviceUnavailable": "الخادم غير متاح حاليا.",
+        "internalServer": "حدث خطأ داخلي في الخادم.",
+        "malformedJson": "تم استلام بيانات غير صالحة من الخادم.",
+        "jsonDeserialization": "فشل تحليل استجابة الخادم.",
+        "unauthorized": "فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.",
+        "accessForbidden": "تم رفض الوصول."
     }
 }

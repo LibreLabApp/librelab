@@ -131,16 +131,16 @@ class _Translations$apiRequestFailures$ar extends Translations$apiRequestFailure
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get connectionFailure => 'تعذر الاتصال بالخادم.';
-	@override String get unexpectedFailure => 'حدث خطأ غير متوقع.';
-	@override String get unhandledServerResponseFailure => 'حدث رد غير متوقع من الخادم.';
-	@override String get tooManyRequestsFailure => 'عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.';
-	@override String get serviceUnavailableFailure => 'الخادم غير متاح حاليا.';
-	@override String get internalServerFailure => 'حدث خطأ داخلي في الخادم.';
-	@override String get malformedJsonFailure => 'تم استلام بيانات غير صالحة من الخادم.';
-	@override String get jsonDeserializationFailure => 'فشل تحليل استجابة الخادم.';
-	@override String get authenticationFailure => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.';
-	@override String get authorizationFailure => 'تم رفض الوصول.';
+	@override String get connection => 'تعذر الاتصال بالخادم.';
+	@override String get unexpected => 'حدث خطأ غير متوقع.';
+	@override String get unhandledServerResponse => 'حدث رد غير متوقع من الخادم.';
+	@override String get tooManyRequests => 'عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.';
+	@override String get serviceUnavailable => 'الخادم غير متاح حاليا.';
+	@override String get internalServer => 'حدث خطأ داخلي في الخادم.';
+	@override String get malformedJson => 'تم استلام بيانات غير صالحة من الخادم.';
+	@override String get jsonDeserialization => 'فشل تحليل استجابة الخادم.';
+	@override String get unauthorized => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.';
+	@override String get accessForbidden => 'تم رفض الوصول.';
 }
 
 // Path: initialSetupPage.steps
@@ -856,16 +856,16 @@ extension on TranslationsAr {
 			'settings.useAnimatedGraphics.subtitle' => 'يعرض رسومات متحركة بدلا من الأيقونات الثابتة',
 			'settings.sendCrashReports.title' => 'إرسال تقارير الأعطال',
 			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'المساعدة في تحسين ${appName} بإرسال تقارير أعطال مجهولة الهوية',
-			'apiRequestFailures.connectionFailure' => 'تعذر الاتصال بالخادم.',
-			'apiRequestFailures.unexpectedFailure' => 'حدث خطأ غير متوقع.',
-			'apiRequestFailures.unhandledServerResponseFailure' => 'حدث رد غير متوقع من الخادم.',
-			'apiRequestFailures.tooManyRequestsFailure' => 'عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.',
-			'apiRequestFailures.serviceUnavailableFailure' => 'الخادم غير متاح حاليا.',
-			'apiRequestFailures.internalServerFailure' => 'حدث خطأ داخلي في الخادم.',
-			'apiRequestFailures.malformedJsonFailure' => 'تم استلام بيانات غير صالحة من الخادم.',
-			'apiRequestFailures.jsonDeserializationFailure' => 'فشل تحليل استجابة الخادم.',
-			'apiRequestFailures.authenticationFailure' => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.',
-			'apiRequestFailures.authorizationFailure' => 'تم رفض الوصول.',
+			'apiRequestFailures.connection' => 'تعذر الاتصال بالخادم.',
+			'apiRequestFailures.unexpected' => 'حدث خطأ غير متوقع.',
+			'apiRequestFailures.unhandledServerResponse' => 'حدث رد غير متوقع من الخادم.',
+			'apiRequestFailures.tooManyRequests' => 'عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقا.',
+			'apiRequestFailures.serviceUnavailable' => 'الخادم غير متاح حاليا.',
+			'apiRequestFailures.internalServer' => 'حدث خطأ داخلي في الخادم.',
+			'apiRequestFailures.malformedJson' => 'تم استلام بيانات غير صالحة من الخادم.',
+			'apiRequestFailures.jsonDeserialization' => 'فشل تحليل استجابة الخادم.',
+			'apiRequestFailures.unauthorized' => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.',
+			'apiRequestFailures.accessForbidden' => 'تم رفض الوصول.',
 			_ => null,
 		};
 	}

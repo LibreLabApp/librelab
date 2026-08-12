@@ -43,8 +43,7 @@ void main() async {
 
   setupLogger((message, {required bool hasError}) {
     if (isMobile || kIsWeb) {
-      // ignore: avoid_print
-      print(message);
+      debugPrint(message);
       return;
     }
 
@@ -184,9 +183,7 @@ class const MainApp({required final Color? systemAccentColor, super.key})
             },
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
-            localizationsDelegates: const [
-              ...GlobalMaterialLocalizations.delegates,
-            ],
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
           );
         },
       ),

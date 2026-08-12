@@ -168,34 +168,34 @@ class Translations$apiRequestFailures$en {
 	// Translations
 
 	/// en: 'Unable to connect to the server.'
-	String get connectionFailure => 'Unable to connect to the server.';
+	String get connection => 'Unable to connect to the server.';
 
 	/// en: 'An unexpected error occurred.'
-	String get unexpectedFailure => 'An unexpected error occurred.';
+	String get unexpected => 'An unexpected error occurred.';
 
 	/// en: 'An unexpected server response occurred.'
-	String get unhandledServerResponseFailure => 'An unexpected server response occurred.';
+	String get unhandledServerResponse => 'An unexpected server response occurred.';
 
 	/// en: 'Too many requests. Please try again later.'
-	String get tooManyRequestsFailure => 'Too many requests. Please try again later.';
+	String get tooManyRequests => 'Too many requests. Please try again later.';
 
 	/// en: 'Server is currently unavailable.'
-	String get serviceUnavailableFailure => 'Server is currently unavailable.';
+	String get serviceUnavailable => 'Server is currently unavailable.';
 
 	/// en: 'Internal server error occurred.'
-	String get internalServerFailure => 'Internal server error occurred.';
+	String get internalServer => 'Internal server error occurred.';
 
 	/// en: 'Received malformed data from server.'
-	String get malformedJsonFailure => 'Received malformed data from server.';
+	String get malformedJson => 'Received malformed data from server.';
 
 	/// en: 'Failed to parse server response.'
-	String get jsonDeserializationFailure => 'Failed to parse server response.';
+	String get jsonDeserialization => 'Failed to parse server response.';
 
 	/// en: 'Authentication failed. Please sign in again.'
-	String get authenticationFailure => 'Authentication failed. Please sign in again.';
+	String get unauthorized => 'Authentication failed. Please sign in again.';
 
 	/// en: 'Access denied.'
-	String get authorizationFailure => 'Access denied.';
+	String get accessForbidden => 'Access denied.';
 }
 
 // Path: initialSetupPage.steps
@@ -1115,16 +1115,16 @@ extension on Translations {
 			'settings.useAnimatedGraphics.subtitle' => 'Displays animations instead of static icons',
 			'settings.sendCrashReports.title' => 'Send Crash Reports',
 			'settings.sendCrashReports.subtitle' => ({required Object appName}) => 'Help Improve ${appName} by sending anonymous crash reports',
-			'apiRequestFailures.connectionFailure' => 'Unable to connect to the server.',
-			'apiRequestFailures.unexpectedFailure' => 'An unexpected error occurred.',
-			'apiRequestFailures.unhandledServerResponseFailure' => 'An unexpected server response occurred.',
-			'apiRequestFailures.tooManyRequestsFailure' => 'Too many requests. Please try again later.',
-			'apiRequestFailures.serviceUnavailableFailure' => 'Server is currently unavailable.',
-			'apiRequestFailures.internalServerFailure' => 'Internal server error occurred.',
-			'apiRequestFailures.malformedJsonFailure' => 'Received malformed data from server.',
-			'apiRequestFailures.jsonDeserializationFailure' => 'Failed to parse server response.',
-			'apiRequestFailures.authenticationFailure' => 'Authentication failed. Please sign in again.',
-			'apiRequestFailures.authorizationFailure' => 'Access denied.',
+			'apiRequestFailures.connection' => 'Unable to connect to the server.',
+			'apiRequestFailures.unexpected' => 'An unexpected error occurred.',
+			'apiRequestFailures.unhandledServerResponse' => 'An unexpected server response occurred.',
+			'apiRequestFailures.tooManyRequests' => 'Too many requests. Please try again later.',
+			'apiRequestFailures.serviceUnavailable' => 'Server is currently unavailable.',
+			'apiRequestFailures.internalServer' => 'Internal server error occurred.',
+			'apiRequestFailures.malformedJson' => 'Received malformed data from server.',
+			'apiRequestFailures.jsonDeserialization' => 'Failed to parse server response.',
+			'apiRequestFailures.unauthorized' => 'Authentication failed. Please sign in again.',
+			'apiRequestFailures.accessForbidden' => 'Access denied.',
 			_ => null,
 		};
 	}

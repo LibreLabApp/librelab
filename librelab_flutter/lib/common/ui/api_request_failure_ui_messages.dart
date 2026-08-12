@@ -5,16 +5,16 @@ extension ApiRequestFailureUiMessages on ApiRequestFailure {
   String getUiMessage(Translations translations) {
     final t = translations.apiRequestFailures;
     return switch (this) {
-      ConnectionFailure() => t.connectionFailure,
-      UnexpectedFailure() => t.unexpectedFailure,
-      UnhandledServerResponseFailure() => t.unhandledServerResponseFailure,
-      AuthenticationFailure() => t.authenticationFailure,
-      AuthorizationFailure() => t.authorizationFailure,
-      TooManyRequestsFailure() => t.tooManyRequestsFailure,
-      ServiceUnavailableFailure() => t.serviceUnavailableFailure,
-      InternalServerFailure() => t.internalServerFailure,
-      MalformedJsonFailure() => t.malformedJsonFailure,
-      JsonDeserializationFailure() => t.jsonDeserializationFailure,
+      ConnectionFailure() => t.connection,
+      UnexpectedFailure() => t.unexpected,
+      UnhandledServerResponseFailure() => t.unhandledServerResponse,
+      UnauthorizedFailure() => t.unauthorized,
+      AccessForbiddenFailure() => t.accessForbidden,
+      TooManyRequestsFailure() => t.tooManyRequests,
+      ServiceUnavailableFailure() => t.serviceUnavailable,
+      InternalServerFailure() => t.internalServer,
+      MalformedJsonFailure() => t.malformedJson,
+      JsonDeserializationFailure() => t.jsonDeserialization,
     };
   }
 }

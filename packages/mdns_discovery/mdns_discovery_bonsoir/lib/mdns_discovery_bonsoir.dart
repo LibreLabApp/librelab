@@ -147,7 +147,7 @@ class MdnsServiceDiscoveryBonsoir({
             serviceInfo:
                 _mapService(service) ??
                 (throw StateError(
-                  'hostname for "${service.name}". Does this platform support mDNS hostname?\n'
+                  'hostname for "${service.name}" is null. Does this platform support mDNS hostname?\n'
                   'Bonsoir service: ${service.toJson()}',
                 )),
           ),

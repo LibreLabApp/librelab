@@ -233,15 +233,15 @@
     }
   },
   "apiRequestFailures": {
-    "connectionFailure": "Unable to connect to the server.",
-    "unexpectedFailure": "An unexpected error occurred.",
-    "unhandledServerResponseFailure": "An unexpected server response occurred.",
-    "tooManyRequestsFailure": "Too many requests. Please try again later.",
-    "serviceUnavailableFailure": "Server is currently unavailable.",
-    "internalServerFailure": "Internal server error occurred.",
-    "malformedJsonFailure": "Received malformed data from server.",
-    "jsonDeserializationFailure": "Failed to parse server response.",
-    "authenticationFailure": "Authentication failed. Please sign in again.",
-    "authorizationFailure": "Access denied."
+    "connection": "Unable to connect to the server.",
+    "unexpected": "An unexpected error occurred.",
+    "unhandledServerResponse": "An unexpected server response occurred.",
+    "tooManyRequests": "Too many requests. Please try again later.",
+    "serviceUnavailable": "Server is currently unavailable.",
+    "internalServer": "Internal server error occurred.",
+    "malformedJson": "Received malformed data from server.",
+    "jsonDeserialization": "Failed to parse server response.",
+    "unauthorized": "Authentication failed. Please sign in again.",
+    "accessForbidden": "Access denied."
   }
 }

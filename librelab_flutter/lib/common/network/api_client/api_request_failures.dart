@@ -21,17 +21,15 @@ final class const UnhandledServerResponseFailure(
       );
 }
 
-final class const AuthenticationFailure() extends ApiRequestFailure {
+final class const UnauthorizedFailure() extends ApiRequestFailure {
   this
-    : super(
-        'Authentication failure. The access token is missing, invalid or expired (unauthorized).',
-      );
+    : super('The access token is missing, invalid or expired (unauthorized).');
 }
 
-final class const AuthorizationFailure() extends ApiRequestFailure {
+final class const AccessForbiddenFailure() extends ApiRequestFailure {
   this
     : super(
-        'Authorization failure. The user lacks permission to perform this action (forbidden access).',
+        'The user lacks permission to perform this action (forbidden access).',
       );
 }
 

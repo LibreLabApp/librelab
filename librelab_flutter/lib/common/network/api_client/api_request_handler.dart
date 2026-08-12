@@ -74,10 +74,10 @@ class ApiRequestHandlerDefault({required final Logger _logger})
       return const TooManyRequestsFailure();
     }
     if (statusCode == HttpStatusCodes.unauthorized) {
-      return const AuthenticationFailure();
+      return const UnauthorizedFailure();
     }
     if (statusCode == HttpStatusCodes.forbidden) {
-      return const AuthorizationFailure();
+      return const AccessForbiddenFailure();
     }
 
     if (statusCode == HttpStatusCodes.serviceUnavailable) {
