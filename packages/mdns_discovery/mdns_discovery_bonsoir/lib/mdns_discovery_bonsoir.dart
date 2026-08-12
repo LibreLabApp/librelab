@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bonsoir/bonsoir.dart';
 import 'package:logging/logging.dart';
@@ -146,7 +147,7 @@ class MdnsServiceDiscoveryBonsoir({
             serviceInfo:
                 _mapService(service) ??
                 (throw StateError(
-                  '$BonsoirService.hostname is null. Does this platform support mDNS hostname?\n'
+                  'hostname for "${service.name}". Does this platform support mDNS hostname?\n'
                   'Bonsoir service: ${service.toJson()}',
                 )),
           ),
@@ -191,19 +192,31 @@ class MdnsServiceDiscoveryBonsoir({
 
   /// Returns null if [BonsoirService.hostname] is `null`.
   MdnsServiceInfo? _mapService(BonsoirService bonsoir) {
+    final instanceName = bonsoir.name;
+
     final hostname = bonsoir.hostname;
     if (hostname == null) {
       return null;
     }
-    _logger.fine(
-      'hostAddresses for "${bonsoir.name}": ${bonsoir.hostAddresses}',
-    );
+
+    final hostAddresses = bonsoir.hostAddresses;
+
+    _logger.fine('hostAddresses for "$instanceName": $hostAddresses');
+
+    final ipv4Addresses = hostAddresses
+        .map(InternetAddress.tryParse)
+        .nonNulls
+        .where(
+          (address) =>
+              address.type == InternetAddressType.IPv4 && !address.isLoopback,
+        )
+        .toList();
 
     return MdnsServiceInfo(
       hostname: hostname,
-      ipAddress: bonsoir.hostAddress,
+      ipAddress: ipv4Addresses.firstOrNull?.address,
       port: bonsoir.port,
-      instanceName: bonsoir.name,
+      instanceName: instanceName,
       txtRecords: bonsoir.attributes,
     );
   }
