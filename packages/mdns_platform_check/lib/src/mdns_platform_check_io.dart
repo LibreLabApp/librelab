@@ -26,6 +26,7 @@ class MdnsPlatformCheck({
       return true;
     }
     if (Platform.isMacOS) {
+      // macOS includes Bonjour built in.
       return true;
     }
     if (Platform.isAndroid) {

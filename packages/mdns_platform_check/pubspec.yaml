@@ -14,4 +14,4 @@ dependencies:
   is_ios_simulator: ^1.0.0
 
 dev_dependencies:
-  jnigen: ^0.16.0
+  jnigen: ^0.17.0
