@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:librelab_shared/librelab_shared.dart';
+import 'package:librelab_shared/librelab_shared.dart' show DesktopPlatform;
+
 export 'package:librelab_shared/librelab_shared.dart' show DesktopPlatform;
 
 @pragma('vm:platform-const-if', !kDebugMode)
