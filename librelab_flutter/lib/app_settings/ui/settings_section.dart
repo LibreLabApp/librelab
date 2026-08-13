@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:material_ui/material_ui.dart';
 
 class const SettingsSection({
   super.key,

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/app_settings.dart';
 import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/adaptive_toggle_group.dart';
+import 'package:material_ui/material_ui.dart';
 
 class const ThemeModeListTile({super.key}) extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 class const UseAnimatedGraphicsListTile({super.key}) extends StatelessWidget {

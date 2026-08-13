@@ -41,3 +41,7 @@ app-asset-paths:
 # Generates app launcher icons
 app-icons:
   cd librelab_flutter && dart run flutter_launcher_icons
+
+# Builds the Flutter web application and outputs it to the server's web build for local development
+app-build-web-local:
+  cd librelab_flutter && flutter build web --release --wasm --output="../librelab_server/run_workdir/web"

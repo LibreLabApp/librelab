@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
@@ -10,6 +9,7 @@ import 'package:librelab_flutter/server_selection/local_network_discovery/discov
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:lottie/lottie.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 LocalNetworkDiscoveryController _localNetworkDiscoveryController(

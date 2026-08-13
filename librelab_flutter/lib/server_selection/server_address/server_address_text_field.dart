@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/server_selection/server_address/server_address_input_validation.dart';
 import 'package:librelab_shared/librelab_shared.dart';
+import 'package:material_ui/material_ui.dart';
 
 class const ServerAddressTextField({
   super.key,

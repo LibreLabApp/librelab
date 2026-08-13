@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class LibreLabIcon {
   static Widget framed({double borderWidth = 2, EdgeInsetsGeometry? padding}) =>

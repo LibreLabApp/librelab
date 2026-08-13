@@ -2,10 +2,7 @@ import 'dart:io' show stderr, stdout;
 
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'
-    show GlobalMaterialLocalizations;
 import 'package:go_router/go_router.dart';
 import 'package:json_storage/json_storage.dart';
 import 'package:librelab_flutter/app_file_paths.dart';
@@ -20,11 +17,11 @@ import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:string_storage/string_storage_file.dart';
 import 'package:string_storage_shared_preferences/string_storage_shared_preferences.dart';
-
 import 'package:system_accent_color/system_accent_color.dart';
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey();
@@ -184,6 +181,12 @@ class const MainApp({required final Color? systemAccentColor, super.key})
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            builder: (context, child) =>
+                // This app uses smooth_page_indicator, which has not
+                // been migrated to use material_ui and cupertino_ui yet
+                // https://github.com/Milad-Akarie/smooth_page_indicator/issues/105
+                // ignore: deprecated_member_use
+                MaterialUiCompatibilityBridge(child: child!),
           );
         },
       ),

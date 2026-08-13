@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Step;
+import 'package:material_ui/material_ui.dart' hide Step;
 import 'package:stepper_flow/src/step_access_evaluation_mode.dart';
 import 'package:stepper_flow/src/stepper_flow/pager.dart';
 import 'package:stepper_flow/src/stepper_flow/step.dart';

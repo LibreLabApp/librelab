@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' show Icons;
 import 'package:flutter/widgets.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
+import 'package:material_ui/material_ui.dart' show Icons;
 import 'package:stepper_flow/stepper_flow.dart';
 
 enum InitialSetupStep {

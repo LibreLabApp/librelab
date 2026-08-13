@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:librelab_flutter/common/ui/widgets/librelab_icon.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const _MainApp());
 

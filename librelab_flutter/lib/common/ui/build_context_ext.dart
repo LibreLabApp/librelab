@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart'
     show Translations;
+import 'package:material_ui/material_ui.dart';
 
 export 'package:librelab_flutter/generated/i18n/strings.g.dart'
     show Translations;

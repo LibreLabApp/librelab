@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart';
 import 'package:librelab_shared/librelab_shared.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum ConnectionNoticeType { http, ipAddress, httpAndIpAddress }
 

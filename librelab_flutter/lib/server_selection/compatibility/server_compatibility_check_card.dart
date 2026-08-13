@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/api_request_failure_ui_messages.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
+import 'package:material_ui/material_ui.dart';
 
 typedef _RequestServerUrlFocus = void Function();
 

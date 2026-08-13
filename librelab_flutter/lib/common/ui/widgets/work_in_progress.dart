@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
 import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Indicates that this feature or area of the app is under active development
 /// and is not ready for general use.

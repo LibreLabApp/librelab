@@ -56,6 +56,7 @@ dependencies:
   stepper_flow: ^0.0.1
   flex_color_picker: ^3.8.0
   lottie: ^3.3.3
+  material_ui: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,11 @@ dependency_overrides:
       url: https://github.com/EchoEllet/http.git
       ref: chore/okhttp-gradle-migration
       path: pkgs/ok_http
+  # https://github.com/rydmike/flex_color_picker/pull/98
+  flex_color_picker:
+    git:
+      url: https://github.com/EchoEllet/flex_color_picker.git
+      ref: chore/migrate-design-library-imports
 
 flutter:
   uses-material-design: true

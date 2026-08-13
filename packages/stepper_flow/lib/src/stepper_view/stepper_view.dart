@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:stepper_flow/stepper_flow.dart';
 
 part 'horizontal.dart';
