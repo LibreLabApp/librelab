@@ -1,12 +1,13 @@
 # Run "dart scripts/generate_pubspec_dart_code.dart" when updating any of these values.
 name: librelab_flutter
-description: "A new Flutter project."
+description: "The Flutter application for LibreLab."
 publish_to: 'none'
 version: 0.0.1+1
 resolution: workspace
 
 environment:
-  sdk: ^3.13.0-167.1.beta
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:

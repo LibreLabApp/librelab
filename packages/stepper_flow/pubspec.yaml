@@ -1,11 +1,11 @@
 name: stepper_flow
-description: "A new Flutter package project."
+description: "Flutter widgets for structuring multi-step flows with step navigation, progress indicators, and navigation controls while leaving step content to the application."
 version: 0.0.1
 publish_to: 'none'
 resolution: workspace
 
 environment:
-  sdk: ^3.13.0-167.1.beta
+  sdk: ^3.13.0
   flutter: ">=1.17.0"
 
 dependencies:

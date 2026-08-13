@@ -4,6 +4,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
 import 'package:postgres/postgres.dart';
+
 import '../../../scripts/_utils.dart';
 
 @immutable
@@ -349,9 +350,8 @@ return _buildFieldMap([${table.columns.map((e) {
                 for (final e in table.columns)
                   snakeToCamel(e.columnName): () {
                     final expression = refer('map').index(
-                      refer(
-                        tableClassName,
-                      ).property(snakeToCamel(e.columnName)),
+                      refer(tableClassName)
+                          .property(snakeToCamel(e.columnName)),
                     );
                     final expressionWithNullCheck = switch (e.isNullable) {
                       true => expression,
@@ -410,9 +410,8 @@ Map<String, Object?> _buildFieldMap<T>(
       ..body.addAll([buildFieldMap, ...enums, ...classes]),
   );
 
-  return DartFormatter(
-    languageVersion: DartFormatter.latestLanguageVersion,
-  ).format('${library.accept(emitter)}');
+  return DartFormatter(languageVersion: DartFormatter.latestLanguageVersion)
+      .format('${library.accept(emitter)}');
 }
 
 Future<(List<_TableInfo>, List<_PgEnum>)> _readTypesFromDatabase(

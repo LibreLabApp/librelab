@@ -79,8 +79,7 @@ class AuthRoutes({
           case InvalidPasswordFailure():
             return const ServerErrorResponse(
               message: AuthErrorCodes.invalidLoginCredentials,
-              code:
-                  'Invalid login credentials (email not found or password is incorrect)',
+              code: 'Invalid login credentials (email not found or password is incorrect)',
             ).toJson().httpResponse(.unauthorized);
           case InvalidLoginInputFailure():
             return const ServerErrorResponse(
@@ -90,8 +89,7 @@ class AuthRoutes({
           case LoginDisabledFailure():
             return const ServerErrorResponse(
               message: AuthErrorCodes.loginDisabled,
-              code:
-                  'Login is disabled. Contact system administrator to enable it.',
+              code: 'Login is disabled. Contact system administrator to enable it.',
             ).toJson().httpResponse(.forbidden);
         }
     }
@@ -124,9 +122,9 @@ class AuthRoutes({
 
     final revoked = await _service.logout(refreshTokenRaw: refreshToken);
 
-    return LogoutResponse(
-      tokenRevoked: revoked,
-    ).toJson().httpResponse(.ok, headers: successHeaders?.call());
+    return LogoutResponse(tokenRevoked: revoked)
+        .toJson()
+        .httpResponse(.ok, headers: successHeaders?.call());
   }
 
   Future<Response> _refreshHandler(Request request) async {

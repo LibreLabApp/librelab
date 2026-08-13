@@ -83,9 +83,9 @@ class _LocalServerDiscoveryCardState extends State<LocalServerDiscoveryCard> {
                     ),
                     onPressed: isLoading
                         ? null
-                        : () => _localNetworkDiscoveryController(
-                            context,
-                          ).scan(refresh: true),
+                        : () =>
+                              _localNetworkDiscoveryController(context)
+                                  .scan(refresh: true),
                     label: Text(t.localNetworkDiscovery.refreshServersButton),
                     icon: const Icon(Icons.refresh),
                   ),

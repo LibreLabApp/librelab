@@ -193,9 +193,8 @@ class LocalNetworkDiscoveryController({
     );
 
     unawaited(
-      Future<void>.delayed(
-        const Duration(seconds: 1),
-      ).then((_) => _autoSelect()),
+      Future<void>.delayed(const Duration(seconds: 1))
+          .then((_) => _autoSelect()),
     );
 
     await _repository.scan();

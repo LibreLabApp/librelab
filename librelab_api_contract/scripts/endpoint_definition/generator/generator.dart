@@ -4,6 +4,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:http_method_enum/http_method_enum.dart';
 import 'package:meta/meta.dart';
+
 import '../../../../scripts/_utils.dart';
 
 part 'api_tree.dart';
@@ -76,9 +77,8 @@ String _generateDartCode(
       ..body.addAll([apiEndpointsContract]),
   );
 
-  return DartFormatter(
-    languageVersion: DartFormatter.latestLanguageVersion,
-  ).format('${library.accept(emitter)}');
+  return DartFormatter(languageVersion: DartFormatter.latestLanguageVersion)
+      .format('${library.accept(emitter)}');
 }
 
 void _buildEndpointMembers(

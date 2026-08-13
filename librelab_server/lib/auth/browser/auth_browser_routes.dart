@@ -55,9 +55,8 @@ class AuthBrowserRoutes({
           .ok,
           headers: {
             HttpHeaders.setCookieHeader: <String>[
-              _accessTokenCookie(
-                .set(accessToken.value, accessToken.expiresAt),
-              ).toString(),
+              _accessTokenCookie(.set(accessToken.value, accessToken.expiresAt))
+                  .toString(),
               _refreshTokenCookie(
                 .set(refreshToken.value, refreshToken.expiresAt),
               ).toString(),
@@ -84,9 +83,9 @@ class AuthBrowserRoutes({
     final refreshToken = _refreshTokenFromCookies(cookies);
 
     if (refreshToken == null) {
-      return const LogoutResponse(
-        tokenRevoked: false,
-      ).toJson().httpResponse(.ok, headers: headers);
+      return const LogoutResponse(tokenRevoked: false)
+          .toJson()
+          .httpResponse(.ok, headers: headers);
     }
 
     return _logout(
@@ -121,9 +120,8 @@ class AuthBrowserRoutes({
           HttpStatusCode.ok,
           headers: {
             HttpHeaders.setCookieHeader: <String>[
-              _accessTokenCookie(
-                .set(accessToken.value, accessToken.expiresAt),
-              ).toString(),
+              _accessTokenCookie(.set(accessToken.value, accessToken.expiresAt))
+                  .toString(),
               _refreshTokenCookie(
                 .set(refreshToken.value, refreshToken.expiresAt),
               ).toString(),
@@ -188,13 +186,13 @@ class AuthBrowserRoutes({
         // code generator, which does not expose API group paths,
         // this API group path is hardcoded.
 
-        // This statement was added so that if the path below is changed,
+        // This unnecessary statement was added so that if the path below is changed,
         // it will cause a compilation error here, with the hope that the
         // maintainer will update the path below as well.
         // ignore: unnecessary_statements
         ApiEndpointDefinitions.auth_browser_refresh$POST.path;
-        const authPath = 'auth/browser/';
 
+        const authPath = 'auth/browser/';
         return '$apiPath/$authPath';
       }(),
       expires: expires,

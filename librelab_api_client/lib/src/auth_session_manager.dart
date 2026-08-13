@@ -180,11 +180,10 @@ class AuthSessionManager(
   Future<AuthSession> _refreshSessionDeduplicated(
     AuthSession authSession,
   ) async {
-    return _refreshSessionFuture ??= _refreshSession(authSession).whenComplete(
-      () {
-        _refreshSessionFuture = null;
-      },
-    );
+    return _refreshSessionFuture ??= _refreshSession(authSession)
+        .whenComplete(() {
+          _refreshSessionFuture = null;
+        });
   }
 
   Future<AuthSession> _refreshSession(AuthSession authSession) async {

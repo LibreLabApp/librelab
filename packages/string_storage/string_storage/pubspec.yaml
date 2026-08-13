@@ -5,4 +5,4 @@ publish_to: 'none'
 resolution: workspace
 
 environment:
-  sdk: ^3.13.0-167.1.beta
+  sdk: ^3.13.0

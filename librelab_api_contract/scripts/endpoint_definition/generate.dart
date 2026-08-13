@@ -29,8 +29,7 @@ Future<void> main() async {
       dartOutput:
           'lib/src/api_endpoint_definition/api_endpoint_definitions.g.dart',
       outputClassName: 'ApiEndpointDefinitions',
-      requiredTypesImport:
-          'package:librelab_api_contract/src/api_endpoint_definition/types.dart',
+      requiredTypesImport: 'package:librelab_api_contract/src/api_endpoint_definition/types.dart',
     ),
   );
 }

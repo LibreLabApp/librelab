@@ -5,6 +5,7 @@ import 'package:dart_style/dart_style.dart';
 import 'package:librelab_server/database/database_migration.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
+
 import '../../../scripts/_utils.dart';
 
 const String _databaseMigrationClassName = 'DatabaseMigration';
@@ -128,9 +129,8 @@ String _generateDartCode(List<DatabaseMigration> migrations, Config config) {
       ..body.addAll([generatedClass]),
   );
 
-  return DartFormatter(
-    languageVersion: DartFormatter.latestLanguageVersion,
-  ).format('${library.accept(emitter)}');
+  return DartFormatter(languageVersion: DartFormatter.latestLanguageVersion)
+      .format('${library.accept(emitter)}');
 }
 
 Expression _buildMigrationsListExpression(
