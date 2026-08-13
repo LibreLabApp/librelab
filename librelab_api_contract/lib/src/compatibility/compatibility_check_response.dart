@@ -27,7 +27,7 @@ class const CompatibilityCheckResponse({
   required final int serverBuildNumber,
   required final String serverVersion,
   @JsonKey(
-    // Adding a new enum not considered a breaking change.
+    // Adding a new enum is not considered a breaking change.
     unknownEnumValue: ApiContractCompatibilityStatus.updateClient,
   )
   required final ApiContractCompatibilityStatus status,
