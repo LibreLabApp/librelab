@@ -203,6 +203,9 @@ class MdnsServiceDiscoveryBonsoir({
 
     _logger.fine('hostAddresses for "$instanceName": $hostAddresses');
 
+    // The provided host address could be an IPv6 link-local-address,
+    // which would break URI construction elsewhere.
+    // https://github.com/Skyost/Bonsoir/issues/145
     final ipv4Addresses = hostAddresses
         .map(InternetAddress.tryParse)
         .nonNulls

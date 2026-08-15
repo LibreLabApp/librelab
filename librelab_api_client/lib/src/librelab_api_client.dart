@@ -9,6 +9,8 @@ import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:logging/logging.dart';
 
+export 'endpoints/auth_endpoints.dart';
+
 class LibreLabApiClient({
   required final HttpApiClient _apiClient,
   required final Logger? _logger,

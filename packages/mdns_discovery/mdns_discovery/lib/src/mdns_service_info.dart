@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 @immutable
 class const MdnsServiceInfo({
   required final String hostname,
+
+  /// Guaranteed to be a valid, non-loopback IPv4 address when non-null.
   required final String? ipAddress,
   required final int port,
   required final String instanceName,

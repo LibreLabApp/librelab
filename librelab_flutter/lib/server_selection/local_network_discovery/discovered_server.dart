@@ -1,7 +1,5 @@
 import 'package:meta/meta.dart';
 
-// TODO: (MDNS) Another model for the one on disk (presisted)?
-
 @immutable
 class const DiscoveredServer({
   required final String instanceName,

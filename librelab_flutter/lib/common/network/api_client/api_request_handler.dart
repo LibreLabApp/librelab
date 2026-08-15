@@ -7,9 +7,39 @@ import 'package:librelab_flutter/common/network/api_client/api_request_failures.
 import 'package:librelab_shared/result.dart';
 import 'package:logging/logging.dart';
 
+/// The result of an API request after common request-level failures have been
+/// handled.
+///
+/// - The [Result.success] value represents an endpoint-specific outcome,
+/// including expected endpoint failures such as an invalid password.
+///
+/// - The [Result.failure] value represents a request-level failure common to
+/// API requests, such as a connection failure, invalid response, or internal
+/// server error.
 typedef ApiRequestResult<T> = Result<T, ApiRequestFailure>;
 
+/// Handles common API request failures and maps successful responses to
+/// endpoint-specific outcomes.
+///
+/// Request-level failures are returned as [ApiRequestFailure]. Endpoint-specific
+/// HTTP error responses can be handled with [mapHttpError]
+/// and are treated as successful results.
 abstract interface class ApiRequestHandler {
+  /// Executes an API request and maps its response to an endpoint-specific
+  /// result.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// await _handler.execute(
+  ///   () => _client.endpoints.auth.login(...),
+  ///   mapSuccess: (dto) => mapDto(dto),
+  ///   mapHttpError: (error) =>
+  ///       error.body.code == 'INVALID_PASSWORD'
+  ///           ? const InvalidPasswordFailure()
+  ///           : null,
+  /// );
+  /// ```
   Future<ApiRequestResult<R>> execute<S, R>(
     Future<LibreLabApiResult<S>> Function() request, {
     required R Function(S dto) mapSuccess,
@@ -22,7 +52,6 @@ class ApiRequestHandlerDefault({required final Logger _logger})
   @override
   Future<ApiRequestResult<R>> execute<S, R>(
     Future<LibreLabApiResult<S>> Function() request, {
-
     required R Function(S success) mapSuccess,
     R? Function(HttpResponse<ServerErrorResponse> error)? mapHttpError,
   }) async {

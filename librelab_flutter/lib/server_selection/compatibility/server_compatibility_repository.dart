@@ -113,20 +113,20 @@ class ServerCompatibilityRepository({
               _apiPath: final apiPath,
             ):
 
-              // Important: each Uri is provided as a lazy factory closure instead of
+              // Each Uri is provided as a lazy factory closure instead of
               // being constructed eagerly. This avoids triggering FormatException during
               // list creation when some authority strings are invalid, which could prevent
               // request execution and leave capturedUri unassigned (leading to LateInitializationError).
               // Only the selected fallback URI is evaluated and constructed at runtime.
+              //
+              // Authority strings are not expected to be invalid in practice,
+              // but since this depends on the user's environment, the app
+              // guards against such cases.
               final result = await requestWithFallbackUris(
                 uris: [
                   () => Uri.https(hostnameAuthority),
                   () => Uri.http(hostnameAuthority),
                   if (ipAddressAuthority != null) ...[
-                    // Workaround: The provided IP address could be an IPv6
-                    // link-local-address, breaking the Uri construction.
-                    // This is why each Uri is provided lazily instead of instantly.
-                    // https://github.com/Skyost/Bonsoir/issues/145
                     () => Uri.https(ipAddressAuthority),
                     () => Uri.http(ipAddressAuthority),
                   ],
