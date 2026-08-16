@@ -235,5 +235,42 @@
         "jsonDeserialization": "فشل تحليل استجابة الخادم.",
         "unauthorized": "فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.",
         "accessForbidden": "تم رفض الوصول."
+    },
+    "loginFormSection": {
+        "emailAddressTextField": {
+            "validationErrors": {
+                "emptyInput": "البريد الإلكتروني مطلوب",
+                "invalidEmailAddress": "يجب أن يكون بريدا إلكترونيا صالحا"
+            },
+            "label": "البريد الإلكتروني",
+            "hint": "you@example.org"
+        },
+        "passwordTextField": {
+            "validationErrors": {
+                "emptyInput": "كلمة المرور مطلوبة",
+                "invalidLength": "يجب أن تكون كلمة المرور بين 8 و255 حرفا"
+            },
+            "label": "كلمة المرور",
+            "visibility": {
+                "show": "إظهار كلمة المرور",
+                "hide": "إخفاء كلمة المرور"
+            }
+        },
+        "persistAuthSession": "البقاء مسجلا",
+        "browserGuestModeNotice": {
+            "text": "ألا تمتلك هذا الجهاز؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.",
+            "learnMore": "مزيد من المعلومات حول استخدام \"وضع الضيف\""
+        },
+        "login": "تسجيل الدخول",
+        "loginFailures": {
+            "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+            "loginDisabled": "تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.",
+            "invalidInput": "بيانات تسجيل الدخول غير صالحة."
+        },
+        "requestFailureTitle": "فشل تسجيل الدخول",
+        "loginSuccess": {
+            "title": "تم تسجيل الدخول بنجاح",
+            "subtitle": "تم تسجيل الدخول باسم $fullName"
+        }
     }
 }

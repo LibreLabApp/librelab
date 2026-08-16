@@ -15,7 +15,7 @@ class const ServerAddressTextField({
 }
 
 class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
-  final TextEditingController _controller = TextEditingController();
+  final _controller = TextEditingController();
 
   @override
   void dispose() {
@@ -47,9 +47,9 @@ class _ServerAddressTextFieldState extends State<ServerAddressTextField> {
     return TextFormField(
       controller: _controller,
       maxLines: 1,
-      textCapitalization: TextCapitalization.none,
-      keyboardType: TextInputType.url,
-      textInputAction: TextInputAction.done,
+      textCapitalization: .none,
+      keyboardType: .url,
+      textInputAction: .done,
       autocorrect: false,
       enableSuggestions: false,
       autofillHints: const [AutofillHints.url],

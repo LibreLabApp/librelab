@@ -24,6 +24,9 @@ typedef ApiRequestResult<T> = Result<T, ApiRequestFailure>;
 /// Request-level failures are returned as [ApiRequestFailure]. Endpoint-specific
 /// HTTP error responses can be handled with [mapHttpError]
 /// and are treated as successful results.
+///
+/// This handler is designed specifically for requests made through
+/// [LibreLabApiClient].
 abstract interface class ApiRequestHandler {
   /// Executes an API request and maps its response to an endpoint-specific
   /// result.
@@ -31,11 +34,13 @@ abstract interface class ApiRequestHandler {
   /// Example:
   ///
   /// ```dart
-  /// await _handler.execute(
-  ///   () => _client.endpoints.auth.login(...),
+  /// final LibreLabApiClient client = ...;
+  ///
+  /// await handler.execute(
+  ///   () => client.endpoints.auth.login(...),
   ///   mapSuccess: (dto) => mapDto(dto),
-  ///   mapHttpError: (error) =>
-  ///       error.body.code == 'INVALID_PASSWORD'
+  ///   mapHttpError: (response) =>
+  ///       response.body.code == 'INVALID_PASSWORD'
   ///           ? const InvalidPasswordFailure()
   ///           : null,
   /// );
@@ -43,7 +48,7 @@ abstract interface class ApiRequestHandler {
   Future<ApiRequestResult<R>> execute<S, R>(
     Future<LibreLabApiResult<S>> Function() request, {
     required R Function(S dto) mapSuccess,
-    R? Function(HttpResponse<ServerErrorResponse> error)? mapHttpError,
+    R? Function(HttpResponse<ServerErrorResponse> response)? mapHttpError,
   });
 }
 

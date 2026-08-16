@@ -2,9 +2,9 @@ import 'dart:convert' show utf8;
 
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:librelab_server/auth/auth_service/authenticate_failures.dart';
+import 'package:librelab_server/auth/auth_service/login_failures.dart';
 import 'package:librelab_server/auth/auth_service/refresh_token_failures.dart';
-import 'package:librelab_server/auth/auth_service/user_login_failures.dart';
-import 'package:librelab_server/auth/auth_service/user_register_failures.dart';
+import 'package:librelab_server/auth/auth_service/register_failures.dart';
 import 'package:librelab_server/auth/login_attempt/login_attempt.dart';
 import 'package:librelab_server/auth/login_attempt/login_attempt_repository.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
@@ -21,9 +21,9 @@ import 'package:librelab_shared/result.dart';
 import 'package:meta/meta.dart';
 
 export 'package:librelab_server/auth/auth_service/authenticate_failures.dart';
+export 'package:librelab_server/auth/auth_service/login_failures.dart';
 export 'package:librelab_server/auth/auth_service/refresh_token_failures.dart';
-export 'package:librelab_server/auth/auth_service/user_login_failures.dart';
-export 'package:librelab_server/auth/auth_service/user_register_failures.dart';
+export 'package:librelab_server/auth/auth_service/register_failures.dart';
 
 @immutable
 class const AuthToken({
@@ -55,13 +55,7 @@ class AuthService({
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
 
-  static bool _isPasswordLengthValid(String password) =>
-      password.length >= 8 && password.length <= 255;
-
-  static bool _isEmailFormatValid(String email) =>
-      EmailValidator.validate(email);
-
-  Future<Result<User, UserRegisterFailure>> registerUser({
+  Future<Result<User, RegisterFailure>> registerUser({
     required String email,
     required String plainPassword,
     required String fullName,
@@ -72,11 +66,11 @@ class AuthService({
     final normalizedFullName = fullName.trim();
     final normalizedPhoneNumber = phoneNumber?.trim();
 
-    if (!_isEmailFormatValid(normalizedEmail)) {
+    if (!AuthInputRules.isEmailFormatValid(normalizedEmail)) {
       return .failure(const InvalidEmailFormatFailure());
     }
 
-    if (!_isPasswordLengthValid(plainPassword)) {
+    if (!AuthInputRules.isPasswordLengthValid(plainPassword)) {
       return .failure(const InvalidPasswordLengthFailure());
     }
 
@@ -113,7 +107,7 @@ class AuthService({
   }
 
   // TODO: (REMOVE_SERVERPOD) Implement rate limit
-  Future<Result<AuthenticatedSession, UserLoginFailure>> loginUser({
+  Future<Result<AuthenticatedSession, LoginFailure>> loginUser({
     required String email,
     required String plainPassword,
     required UserRefreshTokenClientMetadata metadata,
@@ -125,11 +119,11 @@ class AuthService({
     );
 
     final (LoginResult loginResult, String? userId) = switch (result) {
-      SuccessResult<AuthenticatedSession, UserLoginFailure>(:final value) => (
+      SuccessResult<AuthenticatedSession, LoginFailure>(:final value) => (
         .success,
         value.$1.id,
       ),
-      FailureResult<AuthenticatedSession, UserLoginFailure>(:final failure) =>
+      FailureResult<AuthenticatedSession, LoginFailure>(:final failure) =>
         switch (failure) {
           UserNotFoundFailure() => (.userNotFound, null),
           InvalidPasswordFailure(:final targetUserId) => (
@@ -154,7 +148,7 @@ class AuthService({
     return result;
   }
 
-  Future<Result<AuthenticatedSession, UserLoginFailure>> _loginUser({
+  Future<Result<AuthenticatedSession, LoginFailure>> _loginUser({
     required String email,
     required String plainPassword,
     required UserRefreshTokenClientMetadata metadata,
@@ -165,8 +159,8 @@ class AuthService({
 
     final normalizedEmail = email.trim().toLowerCase();
 
-    if (!_isEmailFormatValid(normalizedEmail) ||
-        !_isPasswordLengthValid(plainPassword)) {
+    if (!AuthInputRules.isEmailFormatValid(normalizedEmail) ||
+        !AuthInputRules.isPasswordLengthValid(plainPassword)) {
       return .failure(const InvalidLoginInputFailure());
     }
 

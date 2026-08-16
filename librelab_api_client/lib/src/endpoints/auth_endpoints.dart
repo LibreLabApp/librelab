@@ -5,12 +5,15 @@ import 'package:librelab_api_contract/librelab_api_contract.dart';
 class AuthEndpoints(final LibreLabApiClient _client) {
   final AuthBrowserEndpoints browser = AuthBrowserEndpoints(_client);
 
-  Future<LibreLabApiResult<LoginResponse>> login(LoginRequest body) =>
-      _client.request(
-        ApiEndpointDefinitions.auth_login$POST,
-        body: .json(body.toJson()),
-        deserializeSuccess: (response) => .fromJson(response.body),
-      );
+  Future<LibreLabApiResult<LoginResponse>> login(
+    LoginRequest body, {
+    required Uri serverBaseUrl,
+  }) => _client.request(
+    ApiEndpointDefinitions.auth_login$POST,
+    body: .json(body.toJson()),
+    deserializeSuccess: (response) => .fromJson(response.body),
+    overrideBaseUrl: serverBaseUrl,
+  );
 
   Future<LibreLabApiResult<LogoutResponse>> logout(LogoutRequest body) =>
       _client.request(
@@ -31,12 +34,15 @@ class AuthEndpoints(final LibreLabApiClient _client) {
 /// Depends on browser-specific capabilities (e.g., HttpOnly cookies).
 /// Access and refresh tokens are managed by the browser.
 class AuthBrowserEndpoints(final LibreLabApiClient _client) {
-  Future<LibreLabApiResult<LoginBrowserResponse>> login(LoginRequest body) =>
-      _client.request(
-        ApiEndpointDefinitions.auth_browser_login$POST,
-        body: .json(body.toJson()),
-        deserializeSuccess: (response) => .fromJson(response.body),
-      );
+  Future<LibreLabApiResult<LoginBrowserResponse>> login(
+    LoginRequest body, {
+    required Uri serverBaseUrl,
+  }) => _client.request(
+    ApiEndpointDefinitions.auth_browser_login$POST,
+    body: .json(body.toJson()),
+    deserializeSuccess: (response) => .fromJson(response.body),
+    overrideBaseUrl: serverBaseUrl,
+  );
 
   Future<LibreLabApiResult<LogoutResponse>> logout() => _client.request(
     ApiEndpointDefinitions.auth_browser_logout$POST,

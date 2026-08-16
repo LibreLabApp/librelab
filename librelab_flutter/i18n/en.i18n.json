@@ -243,5 +243,42 @@
     "jsonDeserialization": "Failed to parse server response.",
     "unauthorized": "Authentication failed. Please sign in again.",
     "accessForbidden": "Access denied."
+  },
+  "loginFormSection": {
+    "emailAddressTextField": {
+      "validationErrors": {
+        "emptyInput": "An email address is required",
+        "invalidEmailAddress": "Must be a valid email address"
+      },
+      "label": "Email address",
+      "hint": "you@example.org"
+    },
+    "passwordTextField": {
+      "validationErrors": {
+        "emptyInput": "A password is required",
+        "invalidLength": "Password must be between 8 and 255 characters"
+      },
+      "label": "Password",
+      "visibility": {
+        "show": "Show password",
+        "hide": "Hide password"
+      }
+    },
+    "persistAuthSession": "Stay signed in",
+    "browserGuestModeNotice": {
+      "text": "Not your device? Use Guest mode to sign in privately.",
+      "learnMore": "Learn more about using Guest mode"
+    },
+    "login": "Log in",
+    "loginFailures": {
+      "invalidCredentials": "Invalid email or password.",
+      "loginDisabled": "Login is disabled. Contact an administrator to enable it.",
+      "invalidInput": "The login input is invalid."
+    },
+    "requestFailureTitle": "Login failed",
+    "loginSuccess": {
+      "title": "Login successful",
+      "subtitle": "Signed in as $fullName"
+    }
   }
 }

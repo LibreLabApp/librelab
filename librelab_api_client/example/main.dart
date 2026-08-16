@@ -14,10 +14,11 @@ void main() async {
     onAuthSessionRefreshed: (_) async {},
   );
 
-  client.setBaseUrl(Uri.parse('http://localhost:45123/api'));
+  final serverBaseUrl = Uri.http('localhost:45123', '/api');
 
   final response = await client.endpoints.auth.login(
     const .new(email: 'test@example.org', password: '123', deviceId: null),
+    serverBaseUrl: serverBaseUrl,
   );
 
   switch (response) {

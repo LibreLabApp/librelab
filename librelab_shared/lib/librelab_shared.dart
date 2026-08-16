@@ -1,4 +1,5 @@
 export 'src/api_deployment.dart';
+export 'src/auth/auth_input_rules.dart';
 export 'src/constants/project_constants.dart';
 export 'src/empty_json.dart';
 export 'src/input/input_normalization.dart';

@@ -3,7 +3,7 @@ import 'package:librelab_server/auth/authorization_service.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/router_ext.dart';
-import 'package:librelab_server/user/mapper.dart';
+import 'package:librelab_server/user/response_mappers.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 

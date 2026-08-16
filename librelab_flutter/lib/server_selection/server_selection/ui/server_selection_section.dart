@@ -16,9 +16,10 @@ class _ServerSelectionSectionState extends State<ServerSelectionSection> {
   final _serverAddressFocusNode = FocusNode();
 
   void _requestServerUrlFocus() {
-    (_formKey.currentState ??
-            (throw StateError('$Form state is not available')))
-        .validate();
+    final formState =
+        _formKey.currentState ??
+        (throw StateError('Form state is not available'));
+    formState.validate();
 
     _serverAddressFocusNode.requestFocus();
   }

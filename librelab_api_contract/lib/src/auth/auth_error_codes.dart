@@ -1,6 +1,7 @@
 abstract final class AuthErrorCodes {
   static const String invalidLoginCredentials = 'INVALID_LOGIN_CREDENTIALS';
   static const String loginDisabled = 'LOGIN_DISABLED';
+  static const String invalidLoginInput = 'INVALID_LOGIN_INPUT';
 
   static const String accessTokenExpired = 'ACCESS_TOKEN_EXPIRED';
   static const String unauthenticated = 'UNAUTHENTICATED';

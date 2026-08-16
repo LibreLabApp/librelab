@@ -7,7 +7,7 @@ import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/router_ext.dart';
-import 'package:librelab_server/user/mapper.dart';
+import 'package:librelab_server/user/response_mappers.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -78,18 +78,18 @@ class AuthRoutes({
           case UserNotFoundFailure():
           case InvalidPasswordFailure():
             return const ServerErrorResponse(
-              message: AuthErrorCodes.invalidLoginCredentials,
-              code: 'Invalid login credentials (email not found or password is incorrect)',
+              code: AuthErrorCodes.invalidLoginCredentials,
+              message: 'Invalid login credentials (email not found or password is incorrect)',
             ).toJson().httpResponse(.unauthorized);
           case InvalidLoginInputFailure():
             return const ServerErrorResponse(
-              message: 'INVALID_LOGIN_INPUT',
-              code: 'Invalid login input',
+              code: AuthErrorCodes.invalidLoginInput,
+              message: 'Invalid login input',
             ).toJson().httpResponse(.badRequest);
           case LoginDisabledFailure():
             return const ServerErrorResponse(
-              message: AuthErrorCodes.loginDisabled,
-              code: 'Login is disabled. Contact system administrator to enable it.',
+              code: AuthErrorCodes.loginDisabled,
+              message: 'Login is disabled. Contact system administrator to enable it.',
             ).toJson().httpResponse(.forbidden);
         }
     }

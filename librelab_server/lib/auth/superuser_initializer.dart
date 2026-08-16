@@ -88,9 +88,9 @@ After logging in, additional users can be created directly from the application 
       type: const SuperUserType(),
     );
     switch (result) {
-      case SuccessResult<User, UserRegisterFailure>():
+      case SuccessResult():
         return true;
-      case FailureResult<User, UserRegisterFailure>(:final failure):
+      case FailureResult(:final failure):
         switch (failure) {
           case CommonPasswordFailure():
           case InvalidPhoneNumberLengthFailure():

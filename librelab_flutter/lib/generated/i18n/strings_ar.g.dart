@@ -46,6 +46,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$workInProgress$ar workInProgress = _Translations$workInProgress$ar._(_root);
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$apiRequestFailures$ar apiRequestFailures = _Translations$apiRequestFailures$ar._(_root);
+	@override late final _Translations$loginFormSection$ar loginFormSection = _Translations$loginFormSection$ar._(_root);
 }
 
 // Path: initialSetupPage
@@ -141,6 +142,23 @@ class _Translations$apiRequestFailures$ar extends Translations$apiRequestFailure
 	@override String get jsonDeserialization => 'فشل تحليل استجابة الخادم.';
 	@override String get unauthorized => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.';
 	@override String get accessForbidden => 'تم رفض الوصول.';
+}
+
+// Path: loginFormSection
+class _Translations$loginFormSection$ar extends Translations$loginFormSection$en {
+	_Translations$loginFormSection$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$loginFormSection$emailAddressTextField$ar emailAddressTextField = _Translations$loginFormSection$emailAddressTextField$ar._(_root);
+	@override late final _Translations$loginFormSection$passwordTextField$ar passwordTextField = _Translations$loginFormSection$passwordTextField$ar._(_root);
+	@override String get persistAuthSession => 'البقاء مسجلا';
+	@override late final _Translations$loginFormSection$browserGuestModeNotice$ar browserGuestModeNotice = _Translations$loginFormSection$browserGuestModeNotice$ar._(_root);
+	@override String get login => 'تسجيل الدخول';
+	@override late final _Translations$loginFormSection$loginFailures$ar loginFailures = _Translations$loginFormSection$loginFailures$ar._(_root);
+	@override String get requestFailureTitle => 'فشل تسجيل الدخول';
+	@override late final _Translations$loginFormSection$loginSuccess$ar loginSuccess = _Translations$loginFormSection$loginSuccess$ar._(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -290,6 +308,64 @@ class _Translations$settings$sendCrashReports$ar extends Translations$settings$s
 	// Translations
 	@override String get title => 'إرسال تقارير الأعطال';
 	@override String subtitle({required Object appName}) => 'المساعدة في تحسين ${appName} بإرسال تقارير أعطال مجهولة الهوية';
+}
+
+// Path: loginFormSection.emailAddressTextField
+class _Translations$loginFormSection$emailAddressTextField$ar extends Translations$loginFormSection$emailAddressTextField$en {
+	_Translations$loginFormSection$emailAddressTextField$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$loginFormSection$emailAddressTextField$validationErrors$ar validationErrors = _Translations$loginFormSection$emailAddressTextField$validationErrors$ar._(_root);
+	@override String get label => 'البريد الإلكتروني';
+	@override String get hint => 'you@example.org';
+}
+
+// Path: loginFormSection.passwordTextField
+class _Translations$loginFormSection$passwordTextField$ar extends Translations$loginFormSection$passwordTextField$en {
+	_Translations$loginFormSection$passwordTextField$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$loginFormSection$passwordTextField$validationErrors$ar validationErrors = _Translations$loginFormSection$passwordTextField$validationErrors$ar._(_root);
+	@override String get label => 'كلمة المرور';
+	@override late final _Translations$loginFormSection$passwordTextField$visibility$ar visibility = _Translations$loginFormSection$passwordTextField$visibility$ar._(_root);
+}
+
+// Path: loginFormSection.browserGuestModeNotice
+class _Translations$loginFormSection$browserGuestModeNotice$ar extends Translations$loginFormSection$browserGuestModeNotice$en {
+	_Translations$loginFormSection$browserGuestModeNotice$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get text => 'ألا تمتلك هذا الجهاز؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.';
+	@override String get learnMore => 'مزيد من المعلومات حول استخدام "وضع الضيف"';
+}
+
+// Path: loginFormSection.loginFailures
+class _Translations$loginFormSection$loginFailures$ar extends Translations$loginFormSection$loginFailures$en {
+	_Translations$loginFormSection$loginFailures$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get invalidCredentials => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+	@override String get loginDisabled => 'تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.';
+	@override String get invalidInput => 'بيانات تسجيل الدخول غير صالحة.';
+}
+
+// Path: loginFormSection.loginSuccess
+class _Translations$loginFormSection$loginSuccess$ar extends Translations$loginFormSection$loginSuccess$en {
+	_Translations$loginFormSection$loginSuccess$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تم تسجيل الدخول بنجاح';
+	@override String subtitle({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -472,6 +548,39 @@ class _Translations$settings$useCustomAccentColor$pickColorDialog$ar extends Tra
 	// Translations
 	@override String get title => 'اختر لونًا';
 	@override String get close => 'إغلاق';
+}
+
+// Path: loginFormSection.emailAddressTextField.validationErrors
+class _Translations$loginFormSection$emailAddressTextField$validationErrors$ar extends Translations$loginFormSection$emailAddressTextField$validationErrors$en {
+	_Translations$loginFormSection$emailAddressTextField$validationErrors$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get emptyInput => 'البريد الإلكتروني مطلوب';
+	@override String get invalidEmailAddress => 'يجب أن يكون بريدا إلكترونيا صالحا';
+}
+
+// Path: loginFormSection.passwordTextField.validationErrors
+class _Translations$loginFormSection$passwordTextField$validationErrors$ar extends Translations$loginFormSection$passwordTextField$validationErrors$en {
+	_Translations$loginFormSection$passwordTextField$validationErrors$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get emptyInput => 'كلمة المرور مطلوبة';
+	@override String get invalidLength => 'يجب أن تكون كلمة المرور بين 8 و255 حرفا';
+}
+
+// Path: loginFormSection.passwordTextField.visibility
+class _Translations$loginFormSection$passwordTextField$visibility$ar extends Translations$loginFormSection$passwordTextField$visibility$en {
+	_Translations$loginFormSection$passwordTextField$visibility$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get show => 'إظهار كلمة المرور';
+	@override String get hide => 'إخفاء كلمة المرور';
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -866,6 +975,25 @@ extension on TranslationsAr {
 			'apiRequestFailures.jsonDeserialization' => 'فشل تحليل استجابة الخادم.',
 			'apiRequestFailures.unauthorized' => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.',
 			'apiRequestFailures.accessForbidden' => 'تم رفض الوصول.',
+			'loginFormSection.emailAddressTextField.validationErrors.emptyInput' => 'البريد الإلكتروني مطلوب',
+			'loginFormSection.emailAddressTextField.validationErrors.invalidEmailAddress' => 'يجب أن يكون بريدا إلكترونيا صالحا',
+			'loginFormSection.emailAddressTextField.label' => 'البريد الإلكتروني',
+			'loginFormSection.emailAddressTextField.hint' => 'you@example.org',
+			'loginFormSection.passwordTextField.validationErrors.emptyInput' => 'كلمة المرور مطلوبة',
+			'loginFormSection.passwordTextField.validationErrors.invalidLength' => 'يجب أن تكون كلمة المرور بين 8 و255 حرفا',
+			'loginFormSection.passwordTextField.label' => 'كلمة المرور',
+			'loginFormSection.passwordTextField.visibility.show' => 'إظهار كلمة المرور',
+			'loginFormSection.passwordTextField.visibility.hide' => 'إخفاء كلمة المرور',
+			'loginFormSection.persistAuthSession' => 'البقاء مسجلا',
+			'loginFormSection.browserGuestModeNotice.text' => 'ألا تمتلك هذا الجهاز؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.',
+			'loginFormSection.browserGuestModeNotice.learnMore' => 'مزيد من المعلومات حول استخدام "وضع الضيف"',
+			'loginFormSection.login' => 'تسجيل الدخول',
+			'loginFormSection.loginFailures.invalidCredentials' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
+			'loginFormSection.loginFailures.loginDisabled' => 'تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.',
+			'loginFormSection.loginFailures.invalidInput' => 'بيانات تسجيل الدخول غير صالحة.',
+			'loginFormSection.requestFailureTitle' => 'فشل تسجيل الدخول',
+			'loginFormSection.loginSuccess.title' => 'تم تسجيل الدخول بنجاح',
+			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}',
 			_ => null,
 		};
 	}

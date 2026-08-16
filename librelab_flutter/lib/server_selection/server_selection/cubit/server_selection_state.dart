@@ -22,6 +22,25 @@ class const ServerSelectionState({
         discoveryState: const .initial(),
         compatibilityCheckState: const .initial(),
       );
+
+  /// Returns the URI from the successful compatibility check for [selectedServer].
+  ///
+  /// Throws a [StateError] if the compatibility check has not succeeded or its
+  /// result does not correspond to [selectedServer].
+  Uri serverUriOrThrow() {
+    final state = compatibilityCheckState;
+    if (state is! Success) {
+      throw StateError('Compatibility check state must be successful');
+    }
+
+    if (state.server != selectedServer) {
+      throw StateError(
+        'Compatibility check result does not correspond to the selected server',
+      );
+    }
+
+    return state.uri;
+  }
 }
 
 @immutable
@@ -66,7 +85,7 @@ extension ServerSelectionStateExt on ServerSelectionState {
       .localNetworkDiscovery =>
         discovered != null ? .discovered(discovered) : null,
       .manual => manual != null ? .manual(manual) : null,
-      ServerSelectionMethod.useWebAppServer => const .useWebAppServer(),
+      .useWebAppServer => const .useWebAppServer(),
     };
   }
 }

@@ -47,6 +47,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$workInProgress$en workInProgress = Translations$workInProgress$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$apiRequestFailures$en apiRequestFailures = Translations$apiRequestFailures$en.internal(_root);
+	late final Translations$loginFormSection$en loginFormSection = Translations$loginFormSection$en.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -196,6 +197,32 @@ class Translations$apiRequestFailures$en {
 
 	/// en: 'Access denied.'
 	String get accessForbidden => 'Access denied.';
+}
+
+// Path: loginFormSection
+class Translations$loginFormSection$en {
+	Translations$loginFormSection$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$loginFormSection$emailAddressTextField$en emailAddressTextField = Translations$loginFormSection$emailAddressTextField$en.internal(_root);
+	late final Translations$loginFormSection$passwordTextField$en passwordTextField = Translations$loginFormSection$passwordTextField$en.internal(_root);
+
+	/// en: 'Stay signed in'
+	String get persistAuthSession => 'Stay signed in';
+
+	late final Translations$loginFormSection$browserGuestModeNotice$en browserGuestModeNotice = Translations$loginFormSection$browserGuestModeNotice$en.internal(_root);
+
+	/// en: 'Log in'
+	String get login => 'Log in';
+
+	late final Translations$loginFormSection$loginFailures$en loginFailures = Translations$loginFormSection$loginFailures$en.internal(_root);
+
+	/// en: 'Login failed'
+	String get requestFailureTitle => 'Login failed';
+
+	late final Translations$loginFormSection$loginSuccess$en loginSuccess = Translations$loginFormSection$loginSuccess$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -398,6 +425,85 @@ class Translations$settings$sendCrashReports$en {
 
 	/// en: 'Help Improve $appName by sending anonymous crash reports'
 	String subtitle({required Object appName}) => 'Help Improve ${appName} by sending anonymous crash reports';
+}
+
+// Path: loginFormSection.emailAddressTextField
+class Translations$loginFormSection$emailAddressTextField$en {
+	Translations$loginFormSection$emailAddressTextField$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$loginFormSection$emailAddressTextField$validationErrors$en validationErrors = Translations$loginFormSection$emailAddressTextField$validationErrors$en.internal(_root);
+
+	/// en: 'Email address'
+	String get label => 'Email address';
+
+	/// en: 'you@example.org'
+	String get hint => 'you@example.org';
+}
+
+// Path: loginFormSection.passwordTextField
+class Translations$loginFormSection$passwordTextField$en {
+	Translations$loginFormSection$passwordTextField$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$loginFormSection$passwordTextField$validationErrors$en validationErrors = Translations$loginFormSection$passwordTextField$validationErrors$en.internal(_root);
+
+	/// en: 'Password'
+	String get label => 'Password';
+
+	late final Translations$loginFormSection$passwordTextField$visibility$en visibility = Translations$loginFormSection$passwordTextField$visibility$en.internal(_root);
+}
+
+// Path: loginFormSection.browserGuestModeNotice
+class Translations$loginFormSection$browserGuestModeNotice$en {
+	Translations$loginFormSection$browserGuestModeNotice$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Not your device? Use Guest mode to sign in privately.'
+	String get text => 'Not your device? Use Guest mode to sign in privately.';
+
+	/// en: 'Learn more about using Guest mode'
+	String get learnMore => 'Learn more about using Guest mode';
+}
+
+// Path: loginFormSection.loginFailures
+class Translations$loginFormSection$loginFailures$en {
+	Translations$loginFormSection$loginFailures$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Invalid email or password.'
+	String get invalidCredentials => 'Invalid email or password.';
+
+	/// en: 'Login is disabled. Contact an administrator to enable it.'
+	String get loginDisabled => 'Login is disabled. Contact an administrator to enable it.';
+
+	/// en: 'The login input is invalid.'
+	String get invalidInput => 'The login input is invalid.';
+}
+
+// Path: loginFormSection.loginSuccess
+class Translations$loginFormSection$loginSuccess$en {
+	Translations$loginFormSection$loginSuccess$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Login successful'
+	String get title => 'Login successful';
+
+	/// en: 'Signed in as $fullName'
+	String subtitle({required Object fullName}) => 'Signed in as ${fullName}';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -628,6 +734,51 @@ class Translations$settings$useCustomAccentColor$pickColorDialog$en {
 
 	/// en: 'Close'
 	String get close => 'Close';
+}
+
+// Path: loginFormSection.emailAddressTextField.validationErrors
+class Translations$loginFormSection$emailAddressTextField$validationErrors$en {
+	Translations$loginFormSection$emailAddressTextField$validationErrors$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'An email address is required'
+	String get emptyInput => 'An email address is required';
+
+	/// en: 'Must be a valid email address'
+	String get invalidEmailAddress => 'Must be a valid email address';
+}
+
+// Path: loginFormSection.passwordTextField.validationErrors
+class Translations$loginFormSection$passwordTextField$validationErrors$en {
+	Translations$loginFormSection$passwordTextField$validationErrors$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'A password is required'
+	String get emptyInput => 'A password is required';
+
+	/// en: 'Password must be between 8 and 255 characters'
+	String get invalidLength => 'Password must be between 8 and 255 characters';
+}
+
+// Path: loginFormSection.passwordTextField.visibility
+class Translations$loginFormSection$passwordTextField$visibility$en {
+	Translations$loginFormSection$passwordTextField$visibility$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Show password'
+	String get show => 'Show password';
+
+	/// en: 'Hide password'
+	String get hide => 'Hide password';
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -1125,6 +1276,25 @@ extension on Translations {
 			'apiRequestFailures.jsonDeserialization' => 'Failed to parse server response.',
 			'apiRequestFailures.unauthorized' => 'Authentication failed. Please sign in again.',
 			'apiRequestFailures.accessForbidden' => 'Access denied.',
+			'loginFormSection.emailAddressTextField.validationErrors.emptyInput' => 'An email address is required',
+			'loginFormSection.emailAddressTextField.validationErrors.invalidEmailAddress' => 'Must be a valid email address',
+			'loginFormSection.emailAddressTextField.label' => 'Email address',
+			'loginFormSection.emailAddressTextField.hint' => 'you@example.org',
+			'loginFormSection.passwordTextField.validationErrors.emptyInput' => 'A password is required',
+			'loginFormSection.passwordTextField.validationErrors.invalidLength' => 'Password must be between 8 and 255 characters',
+			'loginFormSection.passwordTextField.label' => 'Password',
+			'loginFormSection.passwordTextField.visibility.show' => 'Show password',
+			'loginFormSection.passwordTextField.visibility.hide' => 'Hide password',
+			'loginFormSection.persistAuthSession' => 'Stay signed in',
+			'loginFormSection.browserGuestModeNotice.text' => 'Not your device? Use Guest mode to sign in privately.',
+			'loginFormSection.browserGuestModeNotice.learnMore' => 'Learn more about using Guest mode',
+			'loginFormSection.login' => 'Log in',
+			'loginFormSection.loginFailures.invalidCredentials' => 'Invalid email or password.',
+			'loginFormSection.loginFailures.loginDisabled' => 'Login is disabled. Contact an administrator to enable it.',
+			'loginFormSection.loginFailures.invalidInput' => 'The login input is invalid.',
+			'loginFormSection.requestFailureTitle' => 'Login failed',
+			'loginFormSection.loginSuccess.title' => 'Login successful',
+			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'Signed in as ${fullName}',
 			_ => null,
 		};
 	}

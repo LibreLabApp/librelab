@@ -5,6 +5,9 @@ import 'package:librelab_flutter/app_settings/ui/tiles/theme_mode.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_animated_graphics.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_custom_accent_color.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_system_theme_color.dart';
+import 'package:librelab_flutter/auth/auth_deps_provider.dart';
+import 'package:librelab_flutter/auth/cubit/login_cubit.dart' hide Success;
+import 'package:librelab_flutter/auth/ui/login_form_section.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
 import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
@@ -25,7 +28,9 @@ class const InitialSetupPage({super.key}) extends StatelessWidget {
       body: SafeArea(
         child: BlocProvider(
           create: (context) => InitialSetupCubit(),
-          child: const ServerSelectionDepsProvider(child: _Body()),
+          child: const AuthDepsProvider(
+            child: ServerSelectionDepsProvider(child: _Body()),
+          ),
         ),
       ),
     );
@@ -62,7 +67,12 @@ class const _Body() extends StatelessWidget {
               ],
             ),
             .serverSelection => const ServerSelectionSection(),
-            .login => const WorkInProgress(),
+            .login => LoginFormSection(
+              serverBaseUrl: context
+                  .read<ServerSelectionCubit>()
+                  .state
+                  .serverUriOrThrow(),
+            ),
             .complete => const WorkInProgress(),
           },
         );
@@ -112,20 +122,23 @@ class const _Body() extends StatelessWidget {
               SelectedServer?
             >((s) => s.selectedServer);
 
+        final isLoginSuccessful = watchOrRead<LoginCubit, LoginState, bool>(
+          (s) => s.isSuccess,
+        );
+
         final canGoResult = _canGoTo(
           targetStep: InitialSetupStep.values[i],
           currentStep: currentStep,
           compatibilityCheckState: compatibilityCheckState,
           selectedServer: selectedServer,
+          isLoginSuccessful: isLoginSuccessful,
         );
         return switch (canGoResult) {
           null => const StepAllowed(),
           _ServerNotConfigured() => StepDenied(
             t.serverSelection.nav.prerequisiteStepIncomplete,
           ),
-          _AccountSetupNotConfigured() => StepDenied(
-            t.login.nav.prerequisiteStepIncomplete,
-          ),
+          _NotLoggedIn() => StepDenied(t.login.nav.prerequisiteStepIncomplete),
         };
       },
       navigationButtonLabels: NavigationButtonLabels(
@@ -141,6 +154,7 @@ _StepAccessDeniedReason? _canGoTo({
   required InitialSetupStep currentStep,
   required ServerCompatibilityCheckState compatibilityCheckState,
   required SelectedServer? selectedServer,
+  required bool isLoginSuccessful,
 }) {
   final isForward = targetStep.index > currentStep.index;
   if (!isForward) {
@@ -156,8 +170,10 @@ _StepAccessDeniedReason? _canGoTo({
     .preferences => null,
     .serverSelection => null,
     .login => canGoToLogin ? null : const _ServerNotConfigured(),
-    // TODO: (Complete validation) Email / password fields must not be null & login credentials are valid
-    .complete => canGoToLogin ? null : const _AccountSetupNotConfigured(),
+    .complete =>
+      canGoToLogin
+          ? (isLoginSuccessful ? null : const _NotLoggedIn())
+          : const _NotLoggedIn(),
   };
 }
 
@@ -166,4 +182,4 @@ sealed class const _StepAccessDeniedReason();
 
 final class const _ServerNotConfigured() extends _StepAccessDeniedReason;
 
-final class const _AccountSetupNotConfigured() extends _StepAccessDeniedReason;
+final class const _NotLoggedIn() extends _StepAccessDeniedReason;
