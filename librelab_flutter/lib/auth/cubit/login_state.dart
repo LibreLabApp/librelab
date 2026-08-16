@@ -23,4 +23,6 @@ extension LoginStateExt on LoginState {
   /// This only represents the outcome of the login operation and does not
   /// indicate whether the authentication session is persisted.
   bool get isSuccess => this is Success;
+
+  bool get isRequestFailure => this is RequestFailure;
 }

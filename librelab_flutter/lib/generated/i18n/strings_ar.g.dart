@@ -159,6 +159,7 @@ class _Translations$loginFormSection$ar extends Translations$loginFormSection$en
 	@override late final _Translations$loginFormSection$loginFailures$ar loginFailures = _Translations$loginFormSection$loginFailures$ar._(_root);
 	@override String get requestFailureTitle => 'فشل تسجيل الدخول';
 	@override late final _Translations$loginFormSection$loginSuccess$ar loginSuccess = _Translations$loginFormSection$loginSuccess$ar._(_root);
+	@override late final _Translations$loginFormSection$loginCredentialsGuide$ar loginCredentialsGuide = _Translations$loginFormSection$loginCredentialsGuide$ar._(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -366,6 +367,17 @@ class _Translations$loginFormSection$loginSuccess$ar extends Translations$loginF
 	// Translations
 	@override String get title => 'تم تسجيل الدخول بنجاح';
 	@override String subtitle({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}';
+}
+
+// Path: loginFormSection.loginCredentialsGuide
+class _Translations$loginFormSection$loginCredentialsGuide$ar extends Translations$loginFormSection$loginCredentialsGuide$en {
+	_Translations$loginFormSection$loginCredentialsGuide$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'كيفية الحصول على بيانات تسجيل الدخول';
+	@override String get description => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -994,6 +1006,8 @@ extension on TranslationsAr {
 			'loginFormSection.requestFailureTitle' => 'فشل تسجيل الدخول',
 			'loginFormSection.loginSuccess.title' => 'تم تسجيل الدخول بنجاح',
 			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}',
+			'loginFormSection.loginCredentialsGuide.label' => 'كيفية الحصول على بيانات تسجيل الدخول',
+			'loginFormSection.loginCredentialsGuide.description' => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.',
 			_ => null,
 		};
 	}

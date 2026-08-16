@@ -223,6 +223,7 @@ class Translations$loginFormSection$en {
 	String get requestFailureTitle => 'Login failed';
 
 	late final Translations$loginFormSection$loginSuccess$en loginSuccess = Translations$loginFormSection$loginSuccess$en.internal(_root);
+	late final Translations$loginFormSection$loginCredentialsGuide$en loginCredentialsGuide = Translations$loginFormSection$loginCredentialsGuide$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -504,6 +505,21 @@ class Translations$loginFormSection$loginSuccess$en {
 
 	/// en: 'Signed in as $fullName'
 	String subtitle({required Object fullName}) => 'Signed in as ${fullName}';
+}
+
+// Path: loginFormSection.loginCredentialsGuide
+class Translations$loginFormSection$loginCredentialsGuide$en {
+	Translations$loginFormSection$loginCredentialsGuide$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'How to get login credentials'
+	String get label => 'How to get login credentials';
+
+	/// en: 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.'
+	String get description => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -1295,6 +1311,8 @@ extension on Translations {
 			'loginFormSection.requestFailureTitle' => 'Login failed',
 			'loginFormSection.loginSuccess.title' => 'Login successful',
 			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'Signed in as ${fullName}',
+			'loginFormSection.loginCredentialsGuide.label' => 'How to get login credentials',
+			'loginFormSection.loginCredentialsGuide.description' => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.',
 			_ => null,
 		};
 	}

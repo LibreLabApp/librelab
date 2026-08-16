@@ -142,6 +142,19 @@ class _LoginFormSectionState extends State<LoginFormSection> {
               },
             ),
           ),
+          BlocSelector<LoginCubit, LoginState, bool>(
+            selector: (state) =>
+                state.isSuccess || state.isRequestFailure || state.isLoading,
+            builder: (context, hide) {
+              if (hide) {
+                return const SizedBox.shrink();
+              }
+              return const Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: _LoginCredentialsGuide(),
+              );
+            },
+          ),
           const SizedBox(height: 32),
           BlocSelector<
             LoginCubit,
@@ -345,6 +358,76 @@ class const _GuestModeNotice() extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Provides information about obtaining login credentials.
+///
+/// Unauthorized users cannot register accounts directly in the app. The server prompts
+/// the administrator to create the initial superuser, who can then create
+/// additional users.
+///
+/// This widget explains this login model to the end user.
+class const _LoginCredentialsGuide() extends StatefulWidget {
+  @override
+  State<_LoginCredentialsGuide> createState() => _LoginCredentialsGuideState();
+}
+
+class _LoginCredentialsGuideState extends State<_LoginCredentialsGuide> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t.loginFormSection.loginCredentialsGuide;
+
+    final theme = context.theme;
+    final (colorScheme, textTheme) = (theme.colorScheme, theme.textTheme);
+
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        InkWell(
+          onTap: () => setState(() => _expanded = !_expanded),
+          borderRadius: .circular(8),
+          child: Padding(
+            padding: const .symmetric(vertical: 8, horizontal: 4),
+            child: Row(
+              mainAxisSize: .min,
+              children: [
+                Icon(Icons.help_outline, size: 20, color: colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  t.label,
+                  style: TextStyle(
+                    color: colorScheme.primary,
+                    fontWeight: .w500,
+                    decorationColor: colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  _expanded
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  size: 18,
+                  color: colorScheme.primary,
+                ),
+              ],
+            ),
+          ),
+        ),
+        AnimatedSize(
+          duration: const .new(milliseconds: 300),
+          curve: Curves.easeOut,
+          child: _expanded
+              ? Padding(
+                  padding: const .only(left: 32, right: 8, top: 2, bottom: 8),
+                  child: Text(t.description, style: textTheme.bodyMedium),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ],
     );
   }
 }

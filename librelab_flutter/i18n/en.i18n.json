@@ -279,6 +279,10 @@
     "loginSuccess": {
       "title": "Login successful",
       "subtitle": "Signed in as $fullName"
+    },
+    "loginCredentialsGuide": {
+      "label": "How to get login credentials",
+      "description": "Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users."
     }
   }
 }
