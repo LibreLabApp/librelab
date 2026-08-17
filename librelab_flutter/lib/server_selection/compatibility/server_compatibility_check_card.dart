@@ -24,12 +24,12 @@ class const ServerCompatibilityCheckCard({
     final state = context.select(
       (ServerSelectionCubit v) => v.state.compatibilityCheckState,
     );
-    final isLoading = state is Load;
+    final isLoading = state is Loading;
 
     final compatibilityStatus = t.success.compatibilityStatus;
     final (String title, String subtitle) strings = switch (state) {
       Initial() => (t.idle.title, t.idle.subtitle),
-      Load() => (t.loading.title, t.loading.subtitle),
+      Loading() => (t.loading.title, t.loading.subtitle),
       Success(:final response) => (switch (response.status) {
         .fullyCompatible => (
           compatibilityStatus.fullyCompatible.title,
@@ -58,7 +58,7 @@ class const ServerCompatibilityCheckCard({
     return AlertCard(
       type: switch (state) {
         Initial() => .note,
-        Load() => .note,
+        Loading() => .note,
         Success(:final response) =>
           response.status.isCompatible ? .success : .error,
         Failure() => .error,

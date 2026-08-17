@@ -51,10 +51,12 @@ final class ServerCompatibilityCheckResult({
 });
 
 class ServerCompatibilityRepository({
-  required final LibreLabApiClient _client,
+  required final CompatibilityEndpoints _compatibilityEndpoints,
   required final ApiRequestHandler _handler,
   required final Logger _logger,
 }) {
+  CompatibilityEndpoints get _endpoints => _compatibilityEndpoints;
+
   Future<ServerCompatibilityCheckResult> check(
     ServerTarget serverTarget,
   ) async {
@@ -68,7 +70,7 @@ class ServerCompatibilityRepository({
           switch (serverTarget) {
             case ServerTargetUseWebAppServer(:final _uri):
               capturedUri = _uri;
-              return _client.endpoints.compatibility.check(serverBaseUrl: _uri);
+              return _endpoints.check(serverBaseUrl: _uri);
 
             case ServerTargetUserProvided(:final _input):
               final uri = Uri.parse(
@@ -82,9 +84,7 @@ class ServerCompatibilityRepository({
                   try {
                     // Important: await so that JsonParseException is thrown within this
                     // try block and can be caught below.
-                    return await _client.endpoints.compatibility.check(
-                      serverBaseUrl: uri,
-                    );
+                    return await _endpoints.check(serverBaseUrl: uri);
                   } on JsonParseException catch (_) {
                     // The user may have provided the origin instead of the API root
                     // (example.org instead of example.org/api)
@@ -101,9 +101,7 @@ class ServerCompatibilityRepository({
                       'Retrying with API root: $updatedUri (previous: $uri)',
                     );
 
-                    return _client.endpoints.compatibility.check(
-                      serverBaseUrl: updatedUri,
-                    );
+                    return _endpoints.check(serverBaseUrl: updatedUri);
                   }
                 },
                 logger: _logger,
@@ -140,9 +138,7 @@ class ServerCompatibilityRepository({
                     path: apiPath ?? ApiDeployment.rootPath,
                   );
                   capturedUri = updatedUri;
-                  return _client.endpoints.compatibility.check(
-                    serverBaseUrl: updatedUri,
-                  );
+                  return _endpoints.check(serverBaseUrl: updatedUri);
                 },
                 logger: _logger,
               );

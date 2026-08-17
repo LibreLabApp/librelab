@@ -97,7 +97,7 @@ sealed class ServerCompatibilityCheckState
   /// No compatibility result exists yet.
   const factory initial() = Initial;
 
-  const factory load() = Load;
+  const factory loading() = Loading;
   const factory success(
     ServerCompatibilityCheckResponse response,
     SelectedServer server,

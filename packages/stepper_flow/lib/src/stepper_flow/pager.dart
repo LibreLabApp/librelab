@@ -10,6 +10,7 @@ class const StepPager({
   required final int _stepsCount,
   required final StepBuilder _stepBuilder,
   required final StepChangedCallback _onStepChanged,
+  required final StepFinishedCallback _onStepFinished,
   required final NavigationButtonLabels _navigationButtonLabels,
   required final StepCanGoTo _canGoTo,
 }) extends StatelessWidget {
@@ -53,6 +54,7 @@ class const StepPager({
               canGoTo: _canGoTo,
               currentStepIndex: _currentStepIndex,
               onStepChanged: _onStepChanged,
+              onStepFinished: _onStepFinished,
               stepsCount: _stepsCount,
             );
 
@@ -84,21 +86,14 @@ class const StepPager({
   }
 }
 
-class _NavigationButtons extends StatelessWidget {
-  const _NavigationButtons({
-    required this.canGoTo,
-    required this.navigationButtonLabels,
-    required this.onStepChanged,
-    required this.currentStepIndex,
-    required this.stepsCount,
-  });
-
-  final StepCanGoTo canGoTo;
-  final NavigationButtonLabels navigationButtonLabels;
-  final StepChangedCallback onStepChanged;
-  final int currentStepIndex;
-  final int stepsCount;
-
+class const _NavigationButtons({
+  required final StepCanGoTo canGoTo,
+  required final NavigationButtonLabels navigationButtonLabels,
+  required final StepChangedCallback onStepChanged,
+  required final StepFinishedCallback onStepFinished,
+  required final int currentStepIndex,
+  required final int stepsCount,
+}) extends StatelessWidget {
   void _moveStep(BuildContext context, {required bool forward}) {
     final newIndex = currentStepIndex + (forward ? 1 : -1);
     if (newIndex == -1 || newIndex >= stepsCount) {
@@ -126,19 +121,26 @@ class _NavigationButtons extends StatelessWidget {
         ),
         Builder(
           builder: (context) {
-            final String? disabledReason = canGoTo(
-              context,
-              currentStepIndex + 1,
-              .build,
-            ).disabledReason;
+            final result = canGoTo(context, currentStepIndex + 1, .build);
+            final String? disabledReason = result.disabledReason;
 
             return Tooltip(
               message: disabledReason ?? '',
               child: FilledButton.icon(
                 onPressed: disabledReason != null
                     ? null
-                    : () => _moveStep(context, forward: true),
-                label: Text(navigationButtonLabels.next),
+                    : () {
+                        if (result is StepFinal) {
+                          onStepFinished(context);
+                        } else {
+                          _moveStep(context, forward: true);
+                        }
+                      },
+                label: Text(
+                  result is StepFinal
+                      ? navigationButtonLabels.finish
+                      : navigationButtonLabels.next,
+                ),
                 icon: const Icon(Icons.arrow_forward_outlined),
                 iconAlignment: IconAlignment.end,
                 style: FilledButton.styleFrom(

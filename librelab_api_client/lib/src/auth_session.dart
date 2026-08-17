@@ -2,6 +2,10 @@ import 'package:librelab_api_client/src/is_token_expired.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:meta/meta.dart';
 
+/// Represents the client-side authentication session for a user.
+///
+/// A session either stores authentication tokens in memory or relies on the
+/// browser to manage authentication through HttpOnly cookies.
 @immutable
 sealed class const AuthSession({required final String userId}) {
   const factory AuthSession.memory({
@@ -14,6 +18,8 @@ sealed class const AuthSession({required final String userId}) {
       AuthSessionBrowserCookie;
 }
 
+/// An authentication session that stores its access and refresh tokens in
+/// memory.
 final class const AuthSessionMemory({
   required super.userId,
   required final AuthToken accessToken,
@@ -31,6 +37,9 @@ final class const AuthSessionMemory({
   }
 }
 
+/// An authentication session managed by the browser through HttpOnly cookies.
+///
+/// This session type is used only on the web platform.
 final class const AuthSessionBrowserCookie({required super.userId})
     extends AuthSession;
 

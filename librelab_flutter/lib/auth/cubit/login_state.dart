@@ -1,11 +1,11 @@
 part of 'login_cubit.dart';
 
-@immutable
 @freezed
+@immutable
 sealed class LoginState with _$LoginState {
   const factory initial() = Initial;
 
-  const factory load() = Load;
+  const factory loading() = Loading;
   const factory success(
     LoginResultSuccess result, {
     required bool persistAuthSession,
@@ -16,7 +16,7 @@ sealed class LoginState with _$LoginState {
 }
 
 extension LoginStateExt on LoginState {
-  bool get isLoading => this is Load;
+  bool get isLoading => this is Loading;
 
   /// Whether the login operation completed successfully.
   ///
@@ -25,4 +25,16 @@ extension LoginStateExt on LoginState {
   bool get isSuccess => this is Success;
 
   bool get isRequestFailure => this is RequestFailure;
+
+  /// Requires this state to be successful and returns its [LoginResultSuccess].
+  ///
+  /// Throws a [StateError] if this state is not successful.
+  LoginResultSuccess successOrThrow() {
+    final state = this;
+    if (state is! Success) {
+      throw StateError('Login state must be successful');
+    }
+
+    return state.result;
+  }
 }

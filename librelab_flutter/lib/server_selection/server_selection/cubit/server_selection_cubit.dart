@@ -106,7 +106,7 @@ class ServerSelectionCubit({
       UseWebAppServer() => const .useWebAppServer(),
     };
 
-    emit(state.copyWith(compatibilityCheckState: const .load()));
+    emit(state.copyWith(compatibilityCheckState: const .loading()));
 
     final request = await _serverCompatibilityRepository.check(serverTarget);
 

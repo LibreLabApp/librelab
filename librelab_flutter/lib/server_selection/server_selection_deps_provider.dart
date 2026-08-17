@@ -53,7 +53,10 @@ class _ServerSelectionDepsProviderState
               create: (context) => ServerSelectionCubit(
                 discoveryRepository: context.read<LocalDiscoveryRepository>(),
                 serverCompatibilityRepository: ServerCompatibilityRepository(
-                  client: context.read<LibreLabApiClient>(),
+                  compatibilityEndpoints: context
+                      .read<LibreLabApiClient>()
+                      .endpoints
+                      .compatibility,
                   handler: context.read<ApiRequestHandler>(),
                   logger: Logger('$ServerCompatibilityRepository'),
                 ),

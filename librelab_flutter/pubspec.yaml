@@ -56,8 +56,10 @@ dependencies:
       path: packages/api_client
   stepper_flow: ^0.0.1
   flex_color_picker: ^3.8.0
+  image_picker: ^1.2.3
   lottie: ^3.3.3
   material_ui: ^1.0.0
+  confetti: ^0.8.0
 
 dev_dependencies:
   flutter_test:

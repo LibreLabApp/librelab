@@ -48,6 +48,16 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$apiRequestFailures$en apiRequestFailures = Translations$apiRequestFailures$en.internal(_root);
 	late final Translations$loginFormSection$en loginFormSection = Translations$loginFormSection$en.internal(_root);
+	late final Translations$labSettingsForm$en labSettingsForm = Translations$labSettingsForm$en.internal(_root);
+
+	/// en: '?'
+	String get questionMark => '?';
+
+	/// en: 'Retry'
+	String get retry => 'Retry';
+
+	late final Translations$filePicker$en filePicker = Translations$filePicker$en.internal(_root);
+	late final Translations$imagePicker$en imagePicker = Translations$imagePicker$en.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -70,6 +80,9 @@ class Translations$initialSetupPage$en {
 
 	/// en: 'Back'
 	String get back => 'Back';
+
+	/// en: 'Finish'
+	String get finish => 'Finish';
 
 	late final Translations$initialSetupPage$decorativeAnimation$en decorativeAnimation = Translations$initialSetupPage$decorativeAnimation$en.internal(_root);
 }
@@ -215,7 +228,7 @@ class Translations$loginFormSection$en {
 	late final Translations$loginFormSection$browserGuestModeNotice$en browserGuestModeNotice = Translations$loginFormSection$browserGuestModeNotice$en.internal(_root);
 
 	/// en: 'Log in'
-	String get login => 'Log in';
+	String get loginButton => 'Log in';
 
 	late final Translations$loginFormSection$loginFailures$en loginFailures = Translations$loginFormSection$loginFailures$en.internal(_root);
 
@@ -224,6 +237,63 @@ class Translations$loginFormSection$en {
 
 	late final Translations$loginFormSection$loginSuccess$en loginSuccess = Translations$loginFormSection$loginSuccess$en.internal(_root);
 	late final Translations$loginFormSection$loginCredentialsGuide$en loginCredentialsGuide = Translations$loginFormSection$loginCredentialsGuide$en.internal(_root);
+}
+
+// Path: labSettingsForm
+class Translations$labSettingsForm$en {
+	Translations$labSettingsForm$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$labSettingsForm$labNameTextField$en labNameTextField = Translations$labSettingsForm$labNameTextField$en.internal(_root);
+
+	/// en: 'Update'
+	String get updateButton => 'Update';
+
+	/// en: 'Refresh'
+	String get refreshButton => 'Refresh';
+
+	late final Translations$labSettingsForm$fetch$en fetch = Translations$labSettingsForm$fetch$en.internal(_root);
+
+	/// en: 'Failed to update lab information'
+	String get updateFailureMessage => 'Failed to update lab information';
+
+	/// en: 'Lab name is not set. The logged-in user lacks the required permission. Another user with this permission must provide the lab name.'
+	String get labNameMissingWithoutUpdatePermissionMessage => 'Lab name is not set. The logged-in user lacks the required permission. Another user with this permission must provide the lab name.';
+}
+
+// Path: filePicker
+class Translations$filePicker$en {
+	Translations$filePicker$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Failed to select the file.'
+	String get pickFailure => 'Failed to select the file.';
+
+	/// en: 'The selected file exceeds the maximum allowed size of $maxSize.'
+	String exceedsMaximumSize({required Object maxSize}) => 'The selected file exceeds the maximum allowed size of ${maxSize}.';
+
+	/// en: 'Failed to read the selected file.'
+	String get readFailure => 'Failed to read the selected file.';
+}
+
+// Path: imagePicker
+class Translations$imagePicker$en {
+	Translations$imagePicker$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Change image'
+	String get changeImage => 'Change image';
+
+	/// en: 'Remove image'
+	String get removeImage => 'Remove image';
 }
 
 // Path: initialSetupPage.steps
@@ -522,6 +592,37 @@ class Translations$loginFormSection$loginCredentialsGuide$en {
 	String get description => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.';
 }
 
+// Path: labSettingsForm.labNameTextField
+class Translations$labSettingsForm$labNameTextField$en {
+	Translations$labSettingsForm$labNameTextField$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$labSettingsForm$labNameTextField$validationErrors$en validationErrors = Translations$labSettingsForm$labNameTextField$validationErrors$en.internal(_root);
+
+	/// en: 'Lab name'
+	String get label => 'Lab name';
+
+	/// en: 'e.g., Central Diagnostic Laboratory'
+	String get hint => 'e.g., Central Diagnostic Laboratory';
+}
+
+// Path: labSettingsForm.fetch
+class Translations$labSettingsForm$fetch$en {
+	Translations$labSettingsForm$fetch$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Loading lab information...'
+	String get loadingMessage => 'Loading lab information...';
+
+	/// en: 'Failed to load lab information'
+	String get failureTitle => 'Failed to load lab information';
+}
+
 // Path: initialSetupPage.steps.preferences
 class Translations$initialSetupPage$steps$preferences$en {
 	Translations$initialSetupPage$steps$preferences$en.internal(this._root);
@@ -541,6 +642,10 @@ class Translations$initialSetupPage$steps$serverSelection$en {
 
 	// Translations
 	late final Translations$initialSetupPage$steps$serverSelection$nav$en nav = Translations$initialSetupPage$steps$serverSelection$nav$en.internal(_root);
+
+	/// en: 'Select a server and verify compatibility first.'
+	String get prerequisiteStepIncomplete => 'Select a server and verify compatibility first.';
+
 	late final Translations$initialSetupPage$steps$serverSelection$content$en content = Translations$initialSetupPage$steps$serverSelection$content$en.internal(_root);
 }
 
@@ -552,6 +657,10 @@ class Translations$initialSetupPage$steps$login$en {
 
 	// Translations
 	late final Translations$initialSetupPage$steps$login$nav$en nav = Translations$initialSetupPage$steps$login$nav$en.internal(_root);
+
+	/// en: 'Complete log in first'
+	String get prerequisiteStepIncomplete => 'Complete log in first';
+
 	late final Translations$initialSetupPage$steps$login$content$en content = Translations$initialSetupPage$steps$login$content$en.internal(_root);
 }
 
@@ -563,6 +672,10 @@ class Translations$initialSetupPage$steps$complete$en {
 
 	// Translations
 	late final Translations$initialSetupPage$steps$complete$nav$en nav = Translations$initialSetupPage$steps$complete$nav$en.internal(_root);
+
+	/// en: 'Lab name must be provided'
+	String get prerequisiteStepIncomplete => 'Lab name must be provided';
+
 	late final Translations$initialSetupPage$steps$complete$content$en content = Translations$initialSetupPage$steps$complete$content$en.internal(_root);
 }
 
@@ -797,6 +910,18 @@ class Translations$loginFormSection$passwordTextField$visibility$en {
 	String get hide => 'Hide password';
 }
 
+// Path: labSettingsForm.labNameTextField.validationErrors
+class Translations$labSettingsForm$labNameTextField$validationErrors$en {
+	Translations$labSettingsForm$labNameTextField$validationErrors$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'A lab name is required'
+	String get emptyInput => 'A lab name is required';
+}
+
 // Path: initialSetupPage.steps.preferences.nav
 class Translations$initialSetupPage$steps$preferences$nav$en {
 	Translations$initialSetupPage$steps$preferences$nav$en.internal(this._root);
@@ -840,9 +965,6 @@ class Translations$initialSetupPage$steps$serverSelection$nav$en {
 
 	/// en: 'Select the server'
 	String get subtitle => 'Select the server';
-
-	/// en: 'Select a server and verify compatibility first.'
-	String get prerequisiteStepIncomplete => 'Select a server and verify compatibility first.';
 }
 
 // Path: initialSetupPage.steps.serverSelection.content
@@ -873,9 +995,6 @@ class Translations$initialSetupPage$steps$login$nav$en {
 
 	/// en: 'Log in with your credentials'
 	String get subtitle => 'Log in with your credentials';
-
-	/// en: 'Complete log in first'
-	String get prerequisiteStepIncomplete => 'Complete log in first';
 }
 
 // Path: initialSetupPage.steps.login.content
@@ -916,11 +1035,11 @@ class Translations$initialSetupPage$steps$complete$content$en {
 
 	// Translations
 
-	/// en: 'Ready to go!'
-	String get title => 'Ready to go!';
+	/// en: 'Lab information'
+	String get title => 'Lab information';
 
-	/// en: 'Your setup is complete'
-	String get subtitle => 'Your setup is complete';
+	/// en: 'Complete your lab information to finish setup'
+	String get subtitle => 'Complete your lab information to finish setup';
 }
 
 // Path: serverCompatibility.check.success.compatibilityStatus
@@ -1182,20 +1301,22 @@ extension on Translations {
 			'initialSetupPage.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
 			'initialSetupPage.steps.serverSelection.nav.title' => 'Server',
 			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'Select the server',
-			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'Select a server and verify compatibility first.',
+			'initialSetupPage.steps.serverSelection.prerequisiteStepIncomplete' => 'Select a server and verify compatibility first.',
 			'initialSetupPage.steps.serverSelection.content.title' => 'Server Selection',
 			'initialSetupPage.steps.serverSelection.content.subtitle' => 'Select a server to connect to and access your data',
 			'initialSetupPage.steps.login.nav.title' => 'Log in',
 			'initialSetupPage.steps.login.nav.subtitle' => 'Log in with your credentials',
-			'initialSetupPage.steps.login.nav.prerequisiteStepIncomplete' => 'Complete log in first',
+			'initialSetupPage.steps.login.prerequisiteStepIncomplete' => 'Complete log in first',
 			'initialSetupPage.steps.login.content.title' => 'Authenticate',
 			'initialSetupPage.steps.login.content.subtitle' => 'Authenticate to access your account',
 			'initialSetupPage.steps.complete.nav.title' => 'Complete',
 			'initialSetupPage.steps.complete.nav.subtitle' => 'Finish setup',
-			'initialSetupPage.steps.complete.content.title' => 'Ready to go!',
-			'initialSetupPage.steps.complete.content.subtitle' => 'Your setup is complete',
+			'initialSetupPage.steps.complete.prerequisiteStepIncomplete' => 'Lab name must be provided',
+			'initialSetupPage.steps.complete.content.title' => 'Lab information',
+			'initialSetupPage.steps.complete.content.subtitle' => 'Complete your lab information to finish setup',
 			'initialSetupPage.next' => 'Next',
 			'initialSetupPage.back' => 'Back',
+			'initialSetupPage.finish' => 'Finish',
 			'initialSetupPage.decorativeAnimation.title' => 'Almost there!',
 			'initialSetupPage.decorativeAnimation.subtitle' => 'Let\'s get everything set up for you',
 			'confirmProgramExitDialog.title' => 'Confirm Exit',
@@ -1304,7 +1425,7 @@ extension on Translations {
 			'loginFormSection.persistAuthSession' => 'Stay signed in',
 			'loginFormSection.browserGuestModeNotice.text' => 'Not your device? Use Guest mode to sign in privately.',
 			'loginFormSection.browserGuestModeNotice.learnMore' => 'Learn more about using Guest mode',
-			'loginFormSection.login' => 'Log in',
+			'loginFormSection.loginButton' => 'Log in',
 			'loginFormSection.loginFailures.invalidCredentials' => 'Invalid email or password.',
 			'loginFormSection.loginFailures.loginDisabled' => 'Login is disabled. Contact an administrator to enable it.',
 			'loginFormSection.loginFailures.invalidInput' => 'The login input is invalid.',
@@ -1313,6 +1434,22 @@ extension on Translations {
 			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'Signed in as ${fullName}',
 			'loginFormSection.loginCredentialsGuide.label' => 'How to get login credentials',
 			'loginFormSection.loginCredentialsGuide.description' => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.',
+			'labSettingsForm.labNameTextField.validationErrors.emptyInput' => 'A lab name is required',
+			'labSettingsForm.labNameTextField.label' => 'Lab name',
+			'labSettingsForm.labNameTextField.hint' => 'e.g., Central Diagnostic Laboratory',
+			'labSettingsForm.updateButton' => 'Update',
+			'labSettingsForm.refreshButton' => 'Refresh',
+			'labSettingsForm.fetch.loadingMessage' => 'Loading lab information...',
+			'labSettingsForm.fetch.failureTitle' => 'Failed to load lab information',
+			'labSettingsForm.updateFailureMessage' => 'Failed to update lab information',
+			'labSettingsForm.labNameMissingWithoutUpdatePermissionMessage' => 'Lab name is not set. The logged-in user lacks the required permission. Another user with this permission must provide the lab name.',
+			'questionMark' => '?',
+			'retry' => 'Retry',
+			'filePicker.pickFailure' => 'Failed to select the file.',
+			'filePicker.exceedsMaximumSize' => ({required Object maxSize}) => 'The selected file exceeds the maximum allowed size of ${maxSize}.',
+			'filePicker.readFailure' => 'Failed to read the selected file.',
+			'imagePicker.changeImage' => 'Change image',
+			'imagePicker.removeImage' => 'Remove image',
 			_ => null,
 		};
 	}

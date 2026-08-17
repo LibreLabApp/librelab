@@ -25,7 +25,7 @@ class const HttpClientDepsProvider(final Widget child, {super.key})
         Provider<LibreLabApiClient>(
           create: (context) => LibreLabApiClient(
             apiClient: context.read<HttpApiClient>(),
-            logger: Logger('$LibreLabApiClient'),
+            logger: Logger('LibreLabApiClient'),
             // TODO: Implement later
             onAuthSessionRefreshed: null,
           ),

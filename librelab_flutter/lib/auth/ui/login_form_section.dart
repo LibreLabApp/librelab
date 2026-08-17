@@ -5,10 +5,11 @@ import 'package:librelab_flutter/auth/auth_repository/login_failures.dart';
 import 'package:librelab_flutter/auth/auth_repository/login_result.dart';
 import 'package:librelab_flutter/auth/cubit/login_cubit.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_failures.dart';
-import 'package:librelab_flutter/common/ui/api_request_failure_ui_messages.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/text_field_state.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
+import 'package:librelab_flutter/common/ui/widgets/api_request_failure_card.dart';
+import 'package:librelab_flutter/common/ui/widgets/button_loading_indicator.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart' hide Failure;
 import 'package:material_ui/material_ui.dart';
@@ -133,11 +134,8 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 return FilledButton(
                   onPressed: isLoading ? null : _login,
                   child: isLoading
-                      ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(t.login),
+                      ? const ButtonLoadingIndicator()
+                      : Text(t.loginButton),
                 );
               },
             ),
@@ -203,16 +201,9 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                     ),
                   ),
                 ),
-                EitherRight(rightValue: final failure) => AlertCard(
-                  type: .error,
-                  prefixIcon: Icons.error_outline_rounded,
-                  suffix: null,
-                  title: Text(t.requestFailureTitle),
-                  subtitle: Tooltip(
-                    constraints: const BoxConstraints(maxWidth: 300),
-                    message: failure.message,
-                    child: Text(failure.getUiMessage(context.t)),
-                  ),
+                EitherRight(rightValue: final failure) => ApiRequestFailureCard(
+                  title: t.requestFailureTitle,
+                  failure: failure,
                 ),
               };
             },

@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 final class RequestResult<T>({required final T value});
 
 // TODO: Need to add a connection and request timeout to prevent waiting too long
+
 /// Executes [request] against each URI until one succeeds.
 ///
 /// Only connection-related exceptions trigger a fallback to the next URI.

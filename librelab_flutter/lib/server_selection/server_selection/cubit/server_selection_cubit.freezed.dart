@@ -968,12 +968,12 @@ extension ServerCompatibilityCheckStatePatterns on ServerCompatibilityCheckState
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Initial value)?  initial,TResult Function( Load value)?  load,TResult Function( Success value)?  success,TResult Function( Failure value)?  failure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Initial value)?  initial,TResult Function( Loading value)?  loading,TResult Function( Success value)?  success,TResult Function( Failure value)?  failure,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial(_that);case Load() when load != null:
-return load(_that);case Success() when success != null:
+return initial(_that);case Loading() when loading != null:
+return loading(_that);case Success() when success != null:
 return success(_that);case Failure() when failure != null:
 return failure(_that);case _:
   return orElse();
@@ -993,12 +993,12 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Initial value)  initial,required TResult Function( Load value)  load,required TResult Function( Success value)  success,required TResult Function( Failure value)  failure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Initial value)  initial,required TResult Function( Loading value)  loading,required TResult Function( Success value)  success,required TResult Function( Failure value)  failure,}){
 final _that = this;
 switch (_that) {
 case Initial():
-return initial(_that);case Load():
-return load(_that);case Success():
+return initial(_that);case Loading():
+return loading(_that);case Success():
 return success(_that);case Failure():
 return failure(_that);}
 }
@@ -1014,12 +1014,12 @@ return failure(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Initial value)?  initial,TResult? Function( Load value)?  load,TResult? Function( Success value)?  success,TResult? Function( Failure value)?  failure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Initial value)?  initial,TResult? Function( Loading value)?  loading,TResult? Function( Success value)?  success,TResult? Function( Failure value)?  failure,}){
 final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial(_that);case Load() when load != null:
-return load(_that);case Success() when success != null:
+return initial(_that);case Loading() when loading != null:
+return loading(_that);case Success() when success != null:
 return success(_that);case Failure() when failure != null:
 return failure(_that);case _:
   return null;
@@ -1038,11 +1038,11 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  load,TResult Function( ServerCompatibilityCheckResponse response,  SelectedServer server,  Uri uri)?  success,TResult Function( ApiRequestFailure failure)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( ServerCompatibilityCheckResponse response,  SelectedServer server,  Uri uri)?  success,TResult Function( ApiRequestFailure failure)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial();case Load() when load != null:
-return load();case Success() when success != null:
+return initial();case Loading() when loading != null:
+return loading();case Success() when success != null:
 return success(_that.response,_that.server,_that.uri);case Failure() when failure != null:
 return failure(_that.failure);case _:
   return orElse();
@@ -1062,11 +1062,11 @@ return failure(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  load,required TResult Function( ServerCompatibilityCheckResponse response,  SelectedServer server,  Uri uri)  success,required TResult Function( ApiRequestFailure failure)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( ServerCompatibilityCheckResponse response,  SelectedServer server,  Uri uri)  success,required TResult Function( ApiRequestFailure failure)  failure,}) {final _that = this;
 switch (_that) {
 case Initial():
-return initial();case Load():
-return load();case Success():
+return initial();case Loading():
+return loading();case Success():
 return success(_that.response,_that.server,_that.uri);case Failure():
 return failure(_that.failure);}
 }
@@ -1082,11 +1082,11 @@ return failure(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  load,TResult? Function( ServerCompatibilityCheckResponse response,  SelectedServer server,  Uri uri)?  success,TResult? Function( ApiRequestFailure failure)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( ServerCompatibilityCheckResponse response,  SelectedServer server,  Uri uri)?  success,TResult? Function( ApiRequestFailure failure)?  failure,}) {final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial();case Load() when load != null:
-return load();case Success() when success != null:
+return initial();case Loading() when loading != null:
+return loading();case Success() when success != null:
 return success(_that.response,_that.server,_that.uri);case Failure() when failure != null:
 return failure(_that.failure);case _:
   return null;
@@ -1131,8 +1131,8 @@ String toString() {
 /// @nodoc
 
 
-class Load implements ServerCompatibilityCheckState {
-  const Load();
+class Loading implements ServerCompatibilityCheckState {
+  const Loading();
   
 
 
@@ -1142,7 +1142,7 @@ class Load implements ServerCompatibilityCheckState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Load);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading);
 }
 
 
@@ -1151,7 +1151,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerCompatibilityCheckState.load()';
+  return 'ServerCompatibilityCheckState.loading()';
 }
 
 

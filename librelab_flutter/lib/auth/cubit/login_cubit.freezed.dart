@@ -56,12 +56,12 @@ extension LoginStatePatterns on LoginState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Initial value)?  initial,TResult Function( Load value)?  load,TResult Function( Success value)?  success,TResult Function( Failure value)?  failure,TResult Function( RequestFailure value)?  requestFailure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Initial value)?  initial,TResult Function( Loading value)?  loading,TResult Function( Success value)?  success,TResult Function( Failure value)?  failure,TResult Function( RequestFailure value)?  requestFailure,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial(_that);case Load() when load != null:
-return load(_that);case Success() when success != null:
+return initial(_that);case Loading() when loading != null:
+return loading(_that);case Success() when success != null:
 return success(_that);case Failure() when failure != null:
 return failure(_that);case RequestFailure() when requestFailure != null:
 return requestFailure(_that);case _:
@@ -82,12 +82,12 @@ return requestFailure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Initial value)  initial,required TResult Function( Load value)  load,required TResult Function( Success value)  success,required TResult Function( Failure value)  failure,required TResult Function( RequestFailure value)  requestFailure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Initial value)  initial,required TResult Function( Loading value)  loading,required TResult Function( Success value)  success,required TResult Function( Failure value)  failure,required TResult Function( RequestFailure value)  requestFailure,}){
 final _that = this;
 switch (_that) {
 case Initial():
-return initial(_that);case Load():
-return load(_that);case Success():
+return initial(_that);case Loading():
+return loading(_that);case Success():
 return success(_that);case Failure():
 return failure(_that);case RequestFailure():
 return requestFailure(_that);}
@@ -104,12 +104,12 @@ return requestFailure(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Initial value)?  initial,TResult? Function( Load value)?  load,TResult? Function( Success value)?  success,TResult? Function( Failure value)?  failure,TResult? Function( RequestFailure value)?  requestFailure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Initial value)?  initial,TResult? Function( Loading value)?  loading,TResult? Function( Success value)?  success,TResult? Function( Failure value)?  failure,TResult? Function( RequestFailure value)?  requestFailure,}){
 final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial(_that);case Load() when load != null:
-return load(_that);case Success() when success != null:
+return initial(_that);case Loading() when loading != null:
+return loading(_that);case Success() when success != null:
 return success(_that);case Failure() when failure != null:
 return failure(_that);case RequestFailure() when requestFailure != null:
 return requestFailure(_that);case _:
@@ -129,11 +129,11 @@ return requestFailure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  load,TResult Function( LoginResultSuccess result,  bool persistAuthSession)?  success,TResult Function( LoginFailure failure)?  failure,TResult Function( ApiRequestFailure failure)?  requestFailure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( LoginResultSuccess result,  bool persistAuthSession)?  success,TResult Function( LoginFailure failure)?  failure,TResult Function( ApiRequestFailure failure)?  requestFailure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial();case Load() when load != null:
-return load();case Success() when success != null:
+return initial();case Loading() when loading != null:
+return loading();case Success() when success != null:
 return success(_that.result,_that.persistAuthSession);case Failure() when failure != null:
 return failure(_that.failure);case RequestFailure() when requestFailure != null:
 return requestFailure(_that.failure);case _:
@@ -154,11 +154,11 @@ return requestFailure(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  load,required TResult Function( LoginResultSuccess result,  bool persistAuthSession)  success,required TResult Function( LoginFailure failure)  failure,required TResult Function( ApiRequestFailure failure)  requestFailure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( LoginResultSuccess result,  bool persistAuthSession)  success,required TResult Function( LoginFailure failure)  failure,required TResult Function( ApiRequestFailure failure)  requestFailure,}) {final _that = this;
 switch (_that) {
 case Initial():
-return initial();case Load():
-return load();case Success():
+return initial();case Loading():
+return loading();case Success():
 return success(_that.result,_that.persistAuthSession);case Failure():
 return failure(_that.failure);case RequestFailure():
 return requestFailure(_that.failure);}
@@ -175,11 +175,11 @@ return requestFailure(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  load,TResult? Function( LoginResultSuccess result,  bool persistAuthSession)?  success,TResult? Function( LoginFailure failure)?  failure,TResult? Function( ApiRequestFailure failure)?  requestFailure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( LoginResultSuccess result,  bool persistAuthSession)?  success,TResult? Function( LoginFailure failure)?  failure,TResult? Function( ApiRequestFailure failure)?  requestFailure,}) {final _that = this;
 switch (_that) {
 case Initial() when initial != null:
-return initial();case Load() when load != null:
-return load();case Success() when success != null:
+return initial();case Loading() when loading != null:
+return loading();case Success() when success != null:
 return success(_that.result,_that.persistAuthSession);case Failure() when failure != null:
 return failure(_that.failure);case RequestFailure() when requestFailure != null:
 return requestFailure(_that.failure);case _:
@@ -225,8 +225,8 @@ String toString() {
 /// @nodoc
 
 
-class Load implements LoginState {
-  const Load();
+class Loading implements LoginState {
+  const Loading();
   
 
 
@@ -236,7 +236,7 @@ class Load implements LoginState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Load);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading);
 }
 
 
@@ -245,7 +245,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginState.load()';
+  return 'LoginState.loading()';
 }
 
 

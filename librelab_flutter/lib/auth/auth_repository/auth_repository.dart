@@ -12,7 +12,7 @@ class AuthRepository({
   required final AuthEndpoints _authEndpoints,
   required final ApiRequestHandler _handler,
 }) {
-  AuthEndpoints get _auth => _authEndpoints;
+  AuthEndpoints get _endpoints => _authEndpoints;
 
   Future<ApiRequestResult<LoginResult>> login({
     required String email,
@@ -29,25 +29,35 @@ class AuthRepository({
     return await _handler.execute(
       () async {
         if (kIsWeb) {
-          return await _auth.browser.login(
+          return await _endpoints.browser.login(
             request,
             serverBaseUrl: serverBaseUrl,
           );
         }
 
-        return await _auth.login(request, serverBaseUrl: serverBaseUrl);
+        return await _endpoints.login(request, serverBaseUrl: serverBaseUrl);
       },
       mapSuccess: (dto) {
-        if (kIsWeb) {
-          dto as LoginBrowserResponse;
-          return LoginSuccessWithoutTokens(dto.user.toDomain());
+        if (dto is LoginBrowserResponse) {
+          return LoginResultSuccess(
+            user: dto.user.toDomain(),
+            session: .browserCookie(userId: dto.user.id),
+          );
         }
 
-        dto as LoginResponse;
-        return LoginSuccessWithTokens(
-          dto.user.toDomain(),
-          accessToken: dto.accessToken.toDomain(),
-          refreshToken: dto.refreshToken.toDomain(),
+        if (dto is LoginResponse) {
+          return LoginResultSuccess(
+            user: dto.user.toDomain(),
+            session: .memory(
+              userId: dto.user.id,
+              accessToken: dto.accessToken,
+              refreshToken: dto.refreshToken,
+            ),
+          );
+        }
+
+        throw StateError(
+          'Response must be either LoginBrowserResponse or LoginResponse.',
         );
       },
       mapHttpError: (response) {
@@ -67,12 +77,17 @@ class AuthRepository({
   }
 
   /// Returns whether the refresh token was found and revoked.
-  Future<ApiRequestResult<bool>> logout({required String refreshToken}) async {
+  Future<ApiRequestResult<bool>> logout({required String? refreshToken}) async {
     return _handler.execute(() async {
       if (kIsWeb) {
-        return await _auth.browser.logout();
+        return await _endpoints.browser.logout();
       }
-      return await _auth.logout(.new(refreshToken: refreshToken));
+      if (refreshToken == null) {
+        throw ArgumentError(
+          'refreshToken must not be null on non-web platforms.',
+        );
+      }
+      return await _endpoints.logout(.new(refreshToken: refreshToken));
     }, mapSuccess: (dto) => dto.tokenRevoked);
   }
 }

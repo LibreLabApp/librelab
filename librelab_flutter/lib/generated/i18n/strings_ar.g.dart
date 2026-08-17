@@ -47,6 +47,11 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$settings$ar settings = _Translations$settings$ar._(_root);
 	@override late final _Translations$apiRequestFailures$ar apiRequestFailures = _Translations$apiRequestFailures$ar._(_root);
 	@override late final _Translations$loginFormSection$ar loginFormSection = _Translations$loginFormSection$ar._(_root);
+	@override late final _Translations$labSettingsForm$ar labSettingsForm = _Translations$labSettingsForm$ar._(_root);
+	@override String get questionMark => '؟';
+	@override String get retry => 'إعادة المحاولة';
+	@override late final _Translations$filePicker$ar filePicker = _Translations$filePicker$ar._(_root);
+	@override late final _Translations$imagePicker$ar imagePicker = _Translations$imagePicker$ar._(_root);
 }
 
 // Path: initialSetupPage
@@ -60,6 +65,7 @@ class _Translations$initialSetupPage$ar extends Translations$initialSetupPage$en
 	@override late final _Translations$initialSetupPage$steps$ar steps = _Translations$initialSetupPage$steps$ar._(_root);
 	@override String get next => 'التالي';
 	@override String get back => 'السابق';
+	@override String get finish => 'إنهاء';
 	@override late final _Translations$initialSetupPage$decorativeAnimation$ar decorativeAnimation = _Translations$initialSetupPage$decorativeAnimation$ar._(_root);
 }
 
@@ -155,11 +161,49 @@ class _Translations$loginFormSection$ar extends Translations$loginFormSection$en
 	@override late final _Translations$loginFormSection$passwordTextField$ar passwordTextField = _Translations$loginFormSection$passwordTextField$ar._(_root);
 	@override String get persistAuthSession => 'البقاء مسجلا';
 	@override late final _Translations$loginFormSection$browserGuestModeNotice$ar browserGuestModeNotice = _Translations$loginFormSection$browserGuestModeNotice$ar._(_root);
-	@override String get login => 'تسجيل الدخول';
+	@override String get loginButton => 'تسجيل الدخول';
 	@override late final _Translations$loginFormSection$loginFailures$ar loginFailures = _Translations$loginFormSection$loginFailures$ar._(_root);
 	@override String get requestFailureTitle => 'فشل تسجيل الدخول';
 	@override late final _Translations$loginFormSection$loginSuccess$ar loginSuccess = _Translations$loginFormSection$loginSuccess$ar._(_root);
 	@override late final _Translations$loginFormSection$loginCredentialsGuide$ar loginCredentialsGuide = _Translations$loginFormSection$loginCredentialsGuide$ar._(_root);
+}
+
+// Path: labSettingsForm
+class _Translations$labSettingsForm$ar extends Translations$labSettingsForm$en {
+	_Translations$labSettingsForm$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$labSettingsForm$labNameTextField$ar labNameTextField = _Translations$labSettingsForm$labNameTextField$ar._(_root);
+	@override String get updateButton => 'تحديث';
+	@override String get refreshButton => 'إعادة تحميل';
+	@override late final _Translations$labSettingsForm$fetch$ar fetch = _Translations$labSettingsForm$fetch$ar._(_root);
+	@override String get updateFailureMessage => 'تعذر تحديث معلومات المختبر';
+	@override String get labNameMissingWithoutUpdatePermissionMessage => 'اسم المختبر غير معين. المستخدم الذي سجل الدخول لا يملك الصلاحية المطلوبة. يجب على مستخدم آخر لديه هذه الصلاحية إدخال اسم المختبر.';
+}
+
+// Path: filePicker
+class _Translations$filePicker$ar extends Translations$filePicker$en {
+	_Translations$filePicker$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get pickFailure => 'تعذر اختيار الملف.';
+	@override String exceedsMaximumSize({required Object maxSize}) => 'يتجاوز الملف المحدد الحد الأقصى المسموح به للحجم وهو ${maxSize}.';
+	@override String get readFailure => 'تعذر قراءة الملف المحدد.';
+}
+
+// Path: imagePicker
+class _Translations$imagePicker$ar extends Translations$imagePicker$en {
+	_Translations$imagePicker$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get changeImage => 'تغيير الصورة';
+	@override String get removeImage => 'إزالة الصورة';
 }
 
 // Path: initialSetupPage.steps
@@ -380,6 +424,29 @@ class _Translations$loginFormSection$loginCredentialsGuide$ar extends Translatio
 	@override String get description => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.';
 }
 
+// Path: labSettingsForm.labNameTextField
+class _Translations$labSettingsForm$labNameTextField$ar extends Translations$labSettingsForm$labNameTextField$en {
+	_Translations$labSettingsForm$labNameTextField$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$labSettingsForm$labNameTextField$validationErrors$ar validationErrors = _Translations$labSettingsForm$labNameTextField$validationErrors$ar._(_root);
+	@override String get label => 'اسم المختبر';
+	@override String get hint => 'مثال: مختبر التشخيص المركزي';
+}
+
+// Path: labSettingsForm.fetch
+class _Translations$labSettingsForm$fetch$ar extends Translations$labSettingsForm$fetch$en {
+	_Translations$labSettingsForm$fetch$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get loadingMessage => 'جارٍ تحميل معلومات المختبر...';
+	@override String get failureTitle => 'تعذر تحميل معلومات المختبر';
+}
+
 // Path: initialSetupPage.steps.preferences
 class _Translations$initialSetupPage$steps$preferences$ar extends Translations$initialSetupPage$steps$preferences$en {
 	_Translations$initialSetupPage$steps$preferences$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -399,6 +466,7 @@ class _Translations$initialSetupPage$steps$serverSelection$ar extends Translatio
 
 	// Translations
 	@override late final _Translations$initialSetupPage$steps$serverSelection$nav$ar nav = _Translations$initialSetupPage$steps$serverSelection$nav$ar._(_root);
+	@override String get prerequisiteStepIncomplete => 'حدد خادما وتحقق من التوافق أولا';
 	@override late final _Translations$initialSetupPage$steps$serverSelection$content$ar content = _Translations$initialSetupPage$steps$serverSelection$content$ar._(_root);
 }
 
@@ -410,6 +478,7 @@ class _Translations$initialSetupPage$steps$login$ar extends Translations$initial
 
 	// Translations
 	@override late final _Translations$initialSetupPage$steps$login$nav$ar nav = _Translations$initialSetupPage$steps$login$nav$ar._(_root);
+	@override String get prerequisiteStepIncomplete => 'أكمل إعداد الحساب أولا';
 	@override late final _Translations$initialSetupPage$steps$login$content$ar content = _Translations$initialSetupPage$steps$login$content$ar._(_root);
 }
 
@@ -421,6 +490,7 @@ class _Translations$initialSetupPage$steps$complete$ar extends Translations$init
 
 	// Translations
 	@override late final _Translations$initialSetupPage$steps$complete$nav$ar nav = _Translations$initialSetupPage$steps$complete$nav$ar._(_root);
+	@override String get prerequisiteStepIncomplete => 'يجب إدخال اسم المختبر';
 	@override late final _Translations$initialSetupPage$steps$complete$content$ar content = _Translations$initialSetupPage$steps$complete$content$ar._(_root);
 }
 
@@ -595,6 +665,16 @@ class _Translations$loginFormSection$passwordTextField$visibility$ar extends Tra
 	@override String get hide => 'إخفاء كلمة المرور';
 }
 
+// Path: labSettingsForm.labNameTextField.validationErrors
+class _Translations$labSettingsForm$labNameTextField$validationErrors$ar extends Translations$labSettingsForm$labNameTextField$validationErrors$en {
+	_Translations$labSettingsForm$labNameTextField$validationErrors$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get emptyInput => 'اسم المختبر مطلوب';
+}
+
 // Path: initialSetupPage.steps.preferences.nav
 class _Translations$initialSetupPage$steps$preferences$nav$ar extends Translations$initialSetupPage$steps$preferences$nav$en {
 	_Translations$initialSetupPage$steps$preferences$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -626,7 +706,6 @@ class _Translations$initialSetupPage$steps$serverSelection$nav$ar extends Transl
 	// Translations
 	@override String get title => 'الخادم';
 	@override String get subtitle => 'اختر الخادم';
-	@override String get prerequisiteStepIncomplete => 'حدد خادما وتحقق من التوافق أولا';
 }
 
 // Path: initialSetupPage.steps.serverSelection.content
@@ -649,7 +728,6 @@ class _Translations$initialSetupPage$steps$login$nav$ar extends Translations$ini
 	// Translations
 	@override String get title => 'تسجيل الدخول';
 	@override String get subtitle => 'سجل الدخول باستخدام بياناتك';
-	@override String get prerequisiteStepIncomplete => 'أكمل إعداد الحساب أولا';
 }
 
 // Path: initialSetupPage.steps.login.content
@@ -681,8 +759,8 @@ class _Translations$initialSetupPage$steps$complete$content$ar extends Translati
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'كل شيء جاهز!';
-	@override String get subtitle => 'اكتمل إعداد التطبيق';
+	@override String get title => 'معلومات المختبر';
+	@override String get subtitle => 'أكمل معلومات مختبرك لإنهاء الإعداد';
 }
 
 // Path: serverCompatibility.check.success.compatibilityStatus
@@ -877,20 +955,22 @@ extension on TranslationsAr {
 			'initialSetupPage.steps.preferences.content.subtitle' => 'اضبط المظهر واللغة وخيارات الواجهة',
 			'initialSetupPage.steps.serverSelection.nav.title' => 'الخادم',
 			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'اختر الخادم',
-			'initialSetupPage.steps.serverSelection.nav.prerequisiteStepIncomplete' => 'حدد خادما وتحقق من التوافق أولا',
+			'initialSetupPage.steps.serverSelection.prerequisiteStepIncomplete' => 'حدد خادما وتحقق من التوافق أولا',
 			'initialSetupPage.steps.serverSelection.content.title' => 'تحديد الخادم',
 			'initialSetupPage.steps.serverSelection.content.subtitle' => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك',
 			'initialSetupPage.steps.login.nav.title' => 'تسجيل الدخول',
 			'initialSetupPage.steps.login.nav.subtitle' => 'سجل الدخول باستخدام بياناتك',
-			'initialSetupPage.steps.login.nav.prerequisiteStepIncomplete' => 'أكمل إعداد الحساب أولا',
+			'initialSetupPage.steps.login.prerequisiteStepIncomplete' => 'أكمل إعداد الحساب أولا',
 			'initialSetupPage.steps.login.content.title' => 'المصادقة',
 			'initialSetupPage.steps.login.content.subtitle' => 'قم بالمصادقة للوصول إلى حسابك',
 			'initialSetupPage.steps.complete.nav.title' => 'اكتمل',
 			'initialSetupPage.steps.complete.nav.subtitle' => 'إنهاء الإعداد',
-			'initialSetupPage.steps.complete.content.title' => 'كل شيء جاهز!',
-			'initialSetupPage.steps.complete.content.subtitle' => 'اكتمل إعداد التطبيق',
+			'initialSetupPage.steps.complete.prerequisiteStepIncomplete' => 'يجب إدخال اسم المختبر',
+			'initialSetupPage.steps.complete.content.title' => 'معلومات المختبر',
+			'initialSetupPage.steps.complete.content.subtitle' => 'أكمل معلومات مختبرك لإنهاء الإعداد',
 			'initialSetupPage.next' => 'التالي',
 			'initialSetupPage.back' => 'السابق',
+			'initialSetupPage.finish' => 'إنهاء',
 			'initialSetupPage.decorativeAnimation.title' => 'أوشكنا على الانتهاء!',
 			'initialSetupPage.decorativeAnimation.subtitle' => 'لنكمل إعداد التطبيق',
 			'confirmProgramExitDialog.title' => 'تأكيد الخروج',
@@ -999,7 +1079,7 @@ extension on TranslationsAr {
 			'loginFormSection.persistAuthSession' => 'البقاء مسجلا',
 			'loginFormSection.browserGuestModeNotice.text' => 'ألا تمتلك هذا الجهاز؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.',
 			'loginFormSection.browserGuestModeNotice.learnMore' => 'مزيد من المعلومات حول استخدام "وضع الضيف"',
-			'loginFormSection.login' => 'تسجيل الدخول',
+			'loginFormSection.loginButton' => 'تسجيل الدخول',
 			'loginFormSection.loginFailures.invalidCredentials' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
 			'loginFormSection.loginFailures.loginDisabled' => 'تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.',
 			'loginFormSection.loginFailures.invalidInput' => 'بيانات تسجيل الدخول غير صالحة.',
@@ -1008,6 +1088,22 @@ extension on TranslationsAr {
 			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}',
 			'loginFormSection.loginCredentialsGuide.label' => 'كيفية الحصول على بيانات تسجيل الدخول',
 			'loginFormSection.loginCredentialsGuide.description' => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.',
+			'labSettingsForm.labNameTextField.validationErrors.emptyInput' => 'اسم المختبر مطلوب',
+			'labSettingsForm.labNameTextField.label' => 'اسم المختبر',
+			'labSettingsForm.labNameTextField.hint' => 'مثال: مختبر التشخيص المركزي',
+			'labSettingsForm.updateButton' => 'تحديث',
+			'labSettingsForm.refreshButton' => 'إعادة تحميل',
+			'labSettingsForm.fetch.loadingMessage' => 'جارٍ تحميل معلومات المختبر...',
+			'labSettingsForm.fetch.failureTitle' => 'تعذر تحميل معلومات المختبر',
+			'labSettingsForm.updateFailureMessage' => 'تعذر تحديث معلومات المختبر',
+			'labSettingsForm.labNameMissingWithoutUpdatePermissionMessage' => 'اسم المختبر غير معين. المستخدم الذي سجل الدخول لا يملك الصلاحية المطلوبة. يجب على مستخدم آخر لديه هذه الصلاحية إدخال اسم المختبر.',
+			'questionMark' => '؟',
+			'retry' => 'إعادة المحاولة',
+			'filePicker.pickFailure' => 'تعذر اختيار الملف.',
+			'filePicker.exceedsMaximumSize' => ({required Object maxSize}) => 'يتجاوز الملف المحدد الحد الأقصى المسموح به للحجم وهو ${maxSize}.',
+			'filePicker.readFailure' => 'تعذر قراءة الملف المحدد.',
+			'imagePicker.changeImage' => 'تغيير الصورة',
+			'imagePicker.removeImage' => 'إزالة الصورة',
 			_ => null,
 		};
 	}

@@ -199,6 +199,13 @@ class MdnsServiceDiscoveryBonsoir({
       return null;
     }
 
+    // Apple Bonjour (macOS/iOS) may provide hostnames with a trailing dot.
+    // Some browsers, such as Chrome on Android, may fail to open the address
+    // when the trailing dot is copied.
+    final normalizedHostname = hostname.endsWith('.')
+        ? hostname.substring(0, hostname.length - 1)
+        : hostname;
+
     final hostAddresses = bonsoir.hostAddresses;
 
     _logger.fine('hostAddresses for "$instanceName": $hostAddresses');
@@ -216,7 +223,7 @@ class MdnsServiceDiscoveryBonsoir({
         .toList();
 
     return MdnsServiceInfo(
-      hostname: hostname,
+      hostname: normalizedHostname,
       ipAddress: ipv4Addresses.firstOrNull?.address,
       port: bonsoir.port,
       instanceName: instanceName,

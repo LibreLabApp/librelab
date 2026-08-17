@@ -16,9 +16,9 @@
             "serverSelection": {
                 "nav": {
                     "title": "الخادم",
-                    "subtitle": "اختر الخادم",
-                    "prerequisiteStepIncomplete": "حدد خادما وتحقق من التوافق أولا"
+                    "subtitle": "اختر الخادم"
                 },
+                "prerequisiteStepIncomplete": "حدد خادما وتحقق من التوافق أولا",
                 "content": {
                     "title": "تحديد الخادم",
                     "subtitle": "اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك"
@@ -27,9 +27,9 @@
             "login": {
                 "nav": {
                     "title": "تسجيل الدخول",
-                    "subtitle": "سجل الدخول باستخدام بياناتك",
-                    "prerequisiteStepIncomplete": "أكمل إعداد الحساب أولا"
+                    "subtitle": "سجل الدخول باستخدام بياناتك"
                 },
+                "prerequisiteStepIncomplete": "أكمل إعداد الحساب أولا",
                 "content": {
                     "title": "المصادقة",
                     "subtitle": "قم بالمصادقة للوصول إلى حسابك"
@@ -40,14 +40,16 @@
                     "title": "اكتمل",
                     "subtitle": "إنهاء الإعداد"
                 },
+                "prerequisiteStepIncomplete": "يجب إدخال اسم المختبر",
                 "content": {
-                    "title": "كل شيء جاهز!",
-                    "subtitle": "اكتمل إعداد التطبيق"
+                    "title": "معلومات المختبر",
+                    "subtitle": "أكمل معلومات مختبرك لإنهاء الإعداد"
                 }
             }
         },
         "next": "التالي",
         "back": "السابق",
+        "finish": "إنهاء",
         "decorativeAnimation": {
             "title": "أوشكنا على الانتهاء!",
             "subtitle": "لنكمل إعداد التطبيق"
@@ -261,7 +263,7 @@
             "text": "ألا تمتلك هذا الجهاز؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.",
             "learnMore": "مزيد من المعلومات حول استخدام \"وضع الضيف\""
         },
-        "login": "تسجيل الدخول",
+        "loginButton": "تسجيل الدخول",
         "loginFailures": {
             "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
             "loginDisabled": "تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.",
@@ -276,5 +278,33 @@
             "label": "كيفية الحصول على بيانات تسجيل الدخول",
             "description": "تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين."
         }
+    },
+    "labSettingsForm": {
+        "labNameTextField": {
+            "validationErrors": {
+                "emptyInput": "اسم المختبر مطلوب"
+            },
+            "label": "اسم المختبر",
+            "hint": "مثال: مختبر التشخيص المركزي"
+        },
+        "updateButton": "تحديث",
+        "refreshButton": "إعادة تحميل",
+        "fetch": {
+            "loadingMessage": "جارٍ تحميل معلومات المختبر...",
+            "failureTitle": "تعذر تحميل معلومات المختبر"
+        },
+        "updateFailureMessage": "تعذر تحديث معلومات المختبر",
+        "labNameMissingWithoutUpdatePermissionMessage": "اسم المختبر غير معين. المستخدم الذي سجل الدخول لا يملك الصلاحية المطلوبة. يجب على مستخدم آخر لديه هذه الصلاحية إدخال اسم المختبر."
+    },
+    "questionMark": "؟",
+    "retry": "إعادة المحاولة",
+    "filePicker": {
+        "pickFailure": "تعذر اختيار الملف.",
+        "exceedsMaximumSize": "يتجاوز الملف المحدد الحد الأقصى المسموح به للحجم وهو $maxSize.",
+        "readFailure": "تعذر قراءة الملف المحدد."
+    },
+    "imagePicker": {
+        "changeImage": "تغيير الصورة",
+        "removeImage": "إزالة الصورة"
     }
 }

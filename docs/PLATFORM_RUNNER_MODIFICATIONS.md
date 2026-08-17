@@ -28,6 +28,7 @@ Except for the window title, app ID, and minimum window size, none at the moment
     - [server permission](https://developer.apple.com/documentation/bundleresources/entitlements/com.apple.security.network.server) for running a local HTTP server.
 - Removed CocoaPods integration by following the instructions provided by Flutter CLI.
 - Added `NSLocalNetworkUsageDescription` and `NSBonjourServices` keys with app-specific values (for local network discovery via mDNS).
+- Added `com.apple.security.files.user-selected.read-only` entitlement to `*.entitlements` files, required for filesystem access via [`package:file_selector`](https://pub.dev/packages/image_picker#macos-installation).
 
 ## iOS
 

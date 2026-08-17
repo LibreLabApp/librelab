@@ -17,9 +17,9 @@
       "serverSelection": {
         "nav": {
           "title": "Server",
-          "subtitle": "Select the server",
-          "prerequisiteStepIncomplete": "Select a server and verify compatibility first."
+          "subtitle": "Select the server"
         },
+        "prerequisiteStepIncomplete": "Select a server and verify compatibility first.",
         "content": {
           "title": "Server Selection",
           "subtitle": "Select a server to connect to and access your data"
@@ -28,9 +28,9 @@
       "login": {
         "nav": {
           "title": "Log in",
-          "subtitle": "Log in with your credentials",
-          "prerequisiteStepIncomplete": "Complete log in first"
+          "subtitle": "Log in with your credentials"
         },
+        "prerequisiteStepIncomplete": "Complete log in first",
         "content": {
           "title": "Authenticate",
           "subtitle": "Authenticate to access your account"
@@ -41,14 +41,16 @@
           "title": "Complete",
           "subtitle": "Finish setup"
         },
+        "prerequisiteStepIncomplete": "Lab name must be provided",
         "content": {
-          "title": "Ready to go!",
-          "subtitle": "Your setup is complete"
+          "title": "Lab information",
+          "subtitle": "Complete your lab information to finish setup"
         }
       }
     },
     "next": "Next",
     "back": "Back",
+    "finish": "Finish",
     "decorativeAnimation": {
       "title": "Almost there!",
       "subtitle": "Let's get everything set up for you",
@@ -269,7 +271,7 @@
       "text": "Not your device? Use Guest mode to sign in privately.",
       "learnMore": "Learn more about using Guest mode"
     },
-    "login": "Log in",
+    "loginButton": "Log in",
     "loginFailures": {
       "invalidCredentials": "Invalid email or password.",
       "loginDisabled": "Login is disabled. Contact an administrator to enable it.",
@@ -284,5 +286,33 @@
       "label": "How to get login credentials",
       "description": "Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users."
     }
+  },
+  "labSettingsForm": {
+    "labNameTextField": {
+      "validationErrors": {
+        "emptyInput": "A lab name is required"
+      },
+      "label": "Lab name",
+      "hint": "e.g., Central Diagnostic Laboratory"
+    },
+    "updateButton": "Update",
+    "refreshButton": "Refresh",
+    "fetch": {
+      "loadingMessage": "Loading lab information...",
+      "failureTitle": "Failed to load lab information"
+    },
+    "updateFailureMessage": "Failed to update lab information",
+    "labNameMissingWithoutUpdatePermissionMessage": "Lab name is not set. The logged-in user lacks the required permission. Another user with this permission must provide the lab name."
+  },
+  "questionMark": "?",
+  "retry": "Retry",
+  "filePicker": {
+    "pickFailure": "Failed to select the file.",
+    "exceedsMaximumSize": "The selected file exceeds the maximum allowed size of $maxSize.",
+    "readFailure": "Failed to read the selected file."
+  },
+  "imagePicker": {
+    "changeImage": "Change image",
+    "removeImage": "Remove image"
   }
 }

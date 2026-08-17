@@ -11,21 +11,17 @@ sealed class StepAccessDecision {
 
   String? get disabledReason {
     return switch (this) {
-      StepAllowed() => null,
+      StepAllowed() || StepFinal() => null,
       StepDenied(:final reason) => reason,
     };
   }
 }
 
-final class StepAllowed extends StepAccessDecision {
-  const StepAllowed();
-}
+final class const StepAllowed() extends StepAccessDecision;
 
-final class StepDenied extends StepAccessDecision {
-  const StepDenied(this.reason);
+final class const StepDenied(final String reason) extends StepAccessDecision;
 
-  final String reason;
-}
+final class const StepFinal() extends StepAccessDecision;
 
 typedef StepCanGoTo = StepAccessDecision Function(
   BuildContext context,
@@ -34,17 +30,20 @@ typedef StepCanGoTo = StepAccessDecision Function(
 );
 
 typedef StepChangedCallback = void Function(BuildContext context, int newIndex);
+typedef StepFinishedCallback = void Function(BuildContext context);
 
 @immutable
 class const NavigationButtonLabels({
   required final String next,
   required final String back,
+  required final String finish,
 });
 
 class const StepperFlow({
   super.key,
   required final int _currentStepIndex,
   required final StepChangedCallback _onStepChanged,
+  required final StepFinishedCallback _onStepFinished,
   required final List<Step> _steps,
   required final StepHero _stepHero,
   required final StepCanGoTo _canGoTo,
@@ -116,6 +115,7 @@ class const StepperFlow({
                   stepsCount: _steps.length,
                   canGoTo: _canGoTo,
                   onStepChanged: _guardedOnStepChanged,
+                  onStepFinished: _onStepFinished,
                   navigationButtonLabels: _navigationButtonLabels,
                   direction: direction,
                 ),
@@ -166,6 +166,7 @@ class const _StepContent({
   required final int _stepsCount,
   required final StepCanGoTo _canGoTo,
   required final StepChangedCallback _onStepChanged,
+  required final StepFinishedCallback _onStepFinished,
   required final NavigationButtonLabels _navigationButtonLabels,
   required final Axis _direction,
 }) extends StatelessWidget {
@@ -187,6 +188,7 @@ class const _StepContent({
               stepBuilder: _step.stepBuilder,
               stepsCount: _stepsCount,
               onStepChanged: _onStepChanged,
+              onStepFinished: _onStepFinished,
               navigationButtonLabels: _navigationButtonLabels,
               canGoTo: _canGoTo,
             ),
