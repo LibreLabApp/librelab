@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/auth/auth_repository/login_failures.dart';
 import 'package:librelab_flutter/auth/auth_repository/login_result.dart';
-import 'package:librelab_flutter/auth/cubit/login_cubit.dart';
+import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_failures.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/text_field_state.dart';

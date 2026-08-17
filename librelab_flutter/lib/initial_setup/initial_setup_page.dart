@@ -6,7 +6,8 @@ import 'package:librelab_flutter/app_settings/ui/tiles/use_animated_graphics.dar
 import 'package:librelab_flutter/app_settings/ui/tiles/use_custom_accent_color.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_system_theme_color.dart';
 import 'package:librelab_flutter/auth/auth_deps_provider.dart';
-import 'package:librelab_flutter/auth/cubit/login_cubit.dart' hide Success;
+import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart'
+    hide Success;
 import 'package:librelab_flutter/auth/ui/login_form_section.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';

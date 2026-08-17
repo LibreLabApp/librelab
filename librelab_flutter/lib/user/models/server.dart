@@ -6,7 +6,15 @@ part 'server.g.dart';
 
 @immutable
 @JsonSerializable()
-class const Server({required final int id, required final Uri apiBaseUri}) {
+class const Server({
+  required final int id,
+  // TODO: Rename to apiBaseUrl? On web this can be "/"
+  required final Uri apiBaseUri,
+
+  /// The local display name for this server configuration.
+  /// Does not necessarily match the canonical lab name reported by the server.
+  required final String name,
+}) {
   factory fromJson(JsonMap json) => _$ServerFromJson(json);
   JsonMap toJson() => _$ServerToJson(this);
 }

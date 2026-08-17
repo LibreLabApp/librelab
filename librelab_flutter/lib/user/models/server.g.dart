@@ -9,9 +9,11 @@ part of 'server.dart';
 Server _$ServerFromJson(Map<String, dynamic> json) => Server(
   id: (json['id'] as num).toInt(),
   apiBaseUri: Uri.parse(json['apiBaseUri'] as String),
+  name: json['name'] as String,
 );
 
 Map<String, dynamic> _$ServerToJson(Server instance) => <String, dynamic>{
   'id': instance.id,
   'apiBaseUri': instance.apiBaseUri.toString(),
+  'name': instance.name,
 };

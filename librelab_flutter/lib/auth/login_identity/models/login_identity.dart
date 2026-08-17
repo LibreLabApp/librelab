@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:librelab_api_client/librelab_api_client.dart';
 import 'package:librelab_flutter/common/json_types.dart' show JsonMap;
 import 'package:librelab_flutter/user/models/user.dart';
 import 'package:meta/meta.dart';
@@ -55,6 +56,34 @@ class const UserAuthTokens({
 }) {
   factory fromJson(JsonMap json) => _$UserAuthTokensFromJson(json);
   JsonMap toJson() => _$UserAuthTokensToJson(this);
+
+  static UserAuthTokens? fromAuthSession(AuthSession session) {
+    return switch (session) {
+      AuthSessionMemory(:final accessToken, :final refreshToken) => .new(
+        accessToken: .new(
+          value: accessToken.value,
+          expiresAt: accessToken.expiresAt,
+        ),
+        refreshToken: .new(
+          value: refreshToken.value,
+          expiresAt: refreshToken.expiresAt,
+        ),
+      ),
+      AuthSessionBrowserCookie() => null,
+    };
+  }
+
+  AuthSession toAuthSession(String userId) => .memory(
+    userId: userId,
+    accessToken: .new(
+      value: accessToken.value,
+      expiresAt: accessToken.expiresAt,
+    ),
+    refreshToken: .new(
+      value: refreshToken.value,
+      expiresAt: refreshToken.expiresAt,
+    ),
+  );
 }
 
 @immutable
