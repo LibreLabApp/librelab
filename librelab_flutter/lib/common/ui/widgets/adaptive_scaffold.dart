@@ -19,24 +19,35 @@ typedef FloatingActionButtonBuilder = Widget? Function(
   int index,
 );
 
+typedef ScaffoldActionsBuilder = List<Widget> Function({
+  required bool isNavigationRail,
+});
+
+typedef ScaffoldAppBarBuilder = PreferredSizeWidget? Function(
+  List<Widget> actions, {
+  required bool isNavigationRail,
+});
+
 /// A scaffold that adapts its navigation layout to the available width.
 ///
 /// Uses a [NavigationRail] when the available width is wide enough and a
-/// [NavigationBar] when it is not. The decision is based on screen width,
-/// not the underlying platform or operating system.
+/// [NavigationBar] when it is not. The decision is based on the available
+/// width, not the underlying platform or operating system.
 class const AdaptiveScaffold({
   super.key,
-  final PreferredSizeWidget? Function(
-    List<Widget> actions, {
-    required bool isNavigationRail,
-  })?
-  appBar,
+  final ScaffoldAppBarBuilder? appBar,
   required final List<NavigationItem> navigationItems,
-  required final List<Widget> Function({required bool isNavigationRail})
-  actions,
-  required final int defaultIndex,
+  required final ScaffoldActionsBuilder actions,
+  required final int initialIndex,
   final FloatingActionButtonBuilder? floatingActionButtonBuilder,
 }) extends StatefulWidget {
+  this
+    : assert(navigationItems.length > 0, 'navigationItems must not be empty.'),
+      assert(
+        initialIndex >= 0 && initialIndex < navigationItems.length,
+        'initialIndex must be within the range of navigationItems.',
+      );
+
   @override
   State<AdaptiveScaffold> createState() => _AdaptiveScaffoldState();
 }
@@ -46,7 +57,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
 
   @override
   void initState() {
-    _selectedIndex = widget.defaultIndex;
+    _selectedIndex = widget.initialIndex;
     super.initState();
   }
 

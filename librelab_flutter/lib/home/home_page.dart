@@ -50,7 +50,7 @@ class const HomePage({super.key}) extends StatelessWidget {
         if (!isNavigationRail) const SizedBox(width: 10),
       ],
       // TODO: Add an option in settings to override the default?
-      defaultIndex: 1,
+      initialIndex: 1,
     );
   }
 }
