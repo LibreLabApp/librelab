@@ -11,21 +11,21 @@ enum PostgresVersionInfo({
 }) {
   v16(
     majorVersion: 16,
-    fullVersion: '16.14-2',
+    fullVersion: '16.15-1',
     windowsInstallerSha256:
-        '6d3919bc23cfb45e79c6e391de8b689c32101f2c1b73377aa26e4ce593c0ef28',
+        'de926fefad00e313e212cd438c0f04bf033e200099ad56c012724efcebed79f2',
   ),
   v17(
     majorVersion: 17,
-    fullVersion: '17.10-2',
+    fullVersion: '17.11-1',
     windowsInstallerSha256:
-        '81554536268e499f431efa3fa20736736c64102c719308a03ceb32aa0cb6ae06',
+        'f104c552d8495a6f20738c2a03f643164bc64b9985363329e314dec24559f0b7',
   ),
   v18(
     majorVersion: 18,
-    fullVersion: '18.4-2',
+    fullVersion: '18.6-1',
     windowsInstallerSha256:
-        '0698d1a6083da490e5a57149257f5d9220d8c34109ed11b38aa592d320bf5385',
+        'cae561e98d09f3f4a1a95759249240f86f66d71dcf33d14b6f7be894078401d1',
   );
 
   factory fromMajorVersion(int majorVersion) {
