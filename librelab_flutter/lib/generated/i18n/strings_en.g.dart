@@ -61,6 +61,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	/// en: 'Copy error details'
 	String get copyErrorDetails => 'Copy error details';
+
+	late final Translations$homePage$en homePage = Translations$homePage$en.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -300,6 +302,17 @@ class Translations$imagePicker$en {
 
 	/// en: 'Remove image'
 	String get removeImage => 'Remove image';
+}
+
+// Path: homePage
+class Translations$homePage$en {
+	Translations$homePage$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$homePage$destinations$en destinations = Translations$homePage$destinations$en.internal(_root);
+	late final Translations$homePage$actions$en actions = Translations$homePage$actions$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -632,6 +645,31 @@ class Translations$labSettingsForm$fetch$en {
 	String get failureTitle => 'Failed to load lab information';
 }
 
+// Path: homePage.destinations
+class Translations$homePage$destinations$en {
+	Translations$homePage$destinations$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$homePage$destinations$settings$en settings = Translations$homePage$destinations$settings$en.internal(_root);
+}
+
+// Path: homePage.actions
+class Translations$homePage$actions$en {
+	Translations$homePage$actions$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Switch user'
+	String get switchUser => 'Switch user';
+
+	/// en: 'Log out'
+	String get logout => 'Log out';
+}
+
 // Path: initialSetupPage.steps.preferences
 class Translations$initialSetupPage$steps$preferences$en {
 	Translations$initialSetupPage$steps$preferences$en.internal(this._root);
@@ -929,6 +967,18 @@ class Translations$labSettingsForm$labNameTextField$validationErrors$en {
 
 	/// en: 'A lab name is required'
 	String get emptyInput => 'A lab name is required';
+}
+
+// Path: homePage.destinations.settings
+class Translations$homePage$destinations$settings$en {
+	Translations$homePage$destinations$settings$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Settings'
+	String get label => 'Settings';
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -1462,6 +1512,9 @@ extension on Translations {
 			'imagePicker.changeImage' => 'Change image',
 			'imagePicker.removeImage' => 'Remove image',
 			'copyErrorDetails' => 'Copy error details',
+			'homePage.destinations.settings.label' => 'Settings',
+			'homePage.actions.switchUser' => 'Switch user',
+			'homePage.actions.logout' => 'Log out',
 			_ => null,
 		};
 	}

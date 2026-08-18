@@ -76,12 +76,14 @@ void main() async {
     logger: Logger('$JsonStorage'),
   );
 
-  final AppSettingsRepository repository = AppSettingsRepository(
+  final settingsRepository = AppSettingsRepository(
     storage: jsonStorage,
     storageId: filePaths.settings,
   );
-  await repository.load();
-  final settings = repository.cached;
+
+  // TODO: Handle loading/parsing failure (since it loads a file from disk).
+  await settingsRepository.load();
+  final settings = settingsRepository.cached;
 
   await _setLocale(settings.locale);
 
@@ -91,7 +93,8 @@ void main() async {
   final libreLabApiClient = LibreLabApiClient(
     apiClient: httpApiClient,
     logger: Logger('LibreLabApiClient'),
-    // TODO: Implement later
+    // TODO: Handle AuthApiException (thrown by LibreLabApiClient.requestAuthenticated)
+    // TODO: Implement.
     onAuthSessionRefreshed: null,
   );
 
@@ -110,8 +113,8 @@ void main() async {
     logger: Logger('LoginIdentityCubit'),
   );
 
-  // TODO: Handle loading/parsing failure elsewhere outside of the initial setup page (since it loads a file from disk).
-  //  Also do the same for app settings (code is above).
+  // TODO: Handle loading/parsing failure (since it loads a file from disk).
+  //  it is currently only handled in initial setup page.
   await loginIdentityCubit.load();
 
   final router = GoRouter(
@@ -153,7 +156,7 @@ void main() async {
             loginIdentityCubit: loginIdentityCubit,
             child: BlocProvider(
               create: (context) =>
-                  AppSettingsCubit(repository, initial: settings),
+                  AppSettingsCubit(settingsRepository, initial: settings),
               child: MainApp(
                 router: router,
                 systemAccentColor: systemAccentColor,
@@ -229,6 +232,8 @@ class const MainApp({
               );
 
           return MaterialApp.router(
+            title: ProjectConstants.displayName,
+            debugShowCheckedModeBanner: false,
             routerConfig: _router,
             theme: ThemeData(
               colorScheme: colorScheme(.light),

@@ -53,6 +53,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$filePicker$ar filePicker = _Translations$filePicker$ar._(_root);
 	@override late final _Translations$imagePicker$ar imagePicker = _Translations$imagePicker$ar._(_root);
 	@override String get copyErrorDetails => 'نسخ تفاصيل الخطأ';
+	@override late final _Translations$homePage$ar homePage = _Translations$homePage$ar._(_root);
 }
 
 // Path: initialSetupPage
@@ -206,6 +207,17 @@ class _Translations$imagePicker$ar extends Translations$imagePicker$en {
 	// Translations
 	@override String get changeImage => 'تغيير الصورة';
 	@override String get removeImage => 'إزالة الصورة';
+}
+
+// Path: homePage
+class _Translations$homePage$ar extends Translations$homePage$en {
+	_Translations$homePage$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$homePage$destinations$ar destinations = _Translations$homePage$destinations$ar._(_root);
+	@override late final _Translations$homePage$actions$ar actions = _Translations$homePage$actions$ar._(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -450,6 +462,27 @@ class _Translations$labSettingsForm$fetch$ar extends Translations$labSettingsFor
 	@override String get failureTitle => 'تعذر تحميل معلومات المختبر';
 }
 
+// Path: homePage.destinations
+class _Translations$homePage$destinations$ar extends Translations$homePage$destinations$en {
+	_Translations$homePage$destinations$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$homePage$destinations$settings$ar settings = _Translations$homePage$destinations$settings$ar._(_root);
+}
+
+// Path: homePage.actions
+class _Translations$homePage$actions$ar extends Translations$homePage$actions$en {
+	_Translations$homePage$actions$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get switchUser => 'تبديل المستخدم';
+	@override String get logout => 'تسجيل الخروج';
+}
+
 // Path: initialSetupPage.steps.preferences
 class _Translations$initialSetupPage$steps$preferences$ar extends Translations$initialSetupPage$steps$preferences$en {
 	_Translations$initialSetupPage$steps$preferences$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -676,6 +709,16 @@ class _Translations$labSettingsForm$labNameTextField$validationErrors$ar extends
 
 	// Translations
 	@override String get emptyInput => 'اسم المختبر مطلوب';
+}
+
+// Path: homePage.destinations.settings
+class _Translations$homePage$destinations$settings$ar extends Translations$homePage$destinations$settings$en {
+	_Translations$homePage$destinations$settings$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'الإعدادات';
 }
 
 // Path: initialSetupPage.steps.preferences.nav
@@ -1110,6 +1153,9 @@ extension on TranslationsAr {
 			'imagePicker.changeImage' => 'تغيير الصورة',
 			'imagePicker.removeImage' => 'إزالة الصورة',
 			'copyErrorDetails' => 'نسخ تفاصيل الخطأ',
+			'homePage.destinations.settings.label' => 'الإعدادات',
+			'homePage.actions.switchUser' => 'تبديل المستخدم',
+			'homePage.actions.logout' => 'تسجيل الخروج',
 			_ => null,
 		};
 	}

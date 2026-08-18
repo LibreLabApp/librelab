@@ -309,5 +309,17 @@
         "changeImage": "تغيير الصورة",
         "removeImage": "إزالة الصورة"
     },
-    "copyErrorDetails": "نسخ تفاصيل الخطأ"
+    "copyErrorDetails": "نسخ تفاصيل الخطأ",
+    "loginIdentity": {},
+    "homePage": {
+        "destinations": {
+            "settings": {
+                "label": "الإعدادات"
+            }
+        },
+        "actions": {
+            "switchUser": "تبديل المستخدم",
+            "logout": "تسجيل الخروج"
+        }
+    }
 }

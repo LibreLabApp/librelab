@@ -317,5 +317,16 @@
     "changeImage": "Change image",
     "removeImage": "Remove image"
   },
-  "copyErrorDetails": "Copy error details"
+  "copyErrorDetails": "Copy error details",
+  "homePage": {
+    "destinations": {
+      "settings": {
+        "label": "Settings"
+      }
+    },
+    "actions": {
+      "switchUser": "Switch user",
+      "logout": "Log out"
+    }
+  }
 }
