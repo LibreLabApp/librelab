@@ -10,7 +10,8 @@ class const StepPager({
   required final int _stepsCount,
   required final StepBuilder _stepBuilder,
   required final StepChangedCallback _onStepChanged,
-  required final StepFinishedCallback _onStepFinished,
+  required final FinishedCallback _onFinished,
+  required final IsFinishingCallback _isFinishing,
   required final NavigationButtonLabels _navigationButtonLabels,
   required final StepCanGoTo _canGoTo,
 }) extends StatelessWidget {
@@ -54,7 +55,8 @@ class const StepPager({
               canGoTo: _canGoTo,
               currentStepIndex: _currentStepIndex,
               onStepChanged: _onStepChanged,
-              onStepFinished: _onStepFinished,
+              onFinished: _onFinished,
+              isFinishing: _isFinishing,
               stepsCount: _stepsCount,
             );
 
@@ -90,7 +92,8 @@ class const _NavigationButtons({
   required final StepCanGoTo canGoTo,
   required final NavigationButtonLabels navigationButtonLabels,
   required final StepChangedCallback onStepChanged,
-  required final StepFinishedCallback onStepFinished,
+  required final FinishedCallback onFinished,
+  required final IsFinishingCallback _isFinishing,
   required final int currentStepIndex,
   required final int stepsCount,
 }) extends StatelessWidget {
@@ -124,14 +127,16 @@ class const _NavigationButtons({
             final result = canGoTo(context, currentStepIndex + 1, .build);
             final String? disabledReason = result.disabledReason;
 
+            final isFinishing = _isFinishing(context);
+
             return Tooltip(
               message: disabledReason ?? '',
               child: FilledButton.icon(
-                onPressed: disabledReason != null
+                onPressed: disabledReason != null || isFinishing
                     ? null
                     : () {
                         if (result is StepFinal) {
-                          onStepFinished(context);
+                          onFinished(context);
                         } else {
                           _moveStep(context, forward: true);
                         }
@@ -141,8 +146,21 @@ class const _NavigationButtons({
                       ? navigationButtonLabels.finish
                       : navigationButtonLabels.next,
                 ),
-                icon: const Icon(Icons.arrow_forward_outlined),
-                iconAlignment: IconAlignment.end,
+                icon: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: isFinishing
+                      ? const SizedBox(
+                          key: ValueKey('loading'),
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(
+                          Icons.arrow_forward_outlined,
+                          key: ValueKey('arrow'),
+                        ),
+                ),
+                iconAlignment: .end,
                 style: FilledButton.styleFrom(
                   disabledBackgroundColor: colorScheme.onSurface.withValues(
                     alpha: 0.12,

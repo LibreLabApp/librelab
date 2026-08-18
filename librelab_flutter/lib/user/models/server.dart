@@ -14,6 +14,7 @@ class const Server({
   /// The local display name for this server configuration.
   /// Does not necessarily match the canonical lab name reported by the server.
   required final String name,
+  // TODO: Add lab settings here?
 }) {
   factory fromJson(JsonMap json) => _$ServerFromJson(json);
   JsonMap toJson() => _$ServerToJson(this);

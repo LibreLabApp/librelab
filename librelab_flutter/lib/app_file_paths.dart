@@ -9,4 +9,5 @@ class AppFilePaths({required final String? _workingDirectory}) {
   }
 
   String get settings => _resolve('settings.json');
+  String get loginIdentities => _resolve('login_identities.json');
 }

@@ -1,10 +1,10 @@
 import 'package:json_storage/json_storage.dart';
 import 'package:librelab_flutter/app_settings/app_settings.dart';
 
-class AppSettingsRepository(
-  final JsonStorage _storage,
-  final String _storageId,
-) {
+class AppSettingsRepository({
+  required final JsonStorage _storage,
+  required final String _storageId,
+}) {
   AppSettings? _cached;
   AppSettings get cached =>
       _cached ?? (throw StateError('Settings must be loaded'));

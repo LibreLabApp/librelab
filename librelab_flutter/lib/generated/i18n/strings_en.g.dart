@@ -58,6 +58,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	late final Translations$filePicker$en filePicker = Translations$filePicker$en.internal(_root);
 	late final Translations$imagePicker$en imagePicker = Translations$imagePicker$en.internal(_root);
+
+	/// en: 'Copy error details'
+	String get copyErrorDetails => 'Copy error details';
 }
 
 // Path: initialSetupPage
@@ -83,6 +86,9 @@ class Translations$initialSetupPage$en {
 
 	/// en: 'Finish'
 	String get finish => 'Finish';
+
+	/// en: 'Failed to complete setup.'
+	String get finishFailure => 'Failed to complete setup.';
 
 	late final Translations$initialSetupPage$decorativeAnimation$en decorativeAnimation = Translations$initialSetupPage$decorativeAnimation$en.internal(_root);
 }
@@ -575,6 +581,9 @@ class Translations$loginFormSection$loginSuccess$en {
 
 	/// en: 'Signed in as $fullName'
 	String subtitle({required Object fullName}) => 'Signed in as ${fullName}';
+
+	/// en: 'Log out'
+	String get logout => 'Log out';
 }
 
 // Path: loginFormSection.loginCredentialsGuide
@@ -1317,6 +1326,7 @@ extension on Translations {
 			'initialSetupPage.next' => 'Next',
 			'initialSetupPage.back' => 'Back',
 			'initialSetupPage.finish' => 'Finish',
+			'initialSetupPage.finishFailure' => 'Failed to complete setup.',
 			'initialSetupPage.decorativeAnimation.title' => 'Almost there!',
 			'initialSetupPage.decorativeAnimation.subtitle' => 'Let\'s get everything set up for you',
 			'confirmProgramExitDialog.title' => 'Confirm Exit',
@@ -1432,6 +1442,7 @@ extension on Translations {
 			'loginFormSection.requestFailureTitle' => 'Login failed',
 			'loginFormSection.loginSuccess.title' => 'Login successful',
 			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'Signed in as ${fullName}',
+			'loginFormSection.loginSuccess.logout' => 'Log out',
 			'loginFormSection.loginCredentialsGuide.label' => 'How to get login credentials',
 			'loginFormSection.loginCredentialsGuide.description' => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.',
 			'labSettingsForm.labNameTextField.validationErrors.emptyInput' => 'A lab name is required',
@@ -1450,6 +1461,7 @@ extension on Translations {
 			'filePicker.readFailure' => 'Failed to read the selected file.',
 			'imagePicker.changeImage' => 'Change image',
 			'imagePicker.removeImage' => 'Remove image',
+			'copyErrorDetails' => 'Copy error details',
 			_ => null,
 		};
 	}

@@ -4,6 +4,7 @@ import 'package:librelab_api_client/librelab_api_client.dart';
 import 'package:librelab_flutter/auth/auth_repository/auth_repository.dart';
 import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
+import 'package:logging/logging.dart';
 
 /// Provides the dependencies required by the authentication feature.
 ///
@@ -25,6 +26,7 @@ class const AuthDepsProvider({required final Widget child, super.key})
           create: (context) => LoginCubit(
             authRepository: context.read<AuthRepository>(),
             client: context.read<LibreLabApiClient>(),
+            logger: Logger('LoginCubit'),
           ),
         ),
       ],

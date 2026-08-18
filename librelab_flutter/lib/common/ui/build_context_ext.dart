@@ -13,8 +13,13 @@ extension BuildContextExt on BuildContext {
 
   bool get isDark => theme.isDark;
 
-  void showSnackBarMessage(String message, {Duration? duration}) {
-    ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
+  void showSnackBarMessage(
+    String message, {
+    Duration? duration,
+    SnackBarAction? action,
+  }) {
+    ScaffoldMessenger.of(this)
+        .showSnackBar(SnackBar(content: Text(message), action: action));
   }
 }
 

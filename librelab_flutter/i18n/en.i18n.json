@@ -51,6 +51,7 @@
     "next": "Next",
     "back": "Back",
     "finish": "Finish",
+    "finishFailure": "Failed to complete setup.",
     "decorativeAnimation": {
       "title": "Almost there!",
       "subtitle": "Let's get everything set up for you",
@@ -280,7 +281,8 @@
     "requestFailureTitle": "Login failed",
     "loginSuccess": {
       "title": "Login successful",
-      "subtitle": "Signed in as $fullName"
+      "subtitle": "Signed in as $fullName",
+      "logout": "Log out"
     },
     "loginCredentialsGuide": {
       "label": "How to get login credentials",
@@ -314,5 +316,6 @@
   "imagePicker": {
     "changeImage": "Change image",
     "removeImage": "Remove image"
-  }
+  },
+  "copyErrorDetails": "Copy error details"
 }

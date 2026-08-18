@@ -50,6 +50,7 @@
         "next": "التالي",
         "back": "السابق",
         "finish": "إنهاء",
+        "finishFailure": "فشل إكمال الإعداد.",
         "decorativeAnimation": {
             "title": "أوشكنا على الانتهاء!",
             "subtitle": "لنكمل إعداد التطبيق"
@@ -272,7 +273,8 @@
         "requestFailureTitle": "فشل تسجيل الدخول",
         "loginSuccess": {
             "title": "تم تسجيل الدخول بنجاح",
-            "subtitle": "تم تسجيل الدخول باسم $fullName"
+            "subtitle": "تم تسجيل الدخول باسم $fullName",
+            "logout": "تسجيل الخروج"
         },
         "loginCredentialsGuide": {
             "label": "كيفية الحصول على بيانات تسجيل الدخول",
@@ -306,5 +308,6 @@
     "imagePicker": {
         "changeImage": "تغيير الصورة",
         "removeImage": "إزالة الصورة"
-    }
+    },
+    "copyErrorDetails": "نسخ تفاصيل الخطأ"
 }

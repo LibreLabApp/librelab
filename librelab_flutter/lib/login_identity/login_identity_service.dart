@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:librelab_api_client/librelab_api_client.dart';
-import 'package:librelab_flutter/auth/login_identity/login_identity_repository.dart';
-import 'package:librelab_flutter/auth/login_identity/models/login_identities.dart';
-import 'package:librelab_flutter/auth/login_identity/models/login_identity.dart';
+import 'package:librelab_flutter/login_identity/login_identity_repository.dart';
+import 'package:librelab_flutter/login_identity/models/login_identities.dart';
+import 'package:librelab_flutter/login_identity/models/login_identity.dart';
 import 'package:librelab_flutter/user/models/server.dart';
 import 'package:librelab_flutter/user/models/user.dart';
 
@@ -16,7 +16,9 @@ class LoginIdentityService({
   /// Completes a login by creating or updating the login identity, selecting it,
   /// persisting it, and configuring the API client's active authentication session.
   /// Does not initiate authentication. The authentication result must be provided.
-  Future<void> completeLogin({
+  ///
+  /// Returns the updated [LoginIdentities].
+  Future<LoginIdentities> completeLogin({
     required Uri serverBaseUrl,
     required String labName,
     required User user,
@@ -57,33 +59,35 @@ class LoginIdentityService({
       persistAuthSession: persistAuthSession,
     );
 
-    await _loginIdentityRepository.write(
-      loginIdentities.copyWith(
-        servers: [
-          ...loginIdentities.servers,
-          if (existingServer == null) server,
-        ],
-        loginIdentities: [
-          ...loginIdentities.loginIdentities.where(
-            (existing) => existing.id != loginIdentity.id,
-          ),
-          loginIdentity,
-        ],
-        selectedLoginIdentityId: loginIdentity.id,
-      ),
+    final updated = loginIdentities.copyWith(
+      servers: [...loginIdentities.servers, if (existingServer == null) server],
+      loginIdentities: [
+        ...loginIdentities.loginIdentities.where(
+          (existing) => existing.id != loginIdentity.id,
+        ),
+        loginIdentity,
+      ],
+      selectedLoginIdentityId: loginIdentity.id,
     );
 
+    await _loginIdentityRepository.write(updated);
+
     _configureClient(serverBaseUrl, authSession);
+
+    return updated;
   }
 
   /// Returns the currently selected login identity and its associated server.
+  ///
   /// Returns `null` if no login identity is selected.
+  ///
   /// Throws [StateError] if the selected login identity or its associated server
-  /// does not resolve to exactly one entry.
-  Future<(LoginIdentity, Server)?> currentLoginIdentity() async {
-    final loginIdentities = await _loginIdentityRepository.read();
-
+  /// does not resolve to exactly one entry in [loginIdentities].
+  (LoginIdentity, Server)? currentLoginIdentity(
+    LoginIdentities loginIdentities,
+  ) {
     final selectedLoginIdentityId = loginIdentities.selectedLoginIdentityId;
+
     if (selectedLoginIdentityId == null) {
       return null;
     }
@@ -118,7 +122,9 @@ class LoginIdentityService({
   /// Throws [StateError] if [loginIdentityId] does not resolve to exactly one
   /// login identity, its associated server does not resolve to exactly one entry,
   /// or authentication tokens are not found on a non-browser platform.
-  Future<void> selectLoginIdentity(int loginIdentityId) async {
+  ///
+  /// Returns the updated [LoginIdentities].
+  Future<LoginIdentities> selectLoginIdentity(int loginIdentityId) async {
     final loginIdentities = await _loginIdentityRepository.read();
 
     final loginIdentity = loginIdentities.loginIdentities.singleWhereOrNull(
@@ -143,11 +149,15 @@ class LoginIdentityService({
       );
     }
 
-    await _loginIdentityRepository.write(
-      loginIdentities.copyWith(selectedLoginIdentityId: loginIdentity.id),
+    final updated = loginIdentities.copyWith(
+      selectedLoginIdentityId: loginIdentity.id,
     );
 
+    await _loginIdentityRepository.write(updated);
+
     _configureClientFromLoginIdentity(loginIdentity, server);
+
+    return updated;
   }
 
   /// Returns all locally configured login identities and their associated servers.
@@ -155,15 +165,17 @@ class LoginIdentityService({
     return _loginIdentityRepository.read();
   }
 
-  /// Restores the currently selected login identity and configures the API client
-  /// with its server and authentication session.
+  /// Restores the currently selected login identity from [loginIdentities] and
+  /// configures the API client with its server and authentication session.
   /// Returns `null` if no login identity is selected.
   ///
   /// Throws [StateError] if the selected login identity or its associated server
-  /// does not resolve to exactly one entry, or authentication tokens are not found
-  /// on a non-browser platform.
-  Future<(LoginIdentity, Server)?> restoreCurrentLoginIdentity() async {
-    final current = await currentLoginIdentity();
+  /// does not resolve to exactly one entry in [loginIdentities], or authentication
+  /// tokens are not found on a non-browser platform.
+  (LoginIdentity, Server)? restoreCurrentLoginIdentity(
+    LoginIdentities loginIdentities,
+  ) {
+    final current = currentLoginIdentity(loginIdentities);
     if (current == null) {
       return null;
     }
@@ -194,6 +206,9 @@ class LoginIdentityService({
   ) {
     final userId = loginIdentity.user.id;
 
+    // TODO: When LoginIdentity.persistAuthSession is false, the auth tokens are
+    //  not stored, so this is as intended and must be handled at runtime
+    //  rather than treated as a programming bug.
     final AuthSession authSession = kIsWeb
         ? .browserCookie(userId: userId)
         : loginIdentity.authTokens?.toAuthSession(userId) ??

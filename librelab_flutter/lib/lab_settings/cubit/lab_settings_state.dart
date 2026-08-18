@@ -13,6 +13,18 @@ class const LabSettingsState({
         fetchSettingsState: const .initial(),
         updateSettingsState: const .initial(),
       );
+
+  /// Returns the lab settings if they have been loaded successfully.
+  ///
+  /// Throws a [StateError] if the lab settings are not available.
+  LabSettings labSettingsOrThrow() {
+    final state = fetchSettingsState;
+    if (state is! FetchSettingsSuccess) {
+      throw StateError('Login state must be successful');
+    }
+
+    return state.settings;
+  }
 }
 
 @freezed

@@ -52,6 +52,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get retry => 'إعادة المحاولة';
 	@override late final _Translations$filePicker$ar filePicker = _Translations$filePicker$ar._(_root);
 	@override late final _Translations$imagePicker$ar imagePicker = _Translations$imagePicker$ar._(_root);
+	@override String get copyErrorDetails => 'نسخ تفاصيل الخطأ';
 }
 
 // Path: initialSetupPage
@@ -66,6 +67,7 @@ class _Translations$initialSetupPage$ar extends Translations$initialSetupPage$en
 	@override String get next => 'التالي';
 	@override String get back => 'السابق';
 	@override String get finish => 'إنهاء';
+	@override String get finishFailure => 'فشل إكمال الإعداد.';
 	@override late final _Translations$initialSetupPage$decorativeAnimation$ar decorativeAnimation = _Translations$initialSetupPage$decorativeAnimation$ar._(_root);
 }
 
@@ -411,6 +413,7 @@ class _Translations$loginFormSection$loginSuccess$ar extends Translations$loginF
 	// Translations
 	@override String get title => 'تم تسجيل الدخول بنجاح';
 	@override String subtitle({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}';
+	@override String get logout => 'تسجيل الخروج';
 }
 
 // Path: loginFormSection.loginCredentialsGuide
@@ -971,6 +974,7 @@ extension on TranslationsAr {
 			'initialSetupPage.next' => 'التالي',
 			'initialSetupPage.back' => 'السابق',
 			'initialSetupPage.finish' => 'إنهاء',
+			'initialSetupPage.finishFailure' => 'فشل إكمال الإعداد.',
 			'initialSetupPage.decorativeAnimation.title' => 'أوشكنا على الانتهاء!',
 			'initialSetupPage.decorativeAnimation.subtitle' => 'لنكمل إعداد التطبيق',
 			'confirmProgramExitDialog.title' => 'تأكيد الخروج',
@@ -1086,6 +1090,7 @@ extension on TranslationsAr {
 			'loginFormSection.requestFailureTitle' => 'فشل تسجيل الدخول',
 			'loginFormSection.loginSuccess.title' => 'تم تسجيل الدخول بنجاح',
 			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'تم تسجيل الدخول باسم ${fullName}',
+			'loginFormSection.loginSuccess.logout' => 'تسجيل الخروج',
 			'loginFormSection.loginCredentialsGuide.label' => 'كيفية الحصول على بيانات تسجيل الدخول',
 			'loginFormSection.loginCredentialsGuide.description' => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.',
 			'labSettingsForm.labNameTextField.validationErrors.emptyInput' => 'اسم المختبر مطلوب',
@@ -1104,6 +1109,7 @@ extension on TranslationsAr {
 			'filePicker.readFailure' => 'تعذر قراءة الملف المحدد.',
 			'imagePicker.changeImage' => 'تغيير الصورة',
 			'imagePicker.removeImage' => 'إزالة الصورة',
+			'copyErrorDetails' => 'نسخ تفاصيل الخطأ',
 			_ => null,
 		};
 	}

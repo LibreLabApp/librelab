@@ -41,14 +41,14 @@ class AuthRepository({
         if (dto is LoginBrowserResponse) {
           return LoginResultSuccess(
             user: dto.user.toDomain(),
-            session: .browserCookie(userId: dto.user.id),
+            authSession: .browserCookie(userId: dto.user.id),
           );
         }
 
         if (dto is LoginResponse) {
           return LoginResultSuccess(
             user: dto.user.toDomain(),
-            session: .memory(
+            authSession: .memory(
               userId: dto.user.id,
               accessToken: dto.accessToken,
               refreshToken: dto.refreshToken,

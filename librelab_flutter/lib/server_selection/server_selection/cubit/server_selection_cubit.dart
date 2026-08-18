@@ -140,7 +140,6 @@ class ServerSelectionCubit({
 }
 
 class LocalNetworkDiscoveryController({
-  // required final ServerSelectionCubit _cubit,
   required final ServerSelectionState Function() _state,
   required final void Function(ServerSelectionState state) _emit,
   required final void Function(ServerSelectionState state) _emitIfMounted,

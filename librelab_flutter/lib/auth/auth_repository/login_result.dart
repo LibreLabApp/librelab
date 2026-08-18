@@ -4,15 +4,10 @@ import 'package:librelab_flutter/user/models/user.dart';
 
 sealed class const LoginResult();
 
-final class LoginResultFailure extends LoginResult {
-  const new(this.failure);
+final class const LoginResultFailure(final LoginFailure failure)
+    extends LoginResult;
 
-  final LoginFailure failure;
-}
-
-final class LoginResultSuccess extends LoginResult {
-  const new({required this.user, required this.session});
-
-  final User user;
-  final AuthSession session;
-}
+final class const LoginResultSuccess({
+  required final User user,
+  required final AuthSession authSession,
+}) extends LoginResult;

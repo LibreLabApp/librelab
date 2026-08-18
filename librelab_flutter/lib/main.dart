@@ -1,20 +1,30 @@
 import 'dart:io' show stderr, stdout;
 
+import 'package:api_client/api_client.dart';
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:json_storage/json_storage.dart';
+import 'package:librelab_api_client/librelab_api_client.dart';
 import 'package:librelab_flutter/app_file_paths.dart';
 import 'package:librelab_flutter/app_settings/app_settings.dart';
 import 'package:librelab_flutter/app_settings/app_settings_repository.dart';
 import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
+import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
 import 'package:librelab_flutter/common/network/http_client_deps_provider.dart';
+import 'package:librelab_flutter/common/network/http_client_factory/http_client_factory.dart';
 import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/platform/platform_check_flatpak.dart';
+import 'package:librelab_flutter/common/ui/go_router_utils.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
+import 'package:librelab_flutter/home/home_page.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
+import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart';
+import 'package:librelab_flutter/login_identity/login_identity_deps_provider.dart';
+import 'package:librelab_flutter/login_identity/login_identity_repository.dart';
+import 'package:librelab_flutter/login_identity/login_identity_service.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 import 'package:material_ui/material_ui.dart';
@@ -25,13 +35,6 @@ import 'package:string_storage_shared_preferences/string_storage_shared_preferen
 import 'package:system_accent_color/system_accent_color.dart';
 
 final GlobalKey<NavigatorState> _navKey = GlobalKey();
-
-final _router = GoRouter(
-  navigatorKey: _navKey,
-  routes: [
-    GoRoute(path: '/', builder: (context, state) => const InitialSetupPage()),
-  ],
-);
 
 final _logger = Logger('Main');
 
@@ -74,13 +77,66 @@ void main() async {
   );
 
   final AppSettingsRepository repository = AppSettingsRepository(
-    jsonStorage,
-    filePaths.settings,
+    storage: jsonStorage,
+    storageId: filePaths.settings,
   );
   await repository.load();
   final settings = repository.cached;
 
   await _setLocale(settings.locale);
+
+  final httpClient = createHttpClient();
+  final httpApiClient = HttpApiClientDart(httpClient);
+
+  final libreLabApiClient = LibreLabApiClient(
+    apiClient: httpApiClient,
+    logger: Logger('LibreLabApiClient'),
+    // TODO: Implement later
+    onAuthSessionRefreshed: null,
+  );
+
+  final apiRequestHandler = ApiRequestHandlerDefault(
+    logger: Logger('ApiRequestHandlerDefault'),
+  );
+
+  final loginIdentityCubit = LoginIdentityCubit(
+    service: LoginIdentityService(
+      client: libreLabApiClient,
+      loginIdentityRepository: LoginIdentityRepository(
+        storage: jsonStorage,
+        storageId: filePaths.loginIdentities,
+      ),
+    ),
+    logger: Logger('LoginIdentityCubit'),
+  );
+
+  // TODO: Handle loading/parsing failure elsewhere outside of the initial setup page (since it loads a file from disk).
+  //  Also do the same for app settings (code is above).
+  await loginIdentityCubit.load();
+
+  final router = GoRouter(
+    navigatorKey: _navKey,
+    routes: [
+      GoRoute(
+        path: InitialSetupPage.routePath,
+        builder: (context, state) => const InitialSetupPage(),
+      ),
+      GoRoute(
+        path: HomePage.routePath,
+        builder: (context, state) => const HomePage(),
+      ),
+    ],
+    refreshListenable: GoRouterRefreshStream([loginIdentityCubit.stream]),
+    redirect: (context, state) {
+      final loginIdentityState = loginIdentityCubit.state;
+
+      if (loginIdentityState is Success &&
+          loginIdentityState.selectedLoginIdentity != null) {
+        return HomePage.routePath;
+      }
+      return InitialSetupPage.routePath;
+    },
+  );
 
   final systemAccentColor = await SystemAccentColor().getAccentColor();
 
@@ -89,10 +145,20 @@ void main() async {
       child: Provider<AppFilePaths>.value(
         value: filePaths,
         child: HttpClientDepsProvider(
-          BlocProvider(
-            create: (context) =>
-                AppSettingsCubit(repository, initial: settings),
-            child: MainApp(systemAccentColor: systemAccentColor),
+          httpClient: httpClient,
+          httpApiClient: httpApiClient,
+          libreLabApiClient: libreLabApiClient,
+          apiRequestHandler: apiRequestHandler,
+          LoginIdentityDepsProvider(
+            loginIdentityCubit: loginIdentityCubit,
+            child: BlocProvider(
+              create: (context) =>
+                  AppSettingsCubit(repository, initial: settings),
+              child: MainApp(
+                router: router,
+                systemAccentColor: systemAccentColor,
+              ),
+            ),
           ),
         ),
       ),
@@ -114,8 +180,11 @@ void main() async {
   }
 }
 
-class const MainApp({required final Color? systemAccentColor, super.key})
-    extends StatelessWidget {
+class const MainApp({
+  required final GoRouter _router,
+  required final Color? _systemAccentColor,
+  super.key,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final listTileTheme = ListTileThemeData(
@@ -146,7 +215,7 @@ class const MainApp({required final Color? systemAccentColor, super.key})
               ColorScheme.fromSeed(
                 seedColor: () {
                   if (appearance.useSystemColors) {
-                    final color = systemAccentColor;
+                    final color = _systemAccentColor;
                     if (color != null) {
                       return color;
                     }

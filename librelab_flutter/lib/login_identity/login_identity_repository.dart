@@ -1,26 +1,36 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:json_storage/json_storage.dart';
-import 'package:librelab_flutter/auth/login_identity/models/login_identities.dart';
+import 'package:librelab_flutter/login_identity/models/login_identities.dart';
 
 // TODO: (AUTH) Store tokens on system secure storage when supported (non-browser platforms)
 
 /// Manages locally persisted users and their associated servers and
 /// authentication credentials. Does not perform authentication or manage
 /// in-memory authentication state.
-class LoginIdentityRepository(
-  final JsonStorage _storage,
-  final String _storageId,
-) {
+class LoginIdentityRepository({
+  required final JsonStorage _storage,
+  required final String _storageId,
+}) {
+  LoginIdentities? _cached;
+
   Future<LoginIdentities> read() async {
-    final json = await _storage.read(_storageId);
-    if (json == null) {
-      return const .new(
-        selectedLoginIdentityId: null,
-        servers: [],
-        loginIdentities: [],
-      );
+    final cached = _cached;
+    if (cached != null) {
+      return cached;
     }
-    return .fromJson(json);
+
+    final json = await _storage.read(_storageId);
+
+    final LoginIdentities loginIdentities = json == null
+        ? const .new(
+            selectedLoginIdentityId: null,
+            servers: [],
+            loginIdentities: [],
+          )
+        : .fromJson(json);
+
+    _cached = loginIdentities;
+    return loginIdentities;
   }
 
   Future<void> write(LoginIdentities root) async {
@@ -34,9 +44,10 @@ class LoginIdentityRepository(
       return loginIdentity;
     }).toList();
 
-    await _storage.write(
-      _storageId,
-      root.copyWith(loginIdentities: persistedLoginIdentities).toJson(),
-    );
+    final updated = root.copyWith(loginIdentities: persistedLoginIdentities);
+
+    await _storage.write(_storageId, updated.toJson());
+
+    _cached = updated;
   }
 }

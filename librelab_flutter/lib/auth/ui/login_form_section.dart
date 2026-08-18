@@ -177,16 +177,26 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 EitherLeft(leftValue: final success) => AlertCard(
                   type: .success,
                   prefixIcon: Icons.check_circle_outline_rounded,
-                  suffix: (color) => CircleAvatar(
-                    radius: 16,
-                    backgroundColor: color,
-                    child: Text(
-                      success.user.fullName.characters.first.toUpperCase(),
-                      style: context.theme.textTheme.labelLarge?.copyWith(
-                        color: context.theme.colorScheme.onPrimary,
-                        fontWeight: FontWeight.w600,
+                  suffix: (color) => Row(
+                    mainAxisSize: .min,
+                    children: [
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundColor: color,
+                        child: Text(
+                          success.user.fullName.characters.first.toUpperCase(),
+                          style: context.theme.textTheme.labelLarge?.copyWith(
+                            color: context.theme.colorScheme.onPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () => context.read<LoginCubit>().logout(),
+                        child: Text(t.loginSuccess.logout),
+                      ),
+                    ],
                   ),
                   title: Text(t.loginSuccess.title),
                   subtitle: Text.rich(

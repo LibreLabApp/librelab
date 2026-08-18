@@ -30,7 +30,8 @@ typedef StepCanGoTo = StepAccessDecision Function(
 );
 
 typedef StepChangedCallback = void Function(BuildContext context, int newIndex);
-typedef StepFinishedCallback = void Function(BuildContext context);
+typedef FinishedCallback = void Function(BuildContext context);
+typedef IsFinishingCallback = bool Function(BuildContext context);
 
 @immutable
 class const NavigationButtonLabels({
@@ -43,7 +44,8 @@ class const StepperFlow({
   super.key,
   required final int _currentStepIndex,
   required final StepChangedCallback _onStepChanged,
-  required final StepFinishedCallback _onStepFinished,
+  required final FinishedCallback _onFinished,
+  required final IsFinishingCallback _isFinishing,
   required final List<Step> _steps,
   required final StepHero _stepHero,
   required final StepCanGoTo _canGoTo,
@@ -115,7 +117,8 @@ class const StepperFlow({
                   stepsCount: _steps.length,
                   canGoTo: _canGoTo,
                   onStepChanged: _guardedOnStepChanged,
-                  onStepFinished: _onStepFinished,
+                  onFinished: _onFinished,
+                  isFinishing: _isFinishing,
                   navigationButtonLabels: _navigationButtonLabels,
                   direction: direction,
                 ),
@@ -166,7 +169,8 @@ class const _StepContent({
   required final int _stepsCount,
   required final StepCanGoTo _canGoTo,
   required final StepChangedCallback _onStepChanged,
-  required final StepFinishedCallback _onStepFinished,
+  required final FinishedCallback _onFinished,
+  required final IsFinishingCallback _isFinishing,
   required final NavigationButtonLabels _navigationButtonLabels,
   required final Axis _direction,
 }) extends StatelessWidget {
@@ -188,7 +192,8 @@ class const _StepContent({
               stepBuilder: _step.stepBuilder,
               stepsCount: _stepsCount,
               onStepChanged: _onStepChanged,
-              onStepFinished: _onStepFinished,
+              onFinished: _onFinished,
+              isFinishing: _isFinishing,
               navigationButtonLabels: _navigationButtonLabels,
               canGoTo: _canGoTo,
             ),

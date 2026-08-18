@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/send_crash_reports.dart';
@@ -11,13 +12,14 @@ import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart'
 import 'package:librelab_flutter/auth/ui/login_form_section.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
-import 'package:librelab_flutter/common/ui/widgets/celebration_confetti.dart';
 import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
 import 'package:librelab_flutter/lab_settings/cubit/lab_settings_cubit.dart';
 import 'package:librelab_flutter/lab_settings/lab_settings_deps_provider.dart';
 import 'package:librelab_flutter/lab_settings/ui/lab_settings_form.dart';
+import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart'
+    hide Success;
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_flutter/server_selection/server_selection/ui/server_selection_section.dart';
 import 'package:librelab_flutter/server_selection/server_selection_deps_provider.dart';
@@ -27,6 +29,8 @@ import 'package:material_ui/material_ui.dart' hide Step;
 import 'package:stepper_flow/stepper_flow.dart';
 
 class const InitialSetupPage({super.key}) extends StatelessWidget {
+  static const String routePath = '/initial-setup';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,114 +57,97 @@ class const _Body() extends StatelessWidget {
       (InitialSetupCubit v) => v.state.currentStep,
     );
 
-    return CelebrationConfetti(
-      builder: (context, controller) {
-        return StepperFlow(
-          currentStepIndex: currentStep.index,
-          onStepChanged: (context, i) => context
-              .read<InitialSetupCubit>()
-              .setStep(InitialSetupStep.values[i]),
-          onStepFinished: (context) async {
-            controller.play();
+    return _LoginIdentityFailureListener(
+      child: StepperFlow(
+        currentStepIndex: currentStep.index,
+        onStepChanged: (context, i) => context
+            .read<InitialSetupCubit>()
+            .setStep(InitialSetupStep.values[i]),
+        onFinished: (context) async {
+          final serverBaseUrl = context
+              .read<ServerSelectionCubit>()
+              .state
+              .serverUriOrThrow();
 
-            // TODO: Navigate to the next screen (e.g., dashboard screen) and complete
-            //  initial setup (i.e., add the user login identity)
-            //  bellow is a dummy implementation
+          final loginSuccessResult = context
+              .read<LoginCubit>()
+              .state
+              .successOrThrow();
 
-            // START: DUMMY_IMPLEMENTATION
+          final labName = context
+              .read<LabSettingsCubit>()
+              .state
+              .labSettingsOrThrow()
+              .labName;
 
-            await Future<void>.delayed(const Duration(seconds: 5));
+          if (labName == null) {
+            throw StateError(
+              'Lab name must be provided before completing the setup',
+            );
+          }
 
-            if (!context.mounted) {
-              return;
-            }
-
-            final navigator = Navigator.of(context);
-
-            final widget = Directionality(
-              textDirection: .ltr,
-              child: Scaffold(
-                appBar: AppBar(),
-                body: Center(
-                  child: Column(
-                    mainAxisSize: .min,
-                    children: [
-                      const Icon(Icons.check_circle_outline, size: 72),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Thank you!',
-                        style: Theme.of(context).textTheme.displaySmall,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Thank you for trying this very early build.\nYour feedback helps shape what comes next.',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        textAlign: .center,
-                      ),
-                    ],
-                  ),
-                ),
+          await context.read<LoginIdentityCubit>().completeLogin(
+            serverBaseUrl: serverBaseUrl,
+            labName: labName,
+            user: loginSuccessResult.result.user,
+            authSession: loginSuccessResult.result.authSession,
+            persistAuthSession: loginSuccessResult.persistAuthSession,
+          );
+        },
+        isFinishing: (context) {
+          return context.select((LoginIdentityCubit v) => v.state.isLoading);
+        },
+        steps: InitialSetupStep.values.map((e) {
+          return Step(
+            nav: e.getStepNav(t),
+            contentHeading: currentStep.getStepContentHeading(t),
+            stepBuilder: (context) => switch (e) {
+              .preferences => const Column(
+                spacing: 16,
+                children: [
+                  AppLocaleListTile(),
+                  ThemeModeListTile(),
+                  UseSystemThemeColorListTile(),
+                  UseCustomAccentColorListTile(),
+                  if (AnimatedVisual.supported) UseAnimatedGraphicsListTile(),
+                  SendCrashReportsListTile(),
+                ],
               ),
-            );
-
-            navigator.push(
-              MaterialPageRoute<void>(builder: (context) => widget),
-            );
-
-            // END: DUMMY_IMPLEMENTATION
-          },
-          steps: InitialSetupStep.values.map((e) {
-            return Step(
-              nav: e.getStepNav(t),
-              contentHeading: currentStep.getStepContentHeading(t),
-              stepBuilder: (context) => switch (e) {
-                .preferences => const Column(
-                  spacing: 16,
-                  children: [
-                    AppLocaleListTile(),
-                    ThemeModeListTile(),
-                    UseSystemThemeColorListTile(),
-                    UseCustomAccentColorListTile(),
-                    if (AnimatedVisual.supported) UseAnimatedGraphicsListTile(),
-                    SendCrashReportsListTile(),
-                  ],
-                ),
-                .serverSelection => const ServerSelectionSection(),
-                .login => LoginFormSection(
-                  serverBaseUrl: context
-                      .read<ServerSelectionCubit>()
-                      .state
-                      .serverUriOrThrow(),
-                ),
-                .complete => LabSettingsForm(
-                  hasPermissionToUpdate: UserAccess.fromUser(
-                    context.read<LoginCubit>().state.successOrThrow().user,
-                  ).can(.labSettingsUpdate),
-                ),
-              },
-            );
-          }).toList(),
-          stepHero: StepHero(
-            title: t.initialSetupPage.decorativeAnimation.title,
-            subtitle: t.initialSetupPage.decorativeAnimation.subtitle,
-            animationWidget: AnimatedVisual(
-              key: ValueKey(currentStep),
-              animated: (context) => Lottie.asset(
-                currentStep.getLottieAsset(),
-                height: 100,
-                fit: .cover,
+              .serverSelection => const ServerSelectionSection(),
+              .login => LoginFormSection(
+                serverBaseUrl: context
+                    .read<ServerSelectionCubit>()
+                    .state
+                    .serverUriOrThrow(),
               ),
-              fallback: (context) => DecorativeIcon(currentStep.getIcon()),
+              .complete => LabSettingsForm(
+                hasPermissionToUpdate: UserAccess.fromUser(
+                  context.read<LoginCubit>().state.successOrThrow().result.user,
+                ).can(.labSettingsUpdate),
+              ),
+            },
+          );
+        }).toList(),
+        stepHero: StepHero(
+          title: t.initialSetupPage.decorativeAnimation.title,
+          subtitle: t.initialSetupPage.decorativeAnimation.subtitle,
+          animationWidget: AnimatedVisual(
+            key: ValueKey(currentStep),
+            animated: (context) => Lottie.asset(
+              currentStep.getLottieAsset(),
+              height: 100,
+              fit: .cover,
             ),
+            fallback: (context) => DecorativeIcon(currentStep.getIcon()),
           ),
-          canGoTo: _stepCanGoTo(currentStep),
-          navigationButtonLabels: NavigationButtonLabels(
-            next: t.initialSetupPage.next,
-            back: t.initialSetupPage.back,
-            finish: t.initialSetupPage.finish,
-          ),
-        );
-      },
+        ),
+        canGoTo: _stepCanGoTo(currentStep),
+        navigationButtonLabels: NavigationButtonLabels(
+          next: t.initialSetupPage.next,
+          back: t.initialSetupPage.back,
+          finish: t.initialSetupPage.finish,
+        ),
+      ),
     );
   }
 }
@@ -261,3 +248,31 @@ sealed class const _StepAccessDeniedReason();
 final class const _ServerNotConfigured() extends _StepAccessDeniedReason;
 
 final class const _NotLoggedIn() extends _StepAccessDeniedReason;
+
+/// Shows a snackbar when completing the initial setup fails.
+class const _LoginIdentityFailureListener({required final Widget child})
+    extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<LoginIdentityCubit, LoginIdentityState>(
+      listenWhen: (previous, current) =>
+          previous.failureOrNull != current.failureOrNull,
+      listener: (context, state) {
+        final failureDetails = state.failureOrNull;
+
+        if (failureDetails != null) {
+          final t = context.t;
+          context.showSnackBarMessage(
+            t.initialSetupPage.finishFailure,
+            action: SnackBarAction(
+              label: t.copyErrorDetails,
+              onPressed: () =>
+                  Clipboard.setData(ClipboardData(text: failureDetails)),
+            ),
+          );
+        }
+      },
+      child: child,
+    );
+  }
+}
