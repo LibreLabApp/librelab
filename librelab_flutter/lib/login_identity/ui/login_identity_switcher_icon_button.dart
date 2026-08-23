@@ -11,8 +11,6 @@ class const LoginIdentitySwitcherIconButton({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: Switching between login identities is not smooth in the UI. Investigate.
-    //  Cause seems to be setting: refreshListenable: refreshListenable: GoRouterRefreshStream([loginIdentityCubit.stream]) in main.dart
     final successState = context.select((LoginIdentityCubit v) {
       final state = v.state;
 

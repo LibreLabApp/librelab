@@ -31,8 +31,6 @@ class LoginIdentityCubit({
   }
 
   Future<void> selectLoginIdentity(int loginIdentityId) async {
-    emit(const .loading());
-
     try {
       final loginIdentities = await _service.selectLoginIdentity(
         loginIdentityId,

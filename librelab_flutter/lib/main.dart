@@ -129,7 +129,15 @@ void main() async {
         builder: (context, state) => const HomePage(),
       ),
     ],
-    refreshListenable: GoRouterRefreshStream([loginIdentityCubit.stream]),
+    refreshListenable: GoRouterRefreshStream([
+      loginIdentityCubit.stream.distinct((previous, current) {
+        bool hasSelectedLoginIdentity(LoginIdentityState state) =>
+            state is Success && state.selectedLoginIdentity != null;
+
+        return hasSelectedLoginIdentity(previous) ==
+            hasSelectedLoginIdentity(current);
+      }),
+    ]),
     redirect: (context, state) {
       final loginIdentityState = loginIdentityCubit.state;
 
