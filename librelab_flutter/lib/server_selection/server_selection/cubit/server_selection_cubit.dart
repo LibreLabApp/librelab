@@ -25,7 +25,7 @@ class ServerSelectionCubit({
   required final LocalDiscoveryRepository _discoveryRepository,
   required final ServerCompatibilityRepository _serverCompatibilityRepository,
   required final Logger _logger,
-}) extends EffectCubit<ServerSelectionState, ServerSelectionEffect> {
+}) extends CubitEffect<ServerSelectionState, ServerSelectionEffect> {
   this : super(const .initial());
 
   void setManualServerAddress(String value) {

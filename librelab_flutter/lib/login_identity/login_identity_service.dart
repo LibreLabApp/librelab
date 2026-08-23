@@ -59,14 +59,13 @@ class LoginIdentityService({
       persistAuthSession: persistAuthSession,
     );
 
+    final otherLoginIdentities = loginIdentities.loginIdentities.where(
+      (existing) => existing.id != loginIdentity.id,
+    );
+
     final updated = loginIdentities.copyWith(
       servers: [...loginIdentities.servers, if (existingServer == null) server],
-      loginIdentities: [
-        ...loginIdentities.loginIdentities.where(
-          (existing) => existing.id != loginIdentity.id,
-        ),
-        loginIdentity,
-      ],
+      loginIdentities: [...otherLoginIdentities, loginIdentity],
       selectedLoginIdentityId: loginIdentity.id,
     );
 
@@ -156,6 +155,49 @@ class LoginIdentityService({
     await _loginIdentityRepository.write(updated);
 
     _configureClientFromLoginIdentity(loginIdentity, server);
+
+    return updated;
+  }
+
+  /// Removes the login identity with [loginIdentityId] and updates the selected
+  /// login identity accordingly.
+  ///
+  /// If the removed login identity is selected, another login identity is
+  /// selected when available; otherwise, no login identity is selected.
+  ///
+  /// Throws [StateError] if [loginIdentityId] does not resolve to exactly one
+  /// login identity.
+  ///
+  /// Returns the updated [LoginIdentities].
+  Future<LoginIdentities> removeLoginIdentity(int loginIdentityId) async {
+    final loginIdentities = await _loginIdentityRepository.read();
+
+    final loginIdentity = loginIdentities.loginIdentities.singleWhereOrNull(
+      (loginIdentity) => loginIdentity.id == loginIdentityId,
+    );
+
+    if (loginIdentity == null) {
+      throw StateError(
+        'Login identity $loginIdentityId does not resolve to exactly one '
+        'login identity.',
+      );
+    }
+
+    final remainingLoginIdentities = loginIdentities.loginIdentities
+        .where((loginIdentity) => loginIdentity.id != loginIdentityId)
+        .toList();
+
+    final selectedLoginIdentityId =
+        loginIdentities.selectedLoginIdentityId == loginIdentityId
+        ? remainingLoginIdentities.firstOrNull?.id
+        : loginIdentities.selectedLoginIdentityId;
+
+    final updated = loginIdentities.copyWith(
+      loginIdentities: remainingLoginIdentities,
+      selectedLoginIdentityId: selectedLoginIdentityId,
+    );
+
+    await _loginIdentityRepository.write(updated);
 
     return updated;
   }

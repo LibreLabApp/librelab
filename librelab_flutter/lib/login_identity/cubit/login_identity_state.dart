@@ -4,10 +4,20 @@ part of 'login_identity_cubit.dart';
 
 @freezed
 @immutable
-sealed class LoginIdentityState with _$LoginIdentityState {
-  const factory initial() = Initial;
+class const LoginIdentityState({
+  required final LoadLoginIdentitiesState loadState,
+  required final LogoutState logoutState,
+}) with _$LoginIdentityState {
+  const new initial()
+    : this(loadState: const .initial(), logoutState: const .initial());
+}
 
-  const factory loading() = Loading;
+@freezed
+@immutable
+sealed class LoadLoginIdentitiesState with _$LoadLoginIdentitiesState {
+  const factory initial() = LoadLoginIdentitiesInitial;
+
+  const factory loading() = LoadLoginIdentitiesLoading;
   const factory success({
     required LoginIdentities loginIdentities,
 
@@ -15,14 +25,25 @@ sealed class LoginIdentityState with _$LoginIdentityState {
     ///
     /// `null` when no login identity is selected.
     required SelectedLoginIdentity? selectedLoginIdentity,
-  }) = Success;
+  }) = LoadLoginIdentitiesSuccess;
 
   /// A failure that preserves the original exception for technical error details.
   ///
   /// The UI presents a user-friendly, localized failure message while exposing
   /// [exception.toString()] through the error tooltip for debugging and error
   /// reporting.
-  const factory failure(Exception exception) = Failure;
+  const factory failure(Exception exception) = LoadLoginIdentitiesFailure;
+}
+
+@freezed
+@immutable
+sealed class LogoutState with _$LogoutState {
+  const factory initial() = LogoutInitial;
+
+  const factory loading() = LogoutLoading;
+  const factory success() = LogoutSuccess;
+
+  const factory failure(ApiRequestFailure failure) = LogoutFailure;
 }
 
 @freezed
@@ -32,10 +53,14 @@ class const SelectedLoginIdentity({
   required final Server server,
 }) with _$SelectedLoginIdentity;
 
-extension LoginIdentityStateExt on LoginIdentityState {
-  bool get isLoading => this is Loading;
+extension LoadLoginIdentitiesStateExt on LoadLoginIdentitiesState {
+  bool get isLoading => this is LoadLoginIdentitiesLoading;
   String? get failureOrNull => switch (this) {
-    Failure(:final exception) => exception.toString(),
+    LoadLoginIdentitiesFailure(:final exception) => exception.toString(),
     _ => null,
   };
+}
+
+extension LogoutStateExt on LogoutState {
+  bool get isLoading => this is LogoutLoading;
 }

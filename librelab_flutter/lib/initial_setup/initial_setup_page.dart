@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/send_crash_reports.dart';
@@ -6,11 +5,11 @@ import 'package:librelab_flutter/app_settings/ui/tiles/theme_mode.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_animated_graphics.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_custom_accent_color.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_system_theme_color.dart';
-import 'package:librelab_flutter/auth/auth_deps_provider.dart';
 import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart'
     hide Success;
 import 'package:librelab_flutter/auth/ui/login_form_section.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/copy_error_details_snackbar_action.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
 import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
@@ -18,8 +17,7 @@ import 'package:librelab_flutter/initial_setup/step.dart';
 import 'package:librelab_flutter/lab_settings/cubit/lab_settings_cubit.dart';
 import 'package:librelab_flutter/lab_settings/lab_settings_deps_provider.dart';
 import 'package:librelab_flutter/lab_settings/ui/lab_settings_form.dart';
-import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart'
-    hide Success;
+import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:librelab_flutter/server_selection/server_selection/ui/server_selection_section.dart';
 import 'package:librelab_flutter/server_selection/server_selection_deps_provider.dart';
@@ -37,10 +35,8 @@ class const InitialSetupPage({super.key}) extends StatelessWidget {
       body: SafeArea(
         child: BlocProvider(
           create: (context) => InitialSetupCubit(),
-          child: const AuthDepsProvider(
-            child: ServerSelectionDepsProvider(
-              child: LabSettingsDepsProvider(child: _Body()),
-            ),
+          child: const ServerSelectionDepsProvider(
+            child: LabSettingsDepsProvider(child: _Body()),
           ),
         ),
       ),
@@ -95,7 +91,9 @@ class const _Body() extends StatelessWidget {
           );
         },
         isFinishing: (context) {
-          return context.select((LoginIdentityCubit v) => v.state.isLoading);
+          return context.select(
+            (LoginIdentityCubit v) => v.state.loadState.isLoading,
+          );
         },
         steps: InitialSetupStep.values.map((e) {
           return Step(
@@ -254,20 +252,21 @@ class const _LoginIdentityFailureListener({required final Widget child})
     extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // TODO: Refactor to use CubitEffect and CubitEffectListener
     return BlocListener<LoginIdentityCubit, LoginIdentityState>(
       listenWhen: (previous, current) =>
-          previous.failureOrNull != current.failureOrNull,
+          previous.loadState.failureOrNull != current.loadState.failureOrNull,
       listener: (context, state) {
-        final failureDetails = state.failureOrNull;
+        final failureDetails = state.loadState.failureOrNull;
 
         if (failureDetails != null) {
           final t = context.t;
+
           context.showSnackBarMessage(
             t.initialSetupPage.finishFailure,
-            action: SnackBarAction(
-              label: t.copyErrorDetails,
-              onPressed: () =>
-                  Clipboard.setData(ClipboardData(text: failureDetails)),
+            action: CopyErrorDetailsSnackBarAction(
+              context: context,
+              failureDetails: failureDetails,
             ),
           );
         }

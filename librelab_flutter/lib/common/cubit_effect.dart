@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-abstract class EffectCubit<State, Effect> extends Cubit<State> {
-  EffectCubit(super.initialState);
+abstract class CubitEffect<State, Effect> extends Cubit<State> {
+  new(super.initialState);
 
   final _effects = StreamController<Effect>.broadcast();
 

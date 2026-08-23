@@ -56,6 +56,12 @@ abstract final class ApiEndpointDefinitions {
     path: 'auth/browser/refresh',
   );
 
+  /// HTTP GET auth/login-status
+  static const HttpEndpoint auth_login_status$GET = HttpEndpoint(
+    method: HttpMethod.get,
+    path: 'auth/login-status',
+  );
+
   /// HTTP GET users/me
   static const HttpEndpoint users_me$GET = HttpEndpoint(
     method: HttpMethod.get,

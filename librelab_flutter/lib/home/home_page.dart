@@ -2,6 +2,7 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/adaptive_scaffold.dart';
 import 'package:librelab_flutter/common/ui/widgets/celebration_confetti.dart';
 import 'package:librelab_flutter/login_identity/ui/login_identity_switcher_icon_button.dart';
+import 'package:librelab_flutter/login_identity/ui/logout_icon_button.dart';
 import 'package:librelab_shared/librelab_shared.dart' show ProjectConstants;
 import 'package:material_ui/material_ui.dart';
 
@@ -36,16 +37,10 @@ class const HomePage({super.key}) extends StatelessWidget {
         ),
       ],
       actions: ({required bool isNavigationRail}) => [
-        IconButton(
-          onPressed: () {
-            // TODO: Implement. Warn from logging out when login is disabled (lab settings).
-          },
-          icon: const Icon(Icons.logout),
-          tooltip: t.actions.logout,
-        ),
+        LogoutIconButton(tooltip: t.actions.logout.tooltip),
         if (isNavigationRail) const SizedBox(height: 10),
         if (!isNavigationRail) const SizedBox(width: 5),
-        LoginIdentitySwitcherIconButton(tooltip: t.actions.switchUser),
+        LoginIdentitySwitcherIconButton(tooltip: t.actions.switchUser.tooltip),
         if (isNavigationRail) const SizedBox(height: 20),
         if (!isNavigationRail) const SizedBox(width: 10),
       ],

@@ -14,6 +14,7 @@ final List<ApiNode> _input = [
       HttpEndpoint(.post, 'logout'),
       HttpEndpoint(.post, 'refresh'),
     ]),
+    HttpEndpoint(.get, 'login-status'),
   ]),
   ApiGroup('users', [HttpEndpoint(.get, 'me')]),
   ApiGroup('lab-settings', [

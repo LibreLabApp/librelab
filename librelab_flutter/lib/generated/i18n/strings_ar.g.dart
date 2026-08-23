@@ -479,8 +479,8 @@ class _Translations$homePage$actions$ar extends Translations$homePage$actions$en
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get switchUser => 'تبديل المستخدم';
-	@override String get logout => 'تسجيل الخروج';
+	@override late final _Translations$homePage$actions$switchUser$ar switchUser = _Translations$homePage$actions$switchUser$ar._(_root);
+	@override late final _Translations$homePage$actions$logout$ar logout = _Translations$homePage$actions$logout$ar._(_root);
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -721,6 +721,28 @@ class _Translations$homePage$destinations$settings$ar extends Translations$homeP
 	@override String get label => 'الإعدادات';
 }
 
+// Path: homePage.actions.switchUser
+class _Translations$homePage$actions$switchUser$ar extends Translations$homePage$actions$switchUser$en {
+	_Translations$homePage$actions$switchUser$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get tooltip => 'تبديل المستخدم';
+}
+
+// Path: homePage.actions.logout
+class _Translations$homePage$actions$logout$ar extends Translations$homePage$actions$logout$en {
+	_Translations$homePage$actions$logout$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get tooltip => 'تسجيل الخروج';
+	@override late final _Translations$homePage$actions$logout$confirmationDialog$ar confirmationDialog = _Translations$homePage$actions$logout$confirmationDialog$ar._(_root);
+	@override String get logoutFailure => 'فشل تسجيل الخروج.';
+}
+
 // Path: initialSetupPage.steps.preferences.nav
 class _Translations$initialSetupPage$steps$preferences$nav$ar extends Translations$initialSetupPage$steps$preferences$nav$en {
 	_Translations$initialSetupPage$steps$preferences$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -883,6 +905,19 @@ class _Translations$serverSelection$manualAddress$textField$validationErrors$ar 
 	@override String invalidPort({required Object port}) => 'منفذ غير صالح: ${port}';
 }
 
+// Path: homePage.actions.logout.confirmationDialog
+class _Translations$homePage$actions$logout$confirmationDialog$ar extends Translations$homePage$actions$logout$confirmationDialog$en {
+	_Translations$homePage$actions$logout$confirmationDialog$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$homePage$actions$logout$confirmationDialog$loginEnabled$ar loginEnabled = _Translations$homePage$actions$logout$confirmationDialog$loginEnabled$ar._(_root);
+	@override late final _Translations$homePage$actions$logout$confirmationDialog$loginDisabled$ar loginDisabled = _Translations$homePage$actions$logout$confirmationDialog$loginDisabled$ar._(_root);
+	@override String get cancel => 'إلغاء';
+	@override String get confirm => 'تسجيل الخروج';
+}
+
 // Path: serverCompatibility.check.success.compatibilityStatus.fullyCompatible
 class _Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$ar extends Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en {
 	_Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -984,6 +1019,30 @@ class _Translations$serverSelection$localNetworkDiscovery$noServersFound$doneSca
 	// Translations
 	@override String get tooltip => 'تعرف على كيفية إعداد واستضافة خادم';
 	@override String get label => 'كيفية استضافة خادم';
+}
+
+// Path: homePage.actions.logout.confirmationDialog.loginEnabled
+class _Translations$homePage$actions$logout$confirmationDialog$loginEnabled$ar extends Translations$homePage$actions$logout$confirmationDialog$loginEnabled$en {
+	_Translations$homePage$actions$logout$confirmationDialog$loginEnabled$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تسجيل الخروج';
+	@override String get subtitle => 'هل أنت متأكد من رغبتك في تسجيل الخروج؟';
+	@override String get confirmationCheckbox => 'تأكيد تسجيل الخروج';
+}
+
+// Path: homePage.actions.logout.confirmationDialog.loginDisabled
+class _Translations$homePage$actions$logout$confirmationDialog$loginDisabled$ar extends Translations$homePage$actions$logout$confirmationDialog$loginDisabled$en {
+	_Translations$homePage$actions$logout$confirmationDialog$loginDisabled$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تسجيل الدخول معطل';
+	@override String get subtitle => 'تسجيل الدخول معطل حاليا لهذا المختبر. إذا قمت بتسجيل الخروج، فقد لا تتمكن من تسجيل الدخول مرة أخرى حتى يقوم مستخدم آخر بتمكين تسجيل الدخول أو تتم استعادة الخادم.';
+	@override String get confirmationCheckbox => 'مفهوم';
 }
 
 /// The flat map containing all translations for locale <ar>.
@@ -1154,8 +1213,17 @@ extension on TranslationsAr {
 			'imagePicker.removeImage' => 'إزالة الصورة',
 			'copyErrorDetails' => 'نسخ تفاصيل الخطأ',
 			'homePage.destinations.settings.label' => 'الإعدادات',
-			'homePage.actions.switchUser' => 'تبديل المستخدم',
-			'homePage.actions.logout' => 'تسجيل الخروج',
+			'homePage.actions.switchUser.tooltip' => 'تبديل المستخدم',
+			'homePage.actions.logout.tooltip' => 'تسجيل الخروج',
+			'homePage.actions.logout.confirmationDialog.loginEnabled.title' => 'تسجيل الخروج',
+			'homePage.actions.logout.confirmationDialog.loginEnabled.subtitle' => 'هل أنت متأكد من رغبتك في تسجيل الخروج؟',
+			'homePage.actions.logout.confirmationDialog.loginEnabled.confirmationCheckbox' => 'تأكيد تسجيل الخروج',
+			'homePage.actions.logout.confirmationDialog.loginDisabled.title' => 'تسجيل الدخول معطل',
+			'homePage.actions.logout.confirmationDialog.loginDisabled.subtitle' => 'تسجيل الدخول معطل حاليا لهذا المختبر. إذا قمت بتسجيل الخروج، فقد لا تتمكن من تسجيل الدخول مرة أخرى حتى يقوم مستخدم آخر بتمكين تسجيل الدخول أو تتم استعادة الخادم.',
+			'homePage.actions.logout.confirmationDialog.loginDisabled.confirmationCheckbox' => 'مفهوم',
+			'homePage.actions.logout.confirmationDialog.cancel' => 'إلغاء',
+			'homePage.actions.logout.confirmationDialog.confirm' => 'تسجيل الخروج',
+			'homePage.actions.logout.logoutFailure' => 'فشل تسجيل الخروج.',
 			_ => null,
 		};
 	}

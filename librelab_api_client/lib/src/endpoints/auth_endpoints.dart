@@ -29,6 +29,12 @@ class AuthEndpoints(final LibreLabApiClient _client) {
     body: .json(body.toJson()),
     deserializeSuccess: (response) => .fromJson(response.body),
   );
+
+  Future<LibreLabApiResult<LoginStatusResponse>> getLoginStatus() =>
+      _client.request(
+        ApiEndpointDefinitions.auth_login_status$GET,
+        deserializeSuccess: (response) => .fromJson(response.body),
+      );
 }
 
 /// Depends on browser-specific capabilities (e.g., HttpOnly cookies).

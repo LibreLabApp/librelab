@@ -11,6 +11,8 @@ import 'package:librelab_flutter/app_file_paths.dart';
 import 'package:librelab_flutter/app_settings/app_settings.dart';
 import 'package:librelab_flutter/app_settings/app_settings_repository.dart';
 import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
+import 'package:librelab_flutter/auth/auth_deps_provider.dart';
+import 'package:librelab_flutter/auth/auth_repository/auth_repository.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
 import 'package:librelab_flutter/common/network/http_client_deps_provider.dart';
 import 'package:librelab_flutter/common/network/http_client_factory/http_client_factory.dart';
@@ -102,6 +104,11 @@ void main() async {
     logger: Logger('ApiRequestHandlerDefault'),
   );
 
+  final authRepository = AuthRepository(
+    authEndpoints: libreLabApiClient.endpoints.auth,
+    handler: apiRequestHandler,
+  );
+
   final loginIdentityCubit = LoginIdentityCubit(
     service: LoginIdentityService(
       client: libreLabApiClient,
@@ -111,6 +118,7 @@ void main() async {
       ),
     ),
     logger: Logger('LoginIdentityCubit'),
+    authRepository: authRepository,
   );
 
   // TODO: Handle loading/parsing failure (since it loads a file from disk).
@@ -131,17 +139,18 @@ void main() async {
     ],
     refreshListenable: GoRouterRefreshStream([
       loginIdentityCubit.stream.distinct((previous, current) {
-        bool hasSelectedLoginIdentity(LoginIdentityState state) =>
-            state is Success && state.selectedLoginIdentity != null;
+        bool hasSelectedLoginIdentity(LoadLoginIdentitiesState state) =>
+            state is LoadLoginIdentitiesSuccess &&
+            state.selectedLoginIdentity != null;
 
-        return hasSelectedLoginIdentity(previous) ==
-            hasSelectedLoginIdentity(current);
+        return hasSelectedLoginIdentity(previous.loadState) ==
+            hasSelectedLoginIdentity(current.loadState);
       }),
     ]),
     redirect: (context, state) {
-      final loginIdentityState = loginIdentityCubit.state;
+      final loginIdentityState = loginIdentityCubit.state.loadState;
 
-      if (loginIdentityState is Success &&
+      if (loginIdentityState is LoadLoginIdentitiesSuccess &&
           loginIdentityState.selectedLoginIdentity != null) {
         return HomePage.routePath;
       }
@@ -160,14 +169,17 @@ void main() async {
           httpApiClient: httpApiClient,
           libreLabApiClient: libreLabApiClient,
           apiRequestHandler: apiRequestHandler,
-          LoginIdentityDepsProvider(
-            loginIdentityCubit: loginIdentityCubit,
-            child: BlocProvider(
-              create: (context) =>
-                  AppSettingsCubit(settingsRepository, initial: settings),
-              child: MainApp(
-                router: router,
-                systemAccentColor: systemAccentColor,
+          AuthDepsProvider(
+            authRepository: authRepository,
+            child: LoginIdentityDepsProvider(
+              loginIdentityCubit: loginIdentityCubit,
+              child: BlocProvider(
+                create: (context) =>
+                    AppSettingsCubit(settingsRepository, initial: settings),
+                child: MainApp(
+                  router: router,
+                  systemAccentColor: systemAccentColor,
+                ),
               ),
             ),
           ),

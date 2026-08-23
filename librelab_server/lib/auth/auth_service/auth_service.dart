@@ -50,7 +50,7 @@ class AuthService({
   required final UserRepository _userRepository,
   required final UserRefreshTokenRepository _userRefreshTokenRepository,
   required final LoginAttemptRepository _loginAttemptRepository,
-  required final bool Function() _loginDisabled,
+  required final bool Function() _isLoginDisabled,
 }) {
   static const Duration _accessTokenExpiryDuration = Duration(minutes: 10);
   static const Duration _refreshTokenExpiryDuration = Duration(days: 90);
@@ -153,7 +153,7 @@ class AuthService({
     required String plainPassword,
     required UserRefreshTokenClientMetadata metadata,
   }) async {
-    if (_loginDisabled()) {
+    if (_isLoginDisabled()) {
       return .failure(const LoginDisabledFailure());
     }
 

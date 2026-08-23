@@ -325,8 +325,27 @@
       }
     },
     "actions": {
-      "switchUser": "Switch user",
-      "logout": "Log out"
+      "switchUser": {
+        "tooltip": "Switch user"
+      },
+      "logout": {
+        "tooltip": "Log out",
+        "confirmationDialog": {
+          "loginEnabled": {
+            "title": "Log out",
+            "subtitle": "Are you sure you want to log out?",
+            "confirmationCheckbox": "Confirm logout"
+          },
+          "loginDisabled": {
+            "title": "Login is disabled",
+            "subtitle": "Login is currently disabled for this lab. If you log out, you may not be able to log in again until another user enables login or the server is recovered.",
+            "confirmationCheckbox": "Acknowledged"
+          },
+          "cancel": "Cancel",
+          "confirm": "Log out"
+        },
+        "logoutFailure": "Failed to logout."
+      }
     }
   }
 }

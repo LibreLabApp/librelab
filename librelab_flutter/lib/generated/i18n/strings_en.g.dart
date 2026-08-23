@@ -662,12 +662,8 @@ class Translations$homePage$actions$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Switch user'
-	String get switchUser => 'Switch user';
-
-	/// en: 'Log out'
-	String get logout => 'Log out';
+	late final Translations$homePage$actions$switchUser$en switchUser = Translations$homePage$actions$switchUser$en.internal(_root);
+	late final Translations$homePage$actions$logout$en logout = Translations$homePage$actions$logout$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -981,6 +977,35 @@ class Translations$homePage$destinations$settings$en {
 	String get label => 'Settings';
 }
 
+// Path: homePage.actions.switchUser
+class Translations$homePage$actions$switchUser$en {
+	Translations$homePage$actions$switchUser$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Switch user'
+	String get tooltip => 'Switch user';
+}
+
+// Path: homePage.actions.logout
+class Translations$homePage$actions$logout$en {
+	Translations$homePage$actions$logout$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Log out'
+	String get tooltip => 'Log out';
+
+	late final Translations$homePage$actions$logout$confirmationDialog$en confirmationDialog = Translations$homePage$actions$logout$confirmationDialog$en.internal(_root);
+
+	/// en: 'Failed to logout.'
+	String get logoutFailure => 'Failed to logout.';
+}
+
 // Path: initialSetupPage.steps.preferences.nav
 class Translations$initialSetupPage$steps$preferences$nav$en {
 	Translations$initialSetupPage$steps$preferences$nav$en.internal(this._root);
@@ -1198,6 +1223,23 @@ class Translations$serverSelection$manualAddress$textField$validationErrors$en {
 	String invalidPort({required Object port}) => 'Invalid port: ${port}';
 }
 
+// Path: homePage.actions.logout.confirmationDialog
+class Translations$homePage$actions$logout$confirmationDialog$en {
+	Translations$homePage$actions$logout$confirmationDialog$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$homePage$actions$logout$confirmationDialog$loginEnabled$en loginEnabled = Translations$homePage$actions$logout$confirmationDialog$loginEnabled$en.internal(_root);
+	late final Translations$homePage$actions$logout$confirmationDialog$loginDisabled$en loginDisabled = Translations$homePage$actions$logout$confirmationDialog$loginDisabled$en.internal(_root);
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Log out'
+	String get confirm => 'Log out';
+}
+
 // Path: serverCompatibility.check.success.compatibilityStatus.fullyCompatible
 class Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en {
 	Translations$serverCompatibility$check$success$compatibilityStatus$fullyCompatible$en.internal(this._root);
@@ -1343,6 +1385,42 @@ class Translations$serverSelection$localNetworkDiscovery$noServersFound$doneScan
 
 	/// en: 'How to host a server'
 	String get label => 'How to host a server';
+}
+
+// Path: homePage.actions.logout.confirmationDialog.loginEnabled
+class Translations$homePage$actions$logout$confirmationDialog$loginEnabled$en {
+	Translations$homePage$actions$logout$confirmationDialog$loginEnabled$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Log out'
+	String get title => 'Log out';
+
+	/// en: 'Are you sure you want to log out?'
+	String get subtitle => 'Are you sure you want to log out?';
+
+	/// en: 'Confirm logout'
+	String get confirmationCheckbox => 'Confirm logout';
+}
+
+// Path: homePage.actions.logout.confirmationDialog.loginDisabled
+class Translations$homePage$actions$logout$confirmationDialog$loginDisabled$en {
+	Translations$homePage$actions$logout$confirmationDialog$loginDisabled$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Login is disabled'
+	String get title => 'Login is disabled';
+
+	/// en: 'Login is currently disabled for this lab. If you log out, you may not be able to log in again until another user enables login or the server is recovered.'
+	String get subtitle => 'Login is currently disabled for this lab. If you log out, you may not be able to log in again until another user enables login or the server is recovered.';
+
+	/// en: 'Acknowledged'
+	String get confirmationCheckbox => 'Acknowledged';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -1513,8 +1591,17 @@ extension on Translations {
 			'imagePicker.removeImage' => 'Remove image',
 			'copyErrorDetails' => 'Copy error details',
 			'homePage.destinations.settings.label' => 'Settings',
-			'homePage.actions.switchUser' => 'Switch user',
-			'homePage.actions.logout' => 'Log out',
+			'homePage.actions.switchUser.tooltip' => 'Switch user',
+			'homePage.actions.logout.tooltip' => 'Log out',
+			'homePage.actions.logout.confirmationDialog.loginEnabled.title' => 'Log out',
+			'homePage.actions.logout.confirmationDialog.loginEnabled.subtitle' => 'Are you sure you want to log out?',
+			'homePage.actions.logout.confirmationDialog.loginEnabled.confirmationCheckbox' => 'Confirm logout',
+			'homePage.actions.logout.confirmationDialog.loginDisabled.title' => 'Login is disabled',
+			'homePage.actions.logout.confirmationDialog.loginDisabled.subtitle' => 'Login is currently disabled for this lab. If you log out, you may not be able to log in again until another user enables login or the server is recovered.',
+			'homePage.actions.logout.confirmationDialog.loginDisabled.confirmationCheckbox' => 'Acknowledged',
+			'homePage.actions.logout.confirmationDialog.cancel' => 'Cancel',
+			'homePage.actions.logout.confirmationDialog.confirm' => 'Log out',
+			'homePage.actions.logout.logoutFailure' => 'Failed to logout.',
 			_ => null,
 		};
 	}

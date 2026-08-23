@@ -202,7 +202,7 @@ Future<void> run(List<String> args) async {
       databaseClient,
     ),
     loginAttemptRepository: LoginAttemptRepositoryPostgres(databaseClient),
-    loginDisabled: () => labSettingsRepository.cached.loginDisabled,
+    isLoginDisabled: () => labSettingsRepository.cached.loginDisabled,
   );
   final authorizationService = AuthorizationService(authService: authService);
 
@@ -215,6 +215,7 @@ Future<void> run(List<String> args) async {
       AuthRoutes(
         service: authService,
         cookiesRequireSecureConnection: config.httpServer.api.cookies.secure,
+        isLoginDisabled: () => labSettingsRepository.cached.loginDisabled,
       ),
       UserRoutes(authorization: authorizationService),
       LabSettingsRoutes(

@@ -90,4 +90,13 @@ class AuthRepository({
       return await _endpoints.logout(.new(refreshToken: refreshToken));
     }, mapSuccess: (dto) => dto.tokenRevoked);
   }
+
+  /// Returns whether login is currently disabled.
+  ///
+  /// Login may be disabled or enabled at any time, so users logging out must
+  /// be warned when login is disabled before proceeding.
+  Future<ApiRequestResult<bool>> isLoginDisabled() => _handler.execute(
+    () async => _endpoints.getLoginStatus(),
+    mapSuccess: (dto) => dto.isLoginDisabled,
+  );
 }

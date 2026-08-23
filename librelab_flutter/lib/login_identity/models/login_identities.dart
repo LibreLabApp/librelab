@@ -25,6 +25,7 @@ class const LoginIdentities({
   /// Multiple [LoginIdentity]s can reference the same server.
   required final List<Server> servers,
 
+  // TODO: Rename to list
   /// Login identities configured in this app installation.
   required final List<LoginIdentity> loginIdentities,
 }) with _$LoginIdentities {

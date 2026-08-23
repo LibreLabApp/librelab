@@ -15,6 +15,7 @@ import 'package:shelf_router/shelf_router.dart';
 class AuthRoutes({
   required final AuthService _service,
   required final bool cookiesRequireSecureConnection,
+  required final bool Function() _isLoginDisabled,
 }) implements RouteModule {
   late final AuthBrowserRoutes _browserRoutes = .new(
     cookiesRequireSecureConnection: cookiesRequireSecureConnection,
@@ -39,6 +40,10 @@ class AuthRoutes({
     ..register(
       ApiEndpointDefinitions.auth_browser_refresh$POST,
       _browserRoutes.refreshHandler,
+    )
+    ..register(
+      ApiEndpointDefinitions.auth_login_status$GET,
+      _loginStatusHandler,
     );
 
   Future<Response> _loginHandler(Request request) => _login(
@@ -194,6 +199,12 @@ class AuthRoutes({
               : null,
         ).toJson().httpResponse(.unauthorized);
     }
+  }
+
+  Future<Response> _loginStatusHandler(Request request) async {
+    return LoginStatusResponse(isLoginDisabled: _isLoginDisabled())
+        .toJson()
+        .httpResponse(.ok);
   }
 
   Response _emptyRefreshTokenResponse() => const ServerErrorResponse(

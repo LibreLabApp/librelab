@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/api_request_failure_ui_messages.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
+import 'package:librelab_flutter/common/ui/widgets/cubit_effect_listener.dart';
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -129,55 +128,36 @@ class const ServerCompatibilityCheckCard({
   }
 }
 
-// TODO: Refactor to be reusable
 class const _ServerSelectionEffectListener({
   required final _RequestServerUrlFocus _requestServerUrlFocus,
   required final Widget child,
-}) extends StatefulWidget {
-  @override
-  State<_ServerSelectionEffectListener> createState() =>
-      _ServerSelectionEffectListenerState();
-}
-
-class _ServerSelectionEffectListenerState
-    extends State<_ServerSelectionEffectListener> {
-  late final StreamSubscription<ServerSelectionEffect> _effectSubscription;
-
-  @override
-  void initState() {
-    final cubit = context.read<ServerSelectionCubit>();
-
-    _effectSubscription = cubit.effects.listen((effect) {
-      switch (effect) {
-        case FocusServerAddress():
-          widget._requestServerUrlFocus();
-
-        case ShowServerSelectionRequired():
-          final context = this.context;
-          if (context.mounted) {
-            context.showSnackBarMessage(
-              context
-                  .t
-                  .serverCompatibility
-                  .check
-                  .button
-                  .serverSelectionRequired,
-            );
-          }
-      }
-    });
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _effectSubscription.cancel();
-    super.dispose();
-  }
-
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return CubitEffectListener<
+      ServerSelectionCubit,
+      ServerSelectionState,
+      ServerSelectionEffect
+    >(
+      listener: (context, effect) async {
+        switch (effect) {
+          case FocusServerAddress():
+            _requestServerUrlFocus();
+
+          case ShowServerSelectionRequired():
+            if (context.mounted) {
+              context.showSnackBarMessage(
+                context
+                    .t
+                    .serverCompatibility
+                    .check
+                    .button
+                    .serverSelectionRequired,
+              );
+            }
+        }
+      },
+      child: child,
+    );
   }
 }

@@ -10,18 +10,16 @@ import 'package:logging/logging.dart';
 ///
 /// Requires a [LibreLabApiClient] and an [ApiRequestHandler] to be available
 /// in the widget tree.
-class const AuthDepsProvider({required final Widget child, super.key})
-    extends StatelessWidget {
+class const AuthDepsProvider({
+  super.key,
+  required final Widget child,
+  required final AuthRepository _authRepository,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        RepositoryProvider(
-          create: (context) => AuthRepository(
-            authEndpoints: context.read<LibreLabApiClient>().endpoints.auth,
-            handler: context.read<ApiRequestHandler>(),
-          ),
-        ),
+        RepositoryProvider.value(value: _authRepository),
         BlocProvider(
           create: (context) => LoginCubit(
             authRepository: context.read<AuthRepository>(),

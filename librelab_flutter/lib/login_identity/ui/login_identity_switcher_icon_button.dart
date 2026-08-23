@@ -12,15 +12,15 @@ class const LoginIdentitySwitcherIconButton({
   @override
   Widget build(BuildContext context) {
     final successState = context.select((LoginIdentityCubit v) {
-      final state = v.state;
+      final state = v.state.loadState;
 
-      if (state is Loading) {
+      if (state is LoadLoginIdentitiesLoading) {
         return null;
       }
 
-      if (state is! Success) {
+      if (state is! LoadLoginIdentitiesSuccess) {
         throw StateError(
-          'LoginIdentitySwitcherIconButton requires LoginIdentityCubit to be in the Success state.\n'
+          'LoginIdentitySwitcherIconButton widget requires LoginIdentityCubit to be in the Success state.\n'
           'Actual: ${state.runtimeType}',
         );
       }
@@ -32,11 +32,11 @@ class const LoginIdentitySwitcherIconButton({
       return const SizedBox.shrink();
     }
 
-    final selectedLoginIdentity =
-        successState.selectedLoginIdentity ??
-        (throw StateError(
-          'LoginIdentitySwitcherIconButton requires a selected login identity.',
-        ));
+    final selectedLoginIdentity = successState.selectedLoginIdentity;
+
+    if (selectedLoginIdentity == null) {
+      return const SizedBox.shrink();
+    }
 
     final loginIdentities = successState.loginIdentities;
 

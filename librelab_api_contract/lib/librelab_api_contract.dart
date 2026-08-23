@@ -2,6 +2,7 @@ export 'src/auth/auth_error_codes.dart';
 export 'src/auth/auth_token.dart';
 export 'src/auth/login/login_request.dart';
 export 'src/auth/login/login_response.dart';
+export 'src/auth/login/login_status/login_status_response.dart';
 export 'src/auth/logout/logout_request.dart';
 export 'src/auth/logout/logout_response.dart';
 export 'src/auth/refresh/refresh_auth_request.dart';
