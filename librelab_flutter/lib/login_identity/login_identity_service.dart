@@ -28,14 +28,14 @@ class LoginIdentityService({
     final loginIdentities = await _loginIdentityRepository.read();
 
     final existingServer = loginIdentities.servers
-        .where((server) => server.apiBaseUri == serverBaseUrl)
+        .where((server) => server.apiBaseUrl == serverBaseUrl)
         .firstOrNull;
 
     final server =
         existingServer ??
         Server(
           id: _nextId(loginIdentities.servers.map((server) => server.id)),
-          apiBaseUri: serverBaseUrl,
+          apiBaseUrl: serverBaseUrl,
           name: labName,
         );
 
@@ -257,7 +257,7 @@ class LoginIdentityService({
                 'authentication tokens.',
               ));
 
-    _configureClient(server.apiBaseUri, authSession);
+    _configureClient(server.apiBaseUrl, authSession);
   }
 
   /// Configures the API client with the login identity's server and authentication session.

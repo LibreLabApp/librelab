@@ -8,8 +8,10 @@ part 'server.g.dart';
 @JsonSerializable()
 class const Server({
   required final int id,
-  // TODO: Rename to apiBaseUrl? On web this can be "/"
-  required final Uri apiBaseUri,
+
+  /// The base URL of the server's API.
+  /// On the web, this can be a relative URL reference such as `/api`.
+  required final Uri apiBaseUrl,
 
   /// The local display name for this server configuration.
   /// Does not necessarily match the canonical lab name reported by the server.
