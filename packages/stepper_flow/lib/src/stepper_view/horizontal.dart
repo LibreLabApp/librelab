@@ -8,7 +8,7 @@ extension StepperViewHorizontal on StepperView {
   }) {
     return Row(
       spacing: 2,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: .center,
       children: List.generate(steps.length, (i) {
         return Builder(
           builder: (context) {

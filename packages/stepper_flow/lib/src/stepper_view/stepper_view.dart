@@ -9,20 +9,11 @@ typedef StepTappedCallback = void Function(BuildContext context, int newIndex);
 /// Flutter's [Stepper]
 /// is [Material 2 widget](https://docs.flutter.dev/ui/widgets/material2)
 /// and will be deprecated eventually.
-class StepperView extends StatelessWidget {
-  const StepperView({
-    super.key,
-    required this.steps,
-    required this.currentStepIndex,
-    required this.onStepTapped,
-    required this.direction,
-    required this.isLocked,
-    required this.builder,
-  });
-
-  final List<StepNav> steps;
-  final int currentStepIndex;
-  final StepTappedCallback onStepTapped;
+class const StepperView({
+  super.key,
+  required final List<StepNav> steps,
+  required final int currentStepIndex,
+  required final StepTappedCallback onStepTapped,
 
   /// [Axis.horizontal] (mobile / compact):
   /// [1]-[2]-[3]
@@ -32,16 +23,17 @@ class StepperView extends StatelessWidget {
   /// [1]
   /// [2]
   /// [3]   content on the right
-  final Axis direction;
+  required final Axis direction,
 
-  final bool Function(
+  required final bool Function(
     BuildContext context,
     int index,
     StepAccessEvaluationMode mode,
   )
-  isLocked;
-  final Widget Function(BuildContext context, int index, Widget child)? builder;
-
+  isLocked,
+  required final Widget Function(BuildContext context, int index, Widget child)?
+  builder,
+}) extends StatelessWidget {
   _StepTileData _stepDataBuilder(BuildContext context, int i) {
     final isActive = currentStepIndex == i;
     final isLast = i == steps.length - 1;

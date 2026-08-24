@@ -25,12 +25,16 @@ class _StepProgressIndicatorSidebar extends StatelessWidget {
 
         return Column(
           children: [
-            _StepProgressIndicator(
-              direction: .vertical,
-              onStepChanged: onStepChanged,
-              currentStepIndex: currentStepIndex,
-              steps: steps,
-              canGoTo: canGoTo,
+            Expanded(
+              child: SingleChildScrollView(
+                child: _StepProgressIndicator(
+                  direction: .vertical,
+                  onStepChanged: onStepChanged,
+                  currentStepIndex: currentStepIndex,
+                  steps: steps,
+                  canGoTo: canGoTo,
+                ),
+              ),
             ),
             if (showDecorativeFooter)
               ..._decorativeFooter(context: context, stepHero: stepHero),
@@ -48,7 +52,6 @@ class _StepProgressIndicatorSidebar extends StatelessWidget {
     final textTheme = theme.textTheme;
 
     return [
-      const Spacer(),
       Column(
         children: [
           _DecorativeAnimation(child: stepHero.animationWidget),

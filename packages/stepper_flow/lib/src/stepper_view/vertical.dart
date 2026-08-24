@@ -7,7 +7,7 @@ extension StepperViewVertical on StepperView {
   }) {
     return Column(
       spacing: 2,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: .start,
       children: List.generate(steps.length, (i) {
         return Builder(
           builder: (context) {
