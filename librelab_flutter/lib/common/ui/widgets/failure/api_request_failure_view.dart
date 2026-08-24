@@ -32,12 +32,16 @@ class const ApiRequestFailureView({
               const SizedBox(height: 16),
               Text(title, style: textTheme.titleLarge, textAlign: .center),
               const SizedBox(height: 8),
-              Text(
-                failure.getUiMessage(t),
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
+              Tooltip(
+                constraints: const .new(maxWidth: 300),
+                message: failure.message,
+                child: Text(
+                  failure.getUiMessage(t),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: .center,
                 ),
-                textAlign: .center,
               ),
               const SizedBox(height: 20),
               FilledButton.icon(
