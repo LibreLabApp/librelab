@@ -124,7 +124,7 @@ CREATE TABLE audit_logs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE files (
+CREATE TABLE storage_objects (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
   storage_key TEXT NOT NULL UNIQUE,
   original_name TEXT NOT NULL,
