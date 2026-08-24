@@ -22,29 +22,25 @@ class LoginIdentityRepository({
     final json = await _storage.read(_storageId);
 
     final LoginIdentities loginIdentities = json == null
-        ? const .new(
-            selectedLoginIdentityId: null,
-            servers: [],
-            loginIdentities: [],
-          )
+        ? const .new(selectedLoginIdentityId: null, servers: [], list: [])
         : .fromJson(json);
 
     _cached = loginIdentities;
     return loginIdentities;
   }
 
-  Future<void> write(LoginIdentities root) async {
+  Future<void> write(LoginIdentities loginIdentities) async {
     // Respects the user's choice to persist the authentication session.
     // On web platform, authentication session persistence is managed by the
     // browser through HttpOnly cookies.
-    final persistedLoginIdentities = root.loginIdentities.map((loginIdentity) {
+    final persistedLoginIdentities = loginIdentities.list.map((loginIdentity) {
       if (kIsWeb || !loginIdentity.persistAuthSession) {
         return loginIdentity.withAuthTokens(null);
       }
       return loginIdentity;
     }).toList();
 
-    final updated = root.copyWith(loginIdentities: persistedLoginIdentities);
+    final updated = loginIdentities.copyWith(list: persistedLoginIdentities);
 
     await _storage.write(_storageId, updated.toJson());
 

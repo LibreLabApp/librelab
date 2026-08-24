@@ -39,7 +39,7 @@ class LoginIdentityService({
           name: labName,
         );
 
-    final existingLoginIdentity = loginIdentities.loginIdentities
+    final existingLoginIdentity = loginIdentities.list
         .where((loginIdentity) => loginIdentity.user.id == user.id)
         .firstOrNull;
 
@@ -47,9 +47,7 @@ class LoginIdentityService({
       id:
           existingLoginIdentity?.id ??
           _nextId(
-            loginIdentities.loginIdentities.map(
-              (loginIdentity) => loginIdentity.id,
-            ),
+            loginIdentities.list.map((loginIdentity) => loginIdentity.id),
           ),
       serverId: server.id,
       user: user,
@@ -59,13 +57,13 @@ class LoginIdentityService({
       persistAuthSession: persistAuthSession,
     );
 
-    final otherLoginIdentities = loginIdentities.loginIdentities.where(
+    final otherLoginIdentities = loginIdentities.list.where(
       (existing) => existing.id != loginIdentity.id,
     );
 
     final updated = loginIdentities.copyWith(
       servers: [...loginIdentities.servers, if (existingServer == null) server],
-      loginIdentities: [...otherLoginIdentities, loginIdentity],
+      list: [...otherLoginIdentities, loginIdentity],
       selectedLoginIdentityId: loginIdentity.id,
     );
 
@@ -91,7 +89,7 @@ class LoginIdentityService({
       return null;
     }
 
-    final loginIdentity = loginIdentities.loginIdentities.singleWhereOrNull(
+    final loginIdentity = loginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.id == selectedLoginIdentityId,
     );
 
@@ -126,7 +124,7 @@ class LoginIdentityService({
   Future<LoginIdentities> selectLoginIdentity(int loginIdentityId) async {
     final loginIdentities = await _loginIdentityRepository.read();
 
-    final loginIdentity = loginIdentities.loginIdentities.singleWhereOrNull(
+    final loginIdentity = loginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.id == loginIdentityId,
     );
 
@@ -172,7 +170,7 @@ class LoginIdentityService({
   Future<LoginIdentities> removeLoginIdentity(int loginIdentityId) async {
     final loginIdentities = await _loginIdentityRepository.read();
 
-    final loginIdentity = loginIdentities.loginIdentities.singleWhereOrNull(
+    final loginIdentity = loginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.id == loginIdentityId,
     );
 
@@ -183,7 +181,7 @@ class LoginIdentityService({
       );
     }
 
-    final remainingLoginIdentities = loginIdentities.loginIdentities
+    final remainingLoginIdentities = loginIdentities.list
         .where((loginIdentity) => loginIdentity.id != loginIdentityId)
         .toList();
 
@@ -193,7 +191,7 @@ class LoginIdentityService({
         : loginIdentities.selectedLoginIdentityId;
 
     final updated = loginIdentities.copyWith(
-      loginIdentities: remainingLoginIdentities,
+      list: remainingLoginIdentities,
       selectedLoginIdentityId: selectedLoginIdentityId,
     );
 

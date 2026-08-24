@@ -42,7 +42,7 @@ class const LoginIdentitySwitcherIconButton({
 
     return MenuAnchor(
       menuChildren: loginIdentities.servers.map((server) {
-        final filteredLoginIdentities = loginIdentities.loginIdentities
+        final filteredLoginIdentities = loginIdentities.list
             .where((loginIdentity) => loginIdentity.serverId == server.id)
             .toList();
 

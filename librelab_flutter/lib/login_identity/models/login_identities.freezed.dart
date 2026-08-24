@@ -21,7 +21,7 @@ mixin _$LoginIdentities {
 ///
 /// Multiple [LoginIdentity]s can reference the same server.
  List<Server> get servers;/// Login identities configured in this app installation.
- List<LoginIdentity> get loginIdentities;
+ List<LoginIdentity> get list;
 /// Create a copy of LoginIdentities
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,16 +32,16 @@ $LoginIdentitiesCopyWith<LoginIdentities> get copyWith => _$LoginIdentitiesCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other.servers, servers)&&const DeepCollectionEquality().equals(other.loginIdentities, loginIdentities));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other.servers, servers)&&const DeepCollectionEquality().equals(other.list, list));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(servers),const DeepCollectionEquality().hash(loginIdentities));
+int get hashCode => Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(servers),const DeepCollectionEquality().hash(list));
 
 @override
 String toString() {
-  return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, loginIdentities: $loginIdentities)';
+  return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, list: $list)';
 }
 
 
@@ -52,7 +52,7 @@ abstract mixin class $LoginIdentitiesCopyWith<$Res>  {
   factory $LoginIdentitiesCopyWith(LoginIdentities value, $Res Function(LoginIdentities) _then) = _$LoginIdentitiesCopyWithImpl;
 @useResult
 $Res call({
- int? selectedLoginIdentityId, List<Server> servers, List<LoginIdentity> loginIdentities
+ int? selectedLoginIdentityId, List<Server> servers, List<LoginIdentity> list
 });
 
 
@@ -69,11 +69,11 @@ class _$LoginIdentitiesCopyWithImpl<$Res>
 
 /// Create a copy of LoginIdentities
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedLoginIdentityId = freezed,Object? servers = null,Object? loginIdentities = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedLoginIdentityId = freezed,Object? servers = null,Object? list = null,}) {
   return _then(LoginIdentities(
 selectedLoginIdentityId: freezed == selectedLoginIdentityId ? _self.selectedLoginIdentityId : selectedLoginIdentityId // ignore: cast_nullable_to_non_nullable
 as int?,servers: null == servers ? _self.servers : servers // ignore: cast_nullable_to_non_nullable
-as List<Server>,loginIdentities: null == loginIdentities ? _self.loginIdentities : loginIdentities // ignore: cast_nullable_to_non_nullable
+as List<Server>,list: null == list ? _self.list : list // ignore: cast_nullable_to_non_nullable
 as List<LoginIdentity>,
   ));
 }
@@ -159,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? selectedLoginIdentityId,  List<Server> servers,  List<LoginIdentity> loginIdentities)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? selectedLoginIdentityId,  List<Server> servers,  List<LoginIdentity> list)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginIdentities() when $default != null:
-return $default(_that.selectedLoginIdentityId,_that.servers,_that.loginIdentities);case _:
+return $default(_that.selectedLoginIdentityId,_that.servers,_that.list);case _:
   return orElse();
 
 }
@@ -180,10 +180,10 @@ return $default(_that.selectedLoginIdentityId,_that.servers,_that.loginIdentitie
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? selectedLoginIdentityId,  List<Server> servers,  List<LoginIdentity> loginIdentities)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? selectedLoginIdentityId,  List<Server> servers,  List<LoginIdentity> list)  $default,) {final _that = this;
 switch (_that) {
 case _LoginIdentities():
-return $default(_that.selectedLoginIdentityId,_that.servers,_that.loginIdentities);case _:
+return $default(_that.selectedLoginIdentityId,_that.servers,_that.list);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +200,10 @@ return $default(_that.selectedLoginIdentityId,_that.servers,_that.loginIdentitie
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? selectedLoginIdentityId,  List<Server> servers,  List<LoginIdentity> loginIdentities)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? selectedLoginIdentityId,  List<Server> servers,  List<LoginIdentity> list)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginIdentities() when $default != null:
-return $default(_that.selectedLoginIdentityId,_that.servers,_that.loginIdentities);case _:
+return $default(_that.selectedLoginIdentityId,_that.servers,_that.list);case _:
   return null;
 
 }
@@ -215,7 +215,7 @@ return $default(_that.selectedLoginIdentityId,_that.servers,_that.loginIdentitie
 
 
 class _LoginIdentities extends LoginIdentities {
-  const _LoginIdentities({required this.selectedLoginIdentityId, required  List<Server> servers, required  List<LoginIdentity> loginIdentities}): _servers = servers,_loginIdentities = loginIdentities,super(selectedLoginIdentityId: selectedLoginIdentityId, servers: servers, loginIdentities: loginIdentities);
+  const _LoginIdentities({required this.selectedLoginIdentityId, required  List<Server> servers, required  List<LoginIdentity> list}): _servers = servers,_list = list,super(selectedLoginIdentityId: selectedLoginIdentityId, servers: servers, list: list);
   
 
 /// The [LoginIdentity.id] of the selected [LoginIdentity].
@@ -235,12 +235,12 @@ class _LoginIdentities extends LoginIdentities {
 }
 
 /// Login identities configured in this app installation.
- final  List<LoginIdentity> _loginIdentities;
+ final  List<LoginIdentity> _list;
 /// Login identities configured in this app installation.
-@override List<LoginIdentity> get loginIdentities {
-  if (_loginIdentities is EqualUnmodifiableListView) return _loginIdentities;
+@override List<LoginIdentity> get list {
+  if (_list is EqualUnmodifiableListView) return _list;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_loginIdentities);
+  return EqualUnmodifiableListView(_list);
 }
 
 
@@ -254,16 +254,16 @@ _$LoginIdentitiesCopyWith<_LoginIdentities> get copyWith => __$LoginIdentitiesCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other._servers, _servers)&&const DeepCollectionEquality().equals(other._loginIdentities, _loginIdentities));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other._servers, _servers)&&const DeepCollectionEquality().equals(other._list, _list));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(_servers),const DeepCollectionEquality().hash(_loginIdentities));
+int get hashCode => Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(_servers),const DeepCollectionEquality().hash(_list));
 
 @override
 String toString() {
-  return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, loginIdentities: $loginIdentities)';
+  return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, list: $list)';
 }
 
 
@@ -274,7 +274,7 @@ abstract mixin class _$LoginIdentitiesCopyWith<$Res> implements $LoginIdentities
   factory _$LoginIdentitiesCopyWith(_LoginIdentities value, $Res Function(_LoginIdentities) _then) = __$LoginIdentitiesCopyWithImpl;
 @override @useResult
 $Res call({
- int? selectedLoginIdentityId, List<Server> servers, List<LoginIdentity> loginIdentities
+ int? selectedLoginIdentityId, List<Server> servers, List<LoginIdentity> list
 });
 
 
@@ -291,11 +291,11 @@ class __$LoginIdentitiesCopyWithImpl<$Res>
 
 /// Create a copy of LoginIdentities
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? selectedLoginIdentityId = freezed,Object? servers = null,Object? loginIdentities = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? selectedLoginIdentityId = freezed,Object? servers = null,Object? list = null,}) {
   return _then(_LoginIdentities(
 selectedLoginIdentityId: freezed == selectedLoginIdentityId ? _self.selectedLoginIdentityId : selectedLoginIdentityId // ignore: cast_nullable_to_non_nullable
 as int?,servers: null == servers ? _self._servers : servers // ignore: cast_nullable_to_non_nullable
-as List<Server>,loginIdentities: null == loginIdentities ? _self._loginIdentities : loginIdentities // ignore: cast_nullable_to_non_nullable
+as List<Server>,list: null == list ? _self._list : list // ignore: cast_nullable_to_non_nullable
 as List<LoginIdentity>,
   ));
 }
