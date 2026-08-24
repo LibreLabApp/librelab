@@ -25,6 +25,8 @@ as a file-level workaround rather than adding `@override` annotations to the fie
 
 This applies to Freezed classes using primary constructors, not to Freezed sealed-state declarations using `const factory` constructors.
 
+See also: [Freezed primary constructors documentation](https://pub.dev/packages/freezed#primary-constructors)
+
 #### Avoid
 
 Do not use the legacy Freezed syntax with a `const factory` constructor for regular model classes:

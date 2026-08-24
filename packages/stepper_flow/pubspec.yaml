@@ -13,4 +13,4 @@ dependencies:
     sdk: flutter
   material_ui: ^1.0.0
   meta: ^1.18.0
-  smooth_page_indicator: ^2.0.1
+  smooth_page_indicator: ^3.0.0
