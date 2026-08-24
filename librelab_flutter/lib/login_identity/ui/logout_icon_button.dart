@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
-import 'package:librelab_flutter/common/ui/copy_error_details_snackbar_action.dart';
 import 'package:librelab_flutter/common/ui/widgets/cubit_effect_listener.dart';
+import 'package:librelab_flutter/common/ui/widgets/failure/show_technical_failure_details_snack_bar_action.dart';
 import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -112,7 +112,7 @@ class const _LoginIdentityEffectListener({required final Widget child})
           case LogoutFailureMessage(:final failure):
             context.showSnackBarMessage(
               context.t.homePage.actions.logout.logoutFailure,
-              action: CopyErrorDetailsSnackBarAction(
+              action: ShowTechnicalFailureDetailsSnackBarAction(
                 context: context,
                 failureDetails: failure.message,
               ),

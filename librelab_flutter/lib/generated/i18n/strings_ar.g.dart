@@ -52,8 +52,8 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override String get retry => 'إعادة المحاولة';
 	@override late final _Translations$filePicker$ar filePicker = _Translations$filePicker$ar._(_root);
 	@override late final _Translations$imagePicker$ar imagePicker = _Translations$imagePicker$ar._(_root);
-	@override String get copyErrorDetails => 'نسخ تفاصيل الخطأ';
 	@override late final _Translations$homePage$ar homePage = _Translations$homePage$ar._(_root);
+	@override late final _Translations$technicalFailureDetails$ar technicalFailureDetails = _Translations$technicalFailureDetails$ar._(_root);
 }
 
 // Path: initialSetupPage
@@ -218,6 +218,17 @@ class _Translations$homePage$ar extends Translations$homePage$en {
 	// Translations
 	@override late final _Translations$homePage$destinations$ar destinations = _Translations$homePage$destinations$ar._(_root);
 	@override late final _Translations$homePage$actions$ar actions = _Translations$homePage$actions$ar._(_root);
+}
+
+// Path: technicalFailureDetails
+class _Translations$technicalFailureDetails$ar extends Translations$technicalFailureDetails$en {
+	_Translations$technicalFailureDetails$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get showDialog => 'عرض تفاصيل الخطأ';
+	@override late final _Translations$technicalFailureDetails$dialog$ar dialog = _Translations$technicalFailureDetails$dialog$ar._(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -481,6 +492,17 @@ class _Translations$homePage$actions$ar extends Translations$homePage$actions$en
 	// Translations
 	@override late final _Translations$homePage$actions$switchUser$ar switchUser = _Translations$homePage$actions$switchUser$ar._(_root);
 	@override late final _Translations$homePage$actions$logout$ar logout = _Translations$homePage$actions$logout$ar._(_root);
+}
+
+// Path: technicalFailureDetails.dialog
+class _Translations$technicalFailureDetails$dialog$ar extends Translations$technicalFailureDetails$dialog$en {
+	_Translations$technicalFailureDetails$dialog$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'التفاصيل التقنية';
+	@override String get description => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -1211,7 +1233,6 @@ extension on TranslationsAr {
 			'filePicker.readFailure' => 'تعذر قراءة الملف المحدد.',
 			'imagePicker.changeImage' => 'تغيير الصورة',
 			'imagePicker.removeImage' => 'إزالة الصورة',
-			'copyErrorDetails' => 'نسخ تفاصيل الخطأ',
 			'homePage.destinations.settings.label' => 'الإعدادات',
 			'homePage.actions.switchUser.tooltip' => 'تبديل المستخدم',
 			'homePage.actions.logout.tooltip' => 'تسجيل الخروج',
@@ -1224,6 +1245,9 @@ extension on TranslationsAr {
 			'homePage.actions.logout.confirmationDialog.cancel' => 'إلغاء',
 			'homePage.actions.logout.confirmationDialog.confirm' => 'تسجيل الخروج',
 			'homePage.actions.logout.logoutFailure' => 'فشل تسجيل الخروج.',
+			'technicalFailureDetails.showDialog' => 'عرض تفاصيل الخطأ',
+			'technicalFailureDetails.dialog.title' => 'التفاصيل التقنية',
+			'technicalFailureDetails.dialog.description' => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.',
 			_ => null,
 		};
 	}

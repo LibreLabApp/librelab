@@ -58,11 +58,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	late final Translations$filePicker$en filePicker = Translations$filePicker$en.internal(_root);
 	late final Translations$imagePicker$en imagePicker = Translations$imagePicker$en.internal(_root);
-
-	/// en: 'Copy error details'
-	String get copyErrorDetails => 'Copy error details';
-
 	late final Translations$homePage$en homePage = Translations$homePage$en.internal(_root);
+	late final Translations$technicalFailureDetails$en technicalFailureDetails = Translations$technicalFailureDetails$en.internal(_root);
 }
 
 // Path: initialSetupPage
@@ -313,6 +310,20 @@ class Translations$homePage$en {
 	// Translations
 	late final Translations$homePage$destinations$en destinations = Translations$homePage$destinations$en.internal(_root);
 	late final Translations$homePage$actions$en actions = Translations$homePage$actions$en.internal(_root);
+}
+
+// Path: technicalFailureDetails
+class Translations$technicalFailureDetails$en {
+	Translations$technicalFailureDetails$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Show error details'
+	String get showDialog => 'Show error details';
+
+	late final Translations$technicalFailureDetails$dialog$en dialog = Translations$technicalFailureDetails$dialog$en.internal(_root);
 }
 
 // Path: initialSetupPage.steps
@@ -664,6 +675,21 @@ class Translations$homePage$actions$en {
 	// Translations
 	late final Translations$homePage$actions$switchUser$en switchUser = Translations$homePage$actions$switchUser$en.internal(_root);
 	late final Translations$homePage$actions$logout$en logout = Translations$homePage$actions$logout$en.internal(_root);
+}
+
+// Path: technicalFailureDetails.dialog
+class Translations$technicalFailureDetails$dialog$en {
+	Translations$technicalFailureDetails$dialog$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Technical details'
+	String get title => 'Technical details';
+
+	/// en: 'Technical details about the error are provided below. You can copy them when reporting the issue to support.'
+	String get description => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.';
 }
 
 // Path: initialSetupPage.steps.preferences
@@ -1589,7 +1615,6 @@ extension on Translations {
 			'filePicker.readFailure' => 'Failed to read the selected file.',
 			'imagePicker.changeImage' => 'Change image',
 			'imagePicker.removeImage' => 'Remove image',
-			'copyErrorDetails' => 'Copy error details',
 			'homePage.destinations.settings.label' => 'Settings',
 			'homePage.actions.switchUser.tooltip' => 'Switch user',
 			'homePage.actions.logout.tooltip' => 'Log out',
@@ -1602,6 +1627,9 @@ extension on Translations {
 			'homePage.actions.logout.confirmationDialog.cancel' => 'Cancel',
 			'homePage.actions.logout.confirmationDialog.confirm' => 'Log out',
 			'homePage.actions.logout.logoutFailure' => 'Failed to logout.',
+			'technicalFailureDetails.showDialog' => 'Show error details',
+			'technicalFailureDetails.dialog.title' => 'Technical details',
+			'technicalFailureDetails.dialog.description' => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.',
 			_ => null,
 		};
 	}

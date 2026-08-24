@@ -9,9 +9,9 @@ import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart'
     hide Success;
 import 'package:librelab_flutter/auth/ui/login_form_section.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
-import 'package:librelab_flutter/common/ui/copy_error_details_snackbar_action.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
 import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
+import 'package:librelab_flutter/common/ui/widgets/failure/show_technical_failure_details_snack_bar_action.dart';
 import 'package:librelab_flutter/initial_setup/cubit/initial_setup_cubit.dart';
 import 'package:librelab_flutter/initial_setup/step.dart';
 import 'package:librelab_flutter/lab_settings/cubit/lab_settings_cubit.dart';
@@ -264,7 +264,7 @@ class const _LoginIdentityFailureListener({required final Widget child})
 
           context.showSnackBarMessage(
             t.initialSetupPage.finishFailure,
-            action: CopyErrorDetailsSnackBarAction(
+            action: ShowTechnicalFailureDetailsSnackBarAction(
               context: context,
               failureDetails: failureDetails,
             ),

@@ -8,8 +8,8 @@ import 'package:librelab_flutter/common/network/api_client/api_request_failures.
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/text_field_state.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
-import 'package:librelab_flutter/common/ui/widgets/api_request_failure_card.dart';
 import 'package:librelab_flutter/common/ui/widgets/button_loading_indicator.dart';
+import 'package:librelab_flutter/common/ui/widgets/failure/api_request_failure_card.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:librelab_shared/result.dart' hide Failure;
 import 'package:material_ui/material_ui.dart';

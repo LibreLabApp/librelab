@@ -309,7 +309,6 @@
         "changeImage": "تغيير الصورة",
         "removeImage": "إزالة الصورة"
     },
-    "copyErrorDetails": "نسخ تفاصيل الخطأ",
     "loginIdentity": {},
     "homePage": {
         "destinations": {
@@ -339,6 +338,13 @@
                 },
                 "logoutFailure": "فشل تسجيل الخروج."
             }
+        }
+    },
+    "technicalFailureDetails": {
+        "showDialog": "عرض تفاصيل الخطأ",
+        "dialog": {
+            "title": "التفاصيل التقنية",
+            "description": "تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم."
         }
     }
 }

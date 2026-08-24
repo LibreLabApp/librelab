@@ -317,7 +317,6 @@
     "changeImage": "Change image",
     "removeImage": "Remove image"
   },
-  "copyErrorDetails": "Copy error details",
   "homePage": {
     "destinations": {
       "settings": {
@@ -346,6 +345,13 @@
         },
         "logoutFailure": "Failed to logout."
       }
+    }
+  },
+  "technicalFailureDetails": {
+    "showDialog": "Show error details",
+    "dialog": {
+      "title": "Technical details",
+      "description": "Technical details about the error are provided below. You can copy them when reporting the issue to support."
     }
   }
 }

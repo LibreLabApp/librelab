@@ -6,7 +6,11 @@ export 'package:librelab_flutter/generated/i18n/strings.g.dart'
     show Translations;
 
 extension BuildContextExt on BuildContext {
+  /// The localized UI strings of the app.
   Translations get t => Translations.of(this);
+
+  /// The localized Material UI strings provided by Flutter.
+  MaterialLocalizations get ml => MaterialLocalizations.of(this);
 
   ThemeData get theme => Theme.of(this);
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
