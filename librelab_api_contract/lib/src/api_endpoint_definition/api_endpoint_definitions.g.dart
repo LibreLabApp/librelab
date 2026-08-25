@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, unnecessary_brace_in_string_interps
 /// Generated code. Do not modify directly.
 /// Instead, modify and then run: dart scripts/endpoint_definition/generate.dart
 library;
@@ -79,4 +79,22 @@ abstract final class ApiEndpointDefinitions {
     method: HttpMethod.get,
     path: 'lab-settings',
   );
+
+  /// HTTP POST storage
+  static const HttpEndpoint storage$POST = HttpEndpoint(
+    method: HttpMethod.post,
+    path: 'storage',
+  );
+
+  /// HTTP GET storage/{id}
+  static HttpEndpoint storage$GET({required String id}) =>
+      HttpEndpoint(method: HttpMethod.get, path: 'storage/${id}');
+
+  /// HTTP PATCH storage/{id}
+  static HttpEndpoint storage$PATCH({required String id}) =>
+      HttpEndpoint(method: HttpMethod.patch, path: 'storage/${id}');
+
+  /// HTTP DELETE storage/{id}
+  static HttpEndpoint storage$DELETE({required String id}) =>
+      HttpEndpoint(method: HttpMethod.delete, path: 'storage/${id}');
 }

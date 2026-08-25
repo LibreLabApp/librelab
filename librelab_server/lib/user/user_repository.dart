@@ -22,7 +22,7 @@ abstract interface class UserRepository {
   Future<bool> isEmailUsed(String email);
 
   /// Creates a new user.
-  /// [UserCreate.email] must be unique (use [isEmailUsed] method)
+  /// [UserCreate.email] must be unique (use [isEmailUsed] method).
   Future<User> create(UserCreate create);
 
   /// Returns whether the user was deleted.

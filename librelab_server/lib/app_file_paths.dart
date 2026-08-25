@@ -9,11 +9,11 @@ class AppFilePaths({required final String? _workingDirectory}) {
   }
 
   String get configDir => _resolve('config');
-
   String _insideConfigDir(String path) => p.join(configDir, path);
-
   String get config => _insideConfigDir('config.yaml');
   String get secrets => _insideConfigDir('secrets.yaml');
 
   String get webDir => _resolve('web');
+
+  String get storageDir => _resolve('storage');
 }

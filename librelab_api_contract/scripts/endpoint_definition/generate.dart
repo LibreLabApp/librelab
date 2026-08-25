@@ -21,6 +21,12 @@ final List<ApiNode> _input = [
     HttpEndpoint(.patch, null),
     HttpEndpoint(.get, null),
   ]),
+  ApiGroup('storage', [
+    HttpEndpoint(.get, pathParam('id')),
+    HttpEndpoint(.post, null),
+    HttpEndpoint(.patch, pathParam('id')),
+    HttpEndpoint(.delete, pathParam('id')),
+  ]),
 ];
 
 Future<void> main() async {

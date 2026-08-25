@@ -33,6 +33,9 @@ dependencies:
   clock: ^1.1.2
   string_storage: ^0.0.1
   yaml_storage: ^0.0.1
+  uuid: ^4.6.0
+  convert: ^3.1.2
+  file: ^7.0.1
 
 dev_dependencies:
   lints: '>=3.0.0 <7.0.0'

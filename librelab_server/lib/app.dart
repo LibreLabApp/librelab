@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:file/file.dart' show FileSystem;
+import 'package:file/local.dart';
 import 'package:librelab_server/app_file_paths.dart';
 import 'package:librelab_server/audit_log/audit_log_repository_postgres.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
@@ -18,6 +20,9 @@ import 'package:librelab_server/database/database_connect.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
+import 'package:librelab_server/file_storage/storage_routes.dart';
+import 'package:librelab_server/file_storage/file_storage_service.dart';
+import 'package:librelab_server/file_storage/storage_object/storage_object_repository_postgres.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
@@ -78,6 +83,9 @@ Future<void> run(List<String> args) async {
 
   final createSuperUser = argResults.wasParsed(CliOptions.createSuperUserFlag);
   final autoApplyMigrations = argResults.flag(CliOptions.applyMigrationsFlag);
+
+  // TODO: Use fileSystem when possible instead of creating Directory directly
+  const FileSystem fileSystem = LocalFileSystem();
 
   final workingDirectory = kDebugMode ? Directory('run_workdir') : null;
   if (workingDirectory != null && !workingDirectory.existsSync()) {
@@ -224,6 +232,16 @@ Future<void> run(List<String> args) async {
           db: databaseClient,
           labSettingsRepository: labSettingsRepository,
           auditLogRepository: AuditLogRepositoryPostgres(databaseClient),
+        ),
+      ),
+      StorageRoutes(
+        authorization: authorizationService,
+        fileStorageService: FileStorageService(
+          storageObjectRepository: StorageObjectRepositoryPostgres(
+            databaseClient,
+          ),
+          fileSystem: fileSystem,
+          storageDirectoryPath: appFilePaths.storageDir,
         ),
       ),
     ],

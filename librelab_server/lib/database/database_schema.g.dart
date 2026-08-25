@@ -637,6 +637,8 @@ abstract final class StorageObjectsTable {
 
   static const String createdAt = 'created_at';
 
+  static const String updatedAt = 'updated_at';
+
   static const List<String> columns = [
     id,
     storageKey,
@@ -645,6 +647,7 @@ abstract final class StorageObjectsTable {
     sizeBytes,
     checksumSha256,
     createdAt,
+    updatedAt,
   ];
 
   static Map<String, Object> insert({
@@ -655,6 +658,7 @@ abstract final class StorageObjectsTable {
     required int sizeBytes,
     required String checksumSha256,
     DateTime? createdAt,
+    DateTime? updatedAt,
   }) => {
     StorageObjectsTable.id: ?id,
     StorageObjectsTable.storageKey: storageKey,
@@ -663,6 +667,7 @@ abstract final class StorageObjectsTable {
     StorageObjectsTable.sizeBytes: sizeBytes,
     StorageObjectsTable.checksumSha256: checksumSha256,
     StorageObjectsTable.createdAt: ?createdAt,
+    StorageObjectsTable.updatedAt: ?updatedAt,
   };
 
   static Map<String, Object?> update({
@@ -682,6 +687,7 @@ abstract final class StorageObjectsTable {
       (StorageObjectsTable.sizeBytes, sizeBytes),
       (StorageObjectsTable.checksumSha256, checksumSha256),
       (StorageObjectsTable.createdAt, createdAt),
+      (StorageObjectsTable.updatedAt, const .value('now()')),
     ]);
   }
 }
@@ -701,6 +707,7 @@ final class StorageObjectsRow {
     required this.sizeBytes,
     required this.checksumSha256,
     required this.createdAt,
+    required this.updatedAt,
   });
 
   factory StorageObjectsRow.fromMap(Map<String, Object?> map) =>
@@ -712,6 +719,7 @@ final class StorageObjectsRow {
         sizeBytes: (map[StorageObjectsTable.sizeBytes]! as int),
         checksumSha256: (map[StorageObjectsTable.checksumSha256]! as String),
         createdAt: (map[StorageObjectsTable.createdAt]! as DateTime),
+        updatedAt: (map[StorageObjectsTable.updatedAt]! as DateTime),
       );
 
   final String id;
@@ -727,6 +735,8 @@ final class StorageObjectsRow {
   final String checksumSha256;
 
   final DateTime createdAt;
+
+  final DateTime updatedAt;
 }
 
 /// Generated mapping for the `user_refresh_tokens` table, providing type-safe references
