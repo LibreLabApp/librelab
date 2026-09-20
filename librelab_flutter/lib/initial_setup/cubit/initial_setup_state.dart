@@ -1,5 +1,3 @@
-// ignore_for_file: annotate_overrides
-
 part of 'initial_setup_cubit.dart';
 
 @immutable

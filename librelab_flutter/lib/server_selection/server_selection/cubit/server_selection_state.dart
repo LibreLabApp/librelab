@@ -1,5 +1,3 @@
-// ignore_for_file: annotate_overrides
-
 part of 'server_selection_cubit.dart';
 
 @freezed

@@ -15,6 +15,7 @@ import 'package:librelab_server/server/request_ext.dart';
 import 'package:librelab_server/user/role/mapper.dart';
 import 'package:librelab_server/user/role/role.dart';
 import 'package:librelab_server/user/user.dart';
+import 'package:librelab_server/user/user_access.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
@@ -122,23 +123,40 @@ class AuthorizationService({required final AuthService _authService}) {
     Request request,
     Permission permission,
     Future<Response> Function(AuthUser user) handler,
-  ) {
-    return withAuthUser(request, (user) {
-      if (!user.isSuperUser) {
-        final permissions = user.permissions;
-        if (permissions == null || !permissions.contains(permission)) {
-          return ServerErrorResponse(
-            message: 'You do not have permission to perform this action.',
-            code: AuthErrorCodes.insufficientPermissions,
-            details: {
-              'permissions': permissions
-                  ?.map((e) => e.toResponse().toJson())
-                  .toList(),
-            },
-          ).toJson().httpResponse(.forbidden);
-        }
-      }
-      return handler(user);
-    });
+  ) => withAuthUser(request, (user) {
+    final response = checkPermission(
+      permission,
+      userAccess: .fromAuthUser(user),
+    );
+
+    if (response != null) {
+      return response;
+    }
+
+    return handler(user);
+  });
+
+  /// Checks whether the user has the required [permission].
+  ///
+  /// Returns `null` if the user is authorized. Otherwise, returns a forbidden
+  /// [Response] describing the authorization failure.
+  Response? checkPermission(
+    Permission permission, {
+    required UserAccess userAccess,
+  }) {
+    if (userAccess.can(permission)) {
+      return null;
+    }
+
+    return ServerErrorResponse(
+      message: 'You do not have permission to perform this action.',
+      code: AuthErrorCodes.insufficientPermissions,
+      details: {
+        'userPermissions': userAccess.userPermissions
+            .map((e) => e.toResponse().toJson())
+            .toList(),
+        'isSuperUser': userAccess.isSuperUser,
+      },
+    ).toJson().httpResponse(.forbidden);
   }
 }

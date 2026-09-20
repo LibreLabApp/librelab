@@ -14,7 +14,13 @@ class const ServerErrorResponse({
 }) {
   factory fromJson(JsonMap json) => _$ServerErrorResponseFromJson(json);
   JsonMap toJson() {
-    // Validates the values
+    _validate();
+
+    return _$ServerErrorResponseToJson(this);
+  }
+
+  /// Validates the values.
+  void _validate() {
     final details = this.details;
     if (details != null) {
       for (final entry in details.entries) {
@@ -36,21 +42,17 @@ class const ServerErrorResponse({
         }
       }
     }
-
-    return _$ServerErrorResponseToJson(this);
   }
 
   ServerErrorResponse copyWith({
     String? message,
     String? code,
     JsonMap? details,
-  }) {
-    return ServerErrorResponse(
-      message: message ?? this.message,
-      code: code ?? this.code,
-      details: details ?? this.details,
-    );
-  }
+  }) => .new(
+    message: message ?? this.message,
+    code: code ?? this.code,
+    details: details ?? this.details,
+  );
 
   @override
   bool operator ==(Object other) =>

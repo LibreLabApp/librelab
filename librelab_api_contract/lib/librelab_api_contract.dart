@@ -10,6 +10,8 @@ export 'src/auth/refresh/refresh_auth_response.dart';
 export 'src/compatibility/api_contract_version_constants.dart';
 export 'src/compatibility/compatibility_check_request.dart';
 export 'src/compatibility/compatibility_check_response.dart';
+export 'src/file_storage/storage_error_codes.dart';
+export 'src/file_storage/storage_object.dart';
 export 'src/headers.dart';
 export 'src/lab_settings/lab_settings_response.dart';
 export 'src/lab_settings/update_lab_settings_request.dart';

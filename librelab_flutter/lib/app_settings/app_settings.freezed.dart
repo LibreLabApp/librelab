@@ -15,8 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppSettings {
 
-/// Set to `null` to use the system default
-@JsonKey(defaultValue: null) AppLocale? get locale; AppAppearance get appearance; TelemetrySettings get telemetry;
+
 /// Create a copy of AppSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,16 +26,21 @@ $AppSettingsCopyWith<AppSettings> get copyWith => _$AppSettingsCopyWithImpl<AppS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettings&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.appearance, appearance) || other.appearance == appearance)&&(identical(other.telemetry, telemetry) || other.telemetry == telemetry));
+  final _this = this as AppSettings;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettings&&(identical(other.locale, _this.locale) || other.locale == _this.locale)&&(identical(other.appearance, _this.appearance) || other.appearance == _this.appearance)&&(identical(other.telemetry, _this.telemetry) || other.telemetry == _this.telemetry));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,locale,appearance,telemetry);
+int get hashCode {
+  final _this = this as AppSettings;
+  return Object.hash(runtimeType,_this.locale,_this.appearance,_this.telemetry);
+}
 
 @override
 String toString() {
-  return 'AppSettings(locale: $locale, appearance: $appearance, telemetry: $telemetry)';
+  final _this = this as AppSettings;
+  return 'AppSettings(locale: ${_this.locale}, appearance: ${_this.appearance}, telemetry: ${_this.telemetry})';
 }
 
 
@@ -246,16 +250,18 @@ _$AppSettingsCopyWith<_AppSettings> get copyWith => __$AppSettingsCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettings&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.appearance, appearance) || other.appearance == appearance)&&(identical(other.telemetry, telemetry) || other.telemetry == telemetry));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettings&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.appearance, appearance) || other.appearance == appearance)&&(identical(other.telemetry, telemetry) || other.telemetry == telemetry));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,locale,appearance,telemetry);
+int get hashCode {
+    return Object.hash(runtimeType,locale,appearance,telemetry);
+}
 
 @override
 String toString() {
-  return 'AppSettings(locale: $locale, appearance: $appearance, telemetry: $telemetry)';
+    return 'AppSettings(locale: $locale, appearance: $appearance, telemetry: $telemetry)';
 }
 
 
@@ -316,10 +322,7 @@ $TelemetrySettingsCopyWith<$Res> get telemetry {
 /// @nodoc
 mixin _$AppAppearance {
 
-@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode get themeMode;@JsonKey(defaultValue: true) bool get useSystemColors;@JsonKey(defaultValue: false) bool get useAccentColor;/// Stored as ARGB int
-@JsonKey(defaultValue: 0xFFFF5252) int get accentColor;/// Whether to use animated graphics instead of static icons / fallback widgets
-/// for decorative visuals.
-@JsonKey(defaultValue: true) bool get useAnimatedGraphics;
+
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -330,16 +333,21 @@ $AppAppearanceCopyWith<AppAppearance> get copyWith => _$AppAppearanceCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
+  final _this = this as AppAppearance;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppAppearance&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.useSystemColors, _this.useSystemColors) || other.useSystemColors == _this.useSystemColors)&&(identical(other.useAccentColor, _this.useAccentColor) || other.useAccentColor == _this.useAccentColor)&&(identical(other.accentColor, _this.accentColor) || other.accentColor == _this.accentColor)&&(identical(other.useAnimatedGraphics, _this.useAnimatedGraphics) || other.useAnimatedGraphics == _this.useAnimatedGraphics));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,useAnimatedGraphics);
+int get hashCode {
+  final _this = this as AppAppearance;
+  return Object.hash(runtimeType,_this.themeMode,_this.useSystemColors,_this.useAccentColor,_this.accentColor,_this.useAnimatedGraphics);
+}
 
 @override
 String toString() {
-  return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, useAnimatedGraphics: $useAnimatedGraphics)';
+  final _this = this as AppAppearance;
+  return 'AppAppearance(themeMode: ${_this.themeMode}, useSystemColors: ${_this.useSystemColors}, useAccentColor: ${_this.useAccentColor}, accentColor: ${_this.accentColor}, useAnimatedGraphics: ${_this.useAnimatedGraphics})';
 }
 
 
@@ -537,16 +545,18 @@ _$AppAppearanceCopyWith<_AppAppearance> get copyWith => __$AppAppearanceCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,useAnimatedGraphics);
+int get hashCode {
+    return Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,useAnimatedGraphics);
+}
 
 @override
 String toString() {
-  return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, useAnimatedGraphics: $useAnimatedGraphics)';
+    return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, useAnimatedGraphics: $useAnimatedGraphics)';
 }
 
 
@@ -591,7 +601,7 @@ as bool,
 /// @nodoc
 mixin _$TelemetrySettings {
 
-@JsonKey(defaultValue: false) bool get sendCrashReports;
+
 /// Create a copy of TelemetrySettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -602,16 +612,21 @@ $TelemetrySettingsCopyWith<TelemetrySettings> get copyWith => _$TelemetrySetting
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TelemetrySettings&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports));
+  final _this = this as TelemetrySettings;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TelemetrySettings&&(identical(other.sendCrashReports, _this.sendCrashReports) || other.sendCrashReports == _this.sendCrashReports));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,sendCrashReports);
+int get hashCode {
+  final _this = this as TelemetrySettings;
+  return Object.hash(runtimeType,_this.sendCrashReports);
+}
 
 @override
 String toString() {
-  return 'TelemetrySettings(sendCrashReports: $sendCrashReports)';
+  final _this = this as TelemetrySettings;
+  return 'TelemetrySettings(sendCrashReports: ${_this.sendCrashReports})';
 }
 
 
@@ -798,16 +813,18 @@ _$TelemetrySettingsCopyWith<_TelemetrySettings> get copyWith => __$TelemetrySett
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TelemetrySettings&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TelemetrySettings&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,sendCrashReports);
+int get hashCode {
+    return Object.hash(runtimeType,sendCrashReports);
+}
 
 @override
 String toString() {
-  return 'TelemetrySettings(sendCrashReports: $sendCrashReports)';
+    return 'TelemetrySettings(sendCrashReports: $sendCrashReports)';
 }
 
 

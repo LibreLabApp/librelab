@@ -65,7 +65,7 @@ class AuthSessionManager(
         ...?headers,
         if (session case AuthSessionMemory(:final accessToken))
           ApiHttpHeaders.authorization:
-              ApiHttpHeaders.bearerPrefix + accessToken.value,
+              '${ApiHttpHeaders.bearerPrefix}${accessToken.value}',
       },
     );
 

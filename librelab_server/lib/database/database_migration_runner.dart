@@ -83,20 +83,20 @@ CREATE TABLE $_tableName (
           ..sort((a, b) => a.version.compareTo(b.version));
 
     if (pending.isEmpty) {
-      _logger.info('No migrations to apply');
+      _logger.info('Database migrations are up to date');
       return;
     }
 
     for (final migration in pending) {
       _logger.info('Applying migration ${migration.version}...');
 
-      await _db.transaction((t) async {
-        await t.execute(
+      await _db.transaction((tx) async {
+        await tx.execute(
           migration.sql,
           // Allows multi-statements
           useSimpleQueryMode: true,
         );
-        await t.execute(
+        await tx.execute(
           'INSERT INTO $_tableName ($_versionColumn) VALUES (@version)',
           parameters: {'version': migration.version},
         );

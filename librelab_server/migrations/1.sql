@@ -96,6 +96,7 @@ CREATE TABLE lab_settings (
   login_disabled BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  -- TODO: Add: lab_image_id UUID REFERENCES storage_objects(id) ON DELETE SET NULL
 
   CONSTRAINT lab_settings_singleton_check
     CHECK (id = 1)
@@ -108,7 +109,8 @@ CREATE TYPE audit_action AS ENUM (
 );
 
 CREATE TYPE audit_entity_type AS ENUM (
-  'lab_settings'
+  'lab_settings',
+  'storage_object'
 );
 
 CREATE TABLE audit_logs (
@@ -124,13 +126,19 @@ CREATE TABLE audit_logs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+CREATE TYPE storage_object_purpose AS ENUM (
+  'lab_image'
+);
+
 CREATE TABLE storage_objects (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
   storage_key TEXT NOT NULL UNIQUE,
   original_name TEXT NOT NULL,
-  mime_type TEXT,
+  mime_type TEXT NOT NULL,
   size_bytes BIGINT NOT NULL,
   checksum_sha256 TEXT NOT NULL,
+  purpose storage_object_purpose NOT NULL,
+  is_upload BOOLEAN NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 );

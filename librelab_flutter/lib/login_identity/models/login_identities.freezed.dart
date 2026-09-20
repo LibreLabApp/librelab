@@ -15,13 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginIdentities {
 
-/// The [LoginIdentity.id] of the selected [LoginIdentity].
-/// `null` if none has been selected.
- int? get selectedLoginIdentityId;/// Servers configured for the local users.
-///
-/// Multiple [LoginIdentity]s can reference the same server.
- List<Server> get servers;/// Login identities configured in this app installation.
- List<LoginIdentity> get list;
+
 /// Create a copy of LoginIdentities
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,16 +26,21 @@ $LoginIdentitiesCopyWith<LoginIdentities> get copyWith => _$LoginIdentitiesCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other.servers, servers)&&const DeepCollectionEquality().equals(other.list, list));
+  final _this = this as LoginIdentities;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentities&&(identical(other.selectedLoginIdentityId, _this.selectedLoginIdentityId) || other.selectedLoginIdentityId == _this.selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other.servers, _this.servers)&&const DeepCollectionEquality().equals(other.list, _this.list));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(servers),const DeepCollectionEquality().hash(list));
+int get hashCode {
+  final _this = this as LoginIdentities;
+  return Object.hash(runtimeType,_this.selectedLoginIdentityId,const DeepCollectionEquality().hash(_this.servers),const DeepCollectionEquality().hash(_this.list));
+}
 
 @override
 String toString() {
-  return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, list: $list)';
+  final _this = this as LoginIdentities;
+  return 'LoginIdentities(selectedLoginIdentityId: ${_this.selectedLoginIdentityId}, servers: ${_this.servers}, list: ${_this.list})';
 }
 
 
@@ -254,16 +253,18 @@ _$LoginIdentitiesCopyWith<_LoginIdentities> get copyWith => __$LoginIdentitiesCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other._servers, _servers)&&const DeepCollectionEquality().equals(other._list, _list));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginIdentities&&(identical(other.selectedLoginIdentityId, selectedLoginIdentityId) || other.selectedLoginIdentityId == selectedLoginIdentityId)&&const DeepCollectionEquality().equals(other.servers, _servers)&&const DeepCollectionEquality().equals(other.list, _list));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(_servers),const DeepCollectionEquality().hash(_list));
+int get hashCode {
+    return Object.hash(runtimeType,selectedLoginIdentityId,const DeepCollectionEquality().hash(_servers),const DeepCollectionEquality().hash(_list));
+}
 
 @override
 String toString() {
-  return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, list: $list)';
+    return 'LoginIdentities(selectedLoginIdentityId: $selectedLoginIdentityId, servers: $servers, list: $list)';
 }
 
 

@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 enum AuditAction { create, update, delete }
 
-enum AuditEntityType { labSettings }
+enum AuditEntityType { labSettings, storageObject }
 
 @immutable
 class const AuditLog({

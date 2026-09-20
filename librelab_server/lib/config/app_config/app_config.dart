@@ -1,5 +1,3 @@
-// ignore_for_file: annotate_overrides
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:librelab_server/config/app_config/database_config.dart';
 import 'package:librelab_server/config/app_config/http_server/http_server_config.dart';

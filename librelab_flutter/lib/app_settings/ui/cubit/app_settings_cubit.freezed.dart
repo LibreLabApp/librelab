@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppSettingsState {
 
- AppSettings get settings;
+
 /// Create a copy of AppSettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,21 @@ $AppSettingsStateCopyWith<AppSettingsState> get copyWith => _$AppSettingsStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettingsState&&(identical(other.settings, settings) || other.settings == settings));
+  final _this = this as AppSettingsState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettingsState&&(identical(other.settings, _this.settings) || other.settings == _this.settings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,settings);
+int get hashCode {
+  final _this = this as AppSettingsState;
+  return Object.hash(runtimeType,_this.settings);
+}
 
 @override
 String toString() {
-  return 'AppSettingsState(settings: $settings)';
+  final _this = this as AppSettingsState;
+  return 'AppSettingsState(settings: ${_this.settings})';
 }
 
 
@@ -102,16 +107,18 @@ _$AppSettingsStateCopyWith<_AppSettingsState> get copyWith => __$AppSettingsStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettingsState&&(identical(other.settings, settings) || other.settings == settings));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettingsState&&(identical(other.settings, settings) || other.settings == settings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,settings);
+int get hashCode {
+    return Object.hash(runtimeType,settings);
+}
 
 @override
 String toString() {
-  return 'AppSettingsState(settings: $settings)';
+    return 'AppSettingsState(settings: $settings)';
 }
 
 

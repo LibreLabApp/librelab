@@ -7,6 +7,8 @@ import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server_error_exception.dart';
 import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
+import 'package:librelab_server/utils/validation/id_validation.dart'
+    show InvalidUuidException;
 import 'package:librelab_shared/librelab_shared.dart' show ApiDeployment;
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -103,6 +105,8 @@ Handler _withErrorHandling(Handler innerHandler) {
       return _mapException(e);
     } on InvalidJsonRequestBodySchemaException catch (e) {
       return _mapException(e);
+    } on InvalidUuidException catch (e) {
+      return _mapException(e);
     } on Exception catch (e, stackTrace) {
       _logger.warning('Unhandled exception in request handler', e, stackTrace);
 
@@ -149,6 +153,13 @@ Response _mapException(Exception e) {
       .badRequest,
     ),
     ServerErrorException(:final httpStatus) => (e.toResponse(), httpStatus),
+    InvalidUuidException(:final id) => (
+      ServerErrorResponse(
+        message: 'The provided resource ID is not a valid UUID: $id',
+        code: 'INVALID_RESOURCE_ID',
+      ),
+      .badRequest,
+    ),
     Exception() => (
       ServerErrorResponse(
         message: 'INTERNAL_SERVER_ERROR',

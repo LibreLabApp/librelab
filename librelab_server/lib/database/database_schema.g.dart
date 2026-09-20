@@ -46,7 +46,8 @@ enum AuditActionPgEnum {
 
 /// Generated enum from PostgreSQL enum `audit_entity_type`.
 enum AuditEntityTypePgEnum {
-  labSettings('lab_settings');
+  labSettings('lab_settings'),
+  storageObject('storage_object');
 
   const AuditEntityTypePgEnum(this.text);
 
@@ -93,6 +94,22 @@ enum PermissionPgEnum {
   final String text;
 
   static PermissionPgEnum fromText(String value) {
+    return values.firstWhere(
+      (e) => e.text == value,
+      orElse: () => throw ArgumentError('Unknown enum value: $value'),
+    );
+  }
+}
+
+/// Generated enum from PostgreSQL enum `storage_object_purpose`.
+enum StorageObjectPurposePgEnum {
+  labImage('lab_image');
+
+  const StorageObjectPurposePgEnum(this.text);
+
+  final String text;
+
+  static StorageObjectPurposePgEnum fromText(String value) {
     return values.firstWhere(
       (e) => e.text == value,
       orElse: () => throw ArgumentError('Unknown enum value: $value'),
@@ -639,6 +656,10 @@ abstract final class StorageObjectsTable {
 
   static const String updatedAt = 'updated_at';
 
+  static const String purpose = 'purpose';
+
+  static const String isUpload = 'is_upload';
+
   static const List<String> columns = [
     id,
     storageKey,
@@ -648,36 +669,44 @@ abstract final class StorageObjectsTable {
     checksumSha256,
     createdAt,
     updatedAt,
+    purpose,
+    isUpload,
   ];
 
   static Map<String, Object> insert({
     String? id,
     required String storageKey,
     required String originalName,
-    required String? mimeType,
+    required String mimeType,
     required int sizeBytes,
     required String checksumSha256,
     DateTime? createdAt,
     DateTime? updatedAt,
+    required String purpose,
+    required bool isUpload,
   }) => {
     StorageObjectsTable.id: ?id,
     StorageObjectsTable.storageKey: storageKey,
     StorageObjectsTable.originalName: originalName,
-    StorageObjectsTable.mimeType: ?mimeType,
+    StorageObjectsTable.mimeType: mimeType,
     StorageObjectsTable.sizeBytes: sizeBytes,
     StorageObjectsTable.checksumSha256: checksumSha256,
     StorageObjectsTable.createdAt: ?createdAt,
     StorageObjectsTable.updatedAt: ?updatedAt,
+    StorageObjectsTable.purpose: purpose,
+    StorageObjectsTable.isUpload: isUpload,
   };
 
   static Map<String, Object?> update({
     Field<String> id = const .absent(),
     required Field<String> storageKey,
     required Field<String> originalName,
-    required Field<String?> mimeType,
+    required Field<String> mimeType,
     required Field<int> sizeBytes,
     required Field<String> checksumSha256,
     Field<DateTime> createdAt = const .absent(),
+    required Field<String> purpose,
+    required Field<bool> isUpload,
   }) {
     return _buildFieldMap([
       (StorageObjectsTable.id, id),
@@ -688,6 +717,8 @@ abstract final class StorageObjectsTable {
       (StorageObjectsTable.checksumSha256, checksumSha256),
       (StorageObjectsTable.createdAt, createdAt),
       (StorageObjectsTable.updatedAt, const .value('now()')),
+      (StorageObjectsTable.purpose, purpose),
+      (StorageObjectsTable.isUpload, isUpload),
     ]);
   }
 }
@@ -708,6 +739,8 @@ final class StorageObjectsRow {
     required this.checksumSha256,
     required this.createdAt,
     required this.updatedAt,
+    required this.purpose,
+    required this.isUpload,
   });
 
   factory StorageObjectsRow.fromMap(Map<String, Object?> map) =>
@@ -715,11 +748,13 @@ final class StorageObjectsRow {
         id: (map[StorageObjectsTable.id]! as String),
         storageKey: (map[StorageObjectsTable.storageKey]! as String),
         originalName: (map[StorageObjectsTable.originalName]! as String),
-        mimeType: (map[StorageObjectsTable.mimeType] as String?),
+        mimeType: (map[StorageObjectsTable.mimeType]! as String),
         sizeBytes: (map[StorageObjectsTable.sizeBytes]! as int),
         checksumSha256: (map[StorageObjectsTable.checksumSha256]! as String),
         createdAt: (map[StorageObjectsTable.createdAt]! as DateTime),
         updatedAt: (map[StorageObjectsTable.updatedAt]! as DateTime),
+        purpose: (map[StorageObjectsTable.purpose]! as String),
+        isUpload: (map[StorageObjectsTable.isUpload]! as bool),
       );
 
   final String id;
@@ -728,7 +763,7 @@ final class StorageObjectsRow {
 
   final String originalName;
 
-  final String? mimeType;
+  final String mimeType;
 
   final int sizeBytes;
 
@@ -737,6 +772,11 @@ final class StorageObjectsRow {
   final DateTime createdAt;
 
   final DateTime updatedAt;
+
+  /// Requires casting to TEXT when selecting this column (i..e, SELECT purpose::text)
+  final String purpose;
+
+  final bool isUpload;
 }
 
 /// Generated mapping for the `user_refresh_tokens` table, providing type-safe references

@@ -1,3 +1,5 @@
+import 'package:librelab_server/audit_log/auditable.dart';
+import 'package:librelab_server/utils/json_types.dart';
 import 'package:meta/meta.dart';
 import 'package:optional_field/optional_field.dart';
 
@@ -7,11 +9,9 @@ class const LabSettings({
   required final int id, // Singleton
   required final String? labName,
   required final bool loginDisabled,
-}) {
-  Map<String, Object?> toAuditJson() => {
-    'labName': labName,
-    'loginDisabled': loginDisabled,
-  };
+}) implements Auditable {
+  @override
+  JsonMap toAuditJson() => {'labName': labName, 'loginDisabled': loginDisabled};
 }
 
 @immutable

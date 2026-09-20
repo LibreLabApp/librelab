@@ -3,6 +3,7 @@ import 'generator/generator.dart';
 final List<ApiNode> _input = [
   ApiGroup('compatibility', [HttpEndpoint(.post, 'check')]),
   ApiGroup('auth', [
+    HttpEndpoint(.get, 'login-status'),
     HttpEndpoint(.post, 'login'),
     HttpEndpoint(.post, 'logout'),
     HttpEndpoint(.post, 'refresh'),
@@ -14,17 +15,16 @@ final List<ApiNode> _input = [
       HttpEndpoint(.post, 'logout'),
       HttpEndpoint(.post, 'refresh'),
     ]),
-    HttpEndpoint(.get, 'login-status'),
   ]),
   ApiGroup('users', [HttpEndpoint(.get, 'me')]),
   ApiGroup('lab-settings', [
-    HttpEndpoint(.patch, null),
     HttpEndpoint(.get, null),
+    HttpEndpoint(.patch, null),
   ]),
   ApiGroup('storage', [
     HttpEndpoint(.get, pathParam('id')),
     HttpEndpoint(.post, null),
-    HttpEndpoint(.patch, pathParam('id')),
+    HttpEndpoint(.put, pathParam('id')),
     HttpEndpoint(.delete, pathParam('id')),
   ]),
 ];

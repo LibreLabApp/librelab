@@ -20,6 +20,12 @@ abstract final class ApiEndpointDefinitions {
     path: 'compatibility/check',
   );
 
+  /// HTTP GET auth/login-status
+  static const HttpEndpoint auth_login_status$GET = HttpEndpoint(
+    method: HttpMethod.get,
+    path: 'auth/login-status',
+  );
+
   /// HTTP POST auth/login
   static const HttpEndpoint auth_login$POST = HttpEndpoint(
     method: HttpMethod.post,
@@ -56,27 +62,21 @@ abstract final class ApiEndpointDefinitions {
     path: 'auth/browser/refresh',
   );
 
-  /// HTTP GET auth/login-status
-  static const HttpEndpoint auth_login_status$GET = HttpEndpoint(
-    method: HttpMethod.get,
-    path: 'auth/login-status',
-  );
-
   /// HTTP GET users/me
   static const HttpEndpoint users_me$GET = HttpEndpoint(
     method: HttpMethod.get,
     path: 'users/me',
   );
 
-  /// HTTP PATCH lab-settings
-  static const HttpEndpoint lab_settings$PATCH = HttpEndpoint(
-    method: HttpMethod.patch,
-    path: 'lab-settings',
-  );
-
   /// HTTP GET lab-settings
   static const HttpEndpoint lab_settings$GET = HttpEndpoint(
     method: HttpMethod.get,
+    path: 'lab-settings',
+  );
+
+  /// HTTP PATCH lab-settings
+  static const HttpEndpoint lab_settings$PATCH = HttpEndpoint(
+    method: HttpMethod.patch,
     path: 'lab-settings',
   );
 
@@ -90,9 +90,9 @@ abstract final class ApiEndpointDefinitions {
   static HttpEndpoint storage$GET({required String id}) =>
       HttpEndpoint(method: HttpMethod.get, path: 'storage/${id}');
 
-  /// HTTP PATCH storage/{id}
-  static HttpEndpoint storage$PATCH({required String id}) =>
-      HttpEndpoint(method: HttpMethod.patch, path: 'storage/${id}');
+  /// HTTP PUT storage/{id}
+  static HttpEndpoint storage$PUT({required String id}) =>
+      HttpEndpoint(method: HttpMethod.put, path: 'storage/${id}');
 
   /// HTTP DELETE storage/{id}
   static HttpEndpoint storage$DELETE({required String id}) =>

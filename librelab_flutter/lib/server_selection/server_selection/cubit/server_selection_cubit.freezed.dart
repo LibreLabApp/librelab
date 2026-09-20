@@ -15,10 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ServerSelectionState {
 
-/// Must not use [ServerSelectionMethod.localNetworkDiscovery] on web
-/// (due to lack of native mDNS service discovery support).
- ServerSelectionMethod get selectionMethod;/// Should be only used if [selectionMethod] is [ServerSelectionMethod.manual].
- String? get manualServerAddress; LocalDiscoveryState get discoveryState; ServerCompatibilityCheckState get compatibilityCheckState;
+
 /// Create a copy of ServerSelectionState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +26,21 @@ $ServerSelectionStateCopyWith<ServerSelectionState> get copyWith => _$ServerSele
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerSelectionState&&(identical(other.selectionMethod, selectionMethod) || other.selectionMethod == selectionMethod)&&(identical(other.manualServerAddress, manualServerAddress) || other.manualServerAddress == manualServerAddress)&&(identical(other.discoveryState, discoveryState) || other.discoveryState == discoveryState)&&(identical(other.compatibilityCheckState, compatibilityCheckState) || other.compatibilityCheckState == compatibilityCheckState));
+  final _this = this as ServerSelectionState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerSelectionState&&(identical(other.selectionMethod, _this.selectionMethod) || other.selectionMethod == _this.selectionMethod)&&(identical(other.manualServerAddress, _this.manualServerAddress) || other.manualServerAddress == _this.manualServerAddress)&&(identical(other.discoveryState, _this.discoveryState) || other.discoveryState == _this.discoveryState)&&(identical(other.compatibilityCheckState, _this.compatibilityCheckState) || other.compatibilityCheckState == _this.compatibilityCheckState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectionMethod,manualServerAddress,discoveryState,compatibilityCheckState);
+int get hashCode {
+  final _this = this as ServerSelectionState;
+  return Object.hash(runtimeType,_this.selectionMethod,_this.manualServerAddress,_this.discoveryState,_this.compatibilityCheckState);
+}
 
 @override
 String toString() {
-  return 'ServerSelectionState(selectionMethod: $selectionMethod, manualServerAddress: $manualServerAddress, discoveryState: $discoveryState, compatibilityCheckState: $compatibilityCheckState)';
+  final _this = this as ServerSelectionState;
+  return 'ServerSelectionState(selectionMethod: ${_this.selectionMethod}, manualServerAddress: ${_this.manualServerAddress}, discoveryState: ${_this.discoveryState}, compatibilityCheckState: ${_this.compatibilityCheckState})';
 }
 
 
@@ -252,16 +254,18 @@ _$ServerSelectionStateCopyWith<_ServerSelectionState> get copyWith => __$ServerS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServerSelectionState&&(identical(other.selectionMethod, selectionMethod) || other.selectionMethod == selectionMethod)&&(identical(other.manualServerAddress, manualServerAddress) || other.manualServerAddress == manualServerAddress)&&(identical(other.discoveryState, discoveryState) || other.discoveryState == discoveryState)&&(identical(other.compatibilityCheckState, compatibilityCheckState) || other.compatibilityCheckState == compatibilityCheckState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServerSelectionState&&(identical(other.selectionMethod, selectionMethod) || other.selectionMethod == selectionMethod)&&(identical(other.manualServerAddress, manualServerAddress) || other.manualServerAddress == manualServerAddress)&&(identical(other.discoveryState, discoveryState) || other.discoveryState == discoveryState)&&(identical(other.compatibilityCheckState, compatibilityCheckState) || other.compatibilityCheckState == compatibilityCheckState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectionMethod,manualServerAddress,discoveryState,compatibilityCheckState);
+int get hashCode {
+    return Object.hash(runtimeType,selectionMethod,manualServerAddress,discoveryState,compatibilityCheckState);
+}
 
 @override
 String toString() {
-  return 'ServerSelectionState(selectionMethod: $selectionMethod, manualServerAddress: $manualServerAddress, discoveryState: $discoveryState, compatibilityCheckState: $compatibilityCheckState)';
+    return 'ServerSelectionState(selectionMethod: $selectionMethod, manualServerAddress: $manualServerAddress, discoveryState: $discoveryState, compatibilityCheckState: $compatibilityCheckState)';
 }
 
 
@@ -323,8 +327,7 @@ $ServerCompatibilityCheckStateCopyWith<$Res> get compatibilityCheckState {
 /// @nodoc
 mixin _$LocalDiscoveryState {
 
- List<DiscoveredServer> get discoveredServers;/// Should be only used if [ServerSelectionState.selectionMethod] is [ServerSelectionMethod.localNetworkDiscovery].
- String? get selectedServerId; bool get isLoading; bool get hasLoadedOnce;
+
 /// Create a copy of LocalDiscoveryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -335,16 +338,21 @@ $LocalDiscoveryStateCopyWith<LocalDiscoveryState> get copyWith => _$LocalDiscove
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalDiscoveryState&&const DeepCollectionEquality().equals(other.discoveredServers, discoveredServers)&&(identical(other.selectedServerId, selectedServerId) || other.selectedServerId == selectedServerId)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasLoadedOnce, hasLoadedOnce) || other.hasLoadedOnce == hasLoadedOnce));
+  final _this = this as LocalDiscoveryState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalDiscoveryState&&const DeepCollectionEquality().equals(other.discoveredServers, _this.discoveredServers)&&(identical(other.selectedServerId, _this.selectedServerId) || other.selectedServerId == _this.selectedServerId)&&(identical(other.isLoading, _this.isLoading) || other.isLoading == _this.isLoading)&&(identical(other.hasLoadedOnce, _this.hasLoadedOnce) || other.hasLoadedOnce == _this.hasLoadedOnce));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(discoveredServers),selectedServerId,isLoading,hasLoadedOnce);
+int get hashCode {
+  final _this = this as LocalDiscoveryState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.discoveredServers),_this.selectedServerId,_this.isLoading,_this.hasLoadedOnce);
+}
 
 @override
 String toString() {
-  return 'LocalDiscoveryState(discoveredServers: $discoveredServers, selectedServerId: $selectedServerId, isLoading: $isLoading, hasLoadedOnce: $hasLoadedOnce)';
+  final _this = this as LocalDiscoveryState;
+  return 'LocalDiscoveryState(discoveredServers: ${_this.discoveredServers}, selectedServerId: ${_this.selectedServerId}, isLoading: ${_this.isLoading}, hasLoadedOnce: ${_this.hasLoadedOnce})';
 }
 
 
@@ -544,16 +552,18 @@ _$LocalDiscoveryStateCopyWith<_LocalDiscoveryState> get copyWith => __$LocalDisc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalDiscoveryState&&const DeepCollectionEquality().equals(other._discoveredServers, _discoveredServers)&&(identical(other.selectedServerId, selectedServerId) || other.selectedServerId == selectedServerId)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasLoadedOnce, hasLoadedOnce) || other.hasLoadedOnce == hasLoadedOnce));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalDiscoveryState&&const DeepCollectionEquality().equals(other.discoveredServers, _discoveredServers)&&(identical(other.selectedServerId, selectedServerId) || other.selectedServerId == selectedServerId)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasLoadedOnce, hasLoadedOnce) || other.hasLoadedOnce == hasLoadedOnce));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_discoveredServers),selectedServerId,isLoading,hasLoadedOnce);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_discoveredServers),selectedServerId,isLoading,hasLoadedOnce);
+}
 
 @override
 String toString() {
-  return 'LocalDiscoveryState(discoveredServers: $discoveredServers, selectedServerId: $selectedServerId, isLoading: $isLoading, hasLoadedOnce: $hasLoadedOnce)';
+    return 'LocalDiscoveryState(discoveredServers: $discoveredServers, selectedServerId: $selectedServerId, isLoading: $isLoading, hasLoadedOnce: $hasLoadedOnce)';
 }
 
 
@@ -603,7 +613,7 @@ mixin _$SelectedServer {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SelectedServer);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is SelectedServer);
 }
 
 
@@ -612,7 +622,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'SelectedServer()';
+    return 'SelectedServer()';
 }
 
 
@@ -779,16 +789,18 @@ $ManualCopyWith<Manual> get copyWith => _$ManualCopyWithImpl<Manual>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Manual&&(identical(other.address, address) || other.address == address));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Manual&&(identical(other.address, address) || other.address == address));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,address);
+int get hashCode {
+    return Object.hash(runtimeType,address);
+}
 
 @override
 String toString() {
-  return 'SelectedServer.manual(address: $address)';
+    return 'SelectedServer.manual(address: $address)';
 }
 
 
@@ -840,7 +852,7 @@ class UseWebAppServer implements SelectedServer {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UseWebAppServer);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UseWebAppServer);
 }
 
 
@@ -849,7 +861,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'SelectedServer.useWebAppServer()';
+    return 'SelectedServer.useWebAppServer()';
 }
 
 
@@ -877,16 +889,18 @@ $DiscoveredCopyWith<Discovered> get copyWith => _$DiscoveredCopyWithImpl<Discove
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Discovered&&(identical(other.id, id) || other.id == id));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Discovered&&(identical(other.id, id) || other.id == id));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id);
+int get hashCode {
+    return Object.hash(runtimeType,id);
+}
 
 @override
 String toString() {
-  return 'SelectedServer.discovered(id: $id)';
+    return 'SelectedServer.discovered(id: $id)';
 }
 
 
@@ -933,7 +947,7 @@ mixin _$ServerCompatibilityCheckState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerCompatibilityCheckState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerCompatibilityCheckState);
 }
 
 
@@ -942,7 +956,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerCompatibilityCheckState()';
+    return 'ServerCompatibilityCheckState()';
 }
 
 
@@ -1110,7 +1124,7 @@ class Initial implements ServerCompatibilityCheckState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Initial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Initial);
 }
 
 
@@ -1119,7 +1133,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerCompatibilityCheckState.initial()';
+    return 'ServerCompatibilityCheckState.initial()';
 }
 
 
@@ -1142,7 +1156,7 @@ class Loading implements ServerCompatibilityCheckState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading);
 }
 
 
@@ -1151,7 +1165,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerCompatibilityCheckState.loading()';
+    return 'ServerCompatibilityCheckState.loading()';
 }
 
 
@@ -1181,16 +1195,18 @@ $SuccessCopyWith<Success> get copyWith => _$SuccessCopyWithImpl<Success>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Success&&(identical(other.response, response) || other.response == response)&&(identical(other.server, server) || other.server == server)&&(identical(other.uri, uri) || other.uri == uri));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Success&&(identical(other.response, response) || other.response == response)&&(identical(other.server, server) || other.server == server)&&(identical(other.uri, uri) || other.uri == uri));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,response,server,uri);
+int get hashCode {
+    return Object.hash(runtimeType,response,server,uri);
+}
 
 @override
 String toString() {
-  return 'ServerCompatibilityCheckState.success(response: $response, server: $server, uri: $uri)';
+    return 'ServerCompatibilityCheckState.success(response: $response, server: $server, uri: $uri)';
 }
 
 
@@ -1258,16 +1274,18 @@ $FailureCopyWith<Failure> get copyWith => _$FailureCopyWithImpl<Failure>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'ServerCompatibilityCheckState.failure(failure: $failure)';
+    return 'ServerCompatibilityCheckState.failure(failure: $failure)';
 }
 
 
@@ -1314,7 +1332,7 @@ mixin _$ServerSelectionEffect {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerSelectionEffect);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerSelectionEffect);
 }
 
 
@@ -1323,7 +1341,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerSelectionEffect()';
+    return 'ServerSelectionEffect()';
 }
 
 
@@ -1479,7 +1497,7 @@ class FocusServerAddress implements ServerSelectionEffect {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FocusServerAddress);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FocusServerAddress);
 }
 
 
@@ -1488,7 +1506,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerSelectionEffect.focusServerAddress()';
+    return 'ServerSelectionEffect.focusServerAddress()';
 }
 
 
@@ -1511,7 +1529,7 @@ class ShowServerSelectionRequired implements ServerSelectionEffect {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShowServerSelectionRequired);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ShowServerSelectionRequired);
 }
 
 
@@ -1520,7 +1538,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ServerSelectionEffect.showServerSelectionRequired()';
+    return 'ServerSelectionEffect.showServerSelectionRequired()';
 }
 
 

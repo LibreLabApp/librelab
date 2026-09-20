@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LabSettingsState {
 
- FetchSettingsState get fetchSettingsState; UpdateSettingsState get updateSettingsState;
+
 /// Create a copy of LabSettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,21 @@ $LabSettingsStateCopyWith<LabSettingsState> get copyWith => _$LabSettingsStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabSettingsState&&(identical(other.fetchSettingsState, fetchSettingsState) || other.fetchSettingsState == fetchSettingsState)&&(identical(other.updateSettingsState, updateSettingsState) || other.updateSettingsState == updateSettingsState));
+  final _this = this as LabSettingsState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabSettingsState&&(identical(other.fetchSettingsState, _this.fetchSettingsState) || other.fetchSettingsState == _this.fetchSettingsState)&&(identical(other.updateSettingsState, _this.updateSettingsState) || other.updateSettingsState == _this.updateSettingsState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,fetchSettingsState,updateSettingsState);
+int get hashCode {
+  final _this = this as LabSettingsState;
+  return Object.hash(runtimeType,_this.fetchSettingsState,_this.updateSettingsState);
+}
 
 @override
 String toString() {
-  return 'LabSettingsState(fetchSettingsState: $fetchSettingsState, updateSettingsState: $updateSettingsState)';
+  final _this = this as LabSettingsState;
+  return 'LabSettingsState(fetchSettingsState: ${_this.fetchSettingsState}, updateSettingsState: ${_this.updateSettingsState})';
 }
 
 
@@ -242,16 +247,18 @@ _$LabSettingsStateCopyWith<_LabSettingsState> get copyWith => __$LabSettingsStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabSettingsState&&(identical(other.fetchSettingsState, fetchSettingsState) || other.fetchSettingsState == fetchSettingsState)&&(identical(other.updateSettingsState, updateSettingsState) || other.updateSettingsState == updateSettingsState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabSettingsState&&(identical(other.fetchSettingsState, fetchSettingsState) || other.fetchSettingsState == fetchSettingsState)&&(identical(other.updateSettingsState, updateSettingsState) || other.updateSettingsState == updateSettingsState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,fetchSettingsState,updateSettingsState);
+int get hashCode {
+    return Object.hash(runtimeType,fetchSettingsState,updateSettingsState);
+}
 
 @override
 String toString() {
-  return 'LabSettingsState(fetchSettingsState: $fetchSettingsState, updateSettingsState: $updateSettingsState)';
+    return 'LabSettingsState(fetchSettingsState: $fetchSettingsState, updateSettingsState: $updateSettingsState)';
 }
 
 
@@ -317,7 +324,7 @@ mixin _$FetchSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsState);
 }
 
 
@@ -326,7 +333,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FetchSettingsState()';
+    return 'FetchSettingsState()';
 }
 
 
@@ -494,7 +501,7 @@ class FetchSettingsInitial implements FetchSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsInitial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsInitial);
 }
 
 
@@ -503,7 +510,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FetchSettingsState.initial()';
+    return 'FetchSettingsState.initial()';
 }
 
 
@@ -526,7 +533,7 @@ class FetchSettingsLoading implements FetchSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsLoading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsLoading);
 }
 
 
@@ -535,7 +542,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FetchSettingsState.loading()';
+    return 'FetchSettingsState.loading()';
 }
 
 
@@ -563,16 +570,18 @@ $FetchSettingsSuccessCopyWith<FetchSettingsSuccess> get copyWith => _$FetchSetti
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsSuccess&&(identical(other.settings, settings) || other.settings == settings));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsSuccess&&(identical(other.settings, settings) || other.settings == settings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,settings);
+int get hashCode {
+    return Object.hash(runtimeType,settings);
+}
 
 @override
 String toString() {
-  return 'FetchSettingsState.success(settings: $settings)';
+    return 'FetchSettingsState.success(settings: $settings)';
 }
 
 
@@ -629,16 +638,18 @@ $FetchSettingsFailureCopyWith<FetchSettingsFailure> get copyWith => _$FetchSetti
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsFailure&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchSettingsFailure&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'FetchSettingsState.failure(failure: $failure)';
+    return 'FetchSettingsState.failure(failure: $failure)';
 }
 
 
@@ -685,7 +696,7 @@ mixin _$UpdateSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsState);
 }
 
 
@@ -694,7 +705,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'UpdateSettingsState()';
+    return 'UpdateSettingsState()';
 }
 
 
@@ -862,7 +873,7 @@ class UpdateSettingsInitial implements UpdateSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsInitial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsInitial);
 }
 
 
@@ -871,7 +882,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'UpdateSettingsState.initial()';
+    return 'UpdateSettingsState.initial()';
 }
 
 
@@ -894,7 +905,7 @@ class UpdateSettingsLoading implements UpdateSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsLoading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsLoading);
 }
 
 
@@ -903,7 +914,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'UpdateSettingsState.loading()';
+    return 'UpdateSettingsState.loading()';
 }
 
 
@@ -926,7 +937,7 @@ class UpdateSettingsSuccess implements UpdateSettingsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsSuccess);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsSuccess);
 }
 
 
@@ -935,7 +946,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'UpdateSettingsState.success()';
+    return 'UpdateSettingsState.success()';
 }
 
 
@@ -963,16 +974,18 @@ $UpdateSettingsFailureCopyWith<UpdateSettingsFailure> get copyWith => _$UpdateSe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsFailure&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateSettingsFailure&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'UpdateSettingsState.failure(failure: $failure)';
+    return 'UpdateSettingsState.failure(failure: $failure)';
 }
 
 

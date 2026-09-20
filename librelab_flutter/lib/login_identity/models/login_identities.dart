@@ -1,5 +1,3 @@
-// ignore_for_file: annotate_overrides
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:librelab_flutter/common/json_types.dart' show JsonMap;
 import 'package:librelab_flutter/login_identity/models/login_identity.dart';

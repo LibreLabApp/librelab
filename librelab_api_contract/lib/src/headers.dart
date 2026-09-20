@@ -4,4 +4,7 @@ abstract final class ApiHttpHeaders {
   static const String userAgent = 'User-Agent';
 
   static const String bearerPrefix = 'Bearer ';
+
+  static const String contentType = 'Content-Type';
+  static const String contentLength = 'Content-Length';
 }

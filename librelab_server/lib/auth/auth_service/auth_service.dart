@@ -106,7 +106,7 @@ class AuthService({
     return .success(user);
   }
 
-  // TODO: (REMOVE_SERVERPOD) Implement rate limit
+  // TODO: Implement rate limit
   Future<Result<AuthenticatedSession, LoginFailure>> loginUser({
     required String email,
     required String plainPassword,

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppConfig {
 
- HttpServerConfig get httpServer; MdnsServicePublishConfig get mdnsServicePublish; DatabaseConfig get database; SetupPromptDeclinedConfig get setupPromptDeclined;
+
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,21 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.httpServer, httpServer) || other.httpServer == httpServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
+  final _this = this as AppConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.httpServer, _this.httpServer) || other.httpServer == _this.httpServer)&&(identical(other.mdnsServicePublish, _this.mdnsServicePublish) || other.mdnsServicePublish == _this.mdnsServicePublish)&&(identical(other.database, _this.database) || other.database == _this.database)&&(identical(other.setupPromptDeclined, _this.setupPromptDeclined) || other.setupPromptDeclined == _this.setupPromptDeclined));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,httpServer,mdnsServicePublish,database,setupPromptDeclined);
+int get hashCode {
+  final _this = this as AppConfig;
+  return Object.hash(runtimeType,_this.httpServer,_this.mdnsServicePublish,_this.database,_this.setupPromptDeclined);
+}
 
 @override
 String toString() {
-  return 'AppConfig(httpServer: $httpServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
+  final _this = this as AppConfig;
+  return 'AppConfig(httpServer: ${_this.httpServer}, mdnsServicePublish: ${_this.mdnsServicePublish}, database: ${_this.database}, setupPromptDeclined: ${_this.setupPromptDeclined})';
 }
 
 
@@ -237,16 +242,18 @@ _$AppConfigCopyWith<_AppConfig> get copyWith => __$AppConfigCopyWithImpl<_AppCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.httpServer, httpServer) || other.httpServer == httpServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.httpServer, httpServer) || other.httpServer == httpServer)&&(identical(other.mdnsServicePublish, mdnsServicePublish) || other.mdnsServicePublish == mdnsServicePublish)&&(identical(other.database, database) || other.database == database)&&(identical(other.setupPromptDeclined, setupPromptDeclined) || other.setupPromptDeclined == setupPromptDeclined));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,httpServer,mdnsServicePublish,database,setupPromptDeclined);
+int get hashCode {
+    return Object.hash(runtimeType,httpServer,mdnsServicePublish,database,setupPromptDeclined);
+}
 
 @override
 String toString() {
-  return 'AppConfig(httpServer: $httpServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
+    return 'AppConfig(httpServer: $httpServer, mdnsServicePublish: $mdnsServicePublish, database: $database, setupPromptDeclined: $setupPromptDeclined)';
 }
 
 
@@ -299,7 +306,7 @@ $SetupPromptDeclinedConfigCopyWith<$Res> get setupPromptDeclined {
 /// @nodoc
 mixin _$SetupPromptDeclinedConfig {
 
- bool get postgres; bool get systemMdnsService;
+
 /// Create a copy of SetupPromptDeclinedConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -310,16 +317,21 @@ $SetupPromptDeclinedConfigCopyWith<SetupPromptDeclinedConfig> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetupPromptDeclinedConfig&&(identical(other.postgres, postgres) || other.postgres == postgres)&&(identical(other.systemMdnsService, systemMdnsService) || other.systemMdnsService == systemMdnsService));
+  final _this = this as SetupPromptDeclinedConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetupPromptDeclinedConfig&&(identical(other.postgres, _this.postgres) || other.postgres == _this.postgres)&&(identical(other.systemMdnsService, _this.systemMdnsService) || other.systemMdnsService == _this.systemMdnsService));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,postgres,systemMdnsService);
+int get hashCode {
+  final _this = this as SetupPromptDeclinedConfig;
+  return Object.hash(runtimeType,_this.postgres,_this.systemMdnsService);
+}
 
 @override
 String toString() {
-  return 'SetupPromptDeclinedConfig(postgres: $postgres, systemMdnsService: $systemMdnsService)';
+  final _this = this as SetupPromptDeclinedConfig;
+  return 'SetupPromptDeclinedConfig(postgres: ${_this.postgres}, systemMdnsService: ${_this.systemMdnsService})';
 }
 
 
@@ -508,16 +520,18 @@ _$SetupPromptDeclinedConfigCopyWith<_SetupPromptDeclinedConfig> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetupPromptDeclinedConfig&&(identical(other.postgres, postgres) || other.postgres == postgres)&&(identical(other.systemMdnsService, systemMdnsService) || other.systemMdnsService == systemMdnsService));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetupPromptDeclinedConfig&&(identical(other.postgres, postgres) || other.postgres == postgres)&&(identical(other.systemMdnsService, systemMdnsService) || other.systemMdnsService == systemMdnsService));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,postgres,systemMdnsService);
+int get hashCode {
+    return Object.hash(runtimeType,postgres,systemMdnsService);
+}
 
 @override
 String toString() {
-  return 'SetupPromptDeclinedConfig(postgres: $postgres, systemMdnsService: $systemMdnsService)';
+    return 'SetupPromptDeclinedConfig(postgres: $postgres, systemMdnsService: $systemMdnsService)';
 }
 
 

@@ -13,15 +13,8 @@ class const User({
 }) with _$User;
 ```
 
-Freezed's generated mixin also declares these properties, causing the analyzer to report `annotate_overrides` because the primary-constructor fields implicitly override the declarations from `_$User`.
-
-The `@override` annotation is not useful here because the fields are declared for the model itself; the generated mixin is an implementation detail of Freezed. Therefore, these classes use:
-
-```dart
-// ignore_for_file: annotate_overrides
-```
-
-as a file-level workaround rather than adding `@override` annotations to the fields.
+> [!TIP]
+> `package:freezed` version must be at least [`4.0.1`](https://pub.dev/packages/freezed/changelog#401---2026-08-29) to remove the need for `@overrides` or `// ignore_for_file: annotate_overrides`.
 
 This applies to Freezed classes using primary constructors, not to Freezed sealed-state declarations using `const factory` constructors.
 

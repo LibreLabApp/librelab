@@ -9,6 +9,8 @@ final class LabSettingsService({
   required final LabSettingsRepository _labSettingsRepository,
   required final AuditLogRepository _auditLogRepository,
 }) {
+  static const AuditEntityType _auditEntityType = .labSettings;
+
   Future<LabSettings> update(
     LabSettingsPatch patch, {
     required String userId,
@@ -21,7 +23,7 @@ final class LabSettingsService({
       .new(
         userId: userId,
         action: .update,
-        entityType: .labSettings,
+        entityType: _auditEntityType,
         entityId: updated.id.toString(),
         oldValue: old.toAuditJson(),
         newValue: updated.toAuditJson(),

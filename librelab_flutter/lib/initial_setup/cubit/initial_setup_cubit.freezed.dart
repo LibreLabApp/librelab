@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$InitialSetupState {
 
- InitialSetupStep get currentStep;
+
 /// Create a copy of InitialSetupState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,21 @@ $InitialSetupStateCopyWith<InitialSetupState> get copyWith => _$InitialSetupStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialSetupState&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
+  final _this = this as InitialSetupState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialSetupState&&(identical(other.currentStep, _this.currentStep) || other.currentStep == _this.currentStep));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentStep);
+int get hashCode {
+  final _this = this as InitialSetupState;
+  return Object.hash(runtimeType,_this.currentStep);
+}
 
 @override
 String toString() {
-  return 'InitialSetupState(currentStep: $currentStep)';
+  final _this = this as InitialSetupState;
+  return 'InitialSetupState(currentStep: ${_this.currentStep})';
 }
 
 
@@ -222,16 +227,18 @@ _$InitialSetupStateCopyWith<_InitialSetupState> get copyWith => __$InitialSetupS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InitialSetupState&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InitialSetupState&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentStep);
+int get hashCode {
+    return Object.hash(runtimeType,currentStep);
+}
 
 @override
 String toString() {
-  return 'InitialSetupState(currentStep: $currentStep)';
+    return 'InitialSetupState(currentStep: $currentStep)';
 }
 
 

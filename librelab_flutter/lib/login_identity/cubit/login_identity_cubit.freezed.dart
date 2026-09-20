@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginIdentityState {
 
- LoadLoginIdentitiesState get loadState; LogoutState get logoutState;
+
 /// Create a copy of LoginIdentityState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,21 @@ $LoginIdentityStateCopyWith<LoginIdentityState> get copyWith => _$LoginIdentityS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentityState&&(identical(other.loadState, loadState) || other.loadState == loadState)&&(identical(other.logoutState, logoutState) || other.logoutState == logoutState));
+  final _this = this as LoginIdentityState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentityState&&(identical(other.loadState, _this.loadState) || other.loadState == _this.loadState)&&(identical(other.logoutState, _this.logoutState) || other.logoutState == _this.logoutState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loadState,logoutState);
+int get hashCode {
+  final _this = this as LoginIdentityState;
+  return Object.hash(runtimeType,_this.loadState,_this.logoutState);
+}
 
 @override
 String toString() {
-  return 'LoginIdentityState(loadState: $loadState, logoutState: $logoutState)';
+  final _this = this as LoginIdentityState;
+  return 'LoginIdentityState(loadState: ${_this.loadState}, logoutState: ${_this.logoutState})';
 }
 
 
@@ -242,16 +247,18 @@ _$LoginIdentityStateCopyWith<_LoginIdentityState> get copyWith => __$LoginIdenti
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginIdentityState&&(identical(other.loadState, loadState) || other.loadState == loadState)&&(identical(other.logoutState, logoutState) || other.logoutState == logoutState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginIdentityState&&(identical(other.loadState, loadState) || other.loadState == loadState)&&(identical(other.logoutState, logoutState) || other.logoutState == logoutState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loadState,logoutState);
+int get hashCode {
+    return Object.hash(runtimeType,loadState,logoutState);
+}
 
 @override
 String toString() {
-  return 'LoginIdentityState(loadState: $loadState, logoutState: $logoutState)';
+    return 'LoginIdentityState(loadState: $loadState, logoutState: $logoutState)';
 }
 
 
@@ -317,7 +324,7 @@ mixin _$LoadLoginIdentitiesState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesState);
 }
 
 
@@ -326,7 +333,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoadLoginIdentitiesState()';
+    return 'LoadLoginIdentitiesState()';
 }
 
 
@@ -494,7 +501,7 @@ class LoadLoginIdentitiesInitial implements LoadLoginIdentitiesState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesInitial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesInitial);
 }
 
 
@@ -503,7 +510,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoadLoginIdentitiesState.initial()';
+    return 'LoadLoginIdentitiesState.initial()';
 }
 
 
@@ -526,7 +533,7 @@ class LoadLoginIdentitiesLoading implements LoadLoginIdentitiesState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesLoading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesLoading);
 }
 
 
@@ -535,7 +542,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoadLoginIdentitiesState.loading()';
+    return 'LoadLoginIdentitiesState.loading()';
 }
 
 
@@ -567,16 +574,18 @@ $LoadLoginIdentitiesSuccessCopyWith<LoadLoginIdentitiesSuccess> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesSuccess&&(identical(other.loginIdentities, loginIdentities) || other.loginIdentities == loginIdentities)&&(identical(other.selectedLoginIdentity, selectedLoginIdentity) || other.selectedLoginIdentity == selectedLoginIdentity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesSuccess&&(identical(other.loginIdentities, loginIdentities) || other.loginIdentities == loginIdentities)&&(identical(other.selectedLoginIdentity, selectedLoginIdentity) || other.selectedLoginIdentity == selectedLoginIdentity));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loginIdentities,selectedLoginIdentity);
+int get hashCode {
+    return Object.hash(runtimeType,loginIdentities,selectedLoginIdentity);
+}
 
 @override
 String toString() {
-  return 'LoadLoginIdentitiesState.success(loginIdentities: $loginIdentities, selectedLoginIdentity: $selectedLoginIdentity)';
+    return 'LoadLoginIdentitiesState.success(loginIdentities: $loginIdentities, selectedLoginIdentity: $selectedLoginIdentity)';
 }
 
 
@@ -655,16 +664,18 @@ $LoadLoginIdentitiesFailureCopyWith<LoadLoginIdentitiesFailure> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesFailure&&(identical(other.exception, exception) || other.exception == exception));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadLoginIdentitiesFailure&&(identical(other.exception, exception) || other.exception == exception));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,exception);
+int get hashCode {
+    return Object.hash(runtimeType,exception);
+}
 
 @override
 String toString() {
-  return 'LoadLoginIdentitiesState.failure(exception: $exception)';
+    return 'LoadLoginIdentitiesState.failure(exception: $exception)';
 }
 
 
@@ -711,7 +722,7 @@ mixin _$LogoutState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutState);
 }
 
 
@@ -720,7 +731,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LogoutState()';
+    return 'LogoutState()';
 }
 
 
@@ -888,7 +899,7 @@ class LogoutInitial implements LogoutState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutInitial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutInitial);
 }
 
 
@@ -897,7 +908,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LogoutState.initial()';
+    return 'LogoutState.initial()';
 }
 
 
@@ -920,7 +931,7 @@ class LogoutLoading implements LogoutState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutLoading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutLoading);
 }
 
 
@@ -929,7 +940,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LogoutState.loading()';
+    return 'LogoutState.loading()';
 }
 
 
@@ -952,7 +963,7 @@ class LogoutSuccess implements LogoutState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutSuccess);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutSuccess);
 }
 
 
@@ -961,7 +972,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LogoutState.success()';
+    return 'LogoutState.success()';
 }
 
 
@@ -989,16 +1000,18 @@ $LogoutFailureCopyWith<LogoutFailure> get copyWith => _$LogoutFailureCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutFailure&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutFailure&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'LogoutState.failure(failure: $failure)';
+    return 'LogoutState.failure(failure: $failure)';
 }
 
 
@@ -1039,7 +1052,7 @@ as ApiRequestFailure,
 /// @nodoc
 mixin _$SelectedLoginIdentity {
 
- LoginIdentity get loginIdentity; Server get server;
+
 /// Create a copy of SelectedLoginIdentity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1050,16 +1063,21 @@ $SelectedLoginIdentityCopyWith<SelectedLoginIdentity> get copyWith => _$Selected
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SelectedLoginIdentity&&(identical(other.loginIdentity, loginIdentity) || other.loginIdentity == loginIdentity)&&(identical(other.server, server) || other.server == server));
+  final _this = this as SelectedLoginIdentity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SelectedLoginIdentity&&(identical(other.loginIdentity, _this.loginIdentity) || other.loginIdentity == _this.loginIdentity)&&(identical(other.server, _this.server) || other.server == _this.server));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loginIdentity,server);
+int get hashCode {
+  final _this = this as SelectedLoginIdentity;
+  return Object.hash(runtimeType,_this.loginIdentity,_this.server);
+}
 
 @override
 String toString() {
-  return 'SelectedLoginIdentity(loginIdentity: $loginIdentity, server: $server)';
+  final _this = this as SelectedLoginIdentity;
+  return 'SelectedLoginIdentity(loginIdentity: ${_this.loginIdentity}, server: ${_this.server})';
 }
 
 
@@ -1119,16 +1137,18 @@ _$SelectedLoginIdentityCopyWith<_SelectedLoginIdentity> get copyWith => __$Selec
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SelectedLoginIdentity&&(identical(other.loginIdentity, loginIdentity) || other.loginIdentity == loginIdentity)&&(identical(other.server, server) || other.server == server));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SelectedLoginIdentity&&(identical(other.loginIdentity, loginIdentity) || other.loginIdentity == loginIdentity)&&(identical(other.server, server) || other.server == server));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loginIdentity,server);
+int get hashCode {
+    return Object.hash(runtimeType,loginIdentity,server);
+}
 
 @override
 String toString() {
-  return 'SelectedLoginIdentity(loginIdentity: $loginIdentity, server: $server)';
+    return 'SelectedLoginIdentity(loginIdentity: $loginIdentity, server: $server)';
 }
 
 
@@ -1176,7 +1196,7 @@ mixin _$LoginIdentityEffect {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentityEffect);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginIdentityEffect);
 }
 
 
@@ -1185,7 +1205,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginIdentityEffect()';
+    return 'LoginIdentityEffect()';
 }
 
 
@@ -1346,16 +1366,18 @@ $LogoutConfirmationRequiredCopyWith<LogoutConfirmationRequired> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutConfirmationRequired&&(identical(other.isLoginDisabled, isLoginDisabled) || other.isLoginDisabled == isLoginDisabled));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutConfirmationRequired&&(identical(other.isLoginDisabled, isLoginDisabled) || other.isLoginDisabled == isLoginDisabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoginDisabled);
+int get hashCode {
+    return Object.hash(runtimeType,isLoginDisabled);
+}
 
 @override
 String toString() {
-  return 'LoginIdentityEffect.confirmationRequired(isLoginDisabled: $isLoginDisabled)';
+    return 'LoginIdentityEffect.confirmationRequired(isLoginDisabled: $isLoginDisabled)';
 }
 
 
@@ -1412,16 +1434,18 @@ $LogoutFailureMessageCopyWith<LogoutFailureMessage> get copyWith => _$LogoutFail
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutFailureMessage&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LogoutFailureMessage&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'LoginIdentityEffect.logoutFailureMessage(failure: $failure)';
+    return 'LoginIdentityEffect.logoutFailureMessage(failure: $failure)';
 }
 
 

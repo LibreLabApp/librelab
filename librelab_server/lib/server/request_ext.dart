@@ -3,11 +3,12 @@ import 'dart:io' show HttpConnectionInfo;
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiHttpHeaders;
 import 'package:librelab_server/audit_log/audit_log.dart';
-import 'package:shelf/shelf.dart';
+import 'package:librelab_server/utils/validation/id_validation.dart';
+import 'package:shelf/shelf.dart' show Request;
 import 'package:shelf_router/shelf_router.dart' show Router, RouterParams;
 
 extension RequestExt on Request {
-  /// May be null if the implementation is not `shelf_io`.
+  /// May be `null` if the Shelf server implementation is not `shelf_io`.
   HttpConnectionInfo? get connectionInfo =>
       context['shelf.io.connection_info'] as HttpConnectionInfo?;
 
@@ -32,6 +33,25 @@ extension RequestExt on Request {
   /// The `id` URL parameter captured by [Router].
   ///
   /// Throws [StateError] if the route does not define an `id` parameter.
-  String get idParameter =>
-      params['id'] ?? (throw StateError('Missing URL parameter: id'));
+  String get _rawIdParameter =>
+      params[RouteParams._id] ??
+      (throw StateError('Missing URL parameter: ${RouteParams._id}'));
+
+  /// The `id` URL parameter captured by [Router], validated as a UUID.
+  ///
+  /// Throws [InvalidUuidException] if the parameter is not a valid UUID.
+  ///
+  /// See also: [_rawIdParameter]
+  String get idParameter {
+    final id = _rawIdParameter;
+    validateId(id);
+    return id;
+  }
+}
+
+abstract final class RouteParams {
+  static const _id = 'id';
+
+  /// The Shelf route pattern for the [_id] parameter.
+  static const idPath = '<$_id>';
 }

@@ -64,6 +64,7 @@ extension on AuditAction {
 extension on AuditEntityType {
   AuditEntityTypePgEnum _toDto() => switch (this) {
     .labSettings => .labSettings,
+    .storageObject => .storageObject,
   };
 }
 
@@ -78,6 +79,7 @@ extension on _Row {
     },
     entityType: switch (AuditEntityTypePgEnum.fromText(entityType)) {
       .labSettings => .labSettings,
+      .storageObject => .storageObject,
     },
     entityId: entityId,
     oldValue: oldValue,

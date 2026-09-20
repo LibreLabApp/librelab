@@ -21,7 +21,7 @@ mixin _$LoginState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState);
 }
 
 
@@ -30,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginState()';
+    return 'LoginState()';
 }
 
 
@@ -204,7 +204,7 @@ class Initial implements LoginState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Initial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Initial);
 }
 
 
@@ -213,7 +213,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginState.initial()';
+    return 'LoginState.initial()';
 }
 
 
@@ -236,7 +236,7 @@ class Loading implements LoginState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading);
 }
 
 
@@ -245,7 +245,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginState.loading()';
+    return 'LoginState.loading()';
 }
 
 
@@ -274,16 +274,18 @@ $SuccessCopyWith<Success> get copyWith => _$SuccessCopyWithImpl<Success>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Success&&(identical(other.result, result) || other.result == result)&&(identical(other.persistAuthSession, persistAuthSession) || other.persistAuthSession == persistAuthSession));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Success&&(identical(other.result, result) || other.result == result)&&(identical(other.persistAuthSession, persistAuthSession) || other.persistAuthSession == persistAuthSession));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,result,persistAuthSession);
+int get hashCode {
+    return Object.hash(runtimeType,result,persistAuthSession);
+}
 
 @override
 String toString() {
-  return 'LoginState.success(result: $result, persistAuthSession: $persistAuthSession)';
+    return 'LoginState.success(result: $result, persistAuthSession: $persistAuthSession)';
 }
 
 
@@ -341,16 +343,18 @@ $FailureCopyWith<Failure> get copyWith => _$FailureCopyWithImpl<Failure>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'LoginState.failure(failure: $failure)';
+    return 'LoginState.failure(failure: $failure)';
 }
 
 
@@ -407,16 +411,18 @@ $RequestFailureCopyWith<RequestFailure> get copyWith => _$RequestFailureCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RequestFailure&&(identical(other.failure, failure) || other.failure == failure));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is RequestFailure&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode {
+    return Object.hash(runtimeType,failure);
+}
 
 @override
 String toString() {
-  return 'LoginState.requestFailure(failure: $failure)';
+    return 'LoginState.requestFailure(failure: $failure)';
 }
 
 

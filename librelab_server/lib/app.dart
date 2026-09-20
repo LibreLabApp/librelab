@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file/file.dart' show FileSystem;
 import 'package:file/local.dart';
 import 'package:librelab_server/app_file_paths.dart';
+import 'package:librelab_server/audit_log/audit_log_repository.dart';
 import 'package:librelab_server/audit_log/audit_log_repository_postgres.dart';
 import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
@@ -20,15 +21,13 @@ import 'package:librelab_server/database/database_connect.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
-import 'package:librelab_server/file_storage/storage_routes.dart';
-import 'package:librelab_server/file_storage/file_storage_service.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object_repository_postgres.dart';
+import 'package:librelab_server/file_storage/storage_routes.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
 import 'package:librelab_server/lab_settings/lab_settings_routes.dart';
-import 'package:librelab_server/lab_settings/lab_settings_service.dart';
 import 'package:librelab_server/mdns/mdns.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
@@ -214,7 +213,11 @@ Future<void> run(List<String> args) async {
   );
   final authorizationService = AuthorizationService(authService: authService);
 
-  // TODO: (REMOVE_SERVERPOD) Implement global rate limit
+  final AuditLogRepository auditLogRepository = AuditLogRepositoryPostgres(
+    databaseClient,
+  );
+
+  // TODO: Implement global rate limit
   final server = await startServer(
     port: httpServerPort,
     address: httpServerAddress,
@@ -228,21 +231,26 @@ Future<void> run(List<String> args) async {
       UserRoutes(authorization: authorizationService),
       LabSettingsRoutes(
         authorization: authorizationService,
-        service: LabSettingsService(
+        service: .new(
           db: databaseClient,
           labSettingsRepository: labSettingsRepository,
-          auditLogRepository: AuditLogRepositoryPostgres(databaseClient),
+          auditLogRepository: auditLogRepository,
         ),
       ),
       StorageRoutes(
         authorization: authorizationService,
-        fileStorageService: FileStorageService(
+        fileStorageService: .new(
+          db: databaseClient,
           storageObjectRepository: StorageObjectRepositoryPostgres(
             databaseClient,
           ),
           fileSystem: fileSystem,
           storageDirectoryPath: appFilePaths.storageDir,
+          auditLogRepository: auditLogRepository,
         ),
+        storageAuthorization: .new(authorization: authorizationService),
+        logger: .new('StorageRoutes'),
+        storageMimeTypeValidator: .new(),
       ),
     ],
     webClientHostingEnabled: config.httpServer.webClientHosting.enabled,
@@ -286,7 +294,7 @@ Future<void> _initializeSuperUser({
   }
 }
 
-// TODO: (REMOVE_SERVERPOD) Setup the mail service provider and implement
+// TODO: Setup the mail service provider and implement
 // void _sendPasswordResetCode({
 //   required String email,
 //   required String verificationCode,
