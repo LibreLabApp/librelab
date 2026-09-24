@@ -18,11 +18,11 @@ Except for the window title, app ID, and minimum window size, none at the moment
 
 ## Windows
 
-- Changed launcher icon using [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) CLI.
+- Changed launcher icon using [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) CLI.
 
 ## macOS
 
-- Changed launcher icon using [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) CLI.
+- Changed launcher icon using [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) CLI.
 - Added the following to `*.entitlements` files, which are required for sandbox mode:
     - [network permission](https://docs.flutter.dev/data-and-backend/networking#macos) for all network requests.
     - [server permission](https://developer.apple.com/documentation/bundleresources/entitlements/com.apple.security.network.server) for running a local HTTP server.

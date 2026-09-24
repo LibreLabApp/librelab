@@ -1,4 +1,6 @@
-### Freezed and Dart 3.13+ Primary Constructors
+# Code Style
+
+## Freezed and Dart 3.13+ Primary Constructors
 
 Dart 3.13 introduced [primary constructors](https://dart.dev/language/primary-constructors), allowing fields and the primary constructor to be declared directly in the class header, avoiding the field and constructor boilerplate of the traditional syntax.
 
@@ -20,7 +22,7 @@ This applies to Freezed classes using primary constructors, not to Freezed seale
 
 See also: [Freezed primary constructors documentation](https://pub.dev/packages/freezed#primary-constructors)
 
-#### Avoid
+### Avoid
 
 Do not use the legacy Freezed syntax with a `const factory` constructor for regular model classes:
 
@@ -35,40 +37,22 @@ class User with _$User {
 }
 ```
 
-### Explicit Types with `context.read()`
+## API Model Naming in [`package:librelab_api_contract`]
 
-Always specify the type when using `context.read()`, even when the type can already be inferred from the receiving parameter or surrounding context.
+Use the `Response` suffix for models representing the response payload of a specific API operation when the base name would be ambiguous or overly generic.
+
+Use the resource or domain object name without `Response` when the model represents a distinct API resource.
 
 Prefer:
 
 ```dart
-someMethod(context.read<HttpClient>());
+class LoginResponse();
+class StorageObject();
 ```
 
-over:
+Apply this convention consistently in this package. Do not add `Response` solely because a model is returned by an HTTP endpoint.
 
-```dart
-someMethod(context.read());
-```
+> [!TIP]
+> In this package, the `Response` suffix refers to the API response payload, not the complete HTTP response containing status, headers, and other transport metadata.
 
-### Feature Directory Structure
-
-Organize feature directories around the actual structure and responsibilities of each feature rather than forcing every feature into a universal directory template.
-
-Feature directories should contain the code that belongs to that feature, including models, repositories, services, state management, UI, and other related classes where applicable. The internal directory structure should be determined case by case based on the actual relationships and responsibilities of the code.
-
-Do not create directories solely for structural consistency when they do not provide meaningful grouping. For example, if a feature has only one repository and one service, keep those files directly in the feature directory rather than creating separate `repositories/` and `services/` directories containing one file each.
-
-Likewise, do not create generic directories such as `cubits/` merely because a feature contains a single Cubit. A directory such as `login_cubit/` is appropriate when the Cubit forms a cohesive unit containing multiple related files, such as its state and event declarations.
-
-Page and flow directories such as `home/` and `initial_setup/` should contain code specific to those pages or flows. They should not become containers for independent features that happen to be used by them. Features such as `settings/`, `user/`, or `auth/` remain independent so they can be reused by different pages and flows without creating dependencies on those higher-level compositions.
-
-Consistency should be maintained where it reflects meaningful similarities between features, but structural consistency should not be pursued for its own sake.
-
-### Follow [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy): "do one thing and do it well"
-
-Keep classes, functions, packages, and other components focused on a clear responsibility. This concerns the responsibility of a component, not its size or number of lines.
-
-Do not split code solely because a file or class is large, or create separate classes for individual functions when doing so does not establish a meaningful responsibility or boundary. Likewise, small components are valid when their focused responsibility naturally requires little code.
-
-Modularity should be based on meaningful responsibilities and boundaries rather than arbitrary size limits or a fixed number of classes.
+[`package:librelab_api_contract`]: ../librelab_api_contract/
