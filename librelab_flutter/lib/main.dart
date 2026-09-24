@@ -275,12 +275,6 @@ class const MainApp({
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            builder: (context, child) =>
-                // This app uses smooth_page_indicator, which has not
-                // been migrated to use material_ui and cupertino_ui yet
-                // https://github.com/Milad-Akarie/smooth_page_indicator/issues/105
-                // ignore: deprecated_member_use
-                MaterialUiCompatibilityBridge(child: child!),
           );
         },
       ),
