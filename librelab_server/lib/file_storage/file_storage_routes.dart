@@ -3,50 +3,51 @@ import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiHttpHeaders, ServerErrorResponse, StorageErrorCodes;
 import 'package:librelab_api_contract/librelab_api_contract.dart' as api;
 import 'package:librelab_server/auth/authorization_service.dart';
+import 'package:librelab_server/file_storage/file_storage_authorization_service.dart';
+import 'package:librelab_server/file_storage/file_storage_mime_type_validator.dart';
 import 'package:librelab_server/file_storage/file_storage_service.dart';
 import 'package:librelab_server/file_storage/response_mappers.dart';
-import 'package:librelab_server/file_storage/storage_authorization_service.dart';
-import 'package:librelab_server/file_storage/storage_mime_type_validator.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object.dart'
     show StorageObject;
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/router_ext.dart';
+import 'package:librelab_server/utils/json_types.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_multipart/shelf_multipart.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class StorageRoutes({
+class FileStorageRoutes({
   required final AuthorizationService _authorization,
-  required final StorageAuthorizationService _storageAuthorization,
-  required final FileStorageService _fileStorageService,
-  required final StorageMimeTypeValidator _storageMimeTypeValidator,
+  required final FileStorageAuthorizationService _storageAuthorization,
+  required final FileStorageService _storageService,
+  required final FileStorageMimeTypeValidator _mimeTypeValidator,
   required final Logger _logger,
 }) implements RouteModule {
   @override
   Router get router => .new()
     ..register(
       ApiEndpointDefinitions.storage$GET(id: RouteParams.idPath),
-      _getFileHandler,
+      _getHandler,
     )
-    ..register(ApiEndpointDefinitions.storage$POST, _postStorageHandler)
+    ..register(ApiEndpointDefinitions.storage$POST, _postHandler)
     ..register(
       ApiEndpointDefinitions.storage$PUT(id: RouteParams.idPath),
-      _putStorageHandler,
+      _putHandler,
     )
     ..register(
       ApiEndpointDefinitions.storage$DELETE(id: RouteParams.idPath),
-      _deleteStorageHandler,
+      _deleteHandler,
     );
 
-  Future<Response> _getFileHandler(Request request) =>
+  Future<Response> _getHandler(Request request) =>
       _authorization.withAuthUser(request, (user) async {
         final id = request.idParameter;
 
-        final storageObject = await _fileStorageService.findById(id);
+        final storageObject = await _storageService.findById(id);
 
         if (storageObject == null) {
           return _storageObjectNotFoundResponse(id);
@@ -62,7 +63,7 @@ class StorageRoutes({
         }
 
         try {
-          final storedFile = _fileStorageService.open(storageObject);
+          final storedFile = _storageService.open(storageObject);
 
           if (storedFile == null) {
             return _fileMissingResponse(storageObject);
@@ -92,7 +93,7 @@ class StorageRoutes({
         }
       });
 
-  Future<Response> _postStorageHandler(
+  Future<Response> _postHandler(
     Request request,
   ) => _authorization.withAuthUser(request, (user) async {
     final multipartFormData = request.formData();
@@ -151,7 +152,7 @@ class StorageRoutes({
       return authorizationResponse;
     }
 
-    if (_storageMimeTypeValidator.validate(purpose: purpose, mimeType: mimeType)
+    if (_mimeTypeValidator.validate(purpose: purpose, mimeType: mimeType)
         case final failure?) {
       return _invalidMimeTypeResponse(
         failure,
@@ -166,7 +167,7 @@ class StorageRoutes({
     //  If this was updated, the PUT method must be updated as well.
 
     try {
-      final storageObject = await _fileStorageService.create(
+      final storageObject = await _storageService.create(
         originalName: fileName,
         mimeType: mimeType,
         content: fileData.part,
@@ -193,12 +194,12 @@ class StorageRoutes({
     }
   });
 
-  Future<Response> _putStorageHandler(
+  Future<Response> _putHandler(
     Request request,
   ) async => _authorization.withAuthUser(request, (user) async {
     final id = request.idParameter;
 
-    final purpose = await _fileStorageService.findPurposeById(id);
+    final purpose = await _storageService.findPurposeById(id);
 
     if (purpose == null) {
       return _storageObjectNotFoundResponse(id);
@@ -237,7 +238,7 @@ class StorageRoutes({
       return _missingMimeTypeResponse();
     }
 
-    if (_storageMimeTypeValidator.validate(purpose: purpose, mimeType: mimeType)
+    if (_mimeTypeValidator.validate(purpose: purpose, mimeType: mimeType)
         case final failure?) {
       return _invalidMimeTypeResponse(
         failure,
@@ -255,7 +256,7 @@ class StorageRoutes({
     }
 
     try {
-      final storageObject = await _fileStorageService.update(
+      final storageObject = await _storageService.update(
         id,
         originalName: fileName,
         mimeType: mimeType,
@@ -285,11 +286,11 @@ class StorageRoutes({
     }
   });
 
-  Future<Response> _deleteStorageHandler(Request request) =>
+  Future<Response> _deleteHandler(Request request) =>
       _authorization.withAuthUser(request, (user) async {
         final id = request.idParameter;
 
-        final purpose = await _fileStorageService.findPurposeById(id);
+        final purpose = await _storageService.findPurposeById(id);
 
         if (purpose == null) {
           return _storageObjectNotFoundResponse(id);
@@ -304,7 +305,7 @@ class StorageRoutes({
           return authorizationResponse;
         }
 
-        final deleted = await _fileStorageService.delete(
+        final deleted = await _storageService.delete(
           id,
           userId: user.id,
           requestMetadata: request.requestMetadata,
@@ -314,7 +315,7 @@ class StorageRoutes({
           return _storageObjectNotFoundResponse(id);
         }
 
-        return <String, Object?>{}.httpResponse(.ok);
+        return emptyJson.httpResponse(.ok);
       });
 
   Future<_MultipartData> _parseMultipartData(

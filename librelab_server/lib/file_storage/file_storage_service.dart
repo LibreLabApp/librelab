@@ -15,13 +15,11 @@ import 'package:uuid/uuid.dart';
 class FileStorageService({
   required final SqlDatabaseAccess _db,
   required final StorageObjectRepository _storageObjectRepository,
-  required final FileSystem _fileSystem,
+  required final FileSystem _fs,
   required String storageDirectoryPath,
   required final AuditLogRepository _auditLogRepository,
 }) {
-  final Directory _storageDirectory = _fileSystem.directory(
-    storageDirectoryPath,
-  );
+  final Directory _storageDirectory = _fs.directory(storageDirectoryPath);
 
   // Maximum allowed file size.
   static const int _maxFileSizeBytes = 10 * 1024 * 1024; // 10 MiB
@@ -217,7 +215,7 @@ class FileStorageService({
   }
 
   File _fileFor({required String storageKey}) =>
-      _fileSystem.file(p.join(_storageDirectory.path, storageKey));
+      _fs.file(p.join(_storageDirectory.path, storageKey));
 
   /// Writes [content] to [file], calculating its size and SHA-256 checksum while
   /// writing, and returns the resulting metadata.

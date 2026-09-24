@@ -278,12 +278,15 @@ abstract final class LabSettingsTable {
 
   static const String updatedAt = 'updated_at';
 
+  static const String labImageId = 'lab_image_id';
+
   static const List<String> columns = [
     id,
     labName,
     loginDisabled,
     createdAt,
     updatedAt,
+    labImageId,
   ];
 
   static Map<String, Object> insert({
@@ -292,12 +295,14 @@ abstract final class LabSettingsTable {
     bool? loginDisabled,
     DateTime? createdAt,
     DateTime? updatedAt,
+    required String? labImageId,
   }) => {
     LabSettingsTable.id: ?id,
     LabSettingsTable.labName: ?labName,
     LabSettingsTable.loginDisabled: ?loginDisabled,
     LabSettingsTable.createdAt: ?createdAt,
     LabSettingsTable.updatedAt: ?updatedAt,
+    LabSettingsTable.labImageId: ?labImageId,
   };
 
   static Map<String, Object?> update({
@@ -305,6 +310,7 @@ abstract final class LabSettingsTable {
     required Field<String?> labName,
     required Field<bool> loginDisabled,
     Field<DateTime> createdAt = const .absent(),
+    required Field<String?> labImageId,
   }) {
     return _buildFieldMap([
       (LabSettingsTable.id, id),
@@ -312,6 +318,7 @@ abstract final class LabSettingsTable {
       (LabSettingsTable.loginDisabled, loginDisabled),
       (LabSettingsTable.createdAt, createdAt),
       (LabSettingsTable.updatedAt, const .value('now()')),
+      (LabSettingsTable.labImageId, labImageId),
     ]);
   }
 }
@@ -329,6 +336,7 @@ final class LabSettingsRow {
     required this.loginDisabled,
     required this.createdAt,
     required this.updatedAt,
+    required this.labImageId,
   });
 
   factory LabSettingsRow.fromMap(Map<String, Object?> map) => LabSettingsRow(
@@ -337,6 +345,7 @@ final class LabSettingsRow {
     loginDisabled: (map[LabSettingsTable.loginDisabled]! as bool),
     createdAt: (map[LabSettingsTable.createdAt]! as DateTime),
     updatedAt: (map[LabSettingsTable.updatedAt]! as DateTime),
+    labImageId: (map[LabSettingsTable.labImageId] as String?),
   );
 
   final int id;
@@ -348,6 +357,8 @@ final class LabSettingsRow {
   final DateTime createdAt;
 
   final DateTime updatedAt;
+
+  final String? labImageId;
 }
 
 /// Generated mapping for the `login_attempts` table, providing type-safe references

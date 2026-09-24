@@ -1,7 +1,7 @@
 import 'package:librelab_server/file_storage/storage_object/storage_object.dart';
 import 'package:meta/meta.dart';
 
-class StorageMimeTypeValidator {
+class FileStorageMimeTypeValidator {
   Set<String> _allowedMimeTypes(StorageObjectPurpose purpose) {
     return switch (purpose) {
       .labImage => const {'image/jpeg', 'image/png', 'image/webp'},

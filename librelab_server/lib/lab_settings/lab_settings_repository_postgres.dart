@@ -24,6 +24,7 @@ final class LabSettingsRepositoryPostgres(super.db)
       id: const .value(_id),
       labName: patch.labName,
       loginDisabled: patch.loginDisabled,
+      labImageId: patch.labImageId,
     );
 
     final result = await executorOf(executor).execute('''

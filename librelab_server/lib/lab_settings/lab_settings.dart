@@ -18,4 +18,5 @@ class const LabSettings({
 class const LabSettingsPatch({
   final Field<String?> labName = const .absent(),
   final Field<bool> loginDisabled = const .absent(),
+  final Field<String?> labImageId = const .absent(),
 });

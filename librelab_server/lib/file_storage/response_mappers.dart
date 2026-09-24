@@ -24,6 +24,6 @@ extension StorageObjectPurposeMapper on StorageObjectPurpose {
 extension StorageObjectPurposeDtoMapper on dto.StorageObjectPurpose {
   StorageObjectPurpose toDomain() => switch (this) {
     .labImage => .labImage,
-    .unknown => throw StateError('Unexpected storage object purpose: unknown.'),
+    .unknown => throw StateError('Unexpected storage object purpose: $name.'),
   };
 }

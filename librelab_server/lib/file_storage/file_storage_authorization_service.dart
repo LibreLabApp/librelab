@@ -4,8 +4,8 @@ import 'package:librelab_server/user/role/role.dart';
 import 'package:librelab_server/user/user_access.dart';
 import 'package:shelf/shelf.dart';
 
-/// Authorizes storage operations based on their purpose.
-class StorageAuthorizationService({
+/// Authorizes file storage operations based on their purpose.
+class FileStorageAuthorizationService({
   required final AuthorizationService _authorization,
 }) {
   // TODO: (Not specific to this class, this is an example)

@@ -21,8 +21,8 @@ import 'package:librelab_server/database/database_connect.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
+import 'package:librelab_server/file_storage/file_storage_routes.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object_repository_postgres.dart';
-import 'package:librelab_server/file_storage/storage_routes.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
@@ -83,8 +83,8 @@ Future<void> run(List<String> args) async {
   final createSuperUser = argResults.wasParsed(CliOptions.createSuperUserFlag);
   final autoApplyMigrations = argResults.flag(CliOptions.applyMigrationsFlag);
 
-  // TODO: Use fileSystem when possible instead of creating Directory directly
-  const FileSystem fileSystem = LocalFileSystem();
+  // TODO: Use fs when possible instead of creating Directory directly
+  const FileSystem fs = LocalFileSystem();
 
   final workingDirectory = kDebugMode ? Directory('run_workdir') : null;
   if (workingDirectory != null && !workingDirectory.existsSync()) {
@@ -237,20 +237,20 @@ Future<void> run(List<String> args) async {
           auditLogRepository: auditLogRepository,
         ),
       ),
-      StorageRoutes(
+      FileStorageRoutes(
         authorization: authorizationService,
-        fileStorageService: .new(
+        storageService: .new(
           db: databaseClient,
           storageObjectRepository: StorageObjectRepositoryPostgres(
             databaseClient,
           ),
-          fileSystem: fileSystem,
+          fs: fs,
           storageDirectoryPath: appFilePaths.storageDir,
           auditLogRepository: auditLogRepository,
         ),
         storageAuthorization: .new(authorization: authorizationService),
-        logger: .new('StorageRoutes'),
-        storageMimeTypeValidator: .new(),
+        mimeTypeValidator: .new(),
+        logger: .new('FileStorageRoutes'),
       ),
     ],
     webClientHostingEnabled: config.httpServer.webClientHosting.enabled,

@@ -94,9 +94,9 @@ CREATE TABLE lab_settings (
   id INTEGER PRIMARY KEY DEFAULT 1,
   lab_name TEXT,
   login_disabled BOOLEAN NOT NULL DEFAULT FALSE,
+  lab_image_id UUID REFERENCES storage_objects(id) ON DELETE SET NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  -- TODO: Add: lab_image_id UUID REFERENCES storage_objects(id) ON DELETE SET NULL
 
   CONSTRAINT lab_settings_singleton_check
     CHECK (id = 1)
