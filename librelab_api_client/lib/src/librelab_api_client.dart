@@ -30,6 +30,17 @@ class LibreLabApiClient({
 
   late final Endpoints endpoints = Endpoints(this);
 
+  /// Returns the full request URL for the given [endpoint].
+  Uri endpointUrl(
+    EndpointDefinition endpoint, {
+    Map<String, Iterable<String>>? queryParameters,
+    Uri? overrideBaseUrl,
+  }) => _buildRequestUrl(
+    endpoint,
+    queryParameters: queryParameters,
+    overrideBaseUrl: overrideBaseUrl,
+  );
+
   Uri _buildRequestUrl(
     EndpointDefinition endpoint, {
     required Map<String, Iterable<String>>? queryParameters,

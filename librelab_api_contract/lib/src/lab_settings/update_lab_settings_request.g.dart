@@ -11,6 +11,7 @@ UpdateLabSettingsRequest _$UpdateLabSettingsRequestFromJson(
 ) => UpdateLabSettingsRequest(
   labName: json['labName'] as String?,
   loginDisabled: json['loginDisabled'] as bool?,
+  labImageId: json['labImageId'] as String?,
 );
 
 Map<String, dynamic> _$UpdateLabSettingsRequestToJson(
@@ -18,4 +19,5 @@ Map<String, dynamic> _$UpdateLabSettingsRequestToJson(
 ) => <String, dynamic>{
   'labName': instance.labName,
   'loginDisabled': instance.loginDisabled,
+  'labImageId': instance.labImageId,
 };

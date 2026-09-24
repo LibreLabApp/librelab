@@ -1,5 +1,6 @@
 import 'package:librelab_api_client/src/endpoints/auth_endpoints.dart';
 import 'package:librelab_api_client/src/endpoints/compatibility_endpoints.dart';
+import 'package:librelab_api_client/src/endpoints/file_storage_endpoints.dart';
 import 'package:librelab_api_client/src/endpoints/lab_settings_endpoints.dart';
 import 'package:librelab_api_client/src/endpoints/user_endpoints.dart';
 import 'package:librelab_api_client/src/librelab_api_client.dart'
@@ -10,4 +11,5 @@ class Endpoints(LibreLabApiClient client) {
   final auth = AuthEndpoints(client);
   final users = UserEndpoints(client);
   final labSettings = LabSettingsEndpoints(client);
+  final fileStorage = FileStorageEndpoints(client);
 }

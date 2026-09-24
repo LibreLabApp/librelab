@@ -34,7 +34,6 @@ enum StorageObjectPurpose {
       _$StorageObjectPurposeEnumMap.entries
           .firstWhereOrNull((entry) => entry.value == value)
           ?.key;
-
   String toJson() => _$StorageObjectPurposeEnumMap[this]!;
 
   /// The multipart form-data field name used to specify the storage object purpose.
