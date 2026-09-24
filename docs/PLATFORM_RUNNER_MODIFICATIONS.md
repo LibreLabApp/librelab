@@ -10,8 +10,8 @@ This document lists all modifications made to the default platform runner templa
 
 ### Desktop
 
-- Changed window minimum size to `520×360`.
 - Changed the desktop window title to `LibreLab`.
+- Changed window minimum size to `520×360`.
 
 ## Linux
 
@@ -19,11 +19,11 @@ Except for the window title, app ID, and minimum window size, none at the moment
 
 ## Windows
 
-- Changed launcher icon using [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) CLI.
+- Changed launcher icon using [`flutter_launcher_icons`] CLI.
 
 ## macOS
 
-- Changed launcher icon using [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) CLI.
+- Changed launcher icon using [`flutter_launcher_icons`] CLI.
 - Added the following to `*.entitlements` files, which are required for sandbox mode:
     - [network permission](https://docs.flutter.dev/data-and-backend/networking#macos) for all network requests.
     - [server permission](https://developer.apple.com/documentation/bundleresources/entitlements/com.apple.security.network.server) for running a local HTTP server.
@@ -38,6 +38,9 @@ Except for the window title, app ID, and minimum window size, none at the moment
 
 ## Android
 
+- Changed the launcher icon using the Asset Studio (built-in Android Studio tool).
+- Updated the default splash screen's background to match the launcher icon by adding `@color/splash_background` and updating `launch_background.xml`.
 - Added [network permission](https://docs.flutter.dev/data-and-backend/networking#android).
 - Added `android:usesCleartextTraffic="true"` to `<application>` in `main/AndroidManifest.xml`.
 
+[`flutter_launcher_icons`]: https://pub.dev/packages/flutter_launcher_icons

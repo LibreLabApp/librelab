@@ -12,16 +12,20 @@ Once saved, copy-paste the framed and unframed icon files to this directory.
 
 ### Generating the platform runner icons
 
-Assuming `flutter_launcher_icons` is configured in `pubspec.yaml`
+Assuming [`flutter_launcher_icons`] is configured in `pubspec.yaml`
 to use the files generated from the previous step,
-the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) CLI
-can be used to update the platform runner icons (e.g., `/android`, `macos`):
+the [`flutter_launcher_icons`] CLI
+can be used to update the platform runner icons (e.g., `/windows`, `macos`):
 
 ```bash
 dart run flutter_launcher_icons
 ```
 
-This will replace the icon files for all platforms except Linux desktop.
+This will replace the icon files for all platforms except Linux and Android.
+
+#### Android
+
+The icon is handled using Asset Studio (built-in Android Studio tool), which provides more up-to-date Android icon generation and uses WebP rather than PNG.
 
 #### Linux
 
@@ -41,7 +45,7 @@ flutter:
     - assets/branding/ # Avoid
 ```
 
-Instead, use the Flutter app widget (`LibreLabIcon`).
+Instead, use the Flutter app widget ([`LibreLabIcon`]).
 
 ```dart
 Scaffold(body: LibreLabIcon())
@@ -75,3 +79,6 @@ Avoid using proprietary software if possible:
 - d="M 0,512 V 0 h 512 512 v 512 512 H 512 0 Z"
 - id="path37" />
 ```
+
+[`LibreLabIcon`]: ../../lib/common/ui/widgets/librelab_icon.dart
+[`flutter_launcher_icons`]: https://pub.dev/packages/flutter_launcher_icons

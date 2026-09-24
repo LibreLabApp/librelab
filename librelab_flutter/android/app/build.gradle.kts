@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "app.librelab.librelab_flutter"
+    namespace = "app.librelab.librelab"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,9 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "app.librelab.librelab_flutter"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "app.librelab.librelab"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

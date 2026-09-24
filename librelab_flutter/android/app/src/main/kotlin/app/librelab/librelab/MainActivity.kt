@@ -1,4 +1,4 @@
-package app.librelab.librelab_flutter
+package app.librelab.librelab
 
 import io.flutter.embedding.android.FlutterActivity
 
