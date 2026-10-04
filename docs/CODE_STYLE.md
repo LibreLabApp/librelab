@@ -55,4 +55,26 @@ Apply this convention consistently in this package. Do not add `Response` solely
 > [!TIP]
 > In this package, the `Response` suffix refers to the API response payload, not the complete HTTP response containing status, headers, and other transport metadata.
 
+## Use Dart dot shorthand syntax when possible
+
+Prefer [Dart's dot shorthand syntax](https://dart.dev/language/dot-shorthands) when the expected type is already clear from the surrounding context.
+
+For example:
+
+```dart
+final LoginIdentities loginIdentities = json == null
+  ? const .new(...)
+  : .fromJson(json);
+```
+
+Over:
+
+```dart
+final loginIdentities = json == null
+  ? const LoginIdentities.new(...)
+  : LoginIdentities.fromJson(json);
+```
+
+Use dot shorthand when it improves readability without making the expression ambiguous or harder to understand. Do not use it where the omitted type or member would be unclear from the surrounding context.
+
 [`package:librelab_api_contract`]: ../librelab_api_contract/
