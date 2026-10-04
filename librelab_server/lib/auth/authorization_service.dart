@@ -4,6 +4,7 @@ import 'package:librelab_api_contract/librelab_api_contract.dart'
     show
         AuthErrorCodes,
         AuthErrorDetailsKeys,
+        AuthHttpStatusCodes,
         PermissionJson,
         ServerErrorResponse;
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
@@ -63,8 +64,10 @@ class AuthorizationService({required final AuthService _authService}) {
             'Provide an access token either in the Authorization '
             'header (Bearer) or, for browser clients, as a cookie.\n',
         code: AuthErrorCodes.unauthenticated,
+        // TODO: We should not need to pass the "reason" when the code is "unauthenticated"
+        //  Review the API client first and then remove "details" bellow
         details: {AuthErrorDetailsKeys.reason: 'TOKEN_MISSING'},
-      ).toJson().httpResponse(.unauthorized);
+      ).toJson().httpResponse(AuthHttpStatusCodes.unauthorized);
     }
 
     final result = await authenticate(token);
@@ -115,7 +118,7 @@ class AuthorizationService({required final AuthService _authService}) {
           details: reason != null
               ? {AuthErrorDetailsKeys.reason: reason}
               : null,
-        ).toJson().httpResponse(.unauthorized);
+        ).toJson().httpResponse(AuthHttpStatusCodes.unauthorized);
     }
   }
 

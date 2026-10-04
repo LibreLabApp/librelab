@@ -4,19 +4,19 @@ import 'package:http/http.dart' as http show Client;
 import 'package:librelab_api_client/librelab_api_client.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 /// Provides [http.Client], [HttpApiClient], [LibreLabApiClient] and
 /// [ApiRequestHandler] to descendant widgets.
-class const HttpClientDepsProvider(
-  final Widget child, {
+class const HttpClientDepsProvider({
   super.key,
   required final http.Client httpClient,
   required final HttpApiClient httpApiClient,
   required final LibreLabApiClient libreLabApiClient,
   required final ApiRequestHandler apiRequestHandler,
-}) extends StatelessWidget {
+}) extends SingleChildStatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithChild(BuildContext context, Widget? child) {
     return MultiProvider(
       providers: [
         Provider<http.Client>.value(value: httpClient),

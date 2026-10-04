@@ -1,7 +1,7 @@
 import 'dart:io' show ContentType, HttpHeaders;
 
+import 'package:http_status_code_enum/http_status_code_enum.dart';
 import 'package:json_safe/json_safe.dart';
-import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:shelf/shelf.dart';
 
 class InvalidJsonRequestBodyException({

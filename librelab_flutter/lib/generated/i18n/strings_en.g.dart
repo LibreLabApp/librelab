@@ -20,20 +20,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.en,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ) {
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	dynamic operator[](String key) => $meta.getTranslation(key);
+	dynamic operator[](String key) => _meta.getTranslation(key);
 
 	late final Translations _root = this; // ignore: unused_field
 
@@ -279,6 +280,9 @@ class Translations$filePicker$en {
 	/// en: 'Failed to select the file.'
 	String get pickFailure => 'Failed to select the file.';
 
+	/// en: 'The selected file does not provide a MIME type.'
+	String get missingMimeType => 'The selected file does not provide a MIME type.';
+
 	/// en: 'The selected file exceeds the maximum allowed size of $maxSize.'
 	String exceedsMaximumSize({required Object maxSize}) => 'The selected file exceeds the maximum allowed size of ${maxSize}.';
 
@@ -299,6 +303,9 @@ class Translations$imagePicker$en {
 
 	/// en: 'Remove image'
 	String get removeImage => 'Remove image';
+
+	/// en: 'Unable to load image'
+	String get failedToLoadImage => 'Unable to load image';
 }
 
 // Path: homePage
@@ -1611,10 +1618,12 @@ extension on Translations {
 			'questionMark' => '?',
 			'retry' => 'Retry',
 			'filePicker.pickFailure' => 'Failed to select the file.',
+			'filePicker.missingMimeType' => 'The selected file does not provide a MIME type.',
 			'filePicker.exceedsMaximumSize' => ({required Object maxSize}) => 'The selected file exceeds the maximum allowed size of ${maxSize}.',
 			'filePicker.readFailure' => 'Failed to read the selected file.',
 			'imagePicker.changeImage' => 'Change image',
 			'imagePicker.removeImage' => 'Remove image',
+			'imagePicker.failedToLoadImage' => 'Unable to load image',
 			'homePage.destinations.settings.label' => 'Settings',
 			'homePage.actions.switchUser.tooltip' => 'Switch user',
 			'homePage.actions.logout.tooltip' => 'Log out',

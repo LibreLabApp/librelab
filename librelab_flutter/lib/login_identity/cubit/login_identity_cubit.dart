@@ -126,6 +126,9 @@ class LoginIdentityCubit({
     required User user,
     required AuthSession authSession,
     required bool persistAuthSession,
+
+    /// Resets the temporary login state after completing the login flow.
+    required void Function() resetTemporaryLoginState,
   }) async {
     emit(state.copyWith(loadState: const .loading()));
 
@@ -137,6 +140,8 @@ class LoginIdentityCubit({
         authSession: authSession,
         persistAuthSession: persistAuthSession,
       );
+
+      resetTemporaryLoginState();
 
       _emitSuccess(loginIdentities);
     } on Exception catch (e, stackTrace) {

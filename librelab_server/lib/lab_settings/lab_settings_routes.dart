@@ -1,5 +1,7 @@
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
-import 'package:librelab_api_contract/librelab_api_contract.dart';
+import 'package:librelab_api_contract/librelab_api_contract.dart' as api;
+import 'package:librelab_api_contract/librelab_api_contract.dart'
+    show UpdateLabSettingsRequest;
 import 'package:librelab_server/auth/authorization_service.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_service.dart';
@@ -34,6 +36,7 @@ class LabSettingsRoutes({
           .new(
             labName: .fromNullable(body.labName),
             loginDisabled: .fromNullable(body.loginDisabled),
+            labImageId: .fromNullable(body.labImageId),
           ),
           userId: user.id,
           requestMetadata: request.requestMetadata,
@@ -44,6 +47,10 @@ class LabSettingsRoutes({
 }
 
 extension on LabSettings {
-  LabSettingsResponse toResponse() =>
-      .new(labName: labName, loginDisabled: loginDisabled);
+  api.LabSettings toResponse() => .new(
+    labName: labName,
+    loginDisabled: loginDisabled,
+    labImageId: labImageId,
+    updatedAt: updatedAt,
+  );
 }

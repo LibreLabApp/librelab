@@ -145,7 +145,7 @@ class ServerCompatibilityRepository({
 
               return result.value;
           }
-        }, mapSuccess: (dto) => _map(dto));
+        }, mapSuccess: (response) => _map(response.body));
 
     return ServerCompatibilityCheckResult(result: result, uri: capturedUri);
   }

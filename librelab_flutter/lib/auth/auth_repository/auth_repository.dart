@@ -37,7 +37,9 @@ class AuthRepository({
 
         return await _endpoints.login(request, serverBaseUrl: serverBaseUrl);
       },
-      mapSuccess: (dto) {
+      mapSuccess: (response) {
+        final dto = response.body;
+
         if (dto is LoginBrowserResponse) {
           return LoginResultSuccess(
             user: dto.user.toDomain(),
@@ -88,7 +90,7 @@ class AuthRepository({
         );
       }
       return await _endpoints.logout(.new(refreshToken: refreshToken));
-    }, mapSuccess: (dto) => dto.tokenRevoked);
+    }, mapSuccess: (response) => response.body.tokenRevoked);
   }
 
   /// Returns whether login is currently disabled.
@@ -97,6 +99,6 @@ class AuthRepository({
   /// be warned when login is disabled before proceeding.
   Future<ApiRequestResult<bool>> isLoginDisabled() => _handler.execute(
     () async => _endpoints.getLoginStatus(),
-    mapSuccess: (dto) => dto.isLoginDisabled,
+    mapSuccess: (response) => response.body.isLoginDisabled,
   );
 }

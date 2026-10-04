@@ -22,6 +22,7 @@ import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
 import 'package:librelab_server/file_storage/file_storage_routes.dart';
+import 'package:librelab_server/file_storage/storage_object/storage_object_repository.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object_repository_postgres.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
@@ -217,6 +218,9 @@ Future<void> run(List<String> args) async {
     databaseClient,
   );
 
+  final StorageObjectRepository storageObjectRepository =
+      StorageObjectRepositoryPostgres(databaseClient);
+
   // TODO: Implement global rate limit
   final server = await startServer(
     port: httpServerPort,
@@ -235,15 +239,14 @@ Future<void> run(List<String> args) async {
           db: databaseClient,
           labSettingsRepository: labSettingsRepository,
           auditLogRepository: auditLogRepository,
+          storageObjectRepository: storageObjectRepository,
         ),
       ),
       FileStorageRoutes(
         authorization: authorizationService,
         storageService: .new(
           db: databaseClient,
-          storageObjectRepository: StorageObjectRepositoryPostgres(
-            databaseClient,
-          ),
+          storageObjectRepository: storageObjectRepository,
           fs: fs,
           storageDirectoryPath: appFilePaths.storageDir,
           auditLogRepository: auditLogRepository,

@@ -14,7 +14,7 @@ dependencies:
   result:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
+      ref: cd3f5f87b427e0b82005524f26f9574a4997f080
       path: packages/result
   json_safe: ^0.0.2
 

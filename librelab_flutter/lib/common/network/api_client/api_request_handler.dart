@@ -38,7 +38,7 @@ abstract interface class ApiRequestHandler {
   ///
   /// await handler.execute(
   ///   () => client.endpoints.auth.login(...),
-  ///   mapSuccess: (dto) => mapDto(dto),
+  ///   mapSuccess: (response) => mapDto(response.body),
   ///   mapHttpError: (response) =>
   ///       response.body.code == 'INVALID_PASSWORD'
   ///           ? const InvalidPasswordFailure()
@@ -47,7 +47,7 @@ abstract interface class ApiRequestHandler {
   /// ```
   Future<ApiRequestResult<R>> execute<S, R>(
     Future<LibreLabApiResult<S>> Function() request, {
-    required R Function(S dto) mapSuccess,
+    required R Function(HttpResponse<S> response) mapSuccess,
     R? Function(HttpResponse<ServerErrorResponse> response)? mapHttpError,
   });
 }
@@ -57,14 +57,14 @@ class ApiRequestHandlerDefault({required final Logger _logger})
   @override
   Future<ApiRequestResult<R>> execute<S, R>(
     Future<LibreLabApiResult<S>> Function() request, {
-    required R Function(S success) mapSuccess,
+    required R Function(HttpResponse<S> response) mapSuccess,
     R? Function(HttpResponse<ServerErrorResponse> error)? mapHttpError,
   }) async {
     try {
       final response = await request();
       switch (response) {
         case HttpStatusSuccess(:final response):
-          return .success(mapSuccess(response.body));
+          return .success(mapSuccess(response));
         case HttpStatusError(:final response):
           final handled = mapHttpError?.call(response);
           if (handled != null) {

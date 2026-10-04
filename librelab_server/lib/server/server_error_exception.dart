@@ -1,5 +1,5 @@
+import 'package:http_status_code_enum/http_status_code_enum.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
-import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_server/utils/json_types.dart';
 import 'package:meta/meta.dart';
 

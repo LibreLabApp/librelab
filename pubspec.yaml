@@ -20,6 +20,7 @@ workspace:
   - packages/string_storage/string_storage_shared_preferences
   - packages/json_storage
   - packages/yaml_storage
+  - packages/http_status_code_enum
 
 dev_dependencies:
   lints: ^6.1.0

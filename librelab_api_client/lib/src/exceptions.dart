@@ -25,8 +25,8 @@ sealed class const AuthApiException() implements Exception {
 /// Refresh-token request reached the server but returned a non-2xx response.
 /// The request was made due to an expired access token.
 ///
-/// Note: [ServerErrorResponse.code] will be passed to [AuthErrorCodes.isInvalidRefreshToken],
-/// and if it returned `true`, [SessionExpiredException] will be thrown instead
+/// Note: if the value of [ServerErrorResponse.code] is [AuthErrorCodes.reAuthenticationRequired],
+/// [SessionExpiredException] will be thrown instead
 /// of this exception (even if non-2xx response).
 final class const RefreshTokenRequestException(
   final HttpResponse<ServerErrorResponse> response,

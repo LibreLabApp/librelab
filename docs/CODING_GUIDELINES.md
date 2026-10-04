@@ -77,7 +77,7 @@ Likewise, do not create generic directories such as `cubits/` merely because a f
 
 Page and flow directories such as `home/` and `initial_setup/` should contain code specific to those pages or flows. They should not become containers for independent features that happen to be used by them. Features such as `settings/`, `user/`, or `auth/` remain independent so they can be reused by different pages and flows without creating dependencies on those higher-level compositions.
 
-Consistency should be maintained where it reflects meaningful similarities between features, but structural consistency should not be pursued for its own sake.
+Consistency should be maintained where it reflects meaningful similarities between features, but structural consistency should not be pursued for its own sake. Do not apply architectural patterns by template. Introduce a component, layer, or directory when the feature's actual responsibilities and relationships justify it.
 
 ## Separate Request-Level and Endpoint-Specific Failures
 
@@ -107,16 +107,50 @@ class StorageObject({
   // ...
 }
 
-enum StorageObjectPurpose { labImage, unknown }
+enum StorageObjectPurpose {
+  labImage,
+
+  /// The server sent an enum that this client does not recognize.
+  unknown,
+}
 ```
 
 Use `unknown` as a fallback for unrecognized values. Do not treat it as a valid value when an operation requires a known enum value.
+
+> [!NOTE]
+> Using a distinct `unknown` value preserves the difference between a value that is present but not recognized by the client and an absent value.
+> Mapping an unrecognized enum value to `null` would make these two states indistinguishable.
 
 ## API Response Status Codes
 
 Prefer `200 OK` with an empty JSON object (`{}`) for endpoints that currently have no response data but may return data in the future.
 
 Use `204 No Content` for endpoints that are not expected to ever return a response body.
+
+## Keep the API Contract Limited to Shared Contracts
+
+The [`package:librelab_api_contract`] defines the parts of the API that form an explicit contract shared between the server and its clients. It is not a complete representation of everything exposed or returned by the server.
+
+Only define something in the API contract package when both sides need to share its definition or semantics. Server implementation details, client-specific behavior, and values that are not relied upon by both sides can remain in their respective packages.
+
+This applies to models, error codes, HTTP status codes, enums, constants, and other API-related definitions. A value being returned by the server does not by itself make it part of the contract. It becomes part of the shared contract when clients need to understand, parse, or depend on it explicitly.
+
+Keep the contract focused on meaningful shared boundaries rather than mirroring the entire server API surface.
+
+> [!TIP]
+> Changes outside the API contract are not considered contract-breaking changes, even though clients may still depend on undocumented server behavior accidentally. Such dependencies should be treated as client or server bugs rather than additions to the API contract.
+
+## Separate API Contract, Server, and Client Application Models
+
+Keep API contract models, server models, and client application models separate, even when they currently have identical fields.
+
+API contract models represent the wire format and compatibility requirements. Server models represent server-side domain state and behavior. Client application models represent application state and behavior.
+
+Do not reuse models across these layers merely because their current representations are identical. Each layer should evolve independently.
+
+For example, an API enum may contain `unknown` for backward-compatible deserialization of values introduced by newer servers (see also: [Forward-Compatible API Enums](#forward-compatible-api-enums)), while the server enum contains only supported values. The client application model may also contain `unknown` to represent unrecognized values in the UI. Likewise, server models may implement server-specific interfaces such as `Auditable`.
+
+Map between these representations at layer boundaries.
 
 [`Error`]: https://api.flutter.dev/flutter/dart-core/Error-class.html
 
@@ -125,3 +159,4 @@ Use `204 No Content` for endpoints that are not expected to ever return a respon
 [Unix philosophy]: https://en.wikipedia.org/wiki/Unix_philosophy
 
 [`package:librelab_api_client`]: ../librelab_api_client/
+[`package:librelab_api_contract`]: ../librelab_api_contract/

@@ -13,5 +13,5 @@ enum HttpStatusCode(final int value) {
   forbidden(403),
   notFound(404),
   contentTooLarge(413),
-  internalServerError(500);
+  internalServerError(500),
 }

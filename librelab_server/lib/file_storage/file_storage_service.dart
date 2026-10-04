@@ -8,6 +8,7 @@ import 'package:librelab_server/audit_log/audit_log_repository.dart';
 import 'package:librelab_server/database/database_client.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object_repository.dart';
+import 'package:librelab_shared/librelab_shared.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import 'package:uuid/uuid.dart';
@@ -22,7 +23,9 @@ class FileStorageService({
   final Directory _storageDirectory = _fs.directory(storageDirectoryPath);
 
   // Maximum allowed file size.
-  static const int _maxFileSizeBytes = 10 * 1024 * 1024; // 10 MiB
+  int _maxFileSizeBytes(StorageObjectPurpose purpose) => switch (purpose) {
+    .labImage => FileUploadLimits.maxImageSizeBytes,
+  };
 
   static const AuditEntityType _auditEntityType = .storageObject;
 
@@ -47,6 +50,20 @@ class FileStorageService({
     return .new(content: file.openRead());
   }
 
+  // TODO: Implement orphan cleanup for unreferenced storage objects.
+  //  Remove both the database record and physical filesystem file. Run as
+  //  independent storage maintenance, not as part of normal user actions.
+  //  For context:
+  //  Orphans may occur when a storage object is successfully created but the
+  //  subsequent operation that should reference it fails or is never performed,
+  //  including when clients use the REST API directly. They may also occur when
+  //  an existing reference is replaced with a newly created storage object,
+  //  leaving the previously referenced object unreferenced.
+
+  /// Creates a stored file and its [StorageObject] metadata.
+  ///
+  /// Throws [FileStorageFileTooLargeException] if the file exceeds the maximum
+  /// size allowed for its storage object purpose.
   Future<StorageObject> create({
     required String originalName,
     required String mimeType,
@@ -61,7 +78,11 @@ class FileStorageService({
     final file = _fileFor(storageKey: storageKey);
     await file.parent.create(recursive: true);
 
-    final storedFileInfo = await _writeFile(file, content: content);
+    final storedFileInfo = await _writeFile(
+      file,
+      content: content,
+      maxFileSizeBytes: _maxFileSizeBytes(purpose),
+    );
 
     try {
       return await _db.transaction((tx) async {
@@ -100,6 +121,9 @@ class FileStorageService({
   /// Updates a stored file and its [StorageObject] metadata.
   ///
   /// Returns `null` if the storage object does not exist.
+  ///
+  /// Throws [FileStorageFileTooLargeException] if the file exceeds the maximum
+  /// size allowed for its storage object purpose.
   Future<StorageObject?> update(
     String id, {
     required String originalName,
@@ -117,7 +141,11 @@ class FileStorageService({
     final newFile = _fileFor(storageKey: newStorageKey);
 
     await newFile.parent.create(recursive: true);
-    final storedFileInfo = await _writeFile(newFile, content: content);
+    final storedFileInfo = await _writeFile(
+      newFile,
+      content: content,
+      maxFileSizeBytes: _maxFileSizeBytes(oldStorageObject.purpose),
+    );
 
     try {
       final updatedStorageObject = await _db.transaction((tx) async {
@@ -219,9 +247,13 @@ class FileStorageService({
 
   /// Writes [content] to [file], calculating its size and SHA-256 checksum while
   /// writing, and returns the resulting metadata.
+  ///
+  /// Throws [FileStorageFileTooLargeException] if the content exceeds
+  /// [maxFileSizeBytes].
   Future<_StoredFileInfo> _writeFile(
     File file, {
     required Stream<List<int>> content,
+    required int maxFileSizeBytes,
   }) async {
     var sizeBytes = 0;
     final sink = file.openWrite();
@@ -233,10 +265,10 @@ class FileStorageService({
       await for (final chunk in content) {
         sizeBytes += chunk.length;
 
-        if (sizeBytes > _maxFileSizeBytes) {
+        if (sizeBytes > maxFileSizeBytes) {
           throw FileStorageFileTooLargeException(
             fileSizeBytes: sizeBytes,
-            maxSizeBytes: _maxFileSizeBytes,
+            maxSizeBytes: maxFileSizeBytes,
           );
         }
 

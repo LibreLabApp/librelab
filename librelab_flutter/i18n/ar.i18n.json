@@ -302,12 +302,14 @@
     "retry": "إعادة المحاولة",
     "filePicker": {
         "pickFailure": "تعذر اختيار الملف.",
+        "missingMimeType": "الملف المحدد لا يوفر نوع MIME.",
         "exceedsMaximumSize": "يتجاوز الملف المحدد الحد الأقصى المسموح به للحجم وهو $maxSize.",
         "readFailure": "تعذر قراءة الملف المحدد."
     },
     "imagePicker": {
         "changeImage": "تغيير الصورة",
-        "removeImage": "إزالة الصورة"
+        "removeImage": "إزالة الصورة",
+        "failedToLoadImage": "تعذر تحميل الصورة"
     },
     "loginIdentity": {},
     "homePage": {

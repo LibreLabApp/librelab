@@ -5,6 +5,11 @@ enum AuditAction { create, update, delete }
 
 enum AuditEntityType { labSettings, storageObject }
 
+/// Records data modifications to application entities.
+///
+/// Audit logs are limited to entity changes such as creation, updates, and
+/// deletion. General actions that do not modify entity data, such as login
+/// attempts, should be recorded separately.
 @immutable
 class const AuditLog({
   required final int id,

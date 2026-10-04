@@ -82,12 +82,15 @@ class const _Body() extends StatelessWidget {
             );
           }
 
+          final loginCubit = context.read<LoginCubit>();
+
           await context.read<LoginIdentityCubit>().completeLogin(
             serverBaseUrl: serverBaseUrl,
             labName: labName,
             user: loginSuccessResult.result.user,
             authSession: loginSuccessResult.result.authSession,
             persistAuthSession: loginSuccessResult.persistAuthSession,
+            resetTemporaryLoginState: loginCubit.reset,
           );
         },
         isFinishing: (context) {

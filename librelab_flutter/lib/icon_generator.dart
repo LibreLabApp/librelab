@@ -2,19 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:librelab_flutter/common/ui/widgets/librelab_icon.dart';
+import 'package:librelab_flutter/common/ui/widgets/librelab/librelab_icon.dart';
 import 'package:material_ui/material_ui.dart';
 
+/// A standalone tool for generating LibreLab icon assets.
+///
+/// This entry point is not used by the LibreLab application itself.
 void main() => runApp(const _MainApp());
 
 class const _MainApp() extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: _MainPage(),
-    );
-  }
+  Widget build(BuildContext context) =>
+      const MaterialApp(debugShowCheckedModeBanner: false, home: _MainPage());
 }
 
 class const _MainPage() extends StatefulWidget {
@@ -29,19 +28,12 @@ class _MainPageState extends State<_MainPage> {
 
   Future<void> _save() async {
     final boundary =
-        iconKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-
-    if (boundary == null) {
-      return;
-    }
+        iconKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
 
     final image = await boundary.toImage(pixelRatio: 2.0);
     final byteData = await image.toByteData(format: .png);
-    if (byteData == null) {
-      return;
-    }
 
-    final pngBytes = byteData.buffer.asUint8List();
+    final pngBytes = byteData!.buffer.asUint8List();
 
     final file = File('icon.png');
     await file.writeAsBytes(pngBytes);
@@ -92,7 +84,7 @@ class _MainPageState extends State<_MainPage> {
         child: RepaintBoundary(
           key: iconKey,
           child: FittedBox(
-            fit: BoxFit.cover,
+            fit: .cover,
             child: SizedBox(
               width: 512,
               height: 512,

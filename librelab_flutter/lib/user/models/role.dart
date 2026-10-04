@@ -9,7 +9,7 @@ enum Permission {
   backupRestore,
   labSettingsUpdate,
 
-  /// The server sent a permission that this client does not recognize.
+  /// The server sent an enum that this client does not recognize.
   unknown,
 }
 

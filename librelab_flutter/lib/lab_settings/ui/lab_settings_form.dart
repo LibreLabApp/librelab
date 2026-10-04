@@ -1,13 +1,14 @@
-import 'dart:typed_data';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_failures.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
+import 'package:librelab_flutter/common/ui/librelab/librelab_storage_image_provider.dart';
 import 'package:librelab_flutter/common/ui/widgets/button_loading_indicator.dart';
+import 'package:librelab_flutter/common/ui/widgets/cubit_effect_listener.dart';
 import 'package:librelab_flutter/common/ui/widgets/failure/api_request_failure_card.dart';
 import 'package:librelab_flutter/common/ui/widgets/failure/api_request_failure_view.dart';
 import 'package:librelab_flutter/common/ui/widgets/image_picker_field.dart';
 import 'package:librelab_flutter/common/ui/widgets/loading_message.dart';
+import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
 import 'package:librelab_flutter/lab_settings/cubit/lab_settings_cubit.dart';
 import 'package:librelab_flutter/lab_settings/models/lab_settings.dart';
 import 'package:material_ui/material_ui.dart';
@@ -26,7 +27,7 @@ class _LabSettingsFormState extends State<LabSettingsForm> {
   final _labNameController = TextEditingController();
   String? _fallbackCharacter;
 
-  Uint8List? _pickedImageBytes;
+  LabImageUpdate _labImageUpdate = const KeepLabImage();
 
   void fetch({required bool refresh}) =>
       context.read<LabSettingsCubit>().fetch(refresh: refresh);
@@ -60,7 +61,10 @@ class _LabSettingsFormState extends State<LabSettingsForm> {
       return;
     }
 
-    context.read<LabSettingsCubit>().update(labName: _labNameController.text);
+    context.read<LabSettingsCubit>().update(
+      labName: _labNameController.text,
+      labImageUpdate: _labImageUpdate,
+    );
   }
 
   void _updateFormFromSettings(LabSettings settings) {
@@ -78,114 +82,132 @@ class _LabSettingsFormState extends State<LabSettingsForm> {
       (LabSettingsCubit v) => v.state.fetchSettingsState,
     );
 
-    return _LabSettingsLoadedListener(
-      onSettingsLoaded: (settings) =>
-          setState(() => _updateFormFromSettings(settings)),
-      child: switch (fetchState) {
-        FetchSettingsInitial() => const SizedBox.shrink(),
-        FetchSettingsLoading() => Padding(
-          padding: const EdgeInsets.only(top: 92),
-          child: LoadingMessage(message: t.fetch.loadingMessage),
-        ),
-        FetchSettingsSuccess(:final settings) => Form(
-          key: _formKey,
-          autovalidateMode: .onUserInteraction,
-          child: Column(
-            children: [
-              // TODO: Upload the image to the server, and then load it
-              ImagePickerField(
-                fallbackCharacter: _fallbackCharacter ?? context.t.questionMark,
-                image: switch (_pickedImageBytes) {
-                  final bytes? => MemoryImage(bytes),
-                  null => null,
-                },
-                onImagePicked: (bytes) =>
-                    setState(() => _pickedImageBytes = bytes),
-                onImageRemoved: () => setState(() => _pickedImageBytes = null),
-                canEdit: widget._hasPermissionToUpdate,
-              ),
-              const SizedBox(height: 48),
-              _LabNameTextField(
-                readOnly: !widget._hasPermissionToUpdate,
-                controller: _labNameController,
-                onFieldSubmitted: (_) => _update(),
-                onChanged: (value) {
-                  final firstCharacter = value.characters.firstOrNull
-                      ?.toUpperCase();
+    return _LabSettingsEffectListener(
+      onLabImageUpdateReset: () =>
+          setState(() => _labImageUpdate = const KeepLabImage()),
+      child: _LabSettingsLoadedListener(
+        onSettingsLoaded: (settings) =>
+            setState(() => _updateFormFromSettings(settings)),
+        child: switch (fetchState) {
+          FetchSettingsInitial() => const SizedBox.shrink(),
+          FetchSettingsLoading() => Padding(
+            padding: const EdgeInsets.only(top: 92),
+            child: LoadingMessage(message: t.fetch.loadingMessage),
+          ),
+          FetchSettingsSuccess(:final settings) => Form(
+            key: _formKey,
+            autovalidateMode: .onUserInteraction,
+            child: Column(
+              children: [
+                ImagePickerField(
+                  fallbackCharacter:
+                      _fallbackCharacter ?? context.t.questionMark,
+                  image: switch (_labImageUpdate) {
+                    ReplaceLabImage(:final pickedImage) => MemoryImage(
+                      pickedImage.bytes,
+                    ),
+                    RemoveLabImage() => null,
+                    KeepLabImage() => switch (settings.labImageId) {
+                      final labImageId? => LibreLabStorageImage(
+                        storageObjectId: labImageId,
+                        updatedAt: settings.updatedAt,
+                        fileStorageRepository: context
+                            .read<FileStorageRepository>(),
+                      ),
+                      null => null,
+                    },
+                  },
+                  onImagePicked: (pickedImage) => setState(
+                    () => _labImageUpdate = ReplaceLabImage(pickedImage),
+                  ),
+                  onImageRemoved: () =>
+                      setState(() => _labImageUpdate = const RemoveLabImage()),
+                  canEdit: widget._hasPermissionToUpdate,
+                ),
+                const SizedBox(height: 48),
+                _LabNameTextField(
+                  readOnly: !widget._hasPermissionToUpdate,
+                  controller: _labNameController,
+                  onFieldSubmitted: (_) => _update(),
+                  onChanged: (value) {
+                    final firstCharacter = value.characters.firstOrNull
+                        ?.toUpperCase();
 
-                  if (_fallbackCharacter != firstCharacter) {
-                    setState(() => _fallbackCharacter = firstCharacter);
-                  }
-                },
-                labNameMissingWithoutUpdatePermission:
-                    !widget._hasPermissionToUpdate && settings.labName == null,
-              ),
-              const SizedBox(height: 24),
-              BlocSelector<LabSettingsCubit, LabSettingsState, bool>(
-                selector: (state) =>
-                    state.updateSettingsState is UpdateSettingsLoading,
-                builder: (context, isUpdating) {
-                  return Column(
-                    children: [
-                      if (widget._hasPermissionToUpdate)
+                    if (_fallbackCharacter != firstCharacter) {
+                      setState(() => _fallbackCharacter = firstCharacter);
+                    }
+                  },
+                  labNameMissingWithoutUpdatePermission:
+                      !widget._hasPermissionToUpdate &&
+                      settings.labName == null,
+                ),
+                const SizedBox(height: 24),
+                BlocSelector<LabSettingsCubit, LabSettingsState, bool>(
+                  selector: (state) =>
+                      state.updateSettingsState is UpdateSettingsLoading,
+                  builder: (context, isUpdating) {
+                    return Column(
+                      children: [
+                        if (widget._hasPermissionToUpdate)
+                          SizedBox(
+                            width: .infinity,
+                            height: 40,
+                            child: FilledButton(
+                              onPressed: isUpdating ? null : _update,
+                              child: isUpdating
+                                  ? const ButtonLoadingIndicator()
+                                  : Text(t.updateButton),
+                            ),
+                          ),
+                        const SizedBox(height: 8),
                         SizedBox(
                           width: .infinity,
                           height: 40,
-                          child: FilledButton(
-                            onPressed: isUpdating ? null : _update,
-                            child: isUpdating
-                                ? const ButtonLoadingIndicator()
-                                : Text(t.updateButton),
+                          child: OutlinedButton(
+                            onPressed: isUpdating
+                                ? null
+                                : () => fetch(refresh: true),
+                            child: Text(t.refreshButton),
                           ),
                         ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: .infinity,
-                        height: 40,
-                        child: OutlinedButton(
-                          onPressed: isUpdating
-                              ? null
-                              : () => fetch(refresh: true),
-                          child: Text(t.refreshButton),
-                        ),
+                      ],
+                    );
+                  },
+                ),
+                BlocSelector<
+                  LabSettingsCubit,
+                  LabSettingsState,
+                  ApiRequestFailure?
+                >(
+                  selector: (state) {
+                    final updateState = state.updateSettingsState;
+                    return updateState is UpdateSettingsFailure
+                        ? updateState.failure
+                        : null;
+                  },
+                  builder: (context, failure) {
+                    if (failure == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: ApiRequestFailureCard(
+                        title: t.updateFailureMessage,
+                        failure: failure,
                       ),
-                    ],
-                  );
-                },
-              ),
-              BlocSelector<
-                LabSettingsCubit,
-                LabSettingsState,
-                ApiRequestFailure?
-              >(
-                selector: (state) {
-                  final updateState = state.updateSettingsState;
-                  return updateState is UpdateSettingsFailure
-                      ? updateState.failure
-                      : null;
-                },
-                builder: (context, failure) {
-                  if (failure == null) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: ApiRequestFailureCard(
-                      title: t.updateFailureMessage,
-                      failure: failure,
-                    ),
-                  );
-                },
-              ),
-            ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        FetchSettingsFailure(:final failure) => ApiRequestFailureView(
-          title: t.fetch.failureTitle,
-          failure: failure,
-          onRetry: () => fetch(refresh: true),
-        ),
-      },
+          FetchSettingsFailure(:final failure) => ApiRequestFailureView(
+            title: t.fetch.failureTitle,
+            failure: failure,
+            onRetry: () => fetch(refresh: true),
+          ),
+        },
+      ),
     );
   }
 }
@@ -258,6 +280,29 @@ class const _LabSettingsLoadedListener({
         final success = state.fetchSettingsState as FetchSettingsSuccess;
 
         onSettingsLoaded(success.settings);
+      },
+      child: child,
+    );
+  }
+}
+
+/// Handles lab settings effects that require local form state updates.
+class const _LabSettingsEffectListener({
+  required final VoidCallback onLabImageUpdateReset,
+  required final Widget child,
+}) extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CubitEffectListener<
+      LabSettingsCubit,
+      LabSettingsState,
+      LabSettingsEffect
+    >(
+      listener: (context, effect) {
+        switch (effect) {
+          case ResetLabImageUpdate():
+            onLabImageUpdateReset();
+        }
       },
       child: child,
     );

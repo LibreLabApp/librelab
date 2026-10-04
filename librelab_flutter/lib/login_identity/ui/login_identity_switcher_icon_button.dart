@@ -50,7 +50,9 @@ class const LoginIdentitySwitcherIconButton({
           leadingIcon: const Icon(Icons.dns_outlined),
           menuChildren: filteredLoginIdentities.map((loginIdentity) {
             return MenuItemButton(
-              leadingIcon: _Icon(fullName: loginIdentity.user.fullName),
+              leadingIcon: _LoginIdentityIcon(
+                fullName: loginIdentity.user.fullName,
+              ),
               child: Text(loginIdentity.user.fullName),
               onPressed: () => context
                   .read<LoginIdentityCubit>()
@@ -63,7 +65,7 @@ class const LoginIdentitySwitcherIconButton({
       builder: (context, controller, child) => IconButton(
         onPressed: () =>
             controller.isOpen ? controller.close() : controller.open(),
-        icon: _Icon(
+        icon: _LoginIdentityIcon(
           fullName: selectedLoginIdentity.loginIdentity.user.fullName,
         ),
         tooltip: tooltip,
@@ -72,7 +74,8 @@ class const LoginIdentitySwitcherIconButton({
   }
 }
 
-class const _Icon({required final String fullName}) extends StatelessWidget {
+class const _LoginIdentityIcon({required final String fullName})
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;

@@ -310,12 +310,14 @@
   "retry": "Retry",
   "filePicker": {
     "pickFailure": "Failed to select the file.",
+    "missingMimeType": "The selected file does not provide a MIME type.",
     "exceedsMaximumSize": "The selected file exceeds the maximum allowed size of $maxSize.",
     "readFailure": "Failed to read the selected file."
   },
   "imagePicker": {
     "changeImage": "Change image",
-    "removeImage": "Remove image"
+    "removeImage": "Remove image",
+    "failedToLoadImage": "Unable to load image"
   },
   "homePage": {
     "destinations": {

@@ -68,6 +68,11 @@ RETURNING *
 }
 
 extension on _Row {
-  LabSettings _toDomain() =>
-      LabSettings(id: id, labName: labName, loginDisabled: loginDisabled);
+  LabSettings _toDomain() => LabSettings(
+    id: id,
+    labName: labName,
+    loginDisabled: loginDisabled,
+    labImageId: labImageId,
+    updatedAt: updatedAt,
+  );
 }

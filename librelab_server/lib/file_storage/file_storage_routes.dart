@@ -20,6 +20,12 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_multipart/shelf_multipart.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+// TODO: Consider moving some logic from FileStorageRoutes into FileStorageService.
+//  Review all route classes to ensure a clean boundary between HTTP/controller
+//  responsibilities and service responsibilities. Consider avoiding the "Routes"
+//  suffix for these HTTP-layer classes, and refactor route method names such as
+//  _getHandler.
+
 class FileStorageRoutes({
   required final AuthorizationService _authorization,
   required final FileStorageAuthorizationService _storageAuthorization,

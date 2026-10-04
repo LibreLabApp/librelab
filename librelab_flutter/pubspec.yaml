@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.9
+  cupertino_icons: ^2.0.0
   librelab_api_contract: ^0.0.1
   librelab_api_client: ^0.0.1
   librelab_shared: ^1.0.0
@@ -52,14 +52,15 @@ dependencies:
   api_client:
     git:
       url: https://github.com/EchoEllet/dart-packages.git
-      ref: c32c3eee45e7037641b32d609d4c5a29b0fa7e73
+      ref: cd3f5f87b427e0b82005524f26f9574a4997f080
       path: packages/api_client
   stepper_flow: ^0.0.1
   flex_color_picker: ^4.0.0
   image_picker: ^1.2.3
   lottie: ^3.3.3
   material_ui: ^1.0.0
-  confetti: ^0.8.0
+  confetti: ^0.8.0  
+  mime: ^2.1.0
 
 dev_dependencies:
   flutter_test:

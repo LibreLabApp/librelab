@@ -88,4 +88,7 @@ class LoginCubit({
         emit(.requestFailure(failure));
     }
   }
+
+  /// Resets state to its initial state.
+  void reset() => emit(const .initial());
 }

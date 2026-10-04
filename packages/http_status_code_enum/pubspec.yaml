@@ -1,0 +1,9 @@
+name: http_status_code_enum
+description: HTTP status codes represented as a Dart enum.
+version: 0.0.1
+publish_to: 'none'
+resolution: workspace
+topics: [http, network]
+
+environment:
+  sdk: ^3.13.0

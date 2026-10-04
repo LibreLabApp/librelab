@@ -5,6 +5,7 @@ import 'package:librelab_flutter/auth/auth_repository/auth_repository.dart';
 import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_handler.dart';
 import 'package:logging/logging.dart';
+import 'package:provider/single_child_widget.dart';
 
 /// Provides the dependencies required by the authentication feature.
 ///
@@ -12,11 +13,10 @@ import 'package:logging/logging.dart';
 /// in the widget tree.
 class const AuthDepsProvider({
   super.key,
-  required final Widget child,
   required final AuthRepository _authRepository,
-}) extends StatelessWidget {
+}) extends SingleChildStatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithChild(BuildContext context, Widget? child) {
     return MultiBlocProvider(
       providers: [
         RepositoryProvider.value(value: _authRepository),
@@ -28,7 +28,7 @@ class const AuthDepsProvider({
           ),
         ),
       ],
-      child: child,
+      child: child!,
     );
   }
 }

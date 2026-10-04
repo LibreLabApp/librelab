@@ -10,8 +10,8 @@ import 'package:meta/meta.dart';
 
 typedef OnAuthSessionRefreshed = Future<void> Function(AuthSession session);
 
-class AuthSessionManager(
-  final LibreLabApiClient _client, {
+class AuthSessionManager({
+  required final AuthEndpoints _authEndpoints,
   required final Logger? _logger,
   required final OnAuthSessionRefreshed? _onAuthSessionRefreshed,
 }) {
@@ -29,12 +29,38 @@ class AuthSessionManager(
     _authSession = session;
   }
 
+  /// Returns the authorization headers for [session].
+  ///
+  /// Returns the access token as a Bearer token for [AuthSessionMemory].
+  /// Returns `null` for [AuthSessionBrowserCookie] because the browser
+  /// automatically sends the authentication cookies with the request.
+  Map<String, String>? _authorizationHeaders(AuthSession session) {
+    return switch (session) {
+      AuthSessionMemory(:final accessToken) => {
+        ApiHttpHeaders.authorization:
+            '${ApiHttpHeaders.bearerPrefix}${accessToken.value}',
+      },
+      AuthSessionBrowserCookie() => null,
+    };
+  }
+
+  /// Whether an authentication error should trigger an automatic token refresh.
+  ///
+  /// - Browser clients: attempt one refresh because the browser may have
+  /// silently removed an expired HttpOnly access-token cookie while
+  /// the refresh-token cookie may still be valid.
+  ///
+  /// - Non-browser clients: explicitly send the access token in the
+  /// Authorization header, allowing the server to distinguish an
+  /// expired access token from a missing one.
+  bool _shouldAttemptTokenRefresh(String code) =>
+      code == AuthErrorCodes.accessTokenExpired ||
+      (kIsWeb && code == AuthErrorCodes.unauthenticated);
+
   Future<LibreLabApiResult<S>> requestAuthenticated<S>(
     HttpEndpoint endpoint, {
-    required Map<String, Iterable<String>>? queryParameters,
+    required AuthenticatedRequest<S> request,
     required Map<String, String>? headers,
-    required RequestBody? body,
-    required JsonResponseDeserializer<S> deserializeSuccess,
     required AuthSession? overrideAuthSession,
     @mustBeConst required bool enableAutoTokenRefresh,
   }) async {
@@ -44,30 +70,22 @@ class AuthSessionManager(
       throw StateError('Auth session is required to make this request.');
     }
 
+    final requestContext = AuthenticatedRequestContext(
+      authSession: session,
+      headers: {...?headers, ...?_authorizationHeaders(session)},
+    );
+
     if (session.isAccessTokenExpired() ?? false) {
       return _refreshSessionAndRequest(
+        endpoint,
         authSession: session,
-        endpoint: endpoint,
-        body: body,
+        request: request,
         headers: headers,
-        queryParameters: queryParameters,
-        deserializeSuccess: deserializeSuccess,
         enableAutoTokenRefresh: enableAutoTokenRefresh,
       );
     }
 
-    final result = await _client.request(
-      endpoint,
-      body: body,
-      queryParameters: queryParameters,
-      deserializeSuccess: deserializeSuccess,
-      headers: {
-        ...?headers,
-        if (session case AuthSessionMemory(:final accessToken))
-          ApiHttpHeaders.authorization:
-              '${ApiHttpHeaders.bearerPrefix}${accessToken.value}',
-      },
-    );
+    final result = await request(requestContext);
 
     switch (result) {
       case HttpStatusSuccess():
@@ -76,25 +94,12 @@ class AuthSessionManager(
       case HttpStatusError(:final response):
         final code = response.body.code;
 
-        // Web only: attempt one refresh because the browser may have
-        // silently removed an expired HttpOnly access-token cookie while
-        // the refresh-token cookie may still be valid.
-        //
-        // Non-browser clients explicitly send the access token in the
-        // Authorization header, allowing the server to distinguish an
-        // expired access token from a missing one.
-        final shouldAttemptTokenRefresh =
-            code == AuthErrorCodes.accessTokenExpired ||
-            (kIsWeb && code == AuthErrorCodes.unauthenticated);
-
-        if (shouldAttemptTokenRefresh) {
+        if (_shouldAttemptTokenRefresh(code)) {
           return _refreshSessionAndRequest(
+            endpoint,
             authSession: session,
-            endpoint: endpoint,
-            body: body,
+            request: request,
             headers: headers,
-            queryParameters: queryParameters,
-            deserializeSuccess: deserializeSuccess,
             enableAutoTokenRefresh: enableAutoTokenRefresh,
           );
         }
@@ -133,18 +138,16 @@ class AuthSessionManager(
   /// Refreshes the token and then sends the request.
   ///
   /// Must be called when the access token has expired. Part of [requestAuthenticated].
-  Future<LibreLabApiResult<S>> _refreshSessionAndRequest<S>({
+  Future<LibreLabApiResult<S>> _refreshSessionAndRequest<S>(
+    HttpEndpoint endpoint, {
+    required AuthenticatedRequest<S> request,
     required AuthSession authSession,
-    required HttpEndpoint endpoint,
-    required Map<String, Iterable<String>>? queryParameters,
     required Map<String, String>? headers,
-    required RequestBody? body,
-    required JsonResponseDeserializer<S> deserializeSuccess,
     required bool enableAutoTokenRefresh,
   }) async {
     if (!enableAutoTokenRefresh) {
       throw StateError(
-        'Access token is expired but enableAutoTokenRefresh = $enableAutoTokenRefresh',
+        'Access token is expired but enableAutoTokenRefresh is false',
       );
     }
 
@@ -159,10 +162,8 @@ class AuthSessionManager(
 
     return requestAuthenticated(
       endpoint,
-      body: body,
+      request: request,
       headers: headers,
-      queryParameters: queryParameters,
-      deserializeSuccess: deserializeSuccess,
       // Always uses the refreshed session for this request regardless
       // of the version check above (which affects future requests)
       overrideAuthSession: refreshedSession,
@@ -175,8 +176,9 @@ class AuthSessionManager(
   /// For [_refreshSessionDeduplicated]
   Future<AuthSession>? _refreshSessionFuture;
 
-  /// Handles deduplication automatically.
-  /// Concurrent calls share a single in-flight refresh.
+  /// Refreshes the given authentication session.
+  ///
+  /// Concurrent refresh requests share the same in-flight refresh operation.
   Future<AuthSession> _refreshSessionDeduplicated(
     AuthSession authSession,
   ) async {
@@ -245,10 +247,18 @@ class AuthSessionManager(
 
   Future<LibreLabApiResult<RefreshAuthResponse>> _refresh(
     String refreshToken,
-  ) => _client.endpoints.auth.refresh(
-    RefreshAuthRequest(refreshToken: refreshToken),
-  );
+  ) => _authEndpoints.refresh(RefreshAuthRequest(refreshToken: refreshToken));
 
   Future<LibreLabApiResult<void>> _refreshBrowser() =>
-      _client.endpoints.auth.browser.refresh();
+      _authEndpoints.browser.refresh();
 }
+
+typedef AuthenticatedRequest<T> = Future<LibreLabApiResult<T>> Function(
+  AuthenticatedRequestContext context,
+);
+
+@immutable
+class const AuthenticatedRequestContext({
+  required final AuthSession authSession,
+  required final Map<String, String> headers,
+});

@@ -15,6 +15,7 @@ dependencies:
   meta: ^1.18.0
   json_safe: ^0.0.2
   http_method_enum: ^0.0.2
+  http_status_code_enum: ^0.0.1
   collection: ^1.19.1
 
 dev_dependencies:

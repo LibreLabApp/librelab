@@ -10,6 +10,5 @@ PRODUCT_NAME = LibreLab
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = app.librelab.librelabFlutter
 
-// TODO: Update to reflect the open-source LICENSE
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 app.librelab. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 LibreLab contributors. All rights reserved.

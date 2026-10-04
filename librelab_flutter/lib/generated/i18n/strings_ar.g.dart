@@ -16,22 +16,22 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsAr({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.ar,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ),
 		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <ar>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	@override dynamic operator[](String key) => _meta.getTranslation(key) ?? super[key];
 
 	late final TranslationsAr _root = this; // ignore: unused_field
 
@@ -194,6 +194,7 @@ class _Translations$filePicker$ar extends Translations$filePicker$en {
 
 	// Translations
 	@override String get pickFailure => 'تعذر اختيار الملف.';
+	@override String get missingMimeType => 'الملف المحدد لا يوفر نوع MIME.';
 	@override String exceedsMaximumSize({required Object maxSize}) => 'يتجاوز الملف المحدد الحد الأقصى المسموح به للحجم وهو ${maxSize}.';
 	@override String get readFailure => 'تعذر قراءة الملف المحدد.';
 }
@@ -207,6 +208,7 @@ class _Translations$imagePicker$ar extends Translations$imagePicker$en {
 	// Translations
 	@override String get changeImage => 'تغيير الصورة';
 	@override String get removeImage => 'إزالة الصورة';
+	@override String get failedToLoadImage => 'تعذر تحميل الصورة';
 }
 
 // Path: homePage
@@ -1229,10 +1231,12 @@ extension on TranslationsAr {
 			'questionMark' => '؟',
 			'retry' => 'إعادة المحاولة',
 			'filePicker.pickFailure' => 'تعذر اختيار الملف.',
+			'filePicker.missingMimeType' => 'الملف المحدد لا يوفر نوع MIME.',
 			'filePicker.exceedsMaximumSize' => ({required Object maxSize}) => 'يتجاوز الملف المحدد الحد الأقصى المسموح به للحجم وهو ${maxSize}.',
 			'filePicker.readFailure' => 'تعذر قراءة الملف المحدد.',
 			'imagePicker.changeImage' => 'تغيير الصورة',
 			'imagePicker.removeImage' => 'إزالة الصورة',
+			'imagePicker.failedToLoadImage' => 'تعذر تحميل الصورة',
 			'homePage.destinations.settings.label' => 'الإعدادات',
 			'homePage.actions.switchUser.tooltip' => 'تبديل المستخدم',
 			'homePage.actions.logout.tooltip' => 'تسجيل الخروج',

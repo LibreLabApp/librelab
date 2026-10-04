@@ -1,4 +1,4 @@
-import 'package:librelab_server/utils/http_status_code.dart';
+import 'package:http_status_code_enum/http_status_code_enum.dart';
 import 'package:shelf/shelf.dart';
 
 /// CORS middleware for handling cross-origin browser requests.

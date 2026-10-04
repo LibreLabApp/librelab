@@ -5,7 +5,7 @@
 LibreLab icon files are generated from a Flutter widget:
 
 ```bash
-flutter run --target=lib/icon_main.dart
+flutter run --target=lib/icon_generator.dart
 ```
 
 Once saved, copy-paste the framed and unframed icon files to this directory.
@@ -80,5 +80,5 @@ Avoid using proprietary software if possible:
 - id="path37" />
 ```
 
-[`LibreLabIcon`]: ../../lib/common/ui/widgets/librelab_icon.dart
+[`LibreLabIcon`]: ../../lib/common/ui/widgets/librelab/librelab_icon.dart
 [`flutter_launcher_icons`]: https://pub.dev/packages/flutter_launcher_icons

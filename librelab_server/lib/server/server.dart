@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:http_status_code_enum/http_status_code_enum.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
+import 'package:librelab_server/file_storage/exceptions.dart';
 import 'package:librelab_server/server/cors_headers.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server_error_exception.dart';
-import 'package:librelab_server/utils/http_status_code.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/validation/id_validation.dart'
     show InvalidUuidException;
@@ -107,6 +108,10 @@ Handler _withErrorHandling(Handler innerHandler) {
       return _mapException(e);
     } on InvalidUuidException catch (e) {
       return _mapException(e);
+    } on StorageObjectNotFoundException catch (e) {
+      return _mapException(e);
+    } on InvalidStorageObjectPurposeException catch (e) {
+      return _mapException(e);
     } on Exception catch (e, stackTrace) {
       _logger.warning('Unhandled exception in request handler', e, stackTrace);
 
@@ -160,6 +165,28 @@ Response _mapException(Exception e) {
       ),
       .badRequest,
     ),
+    StorageObjectNotFoundException(:final id) => (
+      ServerErrorResponse(
+        message: 'The specified storage object does not exist: $id',
+        code: 'STORAGE_OBJECT_NOT_FOUND',
+      ),
+      .notFound,
+    ),
+    InvalidStorageObjectPurposeException(
+      :final id,
+      :final expected,
+      :final actual,
+    ) =>
+      (
+        ServerErrorResponse(
+          message:
+              'The storage object cannot be used for this purpose. '
+              'Expected $expected, but found $actual.',
+          code: 'INVALID_STORAGE_OBJECT_PURPOSE',
+          details: {'id': id, 'expected': expected.name, 'actual': actual.name},
+        ),
+        .badRequest,
+      ),
     Exception() => (
       ServerErrorResponse(
         message: 'INTERNAL_SERVER_ERROR',

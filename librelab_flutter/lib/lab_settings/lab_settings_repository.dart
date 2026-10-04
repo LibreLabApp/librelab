@@ -11,12 +11,21 @@ class LabSettingsRepository({
 
   Future<ApiRequestResult<LabSettings>> get() => _handler.execute(
     () => _endpoints.get(),
-    mapSuccess: (dto) => dto.toDomain(),
+    mapSuccess: (response) => response.body.toDomain(),
   );
 
-  Future<ApiRequestResult<LabSettings>> update({required String labName}) =>
-      _handler.execute(
-        () => _endpoints.update(.new(labName: labName, loginDisabled: null)),
-        mapSuccess: (dto) => dto.toDomain(),
-      );
+  Future<ApiRequestResult<LabSettings>> update({
+    required String labName,
+    required String? labImageId,
+  }) => _handler.execute(
+    () => _endpoints.update(
+      .new(
+        labName: labName,
+        labImageId: labImageId,
+        // TODO: Allow disabling login in UI
+        loginDisabled: null,
+      ),
+    ),
+    mapSuccess: (response) => response.body.toDomain(),
+  );
 }

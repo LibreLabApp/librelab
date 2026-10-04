@@ -20,6 +20,7 @@ import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/platform/platform_check_flatpak.dart';
 import 'package:librelab_flutter/common/ui/go_router_utils.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
+import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
 import 'package:librelab_flutter/home/home_page.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
@@ -161,29 +162,30 @@ void main() async {
   final systemAccentColor = await SystemAccentColor().getAccentColor();
 
   runApp(
-    TranslationProvider(
-      child: Provider<AppFilePaths>.value(
-        value: filePaths,
-        child: HttpClientDepsProvider(
+    MultiProvider(
+      providers: [
+        Provider<AppFilePaths>.value(value: filePaths),
+        HttpClientDepsProvider(
           httpClient: httpClient,
           httpApiClient: httpApiClient,
           libreLabApiClient: libreLabApiClient,
           apiRequestHandler: apiRequestHandler,
-          AuthDepsProvider(
-            authRepository: authRepository,
-            child: LoginIdentityDepsProvider(
-              loginIdentityCubit: loginIdentityCubit,
-              child: BlocProvider(
-                create: (context) =>
-                    AppSettingsCubit(settingsRepository, initial: settings),
-                child: MainApp(
-                  router: router,
-                  systemAccentColor: systemAccentColor,
-                ),
-              ),
-            ),
+        ),
+        AuthDepsProvider(authRepository: authRepository),
+        LoginIdentityDepsProvider(loginIdentityCubit: loginIdentityCubit),
+        BlocProvider<AppSettingsCubit>(
+          create: (context) =>
+              AppSettingsCubit(settingsRepository, initial: settings),
+        ),
+        RepositoryProvider<FileStorageRepository>(
+          create: (context) => FileStorageRepository(
+            fileStorageEndpoints: libreLabApiClient.endpoints.fileStorage,
+            handler: apiRequestHandler,
           ),
         ),
+      ],
+      child: TranslationProvider(
+        child: MainApp(router: router, systemAccentColor: systemAccentColor),
       ),
     ),
   );

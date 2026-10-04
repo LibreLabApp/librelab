@@ -4,6 +4,17 @@ import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 
 class FileStorageEndpoints(final LibreLabApiClient _client) {
+  // Returns the URL for accessing the file content of the storage object
+  /// identified by [storageObjectId].
+  Uri downloadUrl(String storageObjectId) => _client.endpointUrl(
+    ApiEndpointDefinitions.storage$GET(id: storageObjectId),
+  );
+
+  /// Returns the file content of the storage object identified by [id] as a
+  /// stream of bytes.
+  Future<LibreLabApiResult<Stream<List<int>>>> get(String id) => _client
+      .requestAuthenticatedStreamed(ApiEndpointDefinitions.storage$GET(id: id));
+
   Future<LibreLabApiResult<StorageObject>> upload({
     required MultipartFile file,
     required StorageObjectPurpose purpose,
@@ -27,12 +38,6 @@ class FileStorageEndpoints(final LibreLabApiClient _client) {
     );
   }
 
-  Future<LibreLabApiResult<void>> delete(String id) async =>
-      _client.requestAuthenticated(
-        ApiEndpointDefinitions.storage$DELETE(id: id),
-        deserializeSuccess: (_) => {},
-      );
-
   Future<LibreLabApiResult<StorageObject>> update({
     required String id,
     required MultipartFile file,
@@ -42,19 +47,9 @@ class FileStorageEndpoints(final LibreLabApiClient _client) {
     deserializeSuccess: (response) => .fromJson(response.body),
   );
 
-  // Returns the URL for accessing the file content of the storage object
-  /// identified by [storageObjectId].
-  Uri url(String storageObjectId) => _client.endpointUrl(
-    ApiEndpointDefinitions.storage$GET(id: storageObjectId),
-  );
-
-  // TODO: Implement GET when a streamed file response is needed (e.g., for
-  //  downloading backup files). This requires adding streamed request support to
-  //  both [LibreLabApiClient] and [HttpApiClient].
-  //  A starting point:
-  //
-  // Future<...<Stream<List<int>>>> get(String id) async =>
-  //     _client.requestAuthenticatedStreamed(
-  //       ApiEndpointDefinitions.storage$GET(id: id),
-  //     );
+  Future<LibreLabApiResult<void>> delete(String id) async =>
+      _client.requestAuthenticated(
+        ApiEndpointDefinitions.storage$DELETE(id: id),
+        deserializeSuccess: (_) {},
+      );
 }

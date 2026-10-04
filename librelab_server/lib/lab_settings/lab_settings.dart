@@ -9,9 +9,15 @@ class const LabSettings({
   required final int id, // Singleton
   required final String? labName,
   required final bool loginDisabled,
+  required final String? labImageId,
+  required final DateTime updatedAt,
 }) implements Auditable {
   @override
-  JsonMap toAuditJson() => {'labName': labName, 'loginDisabled': loginDisabled};
+  JsonMap toAuditJson() => {
+    'labName': labName,
+    'loginDisabled': loginDisabled,
+    'labImageId': labImageId,
+  };
 }
 
 @immutable
