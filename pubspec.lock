@@ -330,6 +330,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      sha256: "3eda3029d34ec9095a27a198ac9785630fe525c0eb6a49f3d575272f8e792ef0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.9.0"
   cupertino_http:
     dependency: transitive
     description:
@@ -548,6 +556,70 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.35"
+  flutter_secure_storage:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage
+      sha256: d4e1fb6b2cb524868929e78dc0282fa000554b22060fb53789dc481c9fc95bb8
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.2.0"
+  flutter_secure_storage_darwin:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_darwin
+      sha256: a031ceac9b070e62ef183cd7f7d1a8798ebde402d5049f0fe6eb3a51bd797a21
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.3"
+  flutter_secure_storage_linux:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux
+      sha256: caa75bd78f017422912e3a904933113b2428eb79f981ac37acd2dd2a700458ea
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
+  flutter_secure_storage_linux_portal:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux_portal
+      sha256: "4640b743cb7ce9ef7816ae2f83ccc78c1fe1f8a79fb4540cddb53bbe729a49cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
+  flutter_secure_storage_linux_secret_service:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux_secret_service
+      sha256: "2ef1ea8f76d95c660b432d0a919a531b57e6198a4840eac3a746d1b722872f4e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
+  flutter_secure_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_platform_interface
+      sha256: "64951127f001f546891c86f414972bf49ef2c4c8a4c92c65f5790cc0c9100045"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
+  flutter_secure_storage_web:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_web
+      sha256: "073a62b3aeb866ab4ce795f960413948e51e5a42a9b0c8333b6daf5bb3208a1c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
+  flutter_secure_storage_windows:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_windows
+      sha256: "471951813a97006d899db4948acc654a4f28c440083ea08178935ce20b173ec1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.2"
   flutter_test:
     dependency: transitive
     description: flutter
@@ -566,6 +638,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  freedesktop_secret:
+    dependency: transitive
+    description:
+      name: freedesktop_secret
+      sha256: a294ce7650c3d9c79e0ebd2c7cdfb80eb5abc93e47de085d841dc15a3b108e38
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   freezed:
     dependency: transitive
     description:
@@ -870,6 +950,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  linux_application_id:
+    dependency: transitive
+    description:
+      name: linux_application_id
+      sha256: "325827b93fec808cadf7308cd711f064f68569e1f030d1a9623b2afabaf19012"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   logging:
     dependency: transitive
     description:
@@ -1107,10 +1195,10 @@ packages:
     dependency: transitive
     description:
       name: postgres
-      sha256: dee84c58a69ea165c8a8daf7d755049f5868d4407062dde9305f914d2a33d0d3
+      sha256: "1094751245d832d958eb49ba4aed7030f93739c1386c7da65f36e01741e42157"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.18"
+    version: "3.5.19"
   provider:
     dependency: transitive
     description:
@@ -1661,6 +1749,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  xdg_secret_portal_store:
+    dependency: transitive
+    description:
+      name: xdg_secret_portal_store
+      sha256: f999c84da27f279c679269176560fcf493b1dbc9f31f5e343e8b177e444e5e76
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3"
+  xdg_secret_portal_store_default:
+    dependency: transitive
+    description:
+      name: xdg_secret_portal_store_default
+      sha256: "4a5fb171067a94872f9802a5c8513c97b38f183bdd904c76292c95be5316eda6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   xml:
     dependency: transitive
     description:

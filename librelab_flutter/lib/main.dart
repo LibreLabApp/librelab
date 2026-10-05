@@ -4,6 +4,7 @@ import 'package:api_client/api_client.dart';
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage_linux_portal/flutter_secure_storage_linux_portal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:json_storage/json_storage.dart';
 import 'package:librelab_api_client/librelab_api_client.dart';
@@ -62,6 +63,11 @@ void main() async {
       'Using org.freedesktop.portal.NetworkMonitor for connectivity status.',
     );
     ConnectivityPlusLinuxPortalPlugin.registerWith();
+
+    _logger.fine(
+      'Using org.freedesktop.portal.Secret for application-scoped secret encryption.',
+    );
+    FlutterSecureStorageLinuxPortal.registerWith();
   }
 
   final workingDirectory = kIsWeb
