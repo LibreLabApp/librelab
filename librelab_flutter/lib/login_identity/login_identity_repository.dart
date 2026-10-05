@@ -13,6 +13,12 @@ class LoginIdentityRepository({
 }) {
   LoginIdentities? _cached;
 
+  static const LoginIdentities _default = .new(
+    selectedLoginIdentityId: null,
+    servers: [],
+    list: [],
+  );
+
   Future<LoginIdentities> read() async {
     final cached = _cached;
     if (cached != null) {
@@ -21,9 +27,9 @@ class LoginIdentityRepository({
 
     final json = await _storage.read(_storageId);
 
-    final LoginIdentities loginIdentities = json == null
-        ? const .new(selectedLoginIdentityId: null, servers: [], list: [])
-        : .fromJson(json);
+    final LoginIdentities loginIdentities = json != null
+        ? .fromJson(json)
+        : _default;
 
     _cached = loginIdentities;
     return loginIdentities;
