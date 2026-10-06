@@ -43,7 +43,6 @@ dependencies:
   url_launcher: ^6.3.2
   shared_preferences: ^2.5.5
   path_provider: ^2.1.6
-  connectivity_plus_linux_portal: ^0.0.3
   http: ^1.6.0
   path: ^1.9.1
   cupertino_http: ^3.0.2

@@ -1,9 +1,9 @@
 import 'dart:io' show stderr, stdout;
 
 import 'package:api_client/api_client.dart';
-import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_secure_storage_linux_portal/flutter_secure_storage_linux_portal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:json_storage/json_storage.dart';
@@ -18,7 +18,8 @@ import 'package:librelab_flutter/common/network/api_client/api_request_handler.d
 import 'package:librelab_flutter/common/network/http_client_deps_provider.dart';
 import 'package:librelab_flutter/common/network/http_client_factory/http_client_factory.dart';
 import 'package:librelab_flutter/common/platform/platform_check.dart';
-import 'package:librelab_flutter/common/platform/platform_check_flatpak.dart';
+import 'package:librelab_flutter/common/secure_storage/freedesktop_secret_service_checker.dart';
+import 'package:librelab_flutter/common/secure_storage/secure_storage.dart';
 import 'package:librelab_flutter/common/ui/go_router_utils.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
@@ -58,18 +59,6 @@ void main() async {
     }
   });
 
-  if (isLinux && isFlatpak) {
-    _logger.fine(
-      'Using org.freedesktop.portal.NetworkMonitor for connectivity status.',
-    );
-    ConnectivityPlusLinuxPortalPlugin.registerWith();
-
-    _logger.fine(
-      'Using org.freedesktop.portal.Secret for application-scoped secret encryption.',
-    );
-    FlutterSecureStorageLinuxPortal.registerWith();
-  }
-
   final workingDirectory = kIsWeb
       ? null
       : await getApplicationSupportDirectory();
@@ -83,6 +72,35 @@ void main() async {
     storage: stringStorage,
     prettyJson: true,
     logger: Logger('$JsonStorage'),
+  );
+
+  final FreedesktopSecretServiceChecker freedesktopSecretServiceChecker =
+      FreedesktopSecretServiceCheckerImpl();
+
+  if (isLinux &&
+      !await freedesktopSecretServiceChecker.isSecretServiceAvailable() &&
+      await freedesktopSecretServiceChecker.isSecretPortalAvailable()) {
+    FlutterSecureStorageLinuxPortal.registerWith();
+    _logger.fine(
+      'Using org.freedesktop.portal.Secret for application-scoped secret encryption.',
+    );
+  }
+
+  final SecureStorage secureStorage = SecureStorageImpl(
+    freedesktopSecretServiceChecker: freedesktopSecretServiceChecker,
+    flutterSecureStorage:
+        // Data Protection Keychain requires Keychain Sharing, which requires
+        // app registration with Apple. The app is not registered yet.
+        //
+        // Once the app is registered, this can be removed to use the Data
+        // Protection Keychain.
+        //
+        // Details: https://pub.dev/packages/flutter_secure_storage#macos-keychain-sharing-requires-provisioning
+        isMacOS
+        ? const FlutterSecureStorage(
+            mOptions: MacOsOptions(usesDataProtectionKeychain: false),
+          )
+        : const FlutterSecureStorage(),
   );
 
   final settingsRepository = AppSettingsRepository(
