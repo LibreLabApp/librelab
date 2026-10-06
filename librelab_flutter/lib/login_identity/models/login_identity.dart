@@ -24,7 +24,7 @@ class const LoginIdentity({
   ///   - null when not found in either secure storage or file storage
   ///   - null when persisted with [persistAuthSession] set to `false`
   ///   - otherwise, stores the user's authentication tokens locally.
-  required final UserAuthTokens? authTokens,
+  required final AuthTokens? authTokens,
 
   /// Whether the authentication session should be persisted locally.
   ///
@@ -39,7 +39,7 @@ class const LoginIdentity({
   factory fromJson(JsonMap json) => _$LoginIdentityFromJson(json);
   JsonMap toJson() => _$LoginIdentityToJson(this);
 
-  LoginIdentity withAuthTokens(UserAuthTokens? authTokens) => .new(
+  LoginIdentity withAuthTokens(AuthTokens? authTokens) => .new(
     id: id,
     serverId: serverId,
     user: user,
@@ -50,14 +50,14 @@ class const LoginIdentity({
 
 @immutable
 @JsonSerializable()
-class const UserAuthTokens({
+class const AuthTokens({
   required final AuthToken accessToken,
   required final AuthToken refreshToken,
 }) {
-  factory fromJson(JsonMap json) => _$UserAuthTokensFromJson(json);
-  JsonMap toJson() => _$UserAuthTokensToJson(this);
+  factory fromJson(JsonMap json) => _$AuthTokensFromJson(json);
+  JsonMap toJson() => _$AuthTokensToJson(this);
 
-  static UserAuthTokens? fromAuthSession(AuthSession session) {
+  static AuthTokens? fromAuthSession(AuthSession session) {
     return switch (session) {
       AuthSessionMemory(:final accessToken, :final refreshToken) => .new(
         accessToken: .new(

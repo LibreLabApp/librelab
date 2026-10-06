@@ -13,7 +13,7 @@ LoginIdentity _$LoginIdentityFromJson(Map<String, dynamic> json) =>
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       authTokens: json['authTokens'] == null
           ? null
-          : UserAuthTokens.fromJson(json['authTokens'] as Map<String, dynamic>),
+          : AuthTokens.fromJson(json['authTokens'] as Map<String, dynamic>),
       persistAuthSession: json['persistAuthSession'] as bool,
     );
 
@@ -26,17 +26,14 @@ Map<String, dynamic> _$LoginIdentityToJson(LoginIdentity instance) =>
       'persistAuthSession': instance.persistAuthSession,
     };
 
-UserAuthTokens _$UserAuthTokensFromJson(Map<String, dynamic> json) =>
-    UserAuthTokens(
-      accessToken: AuthToken.fromJson(
-        json['accessToken'] as Map<String, dynamic>,
-      ),
-      refreshToken: AuthToken.fromJson(
-        json['refreshToken'] as Map<String, dynamic>,
-      ),
-    );
+AuthTokens _$AuthTokensFromJson(Map<String, dynamic> json) => AuthTokens(
+  accessToken: AuthToken.fromJson(json['accessToken'] as Map<String, dynamic>),
+  refreshToken: AuthToken.fromJson(
+    json['refreshToken'] as Map<String, dynamic>,
+  ),
+);
 
-Map<String, dynamic> _$UserAuthTokensToJson(UserAuthTokens instance) =>
+Map<String, dynamic> _$AuthTokensToJson(AuthTokens instance) =>
     <String, dynamic>{
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
