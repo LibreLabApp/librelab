@@ -1,14 +1,17 @@
 import 'package:json_safe/json_safe.dart';
 import 'package:librelab_flutter/common/secure_storage/secure_storage.dart';
-import 'package:librelab_flutter/login_identity/auth_secure_storage/auth_token_values.dart';
+import 'package:librelab_flutter/login_identity/models/login_identity.dart';
+
+/// Authentication tokens keyed by user ID.
+typedef AuthTokensByUserId = Map<String, AuthTokens>;
 
 /// Provides persistent secure storage for authentication token values.
 ///
 /// The map is keyed by user ID. Each entry contains the access and refresh
 /// token values for that user.
 abstract interface class AuthSecureStorage {
-  Future<Map<String, AuthTokenValues>?> read();
-  Future<void> write(Map<String, AuthTokenValues> tokens);
+  Future<AuthTokensByUserId?> read();
+  Future<void> write(AuthTokensByUserId tokens);
 }
 
 class AuthSecureStorageImpl({required final SecureStorage _secureStorage})
@@ -16,7 +19,7 @@ class AuthSecureStorageImpl({required final SecureStorage _secureStorage})
   static const _storageKey = 'auth_tokens';
 
   @override
-  Future<Map<String, AuthTokenValues>?> read() async {
+  Future<AuthTokensByUserId?> read() async {
     final value = await _secureStorage.read(_storageKey);
     if (value == null) {
       return null;
@@ -25,13 +28,13 @@ class AuthSecureStorageImpl({required final SecureStorage _secureStorage})
       value,
       (json) => json.map(
         (userId, value) =>
-            MapEntry(userId, AuthTokenValues.fromJson(value! as JsonMap)),
+            MapEntry(userId, AuthTokens.fromJson(value! as JsonMap)),
       ),
     );
   }
 
   @override
-  Future<void> write(Map<String, AuthTokenValues> tokens) async {
+  Future<void> write(AuthTokensByUserId tokens) async {
     await _secureStorage.write(
       _storageKey,
       jsonEncode(

@@ -27,10 +27,10 @@ import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
 import 'package:librelab_flutter/home/home_page.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
-import 'package:librelab_flutter/login_identity/auth_secure_storage/auth_secure_storage.dart';
 import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart';
 import 'package:librelab_flutter/login_identity/login_identity_deps_provider.dart';
-import 'package:librelab_flutter/login_identity/login_identity_repository.dart';
+import 'package:librelab_flutter/login_identity/login_identity_repository/auth_secure_storage.dart';
+import 'package:librelab_flutter/login_identity/login_identity_repository/login_identity_repository.dart';
 import 'package:librelab_flutter/login_identity/login_identity_service.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
@@ -135,7 +135,8 @@ void main() async {
   final libreLabApiClient = LibreLabApiClient(
     apiClient: httpApiClient,
     logger: Logger('LibreLabApiClient'),
-    // TODO: Handle AuthApiException (thrown by LibreLabApiClient.requestAuthenticated)
+    // TODO: Handle AuthApiException (thrown by LibreLabApiClient.requestAuthenticated) and
+    //  set reauthRequired to true when session is expired
     // TODO: Implement.
     onAuthSessionRefreshed: null,
   );
@@ -155,7 +156,7 @@ void main() async {
       loginIdentityRepository: LoginIdentityRepository(
         storage: jsonStorage,
         storageId: filePaths.loginIdentities,
-        authSecureStorage: AuthSecureStorageImpl(secureStorage: secureStorage),
+        secureStorage: AuthSecureStorageImpl(secureStorage: secureStorage),
         secureStorageAvailable: secureStorageAvailability.isAvailable,
       ),
     ),

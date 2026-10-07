@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:librelab_api_client/librelab_api_client.dart';
-import 'package:librelab_flutter/login_identity/login_identity_repository.dart';
+import 'package:librelab_flutter/login_identity/login_identity_repository/login_identity_repository.dart';
 import 'package:librelab_flutter/login_identity/models/login_identities.dart';
 import 'package:librelab_flutter/login_identity/models/login_identity.dart';
 import 'package:librelab_flutter/user/models/server.dart';
@@ -55,6 +55,7 @@ class LoginIdentityService({
       // persisted.
       authTokens: .fromAuthSession(authSession),
       persistAuthSession: persistAuthSession,
+      reauthRequired: false,
     );
 
     final otherLoginIdentities = loginIdentities.list.where(

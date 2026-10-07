@@ -15,6 +15,7 @@ LoginIdentity _$LoginIdentityFromJson(Map<String, dynamic> json) =>
           ? null
           : AuthTokens.fromJson(json['authTokens'] as Map<String, dynamic>),
       persistAuthSession: json['persistAuthSession'] as bool,
+      reauthRequired: json['reauthRequired'] as bool,
     );
 
 Map<String, dynamic> _$LoginIdentityToJson(LoginIdentity instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$LoginIdentityToJson(LoginIdentity instance) =>
       'user': instance.user,
       'authTokens': instance.authTokens,
       'persistAuthSession': instance.persistAuthSession,
+      'reauthRequired': instance.reauthRequired,
     };
 
 AuthTokens _$AuthTokensFromJson(Map<String, dynamic> json) => AuthTokens(

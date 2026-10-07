@@ -18,12 +18,12 @@ class const LoginIdentity({
   required final int serverId,
   required final User user,
 
-  /// - Always null on web (managed by browsers, HttpOnly cookies).
+  /// - Always null on web (authentication is managed by the browser through
+  ///   HttpOnly cookies).
+  /// - Null when persisted with [persistAuthSession] set to `false`.
   /// - On non-web platforms:
-  ///   - null when stored in the system secure storage
-  ///   - null when not found in either secure storage or file storage
-  ///   - null when persisted with [persistAuthSession] set to `false`
-  ///   - otherwise, stores the user's authentication tokens locally.
+  ///   - Tokens may be loaded from either system secure storage or plain file.
+  ///   - Null when not found in either secure storage or plain file.
   required final AuthTokens? authTokens,
 
   /// Whether the authentication session should be persisted locally.
@@ -35,6 +35,12 @@ class const LoginIdentity({
   /// browser. Users can use private, guest mode or incognito browsing for a temporary
   /// session.
   required final bool persistAuthSession,
+
+  /// Whether re-authentication is required before this identity can be used.
+  ///
+  /// A value of `true` indicates that the authentication session is no longer
+  /// available or valid and the user must log in again.
+  required final bool reauthRequired,
 }) {
   factory fromJson(JsonMap json) => _$LoginIdentityFromJson(json);
   JsonMap toJson() => _$LoginIdentityToJson(this);
@@ -45,6 +51,17 @@ class const LoginIdentity({
     user: user,
     authTokens: authTokens,
     persistAuthSession: persistAuthSession,
+    reauthRequired: reauthRequired,
+  );
+
+  // ignore: avoid_positional_boolean_parameters
+  LoginIdentity withReauthRequired(bool reauthRequired) => .new(
+    id: id,
+    serverId: serverId,
+    user: user,
+    authTokens: authTokens,
+    persistAuthSession: persistAuthSession,
+    reauthRequired: reauthRequired,
   );
 }
 
