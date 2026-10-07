@@ -84,7 +84,7 @@ void main() async {
           .hasSecretPortalWithoutSecretService) {
     FlutterSecureStorageLinuxPortal.registerWith();
     _logger.fine(
-      'Using XDG Secret Portal for application-scoped secret encryption.',
+      'Using XDG Secret Portal to provide the application-scoped encryption secret.',
     );
   }
 
