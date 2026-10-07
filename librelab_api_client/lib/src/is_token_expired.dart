@@ -5,7 +5,12 @@ DateTime _timeNowUTC() {
   return clock.now().toUtc();
 }
 
-/// Includes an optional [buffer] to catch tokens about to expire (in flight).
+/// Returns whether [expiresAt] has expired or is within [buffer] of expiring.
+///
+/// [expiresAt] must be a UTC [DateTime].
+///
+/// The [buffer] accounts for tokens that may expire while a request is in
+/// flight, such as due to network latency or server-side processing time.
 bool isTokenExpired(
   DateTime expiresAt, {
   Duration buffer = const Duration(seconds: 10),
