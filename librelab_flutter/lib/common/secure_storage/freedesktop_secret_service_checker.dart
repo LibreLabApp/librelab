@@ -2,6 +2,8 @@ import 'dart:async';
 
 // ignore: depend_on_referenced_packages
 import 'package:dbus/dbus.dart';
+// ignore: depend_on_referenced_packages
+import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 /// These services are commonly provided on Linux desktop systems and are used by
 /// applications for secure storage of sensitive data.
@@ -31,8 +33,8 @@ class FreedesktopSecretServiceCheckerImpl
     final dbusClient = await _dbusClientProvider();
     try {
       final results = await Future.wait([
-        dbusClient.nameHasOwner('org.freedesktop.secrets'),
-        dbusClient.nameHasOwner('org.freedesktop.portal.Secret'),
+        _isSecretServiceAvailable(dbusClient),
+        _isSecretPortalAvailable(dbusClient),
       ]);
 
       return {if (results[0]) .secretService, if (results[1]) .secretPortal};
@@ -40,6 +42,26 @@ class FreedesktopSecretServiceCheckerImpl
       if (_ownsClient) {
         await dbusClient.close();
       }
+    }
+  }
+
+  Future<bool> _isSecretServiceAvailable(DBusClient client) =>
+      client.nameHasOwner('org.freedesktop.secrets');
+
+  Future<bool> _isSecretPortalAvailable(DBusClient client) async {
+    if (!await client.nameHasOwner('org.freedesktop.portal.Desktop')) {
+      return false;
+    }
+
+    final portalClient = XdgDesktopPortalClient(bus: client);
+    try {
+      await portalClient.secret.getVersion();
+
+      return true;
+    } on DBusMethodResponseException {
+      return false;
+    } finally {
+      await portalClient.close();
     }
   }
 }
