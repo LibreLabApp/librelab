@@ -5,6 +5,8 @@ import 'package:librelab_flutter/auth/auth_repository/login_failures.dart';
 import 'package:librelab_flutter/auth/auth_repository/login_result.dart';
 import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart';
 import 'package:librelab_flutter/common/network/api_client/api_request_failures.dart';
+import 'package:librelab_flutter/common/secure_storage/secure_storage_availability_checker.dart'
+    show SecureStorageAvailability;
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/text_field_state.dart';
 import 'package:librelab_flutter/common/ui/widgets/alert_card.dart';
@@ -93,6 +95,22 @@ class _LoginFormSectionState extends State<LoginFormSection> {
 
               return Column(
                 children: [
+                  if (_persistAuthSession)
+                    Builder(
+                      builder: (context) {
+                        final availability = context
+                            .read<SecureStorageAvailability>();
+
+                        if (availability.isAvailable) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return const Padding(
+                          padding: EdgeInsets.only(bottom: 6),
+                          child: _SecureStorageUnsupportedWarning(),
+                        );
+                      },
+                    ),
                   _EmailAddressTextField(
                     controller: _emailState.controller,
                     focusNode: _emailState.focusNode,
@@ -429,6 +447,20 @@ class _LoginCredentialsGuideState extends State<_LoginCredentialsGuide> {
               : const SizedBox.shrink(),
         ),
       ],
+    );
+  }
+}
+
+class const _SecureStorageUnsupportedWarning() extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t.loginFormSection.secureStorageUnsupported;
+    return AlertCard(
+      type: .danger,
+      title: Text(t.title),
+      subtitle: Text(t.subtitle),
+      prefixIcon: null,
+      suffix: null,
     );
   }
 }

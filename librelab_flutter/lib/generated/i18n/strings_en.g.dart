@@ -243,6 +243,7 @@ class Translations$loginFormSection$en {
 
 	late final Translations$loginFormSection$loginSuccess$en loginSuccess = Translations$loginFormSection$loginSuccess$en.internal(_root);
 	late final Translations$loginFormSection$loginCredentialsGuide$en loginCredentialsGuide = Translations$loginFormSection$loginCredentialsGuide$en.internal(_root);
+	late final Translations$loginFormSection$secureStorageUnsupported$en secureStorageUnsupported = Translations$loginFormSection$secureStorageUnsupported$en.internal(_root);
 }
 
 // Path: labSettingsForm
@@ -630,6 +631,21 @@ class Translations$loginFormSection$loginCredentialsGuide$en {
 
 	/// en: 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.'
 	String get description => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.';
+}
+
+// Path: loginFormSection.secureStorageUnsupported
+class Translations$loginFormSection$secureStorageUnsupported$en {
+	Translations$loginFormSection$secureStorageUnsupported$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Security Warning'
+	String get title => 'Security Warning';
+
+	/// en: 'Secure storage is not supported on this operating system. Authentication data will be stored unencrypted in a local file. Be cautious about installed programs, physical theft of the device, and access by other users.'
+	String get subtitle => 'Secure storage is not supported on this operating system. Authentication data will be stored unencrypted in a local file. Be cautious about installed programs, physical theft of the device, and access by other users.';
 }
 
 // Path: labSettingsForm.labNameTextField
@@ -1606,6 +1622,8 @@ extension on Translations {
 			'loginFormSection.loginSuccess.logout' => 'Log out',
 			'loginFormSection.loginCredentialsGuide.label' => 'How to get login credentials',
 			'loginFormSection.loginCredentialsGuide.description' => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.',
+			'loginFormSection.secureStorageUnsupported.title' => 'Security Warning',
+			'loginFormSection.secureStorageUnsupported.subtitle' => 'Secure storage is not supported on this operating system. Authentication data will be stored unencrypted in a local file. Be cautious about installed programs, physical theft of the device, and access by other users.',
 			'labSettingsForm.labNameTextField.validationErrors.emptyInput' => 'A lab name is required',
 			'labSettingsForm.labNameTextField.label' => 'Lab name',
 			'labSettingsForm.labNameTextField.hint' => 'e.g., Central Diagnostic Laboratory',

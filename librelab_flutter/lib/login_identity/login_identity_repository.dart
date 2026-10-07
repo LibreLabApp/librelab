@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:json_storage/json_storage.dart';
+import 'package:librelab_flutter/login_identity/auth_secure_storage/auth_secure_storage.dart';
 import 'package:librelab_flutter/login_identity/models/login_identities.dart';
-
-// TODO: (AUTH) Store tokens on system secure storage when supported (non-browser platforms)
 
 /// Manages locally persisted users and their associated servers and
 /// authentication credentials. Does not perform authentication or manage
@@ -10,6 +9,9 @@ import 'package:librelab_flutter/login_identity/models/login_identities.dart';
 class LoginIdentityRepository({
   required final JsonStorage _storage,
   required final String _storageId,
+  // TODO: (AUTH) Store tokens on system secure storage when supported (non-browser platforms)
+  required final AuthSecureStorage _authSecureStorage,
+  required final bool _secureStorageAvailable,
 }) {
   LoginIdentities? _cached;
 

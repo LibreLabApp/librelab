@@ -20,12 +20,14 @@ import 'package:librelab_flutter/common/network/http_client_factory/http_client_
 import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/secure_storage/freedesktop_secret_service_checker.dart';
 import 'package:librelab_flutter/common/secure_storage/secure_storage.dart';
+import 'package:librelab_flutter/common/secure_storage/secure_storage_availability_checker.dart';
 import 'package:librelab_flutter/common/ui/go_router_utils.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
 import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
 import 'package:librelab_flutter/home/home_page.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
+import 'package:librelab_flutter/login_identity/auth_secure_storage/auth_secure_storage.dart';
 import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart';
 import 'package:librelab_flutter/login_identity/login_identity_deps_provider.dart';
 import 'package:librelab_flutter/login_identity/login_identity_repository.dart';
@@ -78,16 +80,29 @@ void main() async {
       FreedesktopSecretServiceCheckerImpl();
 
   if (isLinux &&
-      !await freedesktopSecretServiceChecker.isSecretServiceAvailable() &&
-      await freedesktopSecretServiceChecker.isSecretPortalAvailable()) {
+      (await freedesktopSecretServiceChecker.getAvailableServices())
+          .hasSecretPortalWithoutSecretService) {
     FlutterSecureStorageLinuxPortal.registerWith();
     _logger.fine(
       'Using org.freedesktop.portal.Secret for application-scoped secret encryption.',
     );
   }
 
+  final SecureStorageAvailabilityChecker secureStorageAvailabilityChecker =
+      SecureStorageAvailabilityCheckerImpl(
+        freedesktopSecretServiceChecker: freedesktopSecretServiceChecker,
+      );
+
+  final secureStorageAvailability = await secureStorageAvailabilityChecker
+      .getAvailability();
+  if (!secureStorageAvailability.isAvailable) {
+    _logger.warning(
+      'SECURITY WARNING: Secure storage is unavailable. Authentication tokens '
+      'will be stored in a plain text file unencrypted.',
+    );
+  }
+
   final SecureStorage secureStorage = SecureStorageImpl(
-    freedesktopSecretServiceChecker: freedesktopSecretServiceChecker,
     flutterSecureStorage:
         // Data Protection Keychain requires Keychain Sharing, which requires
         // app registration with Apple. The app is not registered yet.
@@ -140,6 +155,8 @@ void main() async {
       loginIdentityRepository: LoginIdentityRepository(
         storage: jsonStorage,
         storageId: filePaths.loginIdentities,
+        authSecureStorage: AuthSecureStorageImpl(secureStorage: secureStorage),
+        secureStorageAvailable: secureStorageAvailability.isAvailable,
       ),
     ),
     logger: Logger('LoginIdentityCubit'),
@@ -206,6 +223,10 @@ void main() async {
             fileStorageEndpoints: libreLabApiClient.endpoints.fileStorage,
             handler: apiRequestHandler,
           ),
+        ),
+        Provider<SecureStorageAvailability>.value(
+          // Resolved once at startup and remains unchanged for the application lifetime.
+          value: secureStorageAvailability,
         ),
       ],
       child: TranslationProvider(

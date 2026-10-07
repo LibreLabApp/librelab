@@ -169,6 +169,7 @@ class _Translations$loginFormSection$ar extends Translations$loginFormSection$en
 	@override String get requestFailureTitle => 'فشل تسجيل الدخول';
 	@override late final _Translations$loginFormSection$loginSuccess$ar loginSuccess = _Translations$loginFormSection$loginSuccess$ar._(_root);
 	@override late final _Translations$loginFormSection$loginCredentialsGuide$ar loginCredentialsGuide = _Translations$loginFormSection$loginCredentialsGuide$ar._(_root);
+	@override late final _Translations$loginFormSection$secureStorageUnsupported$ar secureStorageUnsupported = _Translations$loginFormSection$secureStorageUnsupported$ar._(_root);
 }
 
 // Path: labSettingsForm
@@ -450,6 +451,17 @@ class _Translations$loginFormSection$loginCredentialsGuide$ar extends Translatio
 	// Translations
 	@override String get label => 'كيفية الحصول على بيانات تسجيل الدخول';
 	@override String get description => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.';
+}
+
+// Path: loginFormSection.secureStorageUnsupported
+class _Translations$loginFormSection$secureStorageUnsupported$ar extends Translations$loginFormSection$secureStorageUnsupported$en {
+	_Translations$loginFormSection$secureStorageUnsupported$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تحذير أمني';
+	@override String get subtitle => 'التخزين الآمن غير مدعوم على نظام التشغيل هذا. سيتم تخزين بيانات المصادقة في ملف محلي دون تشفير. توخى الحذر من البرامج المثبتة، وسرقة الجهاز، ووصول المستخدمين الآخرين إلى الجهاز.';
 }
 
 // Path: labSettingsForm.labNameTextField
@@ -1219,6 +1231,8 @@ extension on TranslationsAr {
 			'loginFormSection.loginSuccess.logout' => 'تسجيل الخروج',
 			'loginFormSection.loginCredentialsGuide.label' => 'كيفية الحصول على بيانات تسجيل الدخول',
 			'loginFormSection.loginCredentialsGuide.description' => 'تواصل مع مسؤول الخادم للحصول على بيانات تسجيل الدخول. عند عدم وجود مستخدمين، يطلب الخادم من المسؤول إنشاء المستخدم الأول، الذي يمكنه بعد ذلك إنشاء مستخدمين آخرين.',
+			'loginFormSection.secureStorageUnsupported.title' => 'تحذير أمني',
+			'loginFormSection.secureStorageUnsupported.subtitle' => 'التخزين الآمن غير مدعوم على نظام التشغيل هذا. سيتم تخزين بيانات المصادقة في ملف محلي دون تشفير. توخى الحذر من البرامج المثبتة، وسرقة الجهاز، ووصول المستخدمين الآخرين إلى الجهاز.',
 			'labSettingsForm.labNameTextField.validationErrors.emptyInput' => 'اسم المختبر مطلوب',
 			'labSettingsForm.labNameTextField.label' => 'اسم المختبر',
 			'labSettingsForm.labNameTextField.hint' => 'مثال: مختبر التشخيص المركزي',

@@ -287,6 +287,10 @@
     "loginCredentialsGuide": {
       "label": "How to get login credentials",
       "description": "Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users."
+    },
+    "secureStorageUnsupported": {
+      "title": "Security Warning",
+      "subtitle": "Secure storage is not supported on this operating system. Authentication data will be stored unencrypted in a local file. Be cautious about installed programs, physical theft of the device, and access by other users."
     }
   },
   "labSettingsForm": {
