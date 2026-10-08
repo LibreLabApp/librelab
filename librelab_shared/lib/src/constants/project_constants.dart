@@ -13,6 +13,8 @@ abstract final class ProjectConstants {
   // Hardcoded in Info.plist (macOS and iOS platform runners)
   static const String mdnsServiceType = '_librelab._tcp';
 
+  static const String appleKeychainAppName = 'LibreLab';
+
   /// This is **only** needed in the server.
   static const int defaultApiPort = 45123;
 

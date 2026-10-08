@@ -103,7 +103,8 @@ void main() async {
   }
 
   final SecureStorage secureStorage = SecureStorageImpl(
-    flutterSecureStorage:
+    flutterSecureStorage: const FlutterSecureStorage(
+      mOptions: MacOsOptions(
         // Data Protection Keychain requires Keychain Sharing, which requires
         // app registration with Apple. The app is not registered yet.
         //
@@ -111,11 +112,11 @@ void main() async {
         // Protection Keychain.
         //
         // Details: https://pub.dev/packages/flutter_secure_storage#macos-keychain-sharing-requires-provisioning
-        isMacOS
-        ? const FlutterSecureStorage(
-            mOptions: MacOsOptions(usesDataProtectionKeychain: false),
-          )
-        : const FlutterSecureStorage(),
+        usesDataProtectionKeychain: false,
+        accountName: ProjectConstants.appleKeychainAppName,
+      ),
+      iOptions: IOSOptions(accountName: ProjectConstants.appleKeychainAppName),
+    ),
   );
 
   final settingsRepository = AppSettingsRepository(

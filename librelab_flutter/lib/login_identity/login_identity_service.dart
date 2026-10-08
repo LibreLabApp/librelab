@@ -322,6 +322,7 @@ class LoginIdentityService({
   ) {
     final userId = loginIdentity.user.id;
 
+    // TODO: (AUTH): When reauthRequired is true, redirect the user to the login page (without full initial setup flow)
     // TODO: (AUTH) When LoginIdentity.persistAuthSession is false, the auth tokens are
     //  not stored, so this is as intended and must be handled at runtime
     //  rather than treated as a programming bug.
