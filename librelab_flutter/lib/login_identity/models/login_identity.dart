@@ -63,6 +63,9 @@ class const LoginIdentity({
     persistAuthSession: persistAuthSession,
     reauthRequired: reauthRequired,
   );
+
+  LoginIdentity markReauthenticationRequired() =>
+      withAuthTokens(null).withReauthRequired(true);
 }
 
 @immutable

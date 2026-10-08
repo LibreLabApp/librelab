@@ -244,8 +244,10 @@
     "internalServer": "Internal server error occurred.",
     "malformedJson": "Received malformed data from server.",
     "jsonDeserialization": "Failed to parse server response.",
-    "unauthorized": "Authentication failed. Please sign in again.",
-    "accessForbidden": "Access denied."
+    "unauthorized": "Authentication failed. Please log in again.",
+    "accessForbidden": "Access denied.",
+    "sessionInvalidated": "Authentication session is no longer valid. Please log in again.",
+    "refreshAuthSession": "Failed to refresh the authentication session."
   },
   "loginFormSection": {
     "emailAddressTextField": {
@@ -267,9 +269,9 @@
         "hide": "Hide password"
       }
     },
-    "persistAuthSession": "Stay signed in",
+    "persistAuthSession": "Stay logged in",
     "browserGuestModeNotice": {
-      "text": "Not your device? Use Guest mode to sign in privately.",
+      "text": "Not your device? Use Guest mode to log in privately.",
       "learnMore": "Learn more about using Guest mode"
     },
     "loginButton": "Log in",
@@ -281,7 +283,7 @@
     "requestFailureTitle": "Login failed",
     "loginSuccess": {
       "title": "Login successful",
-      "subtitle": "Signed in as $fullName",
+      "subtitle": "Logged in as $fullName",
       "logout": "Log out"
     },
     "loginCredentialsGuide": {

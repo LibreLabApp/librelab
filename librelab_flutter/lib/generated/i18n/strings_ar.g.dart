@@ -151,6 +151,8 @@ class _Translations$apiRequestFailures$ar extends Translations$apiRequestFailure
 	@override String get jsonDeserialization => 'فشل تحليل استجابة الخادم.';
 	@override String get unauthorized => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.';
 	@override String get accessForbidden => 'تم رفض الوصول.';
+	@override String get sessionInvalidated => 'جلسة المصادقة لم تعد صالحة. يرجى تسجيل الدخول مرة أخرى.';
+	@override String get refreshAuthSession => 'تعذّر تحديث جلسة المصادقة.';
 }
 
 // Path: loginFormSection
@@ -1209,6 +1211,8 @@ extension on TranslationsAr {
 			'apiRequestFailures.jsonDeserialization' => 'فشل تحليل استجابة الخادم.',
 			'apiRequestFailures.unauthorized' => 'فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.',
 			'apiRequestFailures.accessForbidden' => 'تم رفض الوصول.',
+			'apiRequestFailures.sessionInvalidated' => 'جلسة المصادقة لم تعد صالحة. يرجى تسجيل الدخول مرة أخرى.',
+			'apiRequestFailures.refreshAuthSession' => 'تعذّر تحديث جلسة المصادقة.',
 			'loginFormSection.emailAddressTextField.validationErrors.emptyInput' => 'البريد الإلكتروني مطلوب',
 			'loginFormSection.emailAddressTextField.validationErrors.invalidEmailAddress' => 'يجب أن يكون بريدا إلكترونيا صالحا',
 			'loginFormSection.emailAddressTextField.label' => 'البريد الإلكتروني',

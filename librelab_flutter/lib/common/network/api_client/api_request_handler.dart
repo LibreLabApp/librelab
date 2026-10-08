@@ -18,6 +18,10 @@ import 'package:logging/logging.dart';
 /// server error.
 typedef ApiRequestResult<T> = Result<T, ApiRequestFailure>;
 
+typedef SessionInvalidatedCallback = Future<void> Function(
+  SessionInvalidatedException exception,
+);
+
 /// Handles common API request failures and maps successful responses to
 /// endpoint-specific outcomes.
 ///
@@ -50,6 +54,12 @@ abstract interface class ApiRequestHandler {
     required R Function(HttpResponse<S> response) mapSuccess,
     R? Function(HttpResponse<ServerErrorResponse> response)? mapHttpError,
   });
+
+  /// Sets the callback invoked when an authenticated API request determines that
+  /// the current session is no longer valid and reauthentication is required.
+  ///
+  /// This callback can only be set once.
+  void setOnSessionInvalidated(SessionInvalidatedCallback callback);
 }
 
 class ApiRequestHandlerDefault({required final Logger _logger})
@@ -60,6 +70,11 @@ class ApiRequestHandlerDefault({required final Logger _logger})
     required R Function(HttpResponse<S> response) mapSuccess,
     R? Function(HttpResponse<ServerErrorResponse> error)? mapHttpError,
   }) async {
+    final onSessionInvalidated = _onSessionInvalidated;
+    if (onSessionInvalidated == null) {
+      throw StateError('Session invalidation callback must be set.');
+    }
+
     try {
       final response = await request();
       switch (response) {
@@ -88,6 +103,21 @@ class ApiRequestHandlerDefault({required final Logger _logger})
         JsonDeserializationException(:final decodedJson, :final reason) =>
           JsonDeserializationFailure(decodedJson, reason),
       });
+    } on AuthApiException catch (e) {
+      switch (e) {
+        case RefreshTokenRequestException(:final response):
+          return .failure(
+            RefreshAuthSessionFailure(
+              response.statusCode,
+              response.body.message,
+            ),
+          );
+
+        case SessionInvalidatedException():
+          await onSessionInvalidated.call(e);
+
+          return .failure(const SessionInvalidatedFailure());
+      }
     } on Exception catch (e, stackTrace) {
       _logger.warning(
         'Caught an unhandled exception while sending an API request',
@@ -124,5 +154,16 @@ class ApiRequestHandlerDefault({required final Logger _logger})
       return InternalServerFailure(statusCode, response.body.message);
     }
     return UnhandledServerResponseFailure(statusCode, response.body.message);
+  }
+
+  SessionInvalidatedCallback? _onSessionInvalidated;
+
+  @override
+  void setOnSessionInvalidated(SessionInvalidatedCallback callback) {
+    if (_onSessionInvalidated != null) {
+      throw StateError('Session invalidation callback has already been set.');
+    }
+
+    _onSessionInvalidated = callback;
   }
 }

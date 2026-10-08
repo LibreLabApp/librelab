@@ -21,7 +21,6 @@ export 'endpoints/lab_settings_endpoints.dart';
 class LibreLabApiClient({
   required final HttpApiClient _apiClient,
   required final Logger? _logger,
-  required final OnAuthSessionRefreshed? _onAuthSessionRefreshed,
 }) {
   Uri? _baseUrl;
   Uri? get baseUrl => _baseUrl;
@@ -118,7 +117,13 @@ class LibreLabApiClient({
   late final _sessionManager = AuthSessionManager(
     authEndpoints: endpoints.auth,
     logger: _logger,
-    onAuthSessionRefreshed: _onAuthSessionRefreshed,
+    onAuthSessionRefreshed: (session) async {
+      final onAuthSessionRefreshed = _onAuthSessionRefreshed;
+      if (onAuthSessionRefreshed == null) {
+        throw StateError('Auth session refreshed callback must be set.');
+      }
+      return await onAuthSessionRefreshed(session);
+    },
   );
 
   AuthSession? get authSession => _sessionManager.authSession;
@@ -181,6 +186,20 @@ class LibreLabApiClient({
     overrideAuthSession: null, // Do not override
     enableAutoTokenRefresh: true,
   );
+
+  AuthSessionRefreshedCallback? _onAuthSessionRefreshed;
+
+  /// Sets the callback invoked when an authenticated API request refreshes the
+  /// authentication session.
+  ///
+  /// This callback can only be set once.
+  void setOnAuthSessionRefreshed(AuthSessionRefreshedCallback callback) {
+    if (_onAuthSessionRefreshed != null) {
+      throw StateError('Auth session refreshed callback has already been set.');
+    }
+
+    _onAuthSessionRefreshed = callback;
+  }
 }
 
 /// The result of a LibreLab API request.

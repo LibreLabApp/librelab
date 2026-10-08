@@ -72,3 +72,17 @@ final class const JsonDeserializationFailure(
 ) extends InvalidJsonFailure {
   this : super('Unexpected JSON structure: $reason\nData: $data');
 }
+
+final class const SessionInvalidatedFailure() extends ApiRequestFailure {
+  this : super('Auth session invalidated. Reauthentication is required.');
+}
+
+final class const RefreshAuthSessionFailure(
+  final int statusCode,
+  final String serverMessage,
+) extends ApiRequestFailure {
+  this
+    : super(
+        'Failed to refresh the authentication session ($statusCode): $serverMessage',
+      );
+}

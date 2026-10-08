@@ -9,24 +9,25 @@ import 'package:meta/meta.dart';
 
 /// For authenticated requests with automatic token refresh support.
 ///
-/// Used exclusively by [LibreLabApiClient.requestAuthenticated].
+/// Used exclusively by [LibreLabApiClient.requestAuthenticated] and
+/// [LibreLabApiClient.requestAuthenticatedStreamed].
 @immutable
 sealed class const AuthApiException() implements Exception {
   const factory refreshTokenRequest(
     HttpResponse<ServerErrorResponse> response,
   ) = RefreshTokenRequestException;
 
-  const factory sessionExpired(
+  const factory sessionInvalidated(
     AuthSession session,
     SessionInvalidationReason reason,
-  ) = SessionExpiredException;
+  ) = SessionInvalidatedException;
 }
 
 /// Refresh-token request reached the server but returned a non-2xx response.
 /// The request was made due to an expired access token.
 ///
 /// Note: if the value of [ServerErrorResponse.code] is [AuthErrorCodes.reAuthenticationRequired],
-/// [SessionExpiredException] will be thrown instead of this exception
+/// [SessionInvalidatedException] will be thrown instead of this exception
 /// (even if non-2xx response).
 final class const RefreshTokenRequestException(
   final HttpResponse<ServerErrorResponse> response,
@@ -38,12 +39,12 @@ final class const RefreshTokenRequestException(
 }
 
 /// The user was not found (probably deleted), or the session was revoked, or expired.
-final class const SessionExpiredException(
+final class const SessionInvalidatedException(
   final AuthSession session,
   final SessionInvalidationReason reason,
 ) extends AuthApiException {
   @override
   String toString() =>
-      'SessionExpiredException: Session has expired (re-authentication is required) for User "${session.userId}".\n'
+      'SessionInvalidatedException: Session has expired (re-authentication is required) for User "${session.userId}".\n'
       'Invalidation reason: $reason';
 }

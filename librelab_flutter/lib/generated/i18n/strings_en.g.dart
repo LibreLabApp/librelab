@@ -211,11 +211,17 @@ class Translations$apiRequestFailures$en {
 	/// en: 'Failed to parse server response.'
 	String get jsonDeserialization => 'Failed to parse server response.';
 
-	/// en: 'Authentication failed. Please sign in again.'
-	String get unauthorized => 'Authentication failed. Please sign in again.';
+	/// en: 'Authentication failed. Please log in again.'
+	String get unauthorized => 'Authentication failed. Please log in again.';
 
 	/// en: 'Access denied.'
 	String get accessForbidden => 'Access denied.';
+
+	/// en: 'Authentication session is no longer valid. Please log in again.'
+	String get sessionInvalidated => 'Authentication session is no longer valid. Please log in again.';
+
+	/// en: 'Failed to refresh the authentication session.'
+	String get refreshAuthSession => 'Failed to refresh the authentication session.';
 }
 
 // Path: loginFormSection
@@ -228,8 +234,8 @@ class Translations$loginFormSection$en {
 	late final Translations$loginFormSection$emailAddressTextField$en emailAddressTextField = Translations$loginFormSection$emailAddressTextField$en.internal(_root);
 	late final Translations$loginFormSection$passwordTextField$en passwordTextField = Translations$loginFormSection$passwordTextField$en.internal(_root);
 
-	/// en: 'Stay signed in'
-	String get persistAuthSession => 'Stay signed in';
+	/// en: 'Stay logged in'
+	String get persistAuthSession => 'Stay logged in';
 
 	late final Translations$loginFormSection$browserGuestModeNotice$en browserGuestModeNotice = Translations$loginFormSection$browserGuestModeNotice$en.internal(_root);
 
@@ -575,8 +581,8 @@ class Translations$loginFormSection$browserGuestModeNotice$en {
 
 	// Translations
 
-	/// en: 'Not your device? Use Guest mode to sign in privately.'
-	String get text => 'Not your device? Use Guest mode to sign in privately.';
+	/// en: 'Not your device? Use Guest mode to log in privately.'
+	String get text => 'Not your device? Use Guest mode to log in privately.';
 
 	/// en: 'Learn more about using Guest mode'
 	String get learnMore => 'Learn more about using Guest mode';
@@ -611,8 +617,8 @@ class Translations$loginFormSection$loginSuccess$en {
 	/// en: 'Login successful'
 	String get title => 'Login successful';
 
-	/// en: 'Signed in as $fullName'
-	String subtitle({required Object fullName}) => 'Signed in as ${fullName}';
+	/// en: 'Logged in as $fullName'
+	String subtitle({required Object fullName}) => 'Logged in as ${fullName}';
 
 	/// en: 'Log out'
 	String get logout => 'Log out';
@@ -1598,8 +1604,10 @@ extension on Translations {
 			'apiRequestFailures.internalServer' => 'Internal server error occurred.',
 			'apiRequestFailures.malformedJson' => 'Received malformed data from server.',
 			'apiRequestFailures.jsonDeserialization' => 'Failed to parse server response.',
-			'apiRequestFailures.unauthorized' => 'Authentication failed. Please sign in again.',
+			'apiRequestFailures.unauthorized' => 'Authentication failed. Please log in again.',
 			'apiRequestFailures.accessForbidden' => 'Access denied.',
+			'apiRequestFailures.sessionInvalidated' => 'Authentication session is no longer valid. Please log in again.',
+			'apiRequestFailures.refreshAuthSession' => 'Failed to refresh the authentication session.',
 			'loginFormSection.emailAddressTextField.validationErrors.emptyInput' => 'An email address is required',
 			'loginFormSection.emailAddressTextField.validationErrors.invalidEmailAddress' => 'Must be a valid email address',
 			'loginFormSection.emailAddressTextField.label' => 'Email address',
@@ -1609,8 +1617,8 @@ extension on Translations {
 			'loginFormSection.passwordTextField.label' => 'Password',
 			'loginFormSection.passwordTextField.visibility.show' => 'Show password',
 			'loginFormSection.passwordTextField.visibility.hide' => 'Hide password',
-			'loginFormSection.persistAuthSession' => 'Stay signed in',
-			'loginFormSection.browserGuestModeNotice.text' => 'Not your device? Use Guest mode to sign in privately.',
+			'loginFormSection.persistAuthSession' => 'Stay logged in',
+			'loginFormSection.browserGuestModeNotice.text' => 'Not your device? Use Guest mode to log in privately.',
 			'loginFormSection.browserGuestModeNotice.learnMore' => 'Learn more about using Guest mode',
 			'loginFormSection.loginButton' => 'Log in',
 			'loginFormSection.loginFailures.invalidCredentials' => 'Invalid email or password.',
@@ -1618,7 +1626,7 @@ extension on Translations {
 			'loginFormSection.loginFailures.invalidInput' => 'The login input is invalid.',
 			'loginFormSection.requestFailureTitle' => 'Login failed',
 			'loginFormSection.loginSuccess.title' => 'Login successful',
-			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'Signed in as ${fullName}',
+			'loginFormSection.loginSuccess.subtitle' => ({required Object fullName}) => 'Logged in as ${fullName}',
 			'loginFormSection.loginSuccess.logout' => 'Log out',
 			'loginFormSection.loginCredentialsGuide.label' => 'How to get login credentials',
 			'loginFormSection.loginCredentialsGuide.description' => 'Contact your server administrator to obtain login credentials. The server prompts the administrator to create the first user, who can then create other users.',

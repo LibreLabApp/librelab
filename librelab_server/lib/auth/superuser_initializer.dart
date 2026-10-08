@@ -55,7 +55,7 @@ Two types of users exist:
 Normal users can be created by a super user.
 
 After creating the super user, you may use those credentials
-to sign in to the desktop application.
+to log in to the desktop application.
 ----------------------------------------------------------------
 ''');
     final credentials = await _promptUserCredentials();

@@ -8,12 +8,14 @@ import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-typedef OnAuthSessionRefreshed = Future<void> Function(AuthSession session);
+typedef AuthSessionRefreshedCallback = Future<void> Function(
+  AuthSession session,
+);
 
 class AuthSessionManager({
   required final AuthEndpoints _authEndpoints,
   required final Logger? _logger,
-  required final OnAuthSessionRefreshed? _onAuthSessionRefreshed,
+  required final AuthSessionRefreshedCallback _onAuthSessionRefreshed,
 }) {
   AuthSession? _authSession;
   AuthSession? get authSession => _authSession;
@@ -105,7 +107,7 @@ class AuthSessionManager({
         }
 
         if (code == AuthErrorCodes.reAuthenticationRequired) {
-          throw AuthApiException.sessionExpired(
+          throw AuthApiException.sessionInvalidated(
             session,
             .serverDetermined(
               _reAuthenticationRequiredReason(response.body),
@@ -152,7 +154,7 @@ class AuthSessionManager({
     }
 
     if (authSession.isRefreshTokenExpired() ?? false) {
-      throw AuthApiException.sessionExpired(
+      throw AuthApiException.sessionInvalidated(
         authSession,
         const .expiredByLocalCheck(),
       );
@@ -202,7 +204,7 @@ class AuthSessionManager({
 
             if (versionBeforeRefresh == _sessionVersion) {
               _authSession = refreshedSession;
-              await _onAuthSessionRefreshed?.call(refreshedSession);
+              await _onAuthSessionRefreshed.call(refreshedSession);
             } else {
               _logger?.fine(
                 'Session version changed during refresh. Global auth session update skipped.\n'
@@ -232,7 +234,7 @@ class AuthSessionManager({
     final code = response.body.code;
 
     if (code == AuthErrorCodes.reAuthenticationRequired) {
-      throw AuthApiException.sessionExpired(
+      throw AuthApiException.sessionInvalidated(
         authSession,
         .serverDetermined(
           _reAuthenticationRequiredReason(response.body),

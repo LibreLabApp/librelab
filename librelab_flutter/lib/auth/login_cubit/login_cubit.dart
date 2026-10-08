@@ -76,8 +76,8 @@ class LoginCubit({
     switch (result) {
       case SuccessResult(value: final tokenRevoked):
         _logger.info(
-          'Successfully logged out user ${state.result.user.id}: '
-          '${tokenRevoked ? 'refresh token was found and revoked.' : 'refresh token was not found.'}',
+          'Successfully logged out user ${state.result.user.id}. '
+          '${tokenRevoked ? 'Refresh token was found and revoked.' : 'Refresh token was not found.'}',
         );
 
         _client.setAuthSession(null);

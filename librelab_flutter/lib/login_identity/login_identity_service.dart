@@ -201,6 +201,81 @@ class LoginIdentityService({
     return updated;
   }
 
+  /// Marks the login identity for [userId] as requiring reauthentication and
+  /// removes its authentication tokens.
+  ///
+  /// Throws [StateError] if [userId] does not resolve to exactly one login
+  /// identity.
+  Future<LoginIdentities> markReauthenticationRequired(String userId) async {
+    final loginIdentities = await _loginIdentityRepository.read();
+
+    final loginIdentity = loginIdentities.list.singleWhereOrNull(
+      (loginIdentity) => loginIdentity.user.id == userId,
+    );
+
+    if (loginIdentity == null) {
+      throw StateError(
+        'User $userId does not resolve to exactly one login identity.',
+      );
+    }
+
+    final updatedLoginIdentity = loginIdentity.markReauthenticationRequired();
+
+    final updated = loginIdentities.copyWith(
+      list: loginIdentities.list
+          .map(
+            (identity) => identity.id == loginIdentity.id
+                ? updatedLoginIdentity
+                : identity,
+          )
+          .toList(),
+    );
+
+    await _loginIdentityRepository.write(updated);
+
+    return updated;
+  }
+
+  /// Updates the authentication session for the login identity belonging to
+  /// [userId] and persists the updated authentication tokens.
+  ///
+  /// Throws [StateError] if [userId] does not resolve to exactly one login
+  /// identity.
+  Future<LoginIdentities> updateAuthSession(
+    String userId,
+    AuthSession authSession,
+  ) async {
+    final loginIdentities = await _loginIdentityRepository.read();
+
+    final loginIdentity = loginIdentities.list.singleWhereOrNull(
+      (loginIdentity) => loginIdentity.user.id == userId,
+    );
+
+    if (loginIdentity == null) {
+      throw StateError(
+        'User $userId does not resolve to exactly one login identity.',
+      );
+    }
+
+    final updatedLoginIdentity = loginIdentity.withAuthTokens(
+      .fromAuthSession(authSession),
+    );
+
+    final updated = loginIdentities.copyWith(
+      list: loginIdentities.list
+          .map(
+            (identity) => identity.id == loginIdentity.id
+                ? updatedLoginIdentity
+                : identity,
+          )
+          .toList(),
+    );
+
+    await _loginIdentityRepository.write(updated);
+
+    return updated;
+  }
+
   /// Returns all locally configured login identities and their associated servers.
   Future<LoginIdentities> read() async {
     return _loginIdentityRepository.read();
@@ -247,7 +322,7 @@ class LoginIdentityService({
   ) {
     final userId = loginIdentity.user.id;
 
-    // TODO: When LoginIdentity.persistAuthSession is false, the auth tokens are
+    // TODO: (AUTH) When LoginIdentity.persistAuthSession is false, the auth tokens are
     //  not stored, so this is as intended and must be handled at runtime
     //  rather than treated as a programming bug.
     final AuthSession authSession = kIsWeb

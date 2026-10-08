@@ -237,7 +237,9 @@
         "malformedJson": "تم استلام بيانات غير صالحة من الخادم.",
         "jsonDeserialization": "فشل تحليل استجابة الخادم.",
         "unauthorized": "فشل التحقق من الهوية. يرجى تسجيل الدخول مرة أخرى.",
-        "accessForbidden": "تم رفض الوصول."
+        "accessForbidden": "تم رفض الوصول.",
+        "sessionInvalidated": "جلسة المصادقة لم تعد صالحة. يرجى تسجيل الدخول مرة أخرى.",
+        "refreshAuthSession": "تعذّر تحديث جلسة المصادقة."
     },
     "loginFormSection": {
         "emailAddressTextField": {

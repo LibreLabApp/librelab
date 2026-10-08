@@ -48,6 +48,42 @@ class LoginIdentityCubit({
     }
   }
 
+  Future<void> markReauthenticationRequired(String userId) async {
+    try {
+      final updatedLoginIdentities = await _service
+          .markReauthenticationRequired(userId);
+
+      _emitSuccess(updatedLoginIdentities);
+    } on Exception catch (e, stackTrace) {
+      _logger.shout(
+        'Failed to mark login identity for user "$userId" as requiring reauthentication',
+        e,
+        stackTrace,
+      );
+
+      emit(state.copyWith(loadState: .failure(e)));
+    }
+  }
+
+  Future<void> updateAuthSession(String userId, AuthSession authSession) async {
+    try {
+      final updatedLoginIdentities = await _service.updateAuthSession(
+        userId,
+        authSession,
+      );
+
+      _emitSuccess(updatedLoginIdentities);
+    } on Exception catch (e, stackTrace) {
+      _logger.shout(
+        'Failed to update the authentication session for user "$userId"',
+        e,
+        stackTrace,
+      );
+
+      emit(state.copyWith(loadState: .failure(e)));
+    }
+  }
+
   /// Logs out the currently selected login identity.
   ///
   /// If [confirmLogout] is `false`, emits a confirmation-required effect instead
@@ -85,8 +121,8 @@ class LoginIdentityCubit({
         switch (requestResult) {
           case SuccessResult(value: final tokenRevoked):
             _logger.info(
-              'Successfully logged out user ${loginIdentity.user.id}: '
-              '${tokenRevoked ? 'refresh token was found and revoked.' : 'refresh token was not found.'}',
+              'Successfully logged out user ${loginIdentity.user.id}. '
+              '${tokenRevoked ? 'Refresh token was found and revoked.' : 'Refresh token was not found.'}',
             );
 
             try {

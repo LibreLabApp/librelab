@@ -74,7 +74,7 @@ class LoginIdentityRepository({
       final tokens = authTokens?[identity.user.id];
 
       if (tokens == null) {
-        return identity.withAuthTokens(null).withReauthRequired(true);
+        return identity.markReauthenticationRequired();
       }
 
       return identity.withAuthTokens(tokens);

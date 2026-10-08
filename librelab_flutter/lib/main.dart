@@ -135,10 +135,6 @@ void main() async {
   final libreLabApiClient = LibreLabApiClient(
     apiClient: httpApiClient,
     logger: Logger('LibreLabApiClient'),
-    // TODO: Handle AuthApiException (thrown by LibreLabApiClient.requestAuthenticated) and
-    //  set reauthRequired to true when session is expired
-    // TODO: Implement.
-    onAuthSessionRefreshed: null,
   );
 
   final apiRequestHandler = ApiRequestHandlerDefault(
@@ -167,6 +163,22 @@ void main() async {
   // TODO: Handle loading/parsing failure (since it loads a file from disk).
   //  it is currently only handled in initial setup page.
   await loginIdentityCubit.load();
+
+  libreLabApiClient.setOnAuthSessionRefreshed((session) async {
+    if (!_hasPersistedLoginIdentity(session.userId, loginIdentityCubit)) {
+      return;
+    }
+
+    await loginIdentityCubit.updateAuthSession(session.userId, session);
+  });
+
+  apiRequestHandler.setOnSessionInvalidated((e) async {
+    if (!_hasPersistedLoginIdentity(e.session.userId, loginIdentityCubit)) {
+      return;
+    }
+
+    await loginIdentityCubit.markReauthenticationRequired(e.session.userId);
+  });
 
   final router = GoRouter(
     navigatorKey: _navKey,
@@ -339,4 +351,23 @@ Future<void> _setLocale(AppLocale? locale) async {
     .en => .en,
     .ar => .ar,
   });
+}
+
+/// Whether a persisted login identity exists for [userId].
+///
+/// During initial setup, authentication may be required before the login
+/// identity is persisted. If this returns `false`, do not update the login
+/// identity for [userId].
+bool _hasPersistedLoginIdentity(
+  String userId,
+  LoginIdentityCubit loginIdentityCubit,
+) {
+  final loadState = loginIdentityCubit.state.loadState;
+  if (loadState is! LoadLoginIdentitiesSuccess) {
+    return false;
+  }
+
+  return loadState.loginIdentities.list.any(
+    (identity) => identity.user.id == userId,
+  );
 }

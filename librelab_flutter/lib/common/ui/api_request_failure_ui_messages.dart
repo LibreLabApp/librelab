@@ -15,6 +15,8 @@ extension ApiRequestFailureUiMessages on ApiRequestFailure {
       InternalServerFailure() => t.internalServer,
       MalformedJsonFailure() => t.malformedJson,
       JsonDeserializationFailure() => t.jsonDeserialization,
+      SessionInvalidatedFailure() => t.sessionInvalidated,
+      RefreshAuthSessionFailure() => t.refreshAuthSession,
     };
   }
 }
