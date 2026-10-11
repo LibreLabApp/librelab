@@ -32,6 +32,8 @@ import 'package:librelab_flutter/login_identity/login_identity_deps_provider.dar
 import 'package:librelab_flutter/login_identity/login_identity_repository/auth_secure_storage.dart';
 import 'package:librelab_flutter/login_identity/login_identity_repository/login_identity_repository.dart';
 import 'package:librelab_flutter/login_identity/login_identity_service.dart';
+import 'package:librelab_flutter/login_identity/ui/add_login_identity/add_login_identity_page.dart';
+import 'package:librelab_flutter/login_identity/ui/authentication_required_page.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
 import 'package:material_ui/material_ui.dart';
@@ -162,7 +164,7 @@ void main() async {
   );
 
   // TODO: Handle loading/parsing failure (since it loads a file from disk).
-  //  it is currently only handled in initial setup page.
+  //  it is currently only handled in add login identity flow (or initial setup page).
   await loginIdentityCubit.load();
 
   libreLabApiClient.setOnAuthSessionRefreshed((session) async {
@@ -192,24 +194,55 @@ void main() async {
         path: HomePage.routePath,
         builder: (context, state) => const HomePage(),
       ),
+      GoRoute(
+        path: AddLoginIdentityPage.routePath,
+        builder: (context, state) => const AddLoginIdentityPage(),
+      ),
+      GoRoute(
+        path: AuthenticationRequiredPage.routePath,
+        builder: (context, state) => const AuthenticationRequiredPage(),
+      ),
     ],
     refreshListenable: GoRouterRefreshStream([
       loginIdentityCubit.stream.distinct((previous, current) {
-        bool hasSelectedLoginIdentity(LoadLoginIdentitiesState state) =>
-            state is LoadLoginIdentitiesSuccess &&
-            state.selectedLoginIdentity != null;
+        (bool, bool) loginIdentityRouterState(LoadLoginIdentitiesState state) {
+          final loadState = state;
 
-        return hasSelectedLoginIdentity(previous.loadState) ==
-            hasSelectedLoginIdentity(current.loadState);
+          if (loadState is! LoadLoginIdentitiesSuccess) {
+            return (false, false);
+          }
+
+          final selectedIdentity = loadState.selectedLoginIdentity;
+
+          return (
+            selectedIdentity != null,
+            selectedIdentity?.loginIdentity.reauthRequired == true,
+          );
+        }
+
+        return loginIdentityRouterState(previous.loadState) ==
+            loginIdentityRouterState(current.loadState);
       }),
     ]),
     redirect: (context, state) {
+      if (state.matchedLocation == AddLoginIdentityPage.routePath) {
+        return null;
+      }
+
       final loginIdentityState = loginIdentityCubit.state.loadState;
 
-      if (loginIdentityState is LoadLoginIdentitiesSuccess &&
-          loginIdentityState.selectedLoginIdentity != null) {
-        return HomePage.routePath;
+      if (loginIdentityState is! LoadLoginIdentitiesSuccess) {
+        return null;
       }
+
+      final selectedLoginIdentity = loginIdentityState.selectedLoginIdentity;
+
+      if (selectedLoginIdentity != null) {
+        return selectedLoginIdentity.loginIdentity.reauthRequired
+            ? AuthenticationRequiredPage.routePath
+            : HomePage.routePath;
+      }
+
       return InitialSetupPage.routePath;
     },
   );
@@ -356,7 +389,7 @@ Future<void> _setLocale(AppLocale? locale) async {
 
 /// Whether a persisted login identity exists for [userId].
 ///
-/// During initial setup, authentication may be required before the login
+/// During the add login identity flow (or initial setup page), authentication may be required before the login
 /// identity is persisted. If this returns `false`, do not update the login
 /// identity for [userId].
 bool _hasPersistedLoginIdentity(

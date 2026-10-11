@@ -41,7 +41,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	late final Translations$initialSetupPage$en initialSetupPage = Translations$initialSetupPage$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$en addLoginIdentityFlow = Translations$addLoginIdentityFlow$en.internal(_root);
+	late final Translations$addLoginIdentityPage$en addLoginIdentityPage = Translations$addLoginIdentityPage$en.internal(_root);
 	late final Translations$confirmProgramExitDialog$en confirmProgramExitDialog = Translations$confirmProgramExitDialog$en.internal(_root);
 	late final Translations$serverCompatibility$en serverCompatibility = Translations$serverCompatibility$en.internal(_root);
 	late final Translations$serverSelection$en serverSelection = Translations$serverSelection$en.internal(_root);
@@ -61,22 +62,17 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$imagePicker$en imagePicker = Translations$imagePicker$en.internal(_root);
 	late final Translations$homePage$en homePage = Translations$homePage$en.internal(_root);
 	late final Translations$technicalFailureDetails$en technicalFailureDetails = Translations$technicalFailureDetails$en.internal(_root);
+	late final Translations$loginIdentitySelectorMenuAnchor$en loginIdentitySelectorMenuAnchor = Translations$loginIdentitySelectorMenuAnchor$en.internal(_root);
 }
 
-// Path: initialSetupPage
-class Translations$initialSetupPage$en {
-	Translations$initialSetupPage$en.internal(this._root);
+// Path: addLoginIdentityFlow
+class Translations$addLoginIdentityFlow$en {
+	Translations$addLoginIdentityFlow$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server selection, and account setup.
-	///
-	/// en: 'Initial Setup'
-	String get title => 'Initial Setup';
-
-	late final Translations$initialSetupPage$steps$en steps = Translations$initialSetupPage$steps$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$en steps = Translations$addLoginIdentityFlow$steps$en.internal(_root);
 
 	/// en: 'Next'
 	String get next => 'Next';
@@ -87,10 +83,23 @@ class Translations$initialSetupPage$en {
 	/// en: 'Finish'
 	String get finish => 'Finish';
 
-	/// en: 'Failed to complete setup.'
-	String get finishFailure => 'Failed to complete setup.';
+	/// en: 'Failed to complete the setup.'
+	String get finishFailure => 'Failed to complete the setup.';
 
-	late final Translations$initialSetupPage$decorativeAnimation$en decorativeAnimation = Translations$initialSetupPage$decorativeAnimation$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$finishSuccess$en finishSuccess = Translations$addLoginIdentityFlow$finishSuccess$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$decorativeAnimation$en decorativeAnimation = Translations$addLoginIdentityFlow$decorativeAnimation$en.internal(_root);
+}
+
+// Path: addLoginIdentityPage
+class Translations$addLoginIdentityPage$en {
+	Translations$addLoginIdentityPage$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Add account'
+	String get title => 'Add account';
 }
 
 // Path: confirmProgramExitDialog
@@ -340,33 +349,63 @@ class Translations$technicalFailureDetails$en {
 	late final Translations$technicalFailureDetails$dialog$en dialog = Translations$technicalFailureDetails$dialog$en.internal(_root);
 }
 
-// Path: initialSetupPage.steps
-class Translations$initialSetupPage$steps$en {
-	Translations$initialSetupPage$steps$en.internal(this._root);
+// Path: loginIdentitySelectorMenuAnchor
+class Translations$loginIdentitySelectorMenuAnchor$en {
+	Translations$loginIdentitySelectorMenuAnchor$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$preferences$en preferences = Translations$initialSetupPage$steps$preferences$en.internal(_root);
-	late final Translations$initialSetupPage$steps$serverSelection$en serverSelection = Translations$initialSetupPage$steps$serverSelection$en.internal(_root);
-	late final Translations$initialSetupPage$steps$login$en login = Translations$initialSetupPage$steps$login$en.internal(_root);
-	late final Translations$initialSetupPage$steps$complete$en complete = Translations$initialSetupPage$steps$complete$en.internal(_root);
+
+	/// en: 'Switch account'
+	String get tooltip => 'Switch account';
+
+	/// en: 'Add account'
+	String get addButton => 'Add account';
 }
 
-// Path: initialSetupPage.decorativeAnimation
-class Translations$initialSetupPage$decorativeAnimation$en {
-	Translations$initialSetupPage$decorativeAnimation$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps
+class Translations$addLoginIdentityFlow$steps$en {
+	Translations$addLoginIdentityFlow$steps$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$addLoginIdentityFlow$steps$preferences$en preferences = Translations$addLoginIdentityFlow$steps$preferences$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$serverSelection$en serverSelection = Translations$addLoginIdentityFlow$steps$serverSelection$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$login$en login = Translations$addLoginIdentityFlow$steps$login$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$complete$en complete = Translations$addLoginIdentityFlow$steps$complete$en.internal(_root);
+}
+
+// Path: addLoginIdentityFlow.finishSuccess
+class Translations$addLoginIdentityFlow$finishSuccess$en {
+	Translations$addLoginIdentityFlow$finishSuccess$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
 
-	/// Title shown in the decorative animation on the initial setup page, step-independent. Not shown in smaller screens.
+	/// en: 'Logged in as $name.'
+	String addedNewLoginIdentity({required Object name}) => 'Logged in as ${name}.';
+
+	/// en: 'Updated login for $name.'
+	String updatedExistingLoginIdentity({required Object name}) => 'Updated login for ${name}.';
+}
+
+// Path: addLoginIdentityFlow.decorativeAnimation
+class Translations$addLoginIdentityFlow$decorativeAnimation$en {
+	Translations$addLoginIdentityFlow$decorativeAnimation$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// Title shown in the decorative animation in the add login identity flow, step-independent. Not shown in smaller screens.
 	///
 	/// en: 'Almost there!'
 	String get title => 'Almost there!';
 
-	/// Subtitle shown in the decorative animation on the initial setup page. Not shown in smaller screens.
+	/// Subtitle shown in the decorative animation in the add login identity flow. Not shown in smaller screens.
 	///
 	/// en: 'Let's get everything set up for you'
 	String get subtitle => 'Let\'s get everything set up for you';
@@ -702,7 +741,6 @@ class Translations$homePage$actions$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$homePage$actions$switchUser$en switchUser = Translations$homePage$actions$switchUser$en.internal(_root);
 	late final Translations$homePage$actions$logout$en logout = Translations$homePage$actions$logout$en.internal(_root);
 }
 
@@ -721,60 +759,60 @@ class Translations$technicalFailureDetails$dialog$en {
 	String get description => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.';
 }
 
-// Path: initialSetupPage.steps.preferences
-class Translations$initialSetupPage$steps$preferences$en {
-	Translations$initialSetupPage$steps$preferences$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.preferences
+class Translations$addLoginIdentityFlow$steps$preferences$en {
+	Translations$addLoginIdentityFlow$steps$preferences$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$preferences$nav$en nav = Translations$initialSetupPage$steps$preferences$nav$en.internal(_root);
-	late final Translations$initialSetupPage$steps$preferences$content$en content = Translations$initialSetupPage$steps$preferences$content$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$preferences$nav$en nav = Translations$addLoginIdentityFlow$steps$preferences$nav$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$preferences$content$en content = Translations$addLoginIdentityFlow$steps$preferences$content$en.internal(_root);
 }
 
-// Path: initialSetupPage.steps.serverSelection
-class Translations$initialSetupPage$steps$serverSelection$en {
-	Translations$initialSetupPage$steps$serverSelection$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.serverSelection
+class Translations$addLoginIdentityFlow$steps$serverSelection$en {
+	Translations$addLoginIdentityFlow$steps$serverSelection$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$serverSelection$nav$en nav = Translations$initialSetupPage$steps$serverSelection$nav$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$serverSelection$nav$en nav = Translations$addLoginIdentityFlow$steps$serverSelection$nav$en.internal(_root);
 
 	/// en: 'Select a server and verify compatibility first.'
 	String get prerequisiteStepIncomplete => 'Select a server and verify compatibility first.';
 
-	late final Translations$initialSetupPage$steps$serverSelection$content$en content = Translations$initialSetupPage$steps$serverSelection$content$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$serverSelection$content$en content = Translations$addLoginIdentityFlow$steps$serverSelection$content$en.internal(_root);
 }
 
-// Path: initialSetupPage.steps.login
-class Translations$initialSetupPage$steps$login$en {
-	Translations$initialSetupPage$steps$login$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.login
+class Translations$addLoginIdentityFlow$steps$login$en {
+	Translations$addLoginIdentityFlow$steps$login$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$login$nav$en nav = Translations$initialSetupPage$steps$login$nav$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$login$nav$en nav = Translations$addLoginIdentityFlow$steps$login$nav$en.internal(_root);
 
 	/// en: 'Complete log in first'
 	String get prerequisiteStepIncomplete => 'Complete log in first';
 
-	late final Translations$initialSetupPage$steps$login$content$en content = Translations$initialSetupPage$steps$login$content$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$login$content$en content = Translations$addLoginIdentityFlow$steps$login$content$en.internal(_root);
 }
 
-// Path: initialSetupPage.steps.complete
-class Translations$initialSetupPage$steps$complete$en {
-	Translations$initialSetupPage$steps$complete$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.complete
+class Translations$addLoginIdentityFlow$steps$complete$en {
+	Translations$addLoginIdentityFlow$steps$complete$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final Translations$initialSetupPage$steps$complete$nav$en nav = Translations$initialSetupPage$steps$complete$nav$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$complete$nav$en nav = Translations$addLoginIdentityFlow$steps$complete$nav$en.internal(_root);
 
 	/// en: 'Lab name must be provided'
 	String get prerequisiteStepIncomplete => 'Lab name must be provided';
 
-	late final Translations$initialSetupPage$steps$complete$content$en content = Translations$initialSetupPage$steps$complete$content$en.internal(_root);
+	late final Translations$addLoginIdentityFlow$steps$complete$content$en content = Translations$addLoginIdentityFlow$steps$complete$content$en.internal(_root);
 }
 
 // Path: serverCompatibility.check.button
@@ -1032,18 +1070,6 @@ class Translations$homePage$destinations$settings$en {
 	String get label => 'Settings';
 }
 
-// Path: homePage.actions.switchUser
-class Translations$homePage$actions$switchUser$en {
-	Translations$homePage$actions$switchUser$en.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Switch user'
-	String get tooltip => 'Switch user';
-}
-
 // Path: homePage.actions.logout
 class Translations$homePage$actions$logout$en {
 	Translations$homePage$actions$logout$en.internal(this._root);
@@ -1061,9 +1087,9 @@ class Translations$homePage$actions$logout$en {
 	String get logoutFailure => 'Failed to logout.';
 }
 
-// Path: initialSetupPage.steps.preferences.nav
-class Translations$initialSetupPage$steps$preferences$nav$en {
-	Translations$initialSetupPage$steps$preferences$nav$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.preferences.nav
+class Translations$addLoginIdentityFlow$steps$preferences$nav$en {
+	Translations$addLoginIdentityFlow$steps$preferences$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1076,9 +1102,9 @@ class Translations$initialSetupPage$steps$preferences$nav$en {
 	String get subtitle => 'Choose your preferences';
 }
 
-// Path: initialSetupPage.steps.preferences.content
-class Translations$initialSetupPage$steps$preferences$content$en {
-	Translations$initialSetupPage$steps$preferences$content$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.preferences.content
+class Translations$addLoginIdentityFlow$steps$preferences$content$en {
+	Translations$addLoginIdentityFlow$steps$preferences$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1091,9 +1117,9 @@ class Translations$initialSetupPage$steps$preferences$content$en {
 	String get subtitle => 'Adjust theme, language and interface options';
 }
 
-// Path: initialSetupPage.steps.serverSelection.nav
-class Translations$initialSetupPage$steps$serverSelection$nav$en {
-	Translations$initialSetupPage$steps$serverSelection$nav$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.serverSelection.nav
+class Translations$addLoginIdentityFlow$steps$serverSelection$nav$en {
+	Translations$addLoginIdentityFlow$steps$serverSelection$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1106,9 +1132,9 @@ class Translations$initialSetupPage$steps$serverSelection$nav$en {
 	String get subtitle => 'Select the server';
 }
 
-// Path: initialSetupPage.steps.serverSelection.content
-class Translations$initialSetupPage$steps$serverSelection$content$en {
-	Translations$initialSetupPage$steps$serverSelection$content$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.serverSelection.content
+class Translations$addLoginIdentityFlow$steps$serverSelection$content$en {
+	Translations$addLoginIdentityFlow$steps$serverSelection$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1121,9 +1147,9 @@ class Translations$initialSetupPage$steps$serverSelection$content$en {
 	String get subtitle => 'Select a server to connect to and access your data';
 }
 
-// Path: initialSetupPage.steps.login.nav
-class Translations$initialSetupPage$steps$login$nav$en {
-	Translations$initialSetupPage$steps$login$nav$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.login.nav
+class Translations$addLoginIdentityFlow$steps$login$nav$en {
+	Translations$addLoginIdentityFlow$steps$login$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1136,9 +1162,9 @@ class Translations$initialSetupPage$steps$login$nav$en {
 	String get subtitle => 'Log in with your credentials';
 }
 
-// Path: initialSetupPage.steps.login.content
-class Translations$initialSetupPage$steps$login$content$en {
-	Translations$initialSetupPage$steps$login$content$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.login.content
+class Translations$addLoginIdentityFlow$steps$login$content$en {
+	Translations$addLoginIdentityFlow$steps$login$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1151,9 +1177,9 @@ class Translations$initialSetupPage$steps$login$content$en {
 	String get subtitle => 'Authenticate to access your account';
 }
 
-// Path: initialSetupPage.steps.complete.nav
-class Translations$initialSetupPage$steps$complete$nav$en {
-	Translations$initialSetupPage$steps$complete$nav$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.complete.nav
+class Translations$addLoginIdentityFlow$steps$complete$nav$en {
+	Translations$addLoginIdentityFlow$steps$complete$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1166,9 +1192,9 @@ class Translations$initialSetupPage$steps$complete$nav$en {
 	String get subtitle => 'Finish setup';
 }
 
-// Path: initialSetupPage.steps.complete.content
-class Translations$initialSetupPage$steps$complete$content$en {
-	Translations$initialSetupPage$steps$complete$content$en.internal(this._root);
+// Path: addLoginIdentityFlow.steps.complete.content
+class Translations$addLoginIdentityFlow$steps$complete$content$en {
+	Translations$addLoginIdentityFlow$steps$complete$content$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1486,32 +1512,34 @@ class Translations$homePage$actions$logout$confirmationDialog$loginDisabled$en {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
-			'initialSetupPage.title' => 'Initial Setup',
-			'initialSetupPage.steps.preferences.nav.title' => 'Preferences',
-			'initialSetupPage.steps.preferences.nav.subtitle' => 'Choose your preferences',
-			'initialSetupPage.steps.preferences.content.title' => 'Personalization',
-			'initialSetupPage.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
-			'initialSetupPage.steps.serverSelection.nav.title' => 'Server',
-			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'Select the server',
-			'initialSetupPage.steps.serverSelection.prerequisiteStepIncomplete' => 'Select a server and verify compatibility first.',
-			'initialSetupPage.steps.serverSelection.content.title' => 'Server Selection',
-			'initialSetupPage.steps.serverSelection.content.subtitle' => 'Select a server to connect to and access your data',
-			'initialSetupPage.steps.login.nav.title' => 'Log in',
-			'initialSetupPage.steps.login.nav.subtitle' => 'Log in with your credentials',
-			'initialSetupPage.steps.login.prerequisiteStepIncomplete' => 'Complete log in first',
-			'initialSetupPage.steps.login.content.title' => 'Authenticate',
-			'initialSetupPage.steps.login.content.subtitle' => 'Authenticate to access your account',
-			'initialSetupPage.steps.complete.nav.title' => 'Complete',
-			'initialSetupPage.steps.complete.nav.subtitle' => 'Finish setup',
-			'initialSetupPage.steps.complete.prerequisiteStepIncomplete' => 'Lab name must be provided',
-			'initialSetupPage.steps.complete.content.title' => 'Lab information',
-			'initialSetupPage.steps.complete.content.subtitle' => 'Complete your lab information to finish setup',
-			'initialSetupPage.next' => 'Next',
-			'initialSetupPage.back' => 'Back',
-			'initialSetupPage.finish' => 'Finish',
-			'initialSetupPage.finishFailure' => 'Failed to complete setup.',
-			'initialSetupPage.decorativeAnimation.title' => 'Almost there!',
-			'initialSetupPage.decorativeAnimation.subtitle' => 'Let\'s get everything set up for you',
+			'addLoginIdentityFlow.steps.preferences.nav.title' => 'Preferences',
+			'addLoginIdentityFlow.steps.preferences.nav.subtitle' => 'Choose your preferences',
+			'addLoginIdentityFlow.steps.preferences.content.title' => 'Personalization',
+			'addLoginIdentityFlow.steps.preferences.content.subtitle' => 'Adjust theme, language and interface options',
+			'addLoginIdentityFlow.steps.serverSelection.nav.title' => 'Server',
+			'addLoginIdentityFlow.steps.serverSelection.nav.subtitle' => 'Select the server',
+			'addLoginIdentityFlow.steps.serverSelection.prerequisiteStepIncomplete' => 'Select a server and verify compatibility first.',
+			'addLoginIdentityFlow.steps.serverSelection.content.title' => 'Server Selection',
+			'addLoginIdentityFlow.steps.serverSelection.content.subtitle' => 'Select a server to connect to and access your data',
+			'addLoginIdentityFlow.steps.login.nav.title' => 'Log in',
+			'addLoginIdentityFlow.steps.login.nav.subtitle' => 'Log in with your credentials',
+			'addLoginIdentityFlow.steps.login.prerequisiteStepIncomplete' => 'Complete log in first',
+			'addLoginIdentityFlow.steps.login.content.title' => 'Authenticate',
+			'addLoginIdentityFlow.steps.login.content.subtitle' => 'Authenticate to access your account',
+			'addLoginIdentityFlow.steps.complete.nav.title' => 'Complete',
+			'addLoginIdentityFlow.steps.complete.nav.subtitle' => 'Finish setup',
+			'addLoginIdentityFlow.steps.complete.prerequisiteStepIncomplete' => 'Lab name must be provided',
+			'addLoginIdentityFlow.steps.complete.content.title' => 'Lab information',
+			'addLoginIdentityFlow.steps.complete.content.subtitle' => 'Complete your lab information to finish setup',
+			'addLoginIdentityFlow.next' => 'Next',
+			'addLoginIdentityFlow.back' => 'Back',
+			'addLoginIdentityFlow.finish' => 'Finish',
+			'addLoginIdentityFlow.finishFailure' => 'Failed to complete the setup.',
+			'addLoginIdentityFlow.finishSuccess.addedNewLoginIdentity' => ({required Object name}) => 'Logged in as ${name}.',
+			'addLoginIdentityFlow.finishSuccess.updatedExistingLoginIdentity' => ({required Object name}) => 'Updated login for ${name}.',
+			'addLoginIdentityFlow.decorativeAnimation.title' => 'Almost there!',
+			'addLoginIdentityFlow.decorativeAnimation.subtitle' => 'Let\'s get everything set up for you',
+			'addLoginIdentityPage.title' => 'Add account',
 			'confirmProgramExitDialog.title' => 'Confirm Exit',
 			'confirmProgramExitDialog.message' => 'Are you sure you want to exit? Unsaved changes may be lost.',
 			'confirmProgramExitDialog.backupCheckbox' => 'Backup data before closing',
@@ -1651,7 +1679,6 @@ extension on Translations {
 			'imagePicker.removeImage' => 'Remove image',
 			'imagePicker.failedToLoadImage' => 'Unable to load image',
 			'homePage.destinations.settings.label' => 'Settings',
-			'homePage.actions.switchUser.tooltip' => 'Switch user',
 			'homePage.actions.logout.tooltip' => 'Log out',
 			'homePage.actions.logout.confirmationDialog.loginEnabled.title' => 'Log out',
 			'homePage.actions.logout.confirmationDialog.loginEnabled.subtitle' => 'Are you sure you want to log out?',
@@ -1665,6 +1692,8 @@ extension on Translations {
 			'technicalFailureDetails.showDialog' => 'Show error details',
 			'technicalFailureDetails.dialog.title' => 'Technical details',
 			'technicalFailureDetails.dialog.description' => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.',
+			'loginIdentitySelectorMenuAnchor.tooltip' => 'Switch account',
+			'loginIdentitySelectorMenuAnchor.addButton' => 'Add account',
 			_ => null,
 		};
 	}

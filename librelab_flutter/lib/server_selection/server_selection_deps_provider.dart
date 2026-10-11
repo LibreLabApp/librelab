@@ -8,31 +8,32 @@ import 'package:librelab_flutter/server_selection/local_network_discovery/mdns_s
 import 'package:librelab_flutter/server_selection/server_selection/cubit/server_selection_cubit.dart';
 import 'package:logging/logging.dart';
 import 'package:mdns_discovery/mdns_discovery.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 /// Provides the dependencies required by the server selection feature.
 ///
 /// Requires a [LibreLabApiClient] and a [ApiRequestHandler] to be available in the widget tree.
-class const ServerSelectionDepsProvider({
-  required final Widget child,
-  super.key,
-}) extends StatefulWidget {
+class const ServerSelectionDepsProvider({super.key})
+    extends SingleChildStatefulWidget {
   @override
   State<ServerSelectionDepsProvider> createState() =>
       _ServerSelectionDepsProviderState();
 }
 
 class _ServerSelectionDepsProviderState
-    extends State<ServerSelectionDepsProvider> {
+    extends SingleChildState<ServerSelectionDepsProvider> {
   late final Future<MdnsServiceDiscovery> _future;
 
   @override
   void initState() {
+    // TODO: Consider whether to call this in the application startup instead
     _future = resolveMdnsServiceDiscoveryImpl();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithChild(BuildContext context, Widget? child) {
     return FutureBuilder(
       future: _future,
       builder: (context, snapshot) {
@@ -40,7 +41,7 @@ class _ServerSelectionDepsProviderState
           return const SizedBox.shrink();
         }
         final discovery = snapshot.requireData;
-        return MultiBlocProvider(
+        return MultiProvider(
           providers: [
             RepositoryProvider(
               create: (context) => LocalDiscoveryRepository(
@@ -64,7 +65,7 @@ class _ServerSelectionDepsProviderState
               ),
             ),
           ],
-          child: widget.child,
+          child: child,
         );
       },
     );

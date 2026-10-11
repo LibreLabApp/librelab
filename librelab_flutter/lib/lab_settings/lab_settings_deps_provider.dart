@@ -5,6 +5,8 @@ import 'package:librelab_flutter/common/network/api_client/api_request_handler.d
 import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
 import 'package:librelab_flutter/lab_settings/cubit/lab_settings_cubit.dart';
 import 'package:librelab_flutter/lab_settings/lab_settings_repository.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 /// Provides the dependencies required by the lab settings feature.
 ///
@@ -13,11 +15,11 @@ import 'package:librelab_flutter/lab_settings/lab_settings_repository.dart';
 /// - [LibreLabApiClient]
 /// - [ApiRequestHandler]
 /// - [FileStorageRepository]
-class const LabSettingsDepsProvider({required final Widget child, super.key})
-    extends StatelessWidget {
+class const LabSettingsDepsProvider({super.key})
+    extends SingleChildStatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
+  Widget buildWithChild(BuildContext context, Widget? child) {
+    return MultiProvider(
       providers: [
         RepositoryProvider(
           create: (context) => LabSettingsRepository(

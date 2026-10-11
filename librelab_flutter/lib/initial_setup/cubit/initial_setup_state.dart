@@ -1,9 +1,0 @@
-part of 'initial_setup_cubit.dart';
-
-@immutable
-@freezed
-class const InitialSetupState({required final InitialSetupStep currentStep})
-    with _$InitialSetupState {
-  /// The initial state of the initial setup page
-  const new initial() : this(currentStep: .preferences);
-}

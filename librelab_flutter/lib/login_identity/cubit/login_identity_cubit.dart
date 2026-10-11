@@ -162,14 +162,12 @@ class LoginIdentityCubit({
     required User user,
     required AuthSession authSession,
     required bool persistAuthSession,
-
-    /// Resets the temporary login state after completing the login flow.
-    required void Function() resetTemporaryLoginState,
+    required void Function(CompleteLoginResult result) onCompleted,
   }) async {
     emit(state.copyWith(loadState: const .loading()));
 
     try {
-      final loginIdentities = await _service.completeLogin(
+      final result = await _service.completeLogin(
         serverBaseUrl: serverBaseUrl,
         labName: labName,
         user: user,
@@ -177,9 +175,9 @@ class LoginIdentityCubit({
         persistAuthSession: persistAuthSession,
       );
 
-      resetTemporaryLoginState();
+      onCompleted(result);
 
-      _emitSuccess(loginIdentities);
+      _emitSuccess(result.loginIdentities);
     } on Exception catch (e, stackTrace) {
       _logger.shout(
         'Failed to persist login of user "${user.id}" server "$serverBaseUrl"',

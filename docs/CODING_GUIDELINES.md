@@ -152,6 +152,12 @@ For example, an API enum may contain `unknown` for backward-compatible deseriali
 
 Map between these representations at layer boundaries.
 
+## Support Both LTR and RTL Layouts
+
+UI code should support both left-to-right (LTR) and right-to-left (RTL) layouts.
+
+Use directional APIs such as `EdgeInsetsDirectional`, `BorderRadiusDirectional`, and `AlignmentDirectional` when a value refers to the start or end of a layout. For spacing or positioning that only applies to the top or bottom, the non-directional APIs such as `EdgeInsets` are sufficient.
+
 [`Error`]: https://api.flutter.dev/flutter/dart-core/Error-class.html
 
 [`Exception`]: https://api.flutter.dev/flutter/dart-core/Exception-class.html

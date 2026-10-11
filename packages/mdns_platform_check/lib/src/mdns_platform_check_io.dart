@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:dbus/dbus.dart';
@@ -5,11 +6,16 @@ import 'package:is_ios_simulator/is_ios_simulator.dart';
 import 'package:mdns_platform_check/src/mdns_platform_check_android.g.dart';
 import 'package:win32/win32.dart' as win32;
 
-typedef DBusClientFactory = DBusClient Function();
+typedef DBusClientProvider = FutureOr<DBusClient> Function();
 
-class MdnsPlatformCheck({
-  final DBusClientFactory _dBusClientFactory = DBusClient.system,
-}) {
+class MdnsPlatformCheck {
+  new({DBusClientProvider? dbusClientProvider})
+    : _dbusClientProvider = dbusClientProvider ?? DBusClient.session,
+      _ownsClient = dbusClientProvider == null;
+
+  final DBusClientProvider _dbusClientProvider;
+  final bool _ownsClient;
+
   /// Detects whether the current platform exposes native APIs for mDNS service
   /// advertising and discovery.
   Future<bool> supportsPlatformApi() async {
@@ -40,14 +46,16 @@ class MdnsPlatformCheck({
   }
 
   Future<bool> _supportsAvahiViaDbus() async {
-    final client = _dBusClientFactory();
+    final client = await _dbusClientProvider();
 
     try {
       return await client.nameHasOwner('org.freedesktop.Avahi');
     } on DBusMethodResponseException {
       return false;
     } finally {
-      await client.close();
+      if (_ownsClient) {
+        await client.close();
+      }
     }
   }
 }

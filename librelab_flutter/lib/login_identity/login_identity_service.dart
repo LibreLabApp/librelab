@@ -16,30 +16,30 @@ class LoginIdentityService({
   /// Completes a login by creating or updating the login identity, selecting it,
   /// persisting it, and configuring the API client's active authentication session.
   /// Does not initiate authentication. The authentication result must be provided.
-  ///
-  /// Returns the updated [LoginIdentities].
-  Future<LoginIdentities> completeLogin({
+  Future<CompleteLoginResult> completeLogin({
     required Uri serverBaseUrl,
     required String labName,
     required User user,
     required AuthSession authSession,
     required bool persistAuthSession,
   }) async {
-    final loginIdentities = await _loginIdentityRepository.read();
+    final existingLoginIdentities = await _loginIdentityRepository.read();
 
-    final existingServer = loginIdentities.servers
+    final existingServer = existingLoginIdentities.servers
         .where((server) => server.apiBaseUrl == serverBaseUrl)
         .firstOrNull;
 
     final server =
         existingServer ??
         Server(
-          id: _nextId(loginIdentities.servers.map((server) => server.id)),
+          id: _nextId(
+            existingLoginIdentities.servers.map((server) => server.id),
+          ),
           apiBaseUrl: serverBaseUrl,
           name: labName,
         );
 
-    final existingLoginIdentity = loginIdentities.list
+    final existingLoginIdentity = existingLoginIdentities.list
         .where((loginIdentity) => loginIdentity.user.id == user.id)
         .firstOrNull;
 
@@ -47,7 +47,9 @@ class LoginIdentityService({
       id:
           existingLoginIdentity?.id ??
           _nextId(
-            loginIdentities.list.map((loginIdentity) => loginIdentity.id),
+            existingLoginIdentities.list.map(
+              (loginIdentity) => loginIdentity.id,
+            ),
           ),
       serverId: server.id,
       user: user,
@@ -58,21 +60,28 @@ class LoginIdentityService({
       reauthRequired: false,
     );
 
-    final otherLoginIdentities = loginIdentities.list.where(
+    final otherLoginIdentities = existingLoginIdentities.list.where(
       (existing) => existing.id != loginIdentity.id,
     );
 
-    final updated = loginIdentities.copyWith(
-      servers: [...loginIdentities.servers, if (existingServer == null) server],
+    final updatedLoginIdentities = existingLoginIdentities.copyWith(
+      servers: [
+        ...existingLoginIdentities.servers,
+        if (existingServer == null) server,
+      ],
       list: [...otherLoginIdentities, loginIdentity],
       selectedLoginIdentityId: loginIdentity.id,
     );
 
-    await _loginIdentityRepository.write(updated);
+    await _loginIdentityRepository.write(updatedLoginIdentities);
 
     _configureClient(serverBaseUrl, authSession);
 
-    return updated;
+    return .new(
+      loginIdentities: updatedLoginIdentities,
+      loginIdentity: loginIdentity,
+      isNew: existingLoginIdentity == null,
+    );
   }
 
   /// Returns the currently selected login identity and its associated server.
@@ -123,9 +132,9 @@ class LoginIdentityService({
   ///
   /// Returns the updated [LoginIdentities].
   Future<LoginIdentities> selectLoginIdentity(int loginIdentityId) async {
-    final loginIdentities = await _loginIdentityRepository.read();
+    final existingLoginIdentities = await _loginIdentityRepository.read();
 
-    final loginIdentity = loginIdentities.list.singleWhereOrNull(
+    final loginIdentity = existingLoginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.id == loginIdentityId,
     );
 
@@ -136,7 +145,7 @@ class LoginIdentityService({
       );
     }
 
-    final server = loginIdentities.servers.singleWhereOrNull(
+    final server = existingLoginIdentities.servers.singleWhereOrNull(
       (server) => server.id == loginIdentity.serverId,
     );
 
@@ -147,15 +156,15 @@ class LoginIdentityService({
       );
     }
 
-    final updated = loginIdentities.copyWith(
+    final updatedLoginIdentities = existingLoginIdentities.copyWith(
       selectedLoginIdentityId: loginIdentity.id,
     );
 
-    await _loginIdentityRepository.write(updated);
+    await _loginIdentityRepository.write(updatedLoginIdentities);
 
     _configureClientFromLoginIdentity(loginIdentity, server);
 
-    return updated;
+    return updatedLoginIdentities;
   }
 
   /// Removes the login identity with [loginIdentityId] and updates the selected
@@ -169,9 +178,9 @@ class LoginIdentityService({
   ///
   /// Returns the updated [LoginIdentities].
   Future<LoginIdentities> removeLoginIdentity(int loginIdentityId) async {
-    final loginIdentities = await _loginIdentityRepository.read();
+    final existingLoginIdentities = await _loginIdentityRepository.read();
 
-    final loginIdentity = loginIdentities.list.singleWhereOrNull(
+    final loginIdentity = existingLoginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.id == loginIdentityId,
     );
 
@@ -182,23 +191,23 @@ class LoginIdentityService({
       );
     }
 
-    final remainingLoginIdentities = loginIdentities.list
+    final remainingLoginIdentities = existingLoginIdentities.list
         .where((loginIdentity) => loginIdentity.id != loginIdentityId)
         .toList();
 
     final selectedLoginIdentityId =
-        loginIdentities.selectedLoginIdentityId == loginIdentityId
+        existingLoginIdentities.selectedLoginIdentityId == loginIdentityId
         ? remainingLoginIdentities.firstOrNull?.id
-        : loginIdentities.selectedLoginIdentityId;
+        : existingLoginIdentities.selectedLoginIdentityId;
 
-    final updated = loginIdentities.copyWith(
+    final updatedLoginIdentities = existingLoginIdentities.copyWith(
       list: remainingLoginIdentities,
       selectedLoginIdentityId: selectedLoginIdentityId,
     );
 
-    await _loginIdentityRepository.write(updated);
+    await _loginIdentityRepository.write(updatedLoginIdentities);
 
-    return updated;
+    return updatedLoginIdentities;
   }
 
   /// Marks the login identity for [userId] as requiring reauthentication and
@@ -207,9 +216,9 @@ class LoginIdentityService({
   /// Throws [StateError] if [userId] does not resolve to exactly one login
   /// identity.
   Future<LoginIdentities> markReauthenticationRequired(String userId) async {
-    final loginIdentities = await _loginIdentityRepository.read();
+    final existingLoginIdentities = await _loginIdentityRepository.read();
 
-    final loginIdentity = loginIdentities.list.singleWhereOrNull(
+    final loginIdentity = existingLoginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.user.id == userId,
     );
 
@@ -221,8 +230,8 @@ class LoginIdentityService({
 
     final updatedLoginIdentity = loginIdentity.markReauthenticationRequired();
 
-    final updated = loginIdentities.copyWith(
-      list: loginIdentities.list
+    final updatedLoginIdentities = existingLoginIdentities.copyWith(
+      list: existingLoginIdentities.list
           .map(
             (identity) => identity.id == loginIdentity.id
                 ? updatedLoginIdentity
@@ -231,9 +240,9 @@ class LoginIdentityService({
           .toList(),
     );
 
-    await _loginIdentityRepository.write(updated);
+    await _loginIdentityRepository.write(updatedLoginIdentities);
 
-    return updated;
+    return updatedLoginIdentities;
   }
 
   /// Updates the authentication session for the login identity belonging to
@@ -245,9 +254,9 @@ class LoginIdentityService({
     String userId,
     AuthSession authSession,
   ) async {
-    final loginIdentities = await _loginIdentityRepository.read();
+    final existingLoginIdentities = await _loginIdentityRepository.read();
 
-    final loginIdentity = loginIdentities.list.singleWhereOrNull(
+    final loginIdentity = existingLoginIdentities.list.singleWhereOrNull(
       (loginIdentity) => loginIdentity.user.id == userId,
     );
 
@@ -261,8 +270,8 @@ class LoginIdentityService({
       .fromAuthSession(authSession),
     );
 
-    final updated = loginIdentities.copyWith(
-      list: loginIdentities.list
+    final updatedLoginIdentities = existingLoginIdentities.copyWith(
+      list: existingLoginIdentities.list
           .map(
             (identity) => identity.id == loginIdentity.id
                 ? updatedLoginIdentity
@@ -271,9 +280,9 @@ class LoginIdentityService({
           .toList(),
     );
 
-    await _loginIdentityRepository.write(updated);
+    await _loginIdentityRepository.write(updatedLoginIdentities);
 
-    return updated;
+    return updatedLoginIdentities;
   }
 
   /// Returns all locally configured login identities and their associated servers.
@@ -314,27 +323,39 @@ class LoginIdentityService({
     return id;
   }
 
-  /// Configures the API client with the login identity's server and authentication session.
-  /// Throws [StateError] if authentication tokens are not found on a non-browser platform.
+  /// Configures the API client with the login identity's server and
+  /// authentication session.
+  ///
+  /// When [LoginIdentity.reauthRequired] is `true`, only the server base URL is
+  /// configured because the reauthentication flow does not perform authenticated
+  /// API requests, and the UI is expected to require reauthentication before
+  /// allowing authenticated API requests.
+  ///
+  /// Throws [StateError] if authentication tokens are missing while
+  /// [loginIdentity] does not require reauthentication on a non-browser
+  /// platform.
   void _configureClientFromLoginIdentity(
     LoginIdentity loginIdentity,
     Server server,
   ) {
+    _client.setBaseUrl(server.apiBaseUrl);
+
+    if (loginIdentity.reauthRequired) {
+      // The reauthentication flow does not perform authenticated API requests.
+      return;
+    }
+
     final userId = loginIdentity.user.id;
 
-    // TODO: (AUTH): When reauthRequired is true, redirect the user to the login page (without full initial setup flow)
-    // TODO: (AUTH) When LoginIdentity.persistAuthSession is false, the auth tokens are
-    //  not stored, so this is as intended and must be handled at runtime
-    //  rather than treated as a programming bug.
     final AuthSession authSession = kIsWeb
         ? .browserCookie(userId: userId)
         : loginIdentity.authTokens?.toAuthSession(userId) ??
               (throw StateError(
-                'Login identity ${loginIdentity.id} does not have persisted '
-                'authentication tokens.',
+                'Login identity ${loginIdentity.id} has no persisted '
+                'authentication tokens but reauthRequired is false.',
               ));
 
-    _configureClient(server.apiBaseUrl, authSession);
+    _client.setAuthSession(authSession);
   }
 
   /// Configures the API client with the login identity's server and authentication session.
@@ -343,3 +364,16 @@ class LoginIdentityService({
     _client.setAuthSession(authSession);
   }
 }
+
+/// The result of completing a login.
+@immutable
+class const CompleteLoginResult({
+  /// The updated login identities.
+  required final LoginIdentities loginIdentities,
+
+  /// The login identity that was added or updated.
+  required final LoginIdentity loginIdentity,
+
+  /// Whether a new login identity was created.
+  required final bool isNew,
+});

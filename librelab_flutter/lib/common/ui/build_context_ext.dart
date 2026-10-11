@@ -22,11 +22,24 @@ extension BuildContextExt on BuildContext {
     Duration? duration,
     SnackBarAction? action,
   }) {
-    ScaffoldMessenger.of(this)
-        .showSnackBar(SnackBar(content: Text(message), action: action));
+    scaffoldMessenger.showSnackBarMessage(
+      message,
+      duration: duration,
+      action: action,
+    );
   }
 }
 
 extension ThemeDataExt on ThemeData {
   bool get isDark => brightness == Brightness.dark;
+}
+
+extension ScaffoldMessengerStateExt on ScaffoldMessengerState {
+  void showSnackBarMessage(
+    String message, {
+    Duration? duration,
+    SnackBarAction? action,
+  }) {
+    showSnackBar(SnackBar(content: Text(message), action: action));
+  }
 }

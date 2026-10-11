@@ -1,7 +1,6 @@
 {
     "@@locale": "ar",
-    "initialSetupPage": {
-        "title": "الإعداد الأولي",
+    "addLoginIdentityFlow": {
         "steps": {
             "preferences": {
                 "nav": {
@@ -51,10 +50,17 @@
         "back": "السابق",
         "finish": "إنهاء",
         "finishFailure": "فشل إكمال الإعداد.",
+        "finishSuccess": {
+            "addedNewLoginIdentity": "تم تسجيل الدخول باسم $name.",
+            "updatedExistingLoginIdentity": "تم تحديث تسجيل الدخول للمستخدم $name."
+        },
         "decorativeAnimation": {
             "title": "أوشكنا على الانتهاء!",
             "subtitle": "لنكمل إعداد التطبيق"
         }
+    },
+    "addLoginIdentityPage": {
+        "title": "إضافة حساب"
     },
     "confirmProgramExitDialog": {
         "title": "تأكيد الخروج",
@@ -324,9 +330,6 @@
             }
         },
         "actions": {
-            "switchUser": {
-                "tooltip": "تبديل المستخدم"
-            },
             "logout": {
                 "tooltip": "تسجيل الخروج",
                 "confirmationDialog": {
@@ -353,5 +356,9 @@
             "title": "التفاصيل التقنية",
             "description": "تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم."
         }
+    },
+    "loginIdentitySelectorMenuAnchor": {
+        "tooltip": "تبديل الحساب",
+        "addButton": "إضافة حساب"
     }
 }

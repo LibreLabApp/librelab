@@ -6,8 +6,8 @@ import 'package:meta/meta.dart';
 
 part 'login_identity.g.dart';
 
-/// A user identity and server the application can use for authentication and
-/// connection.
+/// A locally configured user identity and server that the application can use
+/// to connect as that user.
 ///
 /// Represents a user added to the application for local use, distinct from
 /// users managed on the server.

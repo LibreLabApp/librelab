@@ -39,7 +39,8 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	TranslationsAr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsAr(meta: meta ?? this.$meta);
 
 	// Translations
-	@override late final _Translations$initialSetupPage$ar initialSetupPage = _Translations$initialSetupPage$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$ar addLoginIdentityFlow = _Translations$addLoginIdentityFlow$ar._(_root);
+	@override late final _Translations$addLoginIdentityPage$ar addLoginIdentityPage = _Translations$addLoginIdentityPage$ar._(_root);
 	@override late final _Translations$confirmProgramExitDialog$ar confirmProgramExitDialog = _Translations$confirmProgramExitDialog$ar._(_root);
 	@override late final _Translations$serverCompatibility$ar serverCompatibility = _Translations$serverCompatibility$ar._(_root);
 	@override late final _Translations$serverSelection$ar serverSelection = _Translations$serverSelection$ar._(_root);
@@ -54,22 +55,33 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$imagePicker$ar imagePicker = _Translations$imagePicker$ar._(_root);
 	@override late final _Translations$homePage$ar homePage = _Translations$homePage$ar._(_root);
 	@override late final _Translations$technicalFailureDetails$ar technicalFailureDetails = _Translations$technicalFailureDetails$ar._(_root);
+	@override late final _Translations$loginIdentitySelectorMenuAnchor$ar loginIdentitySelectorMenuAnchor = _Translations$loginIdentitySelectorMenuAnchor$ar._(_root);
 }
 
-// Path: initialSetupPage
-class _Translations$initialSetupPage$ar extends Translations$initialSetupPage$en {
-	_Translations$initialSetupPage$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow
+class _Translations$addLoginIdentityFlow$ar extends Translations$addLoginIdentityFlow$en {
+	_Translations$addLoginIdentityFlow$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'الإعداد الأولي';
-	@override late final _Translations$initialSetupPage$steps$ar steps = _Translations$initialSetupPage$steps$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$ar steps = _Translations$addLoginIdentityFlow$steps$ar._(_root);
 	@override String get next => 'التالي';
 	@override String get back => 'السابق';
 	@override String get finish => 'إنهاء';
 	@override String get finishFailure => 'فشل إكمال الإعداد.';
-	@override late final _Translations$initialSetupPage$decorativeAnimation$ar decorativeAnimation = _Translations$initialSetupPage$decorativeAnimation$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$finishSuccess$ar finishSuccess = _Translations$addLoginIdentityFlow$finishSuccess$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$decorativeAnimation$ar decorativeAnimation = _Translations$addLoginIdentityFlow$decorativeAnimation$ar._(_root);
+}
+
+// Path: addLoginIdentityPage
+class _Translations$addLoginIdentityPage$ar extends Translations$addLoginIdentityPage$en {
+	_Translations$addLoginIdentityPage$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'إضافة حساب';
 }
 
 // Path: confirmProgramExitDialog
@@ -236,22 +248,44 @@ class _Translations$technicalFailureDetails$ar extends Translations$technicalFai
 	@override late final _Translations$technicalFailureDetails$dialog$ar dialog = _Translations$technicalFailureDetails$dialog$ar._(_root);
 }
 
-// Path: initialSetupPage.steps
-class _Translations$initialSetupPage$steps$ar extends Translations$initialSetupPage$steps$en {
-	_Translations$initialSetupPage$steps$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: loginIdentitySelectorMenuAnchor
+class _Translations$loginIdentitySelectorMenuAnchor$ar extends Translations$loginIdentitySelectorMenuAnchor$en {
+	_Translations$loginIdentitySelectorMenuAnchor$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$preferences$ar preferences = _Translations$initialSetupPage$steps$preferences$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$serverSelection$ar serverSelection = _Translations$initialSetupPage$steps$serverSelection$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$login$ar login = _Translations$initialSetupPage$steps$login$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$complete$ar complete = _Translations$initialSetupPage$steps$complete$ar._(_root);
+	@override String get tooltip => 'تبديل الحساب';
+	@override String get addButton => 'إضافة حساب';
 }
 
-// Path: initialSetupPage.decorativeAnimation
-class _Translations$initialSetupPage$decorativeAnimation$ar extends Translations$initialSetupPage$decorativeAnimation$en {
-	_Translations$initialSetupPage$decorativeAnimation$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps
+class _Translations$addLoginIdentityFlow$steps$ar extends Translations$addLoginIdentityFlow$steps$en {
+	_Translations$addLoginIdentityFlow$steps$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$addLoginIdentityFlow$steps$preferences$ar preferences = _Translations$addLoginIdentityFlow$steps$preferences$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$serverSelection$ar serverSelection = _Translations$addLoginIdentityFlow$steps$serverSelection$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$login$ar login = _Translations$addLoginIdentityFlow$steps$login$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$complete$ar complete = _Translations$addLoginIdentityFlow$steps$complete$ar._(_root);
+}
+
+// Path: addLoginIdentityFlow.finishSuccess
+class _Translations$addLoginIdentityFlow$finishSuccess$ar extends Translations$addLoginIdentityFlow$finishSuccess$en {
+	_Translations$addLoginIdentityFlow$finishSuccess$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String addedNewLoginIdentity({required Object name}) => 'تم تسجيل الدخول باسم ${name}.';
+	@override String updatedExistingLoginIdentity({required Object name}) => 'تم تحديث تسجيل الدخول للمستخدم ${name}.';
+}
+
+// Path: addLoginIdentityFlow.decorativeAnimation
+class _Translations$addLoginIdentityFlow$decorativeAnimation$ar extends Translations$addLoginIdentityFlow$decorativeAnimation$en {
+	_Translations$addLoginIdentityFlow$decorativeAnimation$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -506,7 +540,6 @@ class _Translations$homePage$actions$ar extends Translations$homePage$actions$en
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$homePage$actions$switchUser$ar switchUser = _Translations$homePage$actions$switchUser$ar._(_root);
 	@override late final _Translations$homePage$actions$logout$ar logout = _Translations$homePage$actions$logout$ar._(_root);
 }
 
@@ -521,51 +554,51 @@ class _Translations$technicalFailureDetails$dialog$ar extends Translations$techn
 	@override String get description => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.';
 }
 
-// Path: initialSetupPage.steps.preferences
-class _Translations$initialSetupPage$steps$preferences$ar extends Translations$initialSetupPage$steps$preferences$en {
-	_Translations$initialSetupPage$steps$preferences$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.preferences
+class _Translations$addLoginIdentityFlow$steps$preferences$ar extends Translations$addLoginIdentityFlow$steps$preferences$en {
+	_Translations$addLoginIdentityFlow$steps$preferences$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$preferences$nav$ar nav = _Translations$initialSetupPage$steps$preferences$nav$ar._(_root);
-	@override late final _Translations$initialSetupPage$steps$preferences$content$ar content = _Translations$initialSetupPage$steps$preferences$content$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$preferences$nav$ar nav = _Translations$addLoginIdentityFlow$steps$preferences$nav$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$preferences$content$ar content = _Translations$addLoginIdentityFlow$steps$preferences$content$ar._(_root);
 }
 
-// Path: initialSetupPage.steps.serverSelection
-class _Translations$initialSetupPage$steps$serverSelection$ar extends Translations$initialSetupPage$steps$serverSelection$en {
-	_Translations$initialSetupPage$steps$serverSelection$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.serverSelection
+class _Translations$addLoginIdentityFlow$steps$serverSelection$ar extends Translations$addLoginIdentityFlow$steps$serverSelection$en {
+	_Translations$addLoginIdentityFlow$steps$serverSelection$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$serverSelection$nav$ar nav = _Translations$initialSetupPage$steps$serverSelection$nav$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$serverSelection$nav$ar nav = _Translations$addLoginIdentityFlow$steps$serverSelection$nav$ar._(_root);
 	@override String get prerequisiteStepIncomplete => 'حدد خادما وتحقق من التوافق أولا';
-	@override late final _Translations$initialSetupPage$steps$serverSelection$content$ar content = _Translations$initialSetupPage$steps$serverSelection$content$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$serverSelection$content$ar content = _Translations$addLoginIdentityFlow$steps$serverSelection$content$ar._(_root);
 }
 
-// Path: initialSetupPage.steps.login
-class _Translations$initialSetupPage$steps$login$ar extends Translations$initialSetupPage$steps$login$en {
-	_Translations$initialSetupPage$steps$login$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.login
+class _Translations$addLoginIdentityFlow$steps$login$ar extends Translations$addLoginIdentityFlow$steps$login$en {
+	_Translations$addLoginIdentityFlow$steps$login$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$login$nav$ar nav = _Translations$initialSetupPage$steps$login$nav$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$login$nav$ar nav = _Translations$addLoginIdentityFlow$steps$login$nav$ar._(_root);
 	@override String get prerequisiteStepIncomplete => 'أكمل إعداد الحساب أولا';
-	@override late final _Translations$initialSetupPage$steps$login$content$ar content = _Translations$initialSetupPage$steps$login$content$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$login$content$ar content = _Translations$addLoginIdentityFlow$steps$login$content$ar._(_root);
 }
 
-// Path: initialSetupPage.steps.complete
-class _Translations$initialSetupPage$steps$complete$ar extends Translations$initialSetupPage$steps$complete$en {
-	_Translations$initialSetupPage$steps$complete$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.complete
+class _Translations$addLoginIdentityFlow$steps$complete$ar extends Translations$addLoginIdentityFlow$steps$complete$en {
+	_Translations$addLoginIdentityFlow$steps$complete$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _Translations$initialSetupPage$steps$complete$nav$ar nav = _Translations$initialSetupPage$steps$complete$nav$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$complete$nav$ar nav = _Translations$addLoginIdentityFlow$steps$complete$nav$ar._(_root);
 	@override String get prerequisiteStepIncomplete => 'يجب إدخال اسم المختبر';
-	@override late final _Translations$initialSetupPage$steps$complete$content$ar content = _Translations$initialSetupPage$steps$complete$content$ar._(_root);
+	@override late final _Translations$addLoginIdentityFlow$steps$complete$content$ar content = _Translations$addLoginIdentityFlow$steps$complete$content$ar._(_root);
 }
 
 // Path: serverCompatibility.check.button
@@ -759,16 +792,6 @@ class _Translations$homePage$destinations$settings$ar extends Translations$homeP
 	@override String get label => 'الإعدادات';
 }
 
-// Path: homePage.actions.switchUser
-class _Translations$homePage$actions$switchUser$ar extends Translations$homePage$actions$switchUser$en {
-	_Translations$homePage$actions$switchUser$ar._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get tooltip => 'تبديل المستخدم';
-}
-
 // Path: homePage.actions.logout
 class _Translations$homePage$actions$logout$ar extends Translations$homePage$actions$logout$en {
 	_Translations$homePage$actions$logout$ar._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -781,9 +804,9 @@ class _Translations$homePage$actions$logout$ar extends Translations$homePage$act
 	@override String get logoutFailure => 'فشل تسجيل الخروج.';
 }
 
-// Path: initialSetupPage.steps.preferences.nav
-class _Translations$initialSetupPage$steps$preferences$nav$ar extends Translations$initialSetupPage$steps$preferences$nav$en {
-	_Translations$initialSetupPage$steps$preferences$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.preferences.nav
+class _Translations$addLoginIdentityFlow$steps$preferences$nav$ar extends Translations$addLoginIdentityFlow$steps$preferences$nav$en {
+	_Translations$addLoginIdentityFlow$steps$preferences$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -792,9 +815,9 @@ class _Translations$initialSetupPage$steps$preferences$nav$ar extends Translatio
 	@override String get subtitle => 'اختر تفضيلاتك';
 }
 
-// Path: initialSetupPage.steps.preferences.content
-class _Translations$initialSetupPage$steps$preferences$content$ar extends Translations$initialSetupPage$steps$preferences$content$en {
-	_Translations$initialSetupPage$steps$preferences$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.preferences.content
+class _Translations$addLoginIdentityFlow$steps$preferences$content$ar extends Translations$addLoginIdentityFlow$steps$preferences$content$en {
+	_Translations$addLoginIdentityFlow$steps$preferences$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -803,9 +826,9 @@ class _Translations$initialSetupPage$steps$preferences$content$ar extends Transl
 	@override String get subtitle => 'اضبط المظهر واللغة وخيارات الواجهة';
 }
 
-// Path: initialSetupPage.steps.serverSelection.nav
-class _Translations$initialSetupPage$steps$serverSelection$nav$ar extends Translations$initialSetupPage$steps$serverSelection$nav$en {
-	_Translations$initialSetupPage$steps$serverSelection$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.serverSelection.nav
+class _Translations$addLoginIdentityFlow$steps$serverSelection$nav$ar extends Translations$addLoginIdentityFlow$steps$serverSelection$nav$en {
+	_Translations$addLoginIdentityFlow$steps$serverSelection$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -814,9 +837,9 @@ class _Translations$initialSetupPage$steps$serverSelection$nav$ar extends Transl
 	@override String get subtitle => 'اختر الخادم';
 }
 
-// Path: initialSetupPage.steps.serverSelection.content
-class _Translations$initialSetupPage$steps$serverSelection$content$ar extends Translations$initialSetupPage$steps$serverSelection$content$en {
-	_Translations$initialSetupPage$steps$serverSelection$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.serverSelection.content
+class _Translations$addLoginIdentityFlow$steps$serverSelection$content$ar extends Translations$addLoginIdentityFlow$steps$serverSelection$content$en {
+	_Translations$addLoginIdentityFlow$steps$serverSelection$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -825,9 +848,9 @@ class _Translations$initialSetupPage$steps$serverSelection$content$ar extends Tr
 	@override String get subtitle => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك';
 }
 
-// Path: initialSetupPage.steps.login.nav
-class _Translations$initialSetupPage$steps$login$nav$ar extends Translations$initialSetupPage$steps$login$nav$en {
-	_Translations$initialSetupPage$steps$login$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.login.nav
+class _Translations$addLoginIdentityFlow$steps$login$nav$ar extends Translations$addLoginIdentityFlow$steps$login$nav$en {
+	_Translations$addLoginIdentityFlow$steps$login$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -836,9 +859,9 @@ class _Translations$initialSetupPage$steps$login$nav$ar extends Translations$ini
 	@override String get subtitle => 'سجل الدخول باستخدام بياناتك';
 }
 
-// Path: initialSetupPage.steps.login.content
-class _Translations$initialSetupPage$steps$login$content$ar extends Translations$initialSetupPage$steps$login$content$en {
-	_Translations$initialSetupPage$steps$login$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.login.content
+class _Translations$addLoginIdentityFlow$steps$login$content$ar extends Translations$addLoginIdentityFlow$steps$login$content$en {
+	_Translations$addLoginIdentityFlow$steps$login$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -847,9 +870,9 @@ class _Translations$initialSetupPage$steps$login$content$ar extends Translations
 	@override String get subtitle => 'قم بالمصادقة للوصول إلى حسابك';
 }
 
-// Path: initialSetupPage.steps.complete.nav
-class _Translations$initialSetupPage$steps$complete$nav$ar extends Translations$initialSetupPage$steps$complete$nav$en {
-	_Translations$initialSetupPage$steps$complete$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.complete.nav
+class _Translations$addLoginIdentityFlow$steps$complete$nav$ar extends Translations$addLoginIdentityFlow$steps$complete$nav$en {
+	_Translations$addLoginIdentityFlow$steps$complete$nav$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -858,9 +881,9 @@ class _Translations$initialSetupPage$steps$complete$nav$ar extends Translations$
 	@override String get subtitle => 'إنهاء الإعداد';
 }
 
-// Path: initialSetupPage.steps.complete.content
-class _Translations$initialSetupPage$steps$complete$content$ar extends Translations$initialSetupPage$steps$complete$content$en {
-	_Translations$initialSetupPage$steps$complete$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: addLoginIdentityFlow.steps.complete.content
+class _Translations$addLoginIdentityFlow$steps$complete$content$ar extends Translations$addLoginIdentityFlow$steps$complete$content$en {
+	_Translations$addLoginIdentityFlow$steps$complete$content$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -1091,32 +1114,34 @@ class _Translations$homePage$actions$logout$confirmationDialog$loginDisabled$ar 
 extension on TranslationsAr {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
-			'initialSetupPage.title' => 'الإعداد الأولي',
-			'initialSetupPage.steps.preferences.nav.title' => 'التفضيلات',
-			'initialSetupPage.steps.preferences.nav.subtitle' => 'اختر تفضيلاتك',
-			'initialSetupPage.steps.preferences.content.title' => 'التخصيص',
-			'initialSetupPage.steps.preferences.content.subtitle' => 'اضبط المظهر واللغة وخيارات الواجهة',
-			'initialSetupPage.steps.serverSelection.nav.title' => 'الخادم',
-			'initialSetupPage.steps.serverSelection.nav.subtitle' => 'اختر الخادم',
-			'initialSetupPage.steps.serverSelection.prerequisiteStepIncomplete' => 'حدد خادما وتحقق من التوافق أولا',
-			'initialSetupPage.steps.serverSelection.content.title' => 'تحديد الخادم',
-			'initialSetupPage.steps.serverSelection.content.subtitle' => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك',
-			'initialSetupPage.steps.login.nav.title' => 'تسجيل الدخول',
-			'initialSetupPage.steps.login.nav.subtitle' => 'سجل الدخول باستخدام بياناتك',
-			'initialSetupPage.steps.login.prerequisiteStepIncomplete' => 'أكمل إعداد الحساب أولا',
-			'initialSetupPage.steps.login.content.title' => 'المصادقة',
-			'initialSetupPage.steps.login.content.subtitle' => 'قم بالمصادقة للوصول إلى حسابك',
-			'initialSetupPage.steps.complete.nav.title' => 'اكتمل',
-			'initialSetupPage.steps.complete.nav.subtitle' => 'إنهاء الإعداد',
-			'initialSetupPage.steps.complete.prerequisiteStepIncomplete' => 'يجب إدخال اسم المختبر',
-			'initialSetupPage.steps.complete.content.title' => 'معلومات المختبر',
-			'initialSetupPage.steps.complete.content.subtitle' => 'أكمل معلومات مختبرك لإنهاء الإعداد',
-			'initialSetupPage.next' => 'التالي',
-			'initialSetupPage.back' => 'السابق',
-			'initialSetupPage.finish' => 'إنهاء',
-			'initialSetupPage.finishFailure' => 'فشل إكمال الإعداد.',
-			'initialSetupPage.decorativeAnimation.title' => 'أوشكنا على الانتهاء!',
-			'initialSetupPage.decorativeAnimation.subtitle' => 'لنكمل إعداد التطبيق',
+			'addLoginIdentityFlow.steps.preferences.nav.title' => 'التفضيلات',
+			'addLoginIdentityFlow.steps.preferences.nav.subtitle' => 'اختر تفضيلاتك',
+			'addLoginIdentityFlow.steps.preferences.content.title' => 'التخصيص',
+			'addLoginIdentityFlow.steps.preferences.content.subtitle' => 'اضبط المظهر واللغة وخيارات الواجهة',
+			'addLoginIdentityFlow.steps.serverSelection.nav.title' => 'الخادم',
+			'addLoginIdentityFlow.steps.serverSelection.nav.subtitle' => 'اختر الخادم',
+			'addLoginIdentityFlow.steps.serverSelection.prerequisiteStepIncomplete' => 'حدد خادما وتحقق من التوافق أولا',
+			'addLoginIdentityFlow.steps.serverSelection.content.title' => 'تحديد الخادم',
+			'addLoginIdentityFlow.steps.serverSelection.content.subtitle' => 'اختر الخادم المطلوب للاتصال به والوصول إلى بياناتك',
+			'addLoginIdentityFlow.steps.login.nav.title' => 'تسجيل الدخول',
+			'addLoginIdentityFlow.steps.login.nav.subtitle' => 'سجل الدخول باستخدام بياناتك',
+			'addLoginIdentityFlow.steps.login.prerequisiteStepIncomplete' => 'أكمل إعداد الحساب أولا',
+			'addLoginIdentityFlow.steps.login.content.title' => 'المصادقة',
+			'addLoginIdentityFlow.steps.login.content.subtitle' => 'قم بالمصادقة للوصول إلى حسابك',
+			'addLoginIdentityFlow.steps.complete.nav.title' => 'اكتمل',
+			'addLoginIdentityFlow.steps.complete.nav.subtitle' => 'إنهاء الإعداد',
+			'addLoginIdentityFlow.steps.complete.prerequisiteStepIncomplete' => 'يجب إدخال اسم المختبر',
+			'addLoginIdentityFlow.steps.complete.content.title' => 'معلومات المختبر',
+			'addLoginIdentityFlow.steps.complete.content.subtitle' => 'أكمل معلومات مختبرك لإنهاء الإعداد',
+			'addLoginIdentityFlow.next' => 'التالي',
+			'addLoginIdentityFlow.back' => 'السابق',
+			'addLoginIdentityFlow.finish' => 'إنهاء',
+			'addLoginIdentityFlow.finishFailure' => 'فشل إكمال الإعداد.',
+			'addLoginIdentityFlow.finishSuccess.addedNewLoginIdentity' => ({required Object name}) => 'تم تسجيل الدخول باسم ${name}.',
+			'addLoginIdentityFlow.finishSuccess.updatedExistingLoginIdentity' => ({required Object name}) => 'تم تحديث تسجيل الدخول للمستخدم ${name}.',
+			'addLoginIdentityFlow.decorativeAnimation.title' => 'أوشكنا على الانتهاء!',
+			'addLoginIdentityFlow.decorativeAnimation.subtitle' => 'لنكمل إعداد التطبيق',
+			'addLoginIdentityPage.title' => 'إضافة حساب',
 			'confirmProgramExitDialog.title' => 'تأكيد الخروج',
 			'confirmProgramExitDialog.message' => 'هل أنت متأكد من رغبتك في الخروج؟ قد تفقد أي تغييرات غير محفوظة.',
 			'confirmProgramExitDialog.backupCheckbox' => 'نسخ البيانات احتياطيا قبل الإغلاق',
@@ -1256,7 +1281,6 @@ extension on TranslationsAr {
 			'imagePicker.removeImage' => 'إزالة الصورة',
 			'imagePicker.failedToLoadImage' => 'تعذر تحميل الصورة',
 			'homePage.destinations.settings.label' => 'الإعدادات',
-			'homePage.actions.switchUser.tooltip' => 'تبديل المستخدم',
 			'homePage.actions.logout.tooltip' => 'تسجيل الخروج',
 			'homePage.actions.logout.confirmationDialog.loginEnabled.title' => 'تسجيل الخروج',
 			'homePage.actions.logout.confirmationDialog.loginEnabled.subtitle' => 'هل أنت متأكد من رغبتك في تسجيل الخروج؟',
@@ -1270,6 +1294,8 @@ extension on TranslationsAr {
 			'technicalFailureDetails.showDialog' => 'عرض تفاصيل الخطأ',
 			'technicalFailureDetails.dialog.title' => 'التفاصيل التقنية',
 			'technicalFailureDetails.dialog.description' => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.',
+			'loginIdentitySelectorMenuAnchor.tooltip' => 'تبديل الحساب',
+			'loginIdentitySelectorMenuAnchor.addButton' => 'إضافة حساب',
 			_ => null,
 		};
 	}

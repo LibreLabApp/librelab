@@ -1,34 +1,43 @@
+/// @docImport 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
+/// @docImport 'package:librelab_flutter/login_identity/ui/add_login_identity/add_login_identity_flow.dart';
+library;
+
 import 'package:flutter/widgets.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:material_ui/material_ui.dart' show Icons;
 import 'package:stepper_flow/stepper_flow.dart';
 
-enum InitialSetupStep {
+enum AddLoginIdentityStep {
   /// Allows configuring preferences such as the theme mode,
   /// language, and other application settings.
+  ///
+  /// NOTE: This step is not part of adding a login identity. It is included here
+  /// as a temporary architectural compromise so [AddLoginIdentityFlow] can
+  /// also be reused by the [InitialSetupPage]. This is accepted technical
+  /// debt and does not materially affect the user-facing flow.
   preferences,
 
-  /// Allows selecting the server instance that the application
-  /// should use, including validating connectivity and compatibility.
+  /// Prompts the user to select the server instance to use, then validates
+  /// its connectivity and compatibility.
   serverSelection,
 
-  /// Allows logging in with an email address and password.
+  /// Prompts the user to log in with an email address and password.
   login,
 
-  /// Final step of the setup process. May require completing
-  /// the initial laboratory configuration if it has not
-  /// already been completed.
+  /// Final step of the flow. May require providing laboratory information
+  /// if it has not already been provided.
   complete;
 
-  InitialSetupStep get next => values[index + 1];
-  InitialSetupStep get previous => values[index - 1];
+  AddLoginIdentityStep get next => values[index + 1];
+  AddLoginIdentityStep get previous => values[index - 1];
+
   bool get isLast => index == values.length - 1;
 }
 
-extension InitialSetupStepExt on InitialSetupStep {
+extension InitialSetupStepExt on AddLoginIdentityStep {
   StepNav getStepNav(Translations t) {
-    final steps = t.initialSetupPage.steps;
+    final steps = t.addLoginIdentityFlow.steps;
     final title = switch (this) {
       .preferences => steps.preferences.nav.title,
       .serverSelection => steps.serverSelection.nav.title,
@@ -63,7 +72,7 @@ extension InitialSetupStepExt on InitialSetupStep {
   }
 
   StepContentHeading getStepContentHeading(Translations t) {
-    final steps = t.initialSetupPage.steps;
+    final steps = t.addLoginIdentityFlow.steps;
     final title = switch (this) {
       .preferences => steps.preferences.content.title,
       .serverSelection => steps.serverSelection.content.title,

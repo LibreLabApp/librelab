@@ -90,5 +90,5 @@ class LoginCubit({
   }
 
   /// Resets state to its initial state.
-  void reset() => emit(const .initial());
+  void resetState() => emit(const .initial());
 }

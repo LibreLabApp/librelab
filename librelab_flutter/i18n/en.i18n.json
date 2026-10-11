@@ -1,8 +1,6 @@
 {
   "@@locale": "en",
-  "initialSetupPage": {
-    "title": "Initial Setup",
-    "@title": "Title for initial setup page. This covers the entire first-time configuration flow, including preferences, server selection, and account setup.",
+  "addLoginIdentityFlow": {
     "steps": {
       "preferences": {
         "nav": {
@@ -51,13 +49,20 @@
     "next": "Next",
     "back": "Back",
     "finish": "Finish",
-    "finishFailure": "Failed to complete setup.",
+    "finishFailure": "Failed to complete the setup.",
+    "finishSuccess": {
+      "addedNewLoginIdentity": "Logged in as $name.",
+      "updatedExistingLoginIdentity": "Updated login for $name."
+    },
     "decorativeAnimation": {
       "title": "Almost there!",
       "subtitle": "Let's get everything set up for you",
-      "@title": "Title shown in the decorative animation on the initial setup page, step-independent. Not shown in smaller screens.",
-      "@subtitle": "Subtitle shown in the decorative animation on the initial setup page. Not shown in smaller screens."
+      "@title": "Title shown in the decorative animation in the add login identity flow, step-independent. Not shown in smaller screens.",
+      "@subtitle": "Subtitle shown in the decorative animation in the add login identity flow. Not shown in smaller screens."
     }
+  },
+  "addLoginIdentityPage": {
+    "title": "Add account"
   },
   "confirmProgramExitDialog": {
     "title": "Confirm Exit",
@@ -332,9 +337,6 @@
       }
     },
     "actions": {
-      "switchUser": {
-        "tooltip": "Switch user"
-      },
       "logout": {
         "tooltip": "Log out",
         "confirmationDialog": {
@@ -361,5 +363,9 @@
       "title": "Technical details",
       "description": "Technical details about the error are provided below. You can copy them when reporting the issue to support."
     }
+  },
+  "loginIdentitySelectorMenuAnchor": {
+    "tooltip": "Switch account",
+    "addButton": "Add account"
   }
 }

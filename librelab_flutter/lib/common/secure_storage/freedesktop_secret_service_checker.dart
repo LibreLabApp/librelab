@@ -21,7 +21,7 @@ typedef DBusClientProvider = FutureOr<DBusClient> Function();
 
 class FreedesktopSecretServiceCheckerImpl
     implements FreedesktopSecretServiceChecker {
-  FreedesktopSecretServiceCheckerImpl({DBusClientProvider? dbusClientProvider})
+  new({DBusClientProvider? dbusClientProvider})
     : _dbusClientProvider = dbusClientProvider ?? DBusClient.session,
       _ownsClient = dbusClientProvider == null;
 
@@ -30,17 +30,18 @@ class FreedesktopSecretServiceCheckerImpl
 
   @override
   Future<Set<FreedesktopSecretService>> getAvailableServices() async {
-    final dbusClient = await _dbusClientProvider();
+    final client = await _dbusClientProvider();
+
     try {
       final results = await Future.wait([
-        _isSecretServiceAvailable(dbusClient),
-        _isSecretPortalAvailable(dbusClient),
+        _isSecretServiceAvailable(client),
+        _isSecretPortalAvailable(client),
       ]);
 
       return {if (results[0]) .secretService, if (results[1]) .secretPortal};
     } finally {
       if (_ownsClient) {
-        await dbusClient.close();
+        await client.close();
       }
     }
   }
