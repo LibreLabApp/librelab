@@ -10,8 +10,10 @@ import 'package:material_ui/material_ui.dart';
 /// A menu anchor that displays the available servers and their login
 /// identities, allowing the user to change the selected login identity, with
 /// an option to add another login identity.
-class const LoginIdentitySelectorMenuAnchor({super.key})
-    extends StatelessWidget {
+class const LoginIdentitySelectorMenuAnchor({
+  super.key,
+  final MenuAnchorChildBuilder? builder,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.t.loginIdentitySelectorMenuAnchor;
@@ -60,12 +62,16 @@ class const LoginIdentitySelectorMenuAnchor({super.key})
           context.read<LoginIdentityCubit>(),
         ),
       ],
-      builder: (context, controller, child) => IconButton(
-        onPressed: () =>
-            controller.isOpen ? controller.close() : controller.open(),
-        icon: _LoginIdentityIcon(fullName: selectedLoginIdentity.user.fullName),
-        tooltip: t.tooltip,
-      ),
+      builder:
+          builder ??
+          (context, controller, _) => IconButton(
+            onPressed: () =>
+                controller.isOpen ? controller.close() : controller.open(),
+            icon: _LoginIdentityAvatar(
+              fullName: selectedLoginIdentity.user.fullName,
+            ),
+            tooltip: t.switchAccount,
+          ),
     );
   }
 
@@ -85,7 +91,7 @@ class const LoginIdentitySelectorMenuAnchor({super.key})
         final isSelected = loginIdentity.id == selectedLoginIdentity.id;
 
         return MenuItemButton(
-          leadingIcon: _LoginIdentityIcon(
+          leadingIcon: _LoginIdentityAvatar(
             fullName: loginIdentity.user.fullName,
           ),
           trailingIcon: isSelected
@@ -108,7 +114,7 @@ class const LoginIdentitySelectorMenuAnchor({super.key})
   }).toList();
 }
 
-class const _LoginIdentityIcon({required final String fullName})
+class const _LoginIdentityAvatar({required final String fullName})
     extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

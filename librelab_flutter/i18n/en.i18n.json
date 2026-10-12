@@ -280,6 +280,7 @@
       "learnMore": "Learn more about using Guest mode"
     },
     "loginButton": "Log in",
+    "loginButtonDisabledWhileLoggedIn": "Must log out before logging in again",
     "loginFailures": {
       "invalidCredentials": "Invalid email or password.",
       "loginDisabled": "Login is disabled. Contact an administrator to enable it.",
@@ -365,7 +366,14 @@
     }
   },
   "loginIdentitySelectorMenuAnchor": {
-    "tooltip": "Switch account",
+    "switchAccount": "Switch account",
     "addButton": "Add account"
+  },
+  "authenticationRequiredPage": {
+    "title": "Authentication required",
+    "selectedLoginIdentityRequiresReauth": "Reauthentication is required for the selected account. To continue, log in again, or switch to another account.",
+    "or": "OR",
+    "continueButton": "Continue",
+    "updateAccountFailure": "Failed to update the account."
   }
 }

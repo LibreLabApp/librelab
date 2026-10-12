@@ -273,6 +273,7 @@
             "learnMore": "مزيد من المعلومات حول استخدام \"وضع الضيف\""
         },
         "loginButton": "تسجيل الدخول",
+        "loginButtonDisabledWhileLoggedIn": "يجب تسجيل الخروج قبل تسجيل الدخول مرة أخرى",
         "loginFailures": {
             "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
             "loginDisabled": "تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.",
@@ -358,7 +359,14 @@
         }
     },
     "loginIdentitySelectorMenuAnchor": {
-        "tooltip": "تبديل الحساب",
+        "switchAccount": "تبديل الحساب",
         "addButton": "إضافة حساب"
+    },
+    "authenticationRequiredPage": {
+        "title": "المصادقة مطلوبة",
+        "selectedLoginIdentityRequiresReauth": "إعادة المصادقة مطلوبة للحساب المحدد. للمتابعة، سجل الدخول مجددًا أو انتقل إلى حساب آخر.",
+        "or": "أو",
+        "continueButton": "متابعة",
+        "updateAccountFailure": "فشل تحديث الحساب"
     }
 }

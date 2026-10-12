@@ -63,6 +63,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$homePage$en homePage = Translations$homePage$en.internal(_root);
 	late final Translations$technicalFailureDetails$en technicalFailureDetails = Translations$technicalFailureDetails$en.internal(_root);
 	late final Translations$loginIdentitySelectorMenuAnchor$en loginIdentitySelectorMenuAnchor = Translations$loginIdentitySelectorMenuAnchor$en.internal(_root);
+	late final Translations$authenticationRequiredPage$en authenticationRequiredPage = Translations$authenticationRequiredPage$en.internal(_root);
 }
 
 // Path: addLoginIdentityFlow
@@ -251,6 +252,9 @@ class Translations$loginFormSection$en {
 	/// en: 'Log in'
 	String get loginButton => 'Log in';
 
+	/// en: 'Must log out before logging in again'
+	String get loginButtonDisabledWhileLoggedIn => 'Must log out before logging in again';
+
 	late final Translations$loginFormSection$loginFailures$en loginFailures = Translations$loginFormSection$loginFailures$en.internal(_root);
 
 	/// en: 'Login failed'
@@ -358,10 +362,34 @@ class Translations$loginIdentitySelectorMenuAnchor$en {
 	// Translations
 
 	/// en: 'Switch account'
-	String get tooltip => 'Switch account';
+	String get switchAccount => 'Switch account';
 
 	/// en: 'Add account'
 	String get addButton => 'Add account';
+}
+
+// Path: authenticationRequiredPage
+class Translations$authenticationRequiredPage$en {
+	Translations$authenticationRequiredPage$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Authentication required'
+	String get title => 'Authentication required';
+
+	/// en: 'Reauthentication is required for the selected account. To continue, log in again, or switch to another account.'
+	String get selectedLoginIdentityRequiresReauth => 'Reauthentication is required for the selected account. To continue, log in again, or switch to another account.';
+
+	/// en: 'OR'
+	String get or => 'OR';
+
+	/// en: 'Continue'
+	String get continueButton => 'Continue';
+
+	/// en: 'Failed to update the account.'
+	String get updateAccountFailure => 'Failed to update the account.';
 }
 
 // Path: addLoginIdentityFlow.steps
@@ -1649,6 +1677,7 @@ extension on Translations {
 			'loginFormSection.browserGuestModeNotice.text' => 'Not your device? Use Guest mode to log in privately.',
 			'loginFormSection.browserGuestModeNotice.learnMore' => 'Learn more about using Guest mode',
 			'loginFormSection.loginButton' => 'Log in',
+			'loginFormSection.loginButtonDisabledWhileLoggedIn' => 'Must log out before logging in again',
 			'loginFormSection.loginFailures.invalidCredentials' => 'Invalid email or password.',
 			'loginFormSection.loginFailures.loginDisabled' => 'Login is disabled. Contact an administrator to enable it.',
 			'loginFormSection.loginFailures.invalidInput' => 'The login input is invalid.',
@@ -1692,8 +1721,13 @@ extension on Translations {
 			'technicalFailureDetails.showDialog' => 'Show error details',
 			'technicalFailureDetails.dialog.title' => 'Technical details',
 			'technicalFailureDetails.dialog.description' => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.',
-			'loginIdentitySelectorMenuAnchor.tooltip' => 'Switch account',
+			'loginIdentitySelectorMenuAnchor.switchAccount' => 'Switch account',
 			'loginIdentitySelectorMenuAnchor.addButton' => 'Add account',
+			'authenticationRequiredPage.title' => 'Authentication required',
+			'authenticationRequiredPage.selectedLoginIdentityRequiresReauth' => 'Reauthentication is required for the selected account. To continue, log in again, or switch to another account.',
+			'authenticationRequiredPage.or' => 'OR',
+			'authenticationRequiredPage.continueButton' => 'Continue',
+			'authenticationRequiredPage.updateAccountFailure' => 'Failed to update the account.',
 			_ => null,
 		};
 	}

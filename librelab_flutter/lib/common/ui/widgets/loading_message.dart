@@ -22,10 +22,10 @@ class const LoadingMessage({
           ),
           const SizedBox(height: 20),
           Text(message, style: textTheme.titleMedium, textAlign: .center),
-          if (description != null) ...[
+          if (description case final description?) ...[
             const SizedBox(height: 8),
             Text(
-              description!,
+              description,
               style: textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

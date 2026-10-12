@@ -15,7 +15,9 @@ class LoginIdentityService({
 }) {
   /// Completes a login by creating or updating the login identity, selecting it,
   /// persisting it, and configuring the API client's active authentication session.
-  /// Does not initiate authentication. The authentication result must be provided.
+  ///
+  /// Does not initiate authentication or make API requests. The authentication
+  /// result must be provided.
   Future<CompleteLoginResult> completeLogin({
     required Uri serverBaseUrl,
     required String labName,

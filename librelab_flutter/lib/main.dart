@@ -225,6 +225,8 @@ void main() async {
       }),
     ]),
     redirect: (context, state) {
+      _logger.fine('Redirects: ${state.matchedLocation}');
+
       if (state.matchedLocation == AddLoginIdentityPage.routePath) {
         return null;
       }

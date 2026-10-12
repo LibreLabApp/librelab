@@ -56,6 +56,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$homePage$ar homePage = _Translations$homePage$ar._(_root);
 	@override late final _Translations$technicalFailureDetails$ar technicalFailureDetails = _Translations$technicalFailureDetails$ar._(_root);
 	@override late final _Translations$loginIdentitySelectorMenuAnchor$ar loginIdentitySelectorMenuAnchor = _Translations$loginIdentitySelectorMenuAnchor$ar._(_root);
+	@override late final _Translations$authenticationRequiredPage$ar authenticationRequiredPage = _Translations$authenticationRequiredPage$ar._(_root);
 }
 
 // Path: addLoginIdentityFlow
@@ -179,6 +180,7 @@ class _Translations$loginFormSection$ar extends Translations$loginFormSection$en
 	@override String get persistAuthSession => 'البقاء مسجلا';
 	@override late final _Translations$loginFormSection$browserGuestModeNotice$ar browserGuestModeNotice = _Translations$loginFormSection$browserGuestModeNotice$ar._(_root);
 	@override String get loginButton => 'تسجيل الدخول';
+	@override String get loginButtonDisabledWhileLoggedIn => 'يجب تسجيل الخروج قبل تسجيل الدخول مرة أخرى';
 	@override late final _Translations$loginFormSection$loginFailures$ar loginFailures = _Translations$loginFormSection$loginFailures$ar._(_root);
 	@override String get requestFailureTitle => 'فشل تسجيل الدخول';
 	@override late final _Translations$loginFormSection$loginSuccess$ar loginSuccess = _Translations$loginFormSection$loginSuccess$ar._(_root);
@@ -255,8 +257,22 @@ class _Translations$loginIdentitySelectorMenuAnchor$ar extends Translations$logi
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get tooltip => 'تبديل الحساب';
+	@override String get switchAccount => 'تبديل الحساب';
 	@override String get addButton => 'إضافة حساب';
+}
+
+// Path: authenticationRequiredPage
+class _Translations$authenticationRequiredPage$ar extends Translations$authenticationRequiredPage$en {
+	_Translations$authenticationRequiredPage$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'المصادقة مطلوبة';
+	@override String get selectedLoginIdentityRequiresReauth => 'إعادة المصادقة مطلوبة للحساب المحدد. للمتابعة، سجل الدخول مجددًا أو انتقل إلى حساب آخر.';
+	@override String get or => 'أو';
+	@override String get continueButton => 'متابعة';
+	@override String get updateAccountFailure => 'فشل تحديث الحساب';
 }
 
 // Path: addLoginIdentityFlow.steps
@@ -1251,6 +1267,7 @@ extension on TranslationsAr {
 			'loginFormSection.browserGuestModeNotice.text' => 'ألا تمتلك هذا الجهاز؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.',
 			'loginFormSection.browserGuestModeNotice.learnMore' => 'مزيد من المعلومات حول استخدام "وضع الضيف"',
 			'loginFormSection.loginButton' => 'تسجيل الدخول',
+			'loginFormSection.loginButtonDisabledWhileLoggedIn' => 'يجب تسجيل الخروج قبل تسجيل الدخول مرة أخرى',
 			'loginFormSection.loginFailures.invalidCredentials' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
 			'loginFormSection.loginFailures.loginDisabled' => 'تسجيل الدخول معطل. تواصل مع المسؤول لتفعيله.',
 			'loginFormSection.loginFailures.invalidInput' => 'بيانات تسجيل الدخول غير صالحة.',
@@ -1294,8 +1311,13 @@ extension on TranslationsAr {
 			'technicalFailureDetails.showDialog' => 'عرض تفاصيل الخطأ',
 			'technicalFailureDetails.dialog.title' => 'التفاصيل التقنية',
 			'technicalFailureDetails.dialog.description' => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.',
-			'loginIdentitySelectorMenuAnchor.tooltip' => 'تبديل الحساب',
+			'loginIdentitySelectorMenuAnchor.switchAccount' => 'تبديل الحساب',
 			'loginIdentitySelectorMenuAnchor.addButton' => 'إضافة حساب',
+			'authenticationRequiredPage.title' => 'المصادقة مطلوبة',
+			'authenticationRequiredPage.selectedLoginIdentityRequiresReauth' => 'إعادة المصادقة مطلوبة للحساب المحدد. للمتابعة، سجل الدخول مجددًا أو انتقل إلى حساب آخر.',
+			'authenticationRequiredPage.or' => 'أو',
+			'authenticationRequiredPage.continueButton' => 'متابعة',
+			'authenticationRequiredPage.updateAccountFailure' => 'فشل تحديث الحساب',
 			_ => null,
 		};
 	}

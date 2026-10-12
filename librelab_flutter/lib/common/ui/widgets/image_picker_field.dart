@@ -1,7 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/image_picker_handler.dart';
-import 'package:librelab_flutter/common/ui/widgets/failure/technical_failure_details_dialog.dart';
+import 'package:librelab_flutter/common/ui/widgets/failure/failure_view.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// A form field that displays an image and allows it to be changed or removed.
@@ -87,22 +87,10 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
             if (imageError != null) {
               final details = imageError.$1.toString();
 
-              return Column(
-                mainAxisSize: .min,
-                children: [
-                  Text(context.t.imagePicker.failedToLoadImage),
-                  TextButton(
-                    onPressed: _retryImage,
-                    child: Text(context.t.retry),
-                  ),
-                  TextButton(
-                    onPressed: () => TechnicalFailureDetailsDialog.show(
-                      context,
-                      details: details,
-                    ),
-                    child: Text(context.t.technicalFailureDetails.showDialog),
-                  ),
-                ],
+              return FailureView(
+                message: context.t.imagePicker.failedToLoadImage,
+                onRetry: _retryImage,
+                technicalDetails: details,
               );
             }
             return null;

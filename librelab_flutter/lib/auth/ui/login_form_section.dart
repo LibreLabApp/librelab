@@ -17,8 +17,14 @@ import 'package:librelab_shared/result.dart' hide Failure;
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class const LoginFormSection({super.key, required final Uri serverBaseUrl})
-    extends StatefulWidget {
+class const LoginFormSection({
+  super.key,
+  required final Uri serverBaseUrl,
+  final String? initialEmailText,
+  final bool? initialPersistAuthSessionValue,
+  final bool emailTextFieldReadOnly = false,
+  final WidgetBuilder? loginButtonSuccessBuilder,
+}) extends StatefulWidget {
   @override
   State<LoginFormSection> createState() => _LoginFormSectionState();
 }
@@ -32,9 +38,20 @@ class _LoginFormSectionState extends State<LoginFormSection> {
 
   @override
   void initState() {
-    final state = context.read<LoginCubit>().state;
-    if (state is Success) {
-      _persistAuthSession = state.persistAuthSession;
+    final initialPersistAuthSessionValue =
+        widget.initialPersistAuthSessionValue;
+    if (initialPersistAuthSessionValue != null) {
+      _persistAuthSession = initialPersistAuthSessionValue;
+    } else {
+      final state = context.read<LoginCubit>().state;
+      if (state is Success) {
+        _persistAuthSession = state.persistAuthSession;
+      }
+    }
+
+    final initialEmailText = widget.initialEmailText;
+    if (initialEmailText != null) {
+      _emailState.controller.text = initialEmailText;
     }
 
     super.initState();
@@ -112,6 +129,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                       },
                     ),
                   _EmailAddressTextField(
+                    readOnly: widget.emailTextFieldReadOnly,
                     controller: _emailState.controller,
                     focusNode: _emailState.focusNode,
                     onFieldSubmitted: (_) =>
@@ -134,27 +152,49 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           if (kIsWeb)
             const _GuestModeNotice()
           else
-            CheckboxListTile(
-              value: _persistAuthSession,
-              onChanged: (value) =>
-                  setState(() => _persistAuthSession = value ?? true),
-              title: Text(t.persistAuthSession),
-              controlAffinity: .leading,
-              contentPadding: .zero,
+            BlocSelector<LoginCubit, LoginState, (bool, bool)>(
+              selector: (state) => (state.isLoading, state.isSuccess),
+              builder: (context, selectedState) {
+                final (isLoading, isSuccess) = selectedState;
+
+                return CheckboxListTile(
+                  value: _persistAuthSession,
+                  onChanged: isLoading | isSuccess
+                      ? null
+                      : (value) => setState(() => _persistAuthSession = value!),
+                  title: Text(t.persistAuthSession),
+                  controlAffinity: .leading,
+                  contentPadding: .zero,
+                );
+              },
             ),
           const SizedBox(height: 16),
           SizedBox(
             width: .infinity,
             height: 40,
-            child: BlocSelector<LoginCubit, LoginState, bool>(
-              selector: (state) => state.isLoading,
-              builder: (context, isLoading) {
-                return FilledButton(
-                  onPressed: isLoading ? null : _login,
+            child: BlocSelector<LoginCubit, LoginState, (bool, bool)>(
+              selector: (state) => (state.isLoading, state.isSuccess),
+              builder: (context, selectedState) {
+                final (isLoading, isSuccess) = selectedState;
+
+                final button = FilledButton(
+                  onPressed: isLoading || isSuccess ? null : _login,
                   child: isLoading
                       ? const ButtonLoadingIndicator()
                       : Text(t.loginButton),
                 );
+
+                if (isSuccess) {
+                  if (widget.loginButtonSuccessBuilder case final builder?) {
+                    return builder(context);
+                  }
+                  return Tooltip(
+                    message: t.loginButtonDisabledWhileLoggedIn,
+                    child: button,
+                  );
+                }
+
+                return button;
               },
             ),
           ),
@@ -247,12 +287,14 @@ class const _EmailAddressTextField({
   required final FocusNode _focusNode,
   required final ValueChanged<String> onFieldSubmitted,
   required final String? errorText,
+  required final bool readOnly,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.t.loginFormSection.emailAddressTextField;
 
     return TextFormField(
+      readOnly: readOnly,
       controller: _controller,
       focusNode: _focusNode,
       maxLines: 1,

@@ -21,12 +21,18 @@ class LoginCubit({
 }) extends Cubit<LoginState> {
   this : super(const .initial());
 
+  /// Logs in and establishes a temporary authenticated session.
+  /// Must be logged out before another login can be performed.
   Future<void> login({
     required String email,
     required String password,
     required Uri serverBaseUrl,
     required bool persistAuthSession,
   }) async {
+    if (state is Success) {
+      throw StateError('Cannot login while already logged in.');
+    }
+
     emit(const .loading());
 
     final result = await _authRepository.login(
@@ -76,7 +82,7 @@ class LoginCubit({
     switch (result) {
       case SuccessResult(value: final tokenRevoked):
         _logger.info(
-          'Successfully logged out user ${state.result.user.id}. '
+          'Successfully logged out temporary login for user  ${state.result.user.id}. '
           '${tokenRevoked ? 'Refresh token was found and revoked.' : 'Refresh token was not found.'}',
         );
 
