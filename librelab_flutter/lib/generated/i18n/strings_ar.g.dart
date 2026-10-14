@@ -142,7 +142,8 @@ class _Translations$settings$ar extends Translations$settings$en {
 	@override late final _Translations$settings$locale$ar locale = _Translations$settings$locale$ar._(_root);
 	@override late final _Translations$settings$themeMode$ar themeMode = _Translations$settings$themeMode$ar._(_root);
 	@override late final _Translations$settings$useSystemColors$ar useSystemColors = _Translations$settings$useSystemColors$ar._(_root);
-	@override late final _Translations$settings$useCustomAccentColor$ar useCustomAccentColor = _Translations$settings$useCustomAccentColor$ar._(_root);
+	@override late final _Translations$settings$customAccentColor$ar customAccentColor = _Translations$settings$customAccentColor$ar._(_root);
+	@override late final _Translations$settings$fontSize$ar fontSize = _Translations$settings$fontSize$ar._(_root);
 	@override late final _Translations$settings$useAnimatedGraphics$ar useAnimatedGraphics = _Translations$settings$useAnimatedGraphics$ar._(_root);
 	@override late final _Translations$settings$sendCrashReports$ar sendCrashReports = _Translations$settings$sendCrashReports$ar._(_root);
 }
@@ -401,17 +402,28 @@ class _Translations$settings$useSystemColors$ar extends Translations$settings$us
 	@override String get subtitle => 'التكيف تلقائيا مع الوان النظام';
 }
 
-// Path: settings.useCustomAccentColor
-class _Translations$settings$useCustomAccentColor$ar extends Translations$settings$useCustomAccentColor$en {
-	_Translations$settings$useCustomAccentColor$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: settings.customAccentColor
+class _Translations$settings$customAccentColor$ar extends Translations$settings$customAccentColor$en {
+	_Translations$settings$customAccentColor$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
 	@override String get title => 'لون مميز مخصص';
 	@override String get subtitle => 'تخصيص لون التمييز للتطبيق';
-	@override late final _Translations$settings$useCustomAccentColor$pickColorDialog$ar pickColorDialog = _Translations$settings$useCustomAccentColor$pickColorDialog$ar._(_root);
+	@override late final _Translations$settings$customAccentColor$pickColorDialog$ar pickColorDialog = _Translations$settings$customAccentColor$pickColorDialog$ar._(_root);
 	@override String get disabledTooltip => 'عطل ألوان النظام للتخصيص.';
+}
+
+// Path: settings.fontSize
+class _Translations$settings$fontSize$ar extends Translations$settings$fontSize$en {
+	_Translations$settings$fontSize$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'حجم الخط';
+	@override String get subtitle => 'ضبط حجم الخط بالنسبة إلى إعدادات النظام';
 }
 
 // Path: settings.useAnimatedGraphics
@@ -745,9 +757,9 @@ class _Translations$settings$themeMode$options$ar extends Translations$settings$
 	@override String get light => 'فاتح';
 }
 
-// Path: settings.useCustomAccentColor.pickColorDialog
-class _Translations$settings$useCustomAccentColor$pickColorDialog$ar extends Translations$settings$useCustomAccentColor$pickColorDialog$en {
-	_Translations$settings$useCustomAccentColor$pickColorDialog$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+// Path: settings.customAccentColor.pickColorDialog
+class _Translations$settings$customAccentColor$pickColorDialog$ar extends Translations$settings$customAccentColor$pickColorDialog$en {
+	_Translations$settings$customAccentColor$pickColorDialog$ar._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
@@ -1235,11 +1247,13 @@ extension on TranslationsAr {
 			'settings.themeMode.options.light' => 'فاتح',
 			'settings.useSystemColors.title' => 'استخدام الوان النظام',
 			'settings.useSystemColors.subtitle' => 'التكيف تلقائيا مع الوان النظام',
-			'settings.useCustomAccentColor.title' => 'لون مميز مخصص',
-			'settings.useCustomAccentColor.subtitle' => 'تخصيص لون التمييز للتطبيق',
-			'settings.useCustomAccentColor.pickColorDialog.title' => 'اختر لونًا',
-			'settings.useCustomAccentColor.pickColorDialog.close' => 'إغلاق',
-			'settings.useCustomAccentColor.disabledTooltip' => 'عطل ألوان النظام للتخصيص.',
+			'settings.customAccentColor.title' => 'لون مميز مخصص',
+			'settings.customAccentColor.subtitle' => 'تخصيص لون التمييز للتطبيق',
+			'settings.customAccentColor.pickColorDialog.title' => 'اختر لونًا',
+			'settings.customAccentColor.pickColorDialog.close' => 'إغلاق',
+			'settings.customAccentColor.disabledTooltip' => 'عطل ألوان النظام للتخصيص.',
+			'settings.fontSize.title' => 'حجم الخط',
+			'settings.fontSize.subtitle' => 'ضبط حجم الخط بالنسبة إلى إعدادات النظام',
 			'settings.useAnimatedGraphics.title' => 'الرسومات المتحركة',
 			'settings.useAnimatedGraphics.subtitle' => 'يعرض رسومات متحركة بدلا من الأيقونات الثابتة',
 			'settings.sendCrashReports.title' => 'إرسال تقارير الأعطال',

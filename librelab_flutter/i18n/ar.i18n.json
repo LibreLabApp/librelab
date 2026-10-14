@@ -216,7 +216,7 @@
             "title": "استخدام الوان النظام",
             "subtitle": "التكيف تلقائيا مع الوان النظام"
         },
-        "useCustomAccentColor": {
+        "customAccentColor": {
             "title": "لون مميز مخصص",
             "subtitle": "تخصيص لون التمييز للتطبيق",
             "pickColorDialog": {
@@ -224,6 +224,10 @@
                 "close": "إغلاق"
             },
             "disabledTooltip": "عطل ألوان النظام للتخصيص."
+        },
+        "fontSize": {
+            "title": "حجم الخط",
+            "subtitle": "ضبط حجم الخط بالنسبة إلى إعدادات النظام"
         },
         "useAnimatedGraphics": {
             "title": "الرسومات المتحركة",

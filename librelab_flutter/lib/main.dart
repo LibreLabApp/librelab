@@ -371,6 +371,30 @@ class const MainApp({
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            builder: (context, child) {
+              child!;
+
+              final fontSizeScale = context.select(
+                (AppSettingsCubit v) =>
+                    v.state.settings.appearance.fontSizeScale,
+              );
+
+              if (fontSizeScale == 1.0) {
+                return child;
+              }
+
+              final mediaQuery = MediaQuery.of(context);
+
+              return MediaQuery(
+                data: mediaQuery.copyWith(
+                  textScaler: _AdjustedTextScaler(
+                    systemScaler: mediaQuery.textScaler,
+                    factor: fontSizeScale,
+                  ),
+                ),
+                child: child,
+              );
+            },
           );
         },
       ),
@@ -406,4 +430,20 @@ bool _hasPersistedLoginIdentity(
   return loadState.loginIdentities.list.any(
     (identity) => identity.user.id == userId,
   );
+}
+
+/// A text scaler that applies an additional scaling factor to an existing
+/// [TextScaler].
+@immutable
+final class const _AdjustedTextScaler({
+  required final TextScaler systemScaler,
+  required final double factor,
+}) extends TextScaler {
+  @override
+  double scale(double fontSize) => systemScaler.scale(fontSize) * factor;
+
+  @override
+  // Note: Remove this getter override once it is removed from TextScaler.
+  // ignore: deprecated_member_use
+  double get textScaleFactor => systemScaler.textScaleFactor * factor;
 }

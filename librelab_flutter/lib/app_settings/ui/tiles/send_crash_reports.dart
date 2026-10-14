@@ -4,6 +4,9 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:material_ui/material_ui.dart';
 
+// TODO: Implement the actual functionality (this only configures the user's preference)
+
+/// A list tile for configuring whether crash reports should be sent.
 class const SendCrashReportsListTile({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

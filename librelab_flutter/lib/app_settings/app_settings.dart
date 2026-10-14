@@ -53,6 +53,11 @@ class const AppAppearance({
   @JsonKey(defaultValue: 0xFFFF5252) // Colors.redAccent
   required final int accentColor,
 
+  /// Additional font size scaling factor applied to the system text scaler.
+  ///
+  /// A value of `1.0` preserves the system font scaling.
+  @JsonKey(defaultValue: 1.0) required final double fontSizeScale,
+
   /// Whether to use animated graphics instead of static icons / fallback widgets
   /// for decorative visuals.
   @JsonKey(defaultValue: true) required final bool useAnimatedGraphics,

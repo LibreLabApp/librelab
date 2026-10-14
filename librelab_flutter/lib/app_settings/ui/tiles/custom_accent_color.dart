@@ -21,16 +21,16 @@ class const CustomAccentColorListTile({super.key}) extends StatelessWidget {
       (AppSettingsCubit v) => v.state.settings.appearance.useSystemColors,
     );
 
-    final t = context.t.settings.useCustomAccentColor;
+    final t = context.t.settings.customAccentColor;
 
     final VoidCallback? onSelect = useSystemColors
         ? null
         : () => _pickAColor(context, accentColor: accentColor);
 
-    final widget = ListTile(
+    return ListTile(
+      leading: const Icon(Icons.colorize),
       title: Text(t.title),
       subtitle: Text(t.subtitle),
-      leading: const Icon(Icons.colorize),
       trailing: Row(
         mainAxisSize: .min,
         spacing: 6,
@@ -42,22 +42,22 @@ class const CustomAccentColorListTile({super.key}) extends StatelessWidget {
             color: accentColor,
             onSelect: onSelect,
           ),
-          Switch(
-            value: useAccentColor,
-            onChanged: useSystemColors
-                ? null
-                : (value) => _onChanged(context, value),
-          ),
+          () {
+            final widget = Switch(
+              value: useAccentColor,
+              onChanged: useSystemColors
+                  ? null
+                  : (value) => _onChanged(context, value),
+            );
+            if (useSystemColors) {
+              return Tooltip(message: t.disabledTooltip, child: widget);
+            }
+            return widget;
+          }(),
         ],
       ),
       onTap: onSelect,
     );
-
-    if (useSystemColors) {
-      return Tooltip(message: t.disabledTooltip, child: widget);
-    }
-
-    return widget;
   }
 
   Future<void> _pickAColor(
@@ -71,7 +71,7 @@ class const CustomAccentColorListTile({super.key}) extends StatelessWidget {
     await showDialog<void>(
       context: context,
       builder: (context) {
-        final t = context.t.settings.useCustomAccentColor.pickColorDialog;
+        final t = context.t.settings.customAccentColor.pickColorDialog;
 
         return AlertDialog(
           title: Text(t.title),
@@ -85,9 +85,7 @@ class const CustomAccentColorListTile({super.key}) extends StatelessWidget {
               ),
             ),
           ),
-          actions: [
-            TextButton(onPressed: () => context.pop(), child: Text(t.close)),
-          ],
+          actions: [TextButton(onPressed: context.pop, child: Text(t.close))],
         );
       },
     );

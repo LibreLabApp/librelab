@@ -334,20 +334,20 @@ $AppAppearanceCopyWith<AppAppearance> get copyWith => _$AppAppearanceCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as AppAppearance;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppAppearance&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.useSystemColors, _this.useSystemColors) || other.useSystemColors == _this.useSystemColors)&&(identical(other.useAccentColor, _this.useAccentColor) || other.useAccentColor == _this.useAccentColor)&&(identical(other.accentColor, _this.accentColor) || other.accentColor == _this.accentColor)&&(identical(other.useAnimatedGraphics, _this.useAnimatedGraphics) || other.useAnimatedGraphics == _this.useAnimatedGraphics));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppAppearance&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.useSystemColors, _this.useSystemColors) || other.useSystemColors == _this.useSystemColors)&&(identical(other.useAccentColor, _this.useAccentColor) || other.useAccentColor == _this.useAccentColor)&&(identical(other.accentColor, _this.accentColor) || other.accentColor == _this.accentColor)&&(identical(other.fontSizeScale, _this.fontSizeScale) || other.fontSizeScale == _this.fontSizeScale)&&(identical(other.useAnimatedGraphics, _this.useAnimatedGraphics) || other.useAnimatedGraphics == _this.useAnimatedGraphics));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AppAppearance;
-  return Object.hash(runtimeType,_this.themeMode,_this.useSystemColors,_this.useAccentColor,_this.accentColor,_this.useAnimatedGraphics);
+  return Object.hash(runtimeType,_this.themeMode,_this.useSystemColors,_this.useAccentColor,_this.accentColor,_this.fontSizeScale,_this.useAnimatedGraphics);
 }
 
 @override
 String toString() {
   final _this = this as AppAppearance;
-  return 'AppAppearance(themeMode: ${_this.themeMode}, useSystemColors: ${_this.useSystemColors}, useAccentColor: ${_this.useAccentColor}, accentColor: ${_this.accentColor}, useAnimatedGraphics: ${_this.useAnimatedGraphics})';
+  return 'AppAppearance(themeMode: ${_this.themeMode}, useSystemColors: ${_this.useSystemColors}, useAccentColor: ${_this.useAccentColor}, accentColor: ${_this.accentColor}, fontSizeScale: ${_this.fontSizeScale}, useAnimatedGraphics: ${_this.useAnimatedGraphics})';
 }
 
 
@@ -358,7 +358,7 @@ abstract mixin class $AppAppearanceCopyWith<$Res>  {
   factory $AppAppearanceCopyWith(AppAppearance value, $Res Function(AppAppearance) _then) = _$AppAppearanceCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor,@JsonKey(defaultValue: true) bool useAnimatedGraphics
+@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor,@JsonKey(defaultValue: 1.0) double fontSizeScale,@JsonKey(defaultValue: true) bool useAnimatedGraphics
 });
 
 
@@ -375,13 +375,14 @@ class _$AppAppearanceCopyWithImpl<$Res>
 
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,Object? useAnimatedGraphics = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,Object? fontSizeScale = null,Object? useAnimatedGraphics = null,}) {
   return _then(AppAppearance(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as AppThemeMode,useSystemColors: null == useSystemColors ? _self.useSystemColors : useSystemColors // ignore: cast_nullable_to_non_nullable
 as bool,useAccentColor: null == useAccentColor ? _self.useAccentColor : useAccentColor // ignore: cast_nullable_to_non_nullable
 as bool,accentColor: null == accentColor ? _self.accentColor : accentColor // ignore: cast_nullable_to_non_nullable
-as int,useAnimatedGraphics: null == useAnimatedGraphics ? _self.useAnimatedGraphics : useAnimatedGraphics // ignore: cast_nullable_to_non_nullable
+as int,fontSizeScale: null == fontSizeScale ? _self.fontSizeScale : fontSizeScale // ignore: cast_nullable_to_non_nullable
+as double,useAnimatedGraphics: null == useAnimatedGraphics ? _self.useAnimatedGraphics : useAnimatedGraphics // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -467,10 +468,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: 1.0)  double fontSizeScale, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppAppearance() when $default != null:
-return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.useAnimatedGraphics);case _:
+return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.fontSizeScale,_that.useAnimatedGraphics);case _:
   return orElse();
 
 }
@@ -488,10 +489,10 @@ return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: 1.0)  double fontSizeScale, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)  $default,) {final _that = this;
 switch (_that) {
 case _AppAppearance():
-return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.useAnimatedGraphics);case _:
+return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.fontSizeScale,_that.useAnimatedGraphics);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -508,10 +509,10 @@ return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(defaultValue: AppThemeMode.system)  AppThemeMode themeMode, @JsonKey(defaultValue: true)  bool useSystemColors, @JsonKey(defaultValue: false)  bool useAccentColor, @JsonKey(defaultValue: 0xFFFF5252)  int accentColor, @JsonKey(defaultValue: 1.0)  double fontSizeScale, @JsonKey(defaultValue: true)  bool useAnimatedGraphics)?  $default,) {final _that = this;
 switch (_that) {
 case _AppAppearance() when $default != null:
-return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.useAnimatedGraphics);case _:
+return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that.accentColor,_that.fontSizeScale,_that.useAnimatedGraphics);case _:
   return null;
 
 }
@@ -523,14 +524,21 @@ return $default(_that.themeMode,_that.useSystemColors,_that.useAccentColor,_that
 
 
 class _AppAppearance extends AppAppearance {
-  const _AppAppearance({@JsonKey(defaultValue: AppThemeMode.system) required this.themeMode, @JsonKey(defaultValue: true) required this.useSystemColors, @JsonKey(defaultValue: false) required this.useAccentColor, @JsonKey(defaultValue: 0xFFFF5252) required this.accentColor, @JsonKey(defaultValue: true) required this.useAnimatedGraphics}): super(themeMode: themeMode, useSystemColors: useSystemColors, useAccentColor: useAccentColor, accentColor: accentColor, useAnimatedGraphics: useAnimatedGraphics);
+  const _AppAppearance({@JsonKey(defaultValue: AppThemeMode.system) required this.themeMode, @JsonKey(defaultValue: true) required this.useSystemColors, @JsonKey(defaultValue: false) required this.useAccentColor, @JsonKey(defaultValue: 0xFFFF5252) required this.accentColor, @JsonKey(defaultValue: 1.0) required this.fontSizeScale, @JsonKey(defaultValue: true) required this.useAnimatedGraphics}): super(themeMode: themeMode, useSystemColors: useSystemColors, useAccentColor: useAccentColor, accentColor: accentColor, fontSizeScale: fontSizeScale, useAnimatedGraphics: useAnimatedGraphics);
   
 
 @override@JsonKey(defaultValue: AppThemeMode.system) final  AppThemeMode themeMode;
 @override@JsonKey(defaultValue: true) final  bool useSystemColors;
+/// Whether to use the custom accent color.
+///
+/// Ignored when [useSystemColors] is `true`.
 @override@JsonKey(defaultValue: false) final  bool useAccentColor;
 /// Stored as ARGB int
 @override@JsonKey(defaultValue: 0xFFFF5252) final  int accentColor;
+/// Additional font size scaling factor applied to the system text scaler.
+///
+/// A value of `1.0` preserves the system font scaling.
+@override@JsonKey(defaultValue: 1.0) final  double fontSizeScale;
 /// Whether to use animated graphics instead of static icons / fallback widgets
 /// for decorative visuals.
 @override@JsonKey(defaultValue: true) final  bool useAnimatedGraphics;
@@ -545,18 +553,18 @@ _$AppAppearanceCopyWith<_AppAppearance> get copyWith => __$AppAppearanceCopyWith
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppAppearance&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.useSystemColors, useSystemColors) || other.useSystemColors == useSystemColors)&&(identical(other.useAccentColor, useAccentColor) || other.useAccentColor == useAccentColor)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.fontSizeScale, fontSizeScale) || other.fontSizeScale == fontSizeScale)&&(identical(other.useAnimatedGraphics, useAnimatedGraphics) || other.useAnimatedGraphics == useAnimatedGraphics));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,useAnimatedGraphics);
+    return Object.hash(runtimeType,themeMode,useSystemColors,useAccentColor,accentColor,fontSizeScale,useAnimatedGraphics);
 }
 
 @override
 String toString() {
-    return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, useAnimatedGraphics: $useAnimatedGraphics)';
+    return 'AppAppearance(themeMode: $themeMode, useSystemColors: $useSystemColors, useAccentColor: $useAccentColor, accentColor: $accentColor, fontSizeScale: $fontSizeScale, useAnimatedGraphics: $useAnimatedGraphics)';
 }
 
 
@@ -567,7 +575,7 @@ abstract mixin class _$AppAppearanceCopyWith<$Res> implements $AppAppearanceCopy
   factory _$AppAppearanceCopyWith(_AppAppearance value, $Res Function(_AppAppearance) _then) = __$AppAppearanceCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor,@JsonKey(defaultValue: true) bool useAnimatedGraphics
+@JsonKey(defaultValue: AppThemeMode.system) AppThemeMode themeMode,@JsonKey(defaultValue: true) bool useSystemColors,@JsonKey(defaultValue: false) bool useAccentColor,@JsonKey(defaultValue: 0xFFFF5252) int accentColor,@JsonKey(defaultValue: 1.0) double fontSizeScale,@JsonKey(defaultValue: true) bool useAnimatedGraphics
 });
 
 
@@ -584,13 +592,14 @@ class __$AppAppearanceCopyWithImpl<$Res>
 
 /// Create a copy of AppAppearance
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,Object? useAnimatedGraphics = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? useSystemColors = null,Object? useAccentColor = null,Object? accentColor = null,Object? fontSizeScale = null,Object? useAnimatedGraphics = null,}) {
   return _then(_AppAppearance(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as AppThemeMode,useSystemColors: null == useSystemColors ? _self.useSystemColors : useSystemColors // ignore: cast_nullable_to_non_nullable
 as bool,useAccentColor: null == useAccentColor ? _self.useAccentColor : useAccentColor // ignore: cast_nullable_to_non_nullable
 as bool,accentColor: null == accentColor ? _self.accentColor : accentColor // ignore: cast_nullable_to_non_nullable
-as int,useAnimatedGraphics: null == useAnimatedGraphics ? _self.useAnimatedGraphics : useAnimatedGraphics // ignore: cast_nullable_to_non_nullable
+as int,fontSizeScale: null == fontSizeScale ? _self.fontSizeScale : fontSizeScale // ignore: cast_nullable_to_non_nullable
+as double,useAnimatedGraphics: null == useAnimatedGraphics ? _self.useAnimatedGraphics : useAnimatedGraphics // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

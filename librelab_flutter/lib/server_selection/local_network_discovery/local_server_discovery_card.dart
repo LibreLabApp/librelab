@@ -259,10 +259,7 @@ class _NoServersFound extends StatelessWidget {
 }
 
 class _DiscoveredServersList extends StatelessWidget {
-  const new({
-    required this.isLoading,
-    required this.discoveredServers,
-  });
+  const new({required this.isLoading, required this.discoveredServers});
 
   final bool isLoading;
   final List<DiscoveredServer> discoveredServers;
@@ -348,10 +345,6 @@ class const _ServerTile({
           );
         },
         child: ListTile(
-          onTap: () =>
-              _localNetworkDiscoveryController(context).selectServer(server.id),
-          title: Text(server.instanceName),
-          subtitle: Text(server.authority),
           leading: Row(
             mainAxisSize: .min,
             spacing: 8,
@@ -365,6 +358,8 @@ class const _ServerTile({
               ),
             ],
           ),
+          title: Text(server.instanceName),
+          subtitle: Text(server.authority),
           trailing: () {
             final latencyMs = server.latencyMs;
             if (latencyMs == null) {
@@ -383,6 +378,8 @@ class const _ServerTile({
               ],
             );
           }(),
+          onTap: () =>
+              _localNetworkDiscoveryController(context).selectServer(server.id),
         ),
       ),
     );

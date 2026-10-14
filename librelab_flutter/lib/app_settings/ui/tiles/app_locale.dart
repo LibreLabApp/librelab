@@ -5,6 +5,7 @@ import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:material_ui/material_ui.dart';
 
+/// A list tile for selecting the application's locale.
 class const AppLocaleListTile({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,8 @@ class const AppLocaleListTile({super.key}) extends StatelessWidget {
     final t = context.t.settings.locale;
 
     return ListTile(
-      title: Text(t.title),
       leading: const Icon(Icons.language),
+      title: Text(t.title),
       // TODO: The trailing is taking too much width on some real mobile devices when
       //  the font size is bigger than usual, leaving little space for the text
       trailing: DropdownMenu(

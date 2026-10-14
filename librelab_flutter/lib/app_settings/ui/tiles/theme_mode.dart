@@ -5,18 +5,18 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/adaptive_toggle_group.dart';
 import 'package:material_ui/material_ui.dart';
 
+/// A list tile for selecting the application's theme mode.
 class const ThemeModeListTile({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.t.settings.themeMode;
 
     return ListTile(
+      leading: Icon(switch (context.theme.brightness) {
+        .dark => Icons.nightlight,
+        .light => Icons.wb_sunny_outlined,
+      }),
       title: Text(t.title),
-      leading: Icon(
-        context.theme.brightness == Brightness.dark
-            ? Icons.nightlight
-            : Icons.wb_sunny_outlined,
-      ),
       trailing: _OptionButtons(),
     );
   }

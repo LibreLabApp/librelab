@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/custom_accent_color.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/font_size.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/send_crash_reports.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/theme_mode.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_animated_graphics.dart';
@@ -124,6 +125,7 @@ class _AddLoginIdentityFlowState extends State<AddLoginIdentityFlow> {
                 ThemeModeListTile(),
                 UseSystemThemeColorListTile(),
                 CustomAccentColorListTile(),
+                FontSizeListTile(),
                 if (AnimatedVisual.supported) UseAnimatedGraphicsListTile(),
                 SendCrashReportsListTile(),
               ],

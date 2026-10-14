@@ -184,7 +184,8 @@ class Translations$settings$en {
 	late final Translations$settings$locale$en locale = Translations$settings$locale$en.internal(_root);
 	late final Translations$settings$themeMode$en themeMode = Translations$settings$themeMode$en.internal(_root);
 	late final Translations$settings$useSystemColors$en useSystemColors = Translations$settings$useSystemColors$en.internal(_root);
-	late final Translations$settings$useCustomAccentColor$en useCustomAccentColor = Translations$settings$useCustomAccentColor$en.internal(_root);
+	late final Translations$settings$customAccentColor$en customAccentColor = Translations$settings$customAccentColor$en.internal(_root);
+	late final Translations$settings$fontSize$en fontSize = Translations$settings$fontSize$en.internal(_root);
 	late final Translations$settings$useAnimatedGraphics$en useAnimatedGraphics = Translations$settings$useAnimatedGraphics$en.internal(_root);
 	late final Translations$settings$sendCrashReports$en sendCrashReports = Translations$settings$sendCrashReports$en.internal(_root);
 }
@@ -562,9 +563,9 @@ class Translations$settings$useSystemColors$en {
 	String get subtitle => 'Automatically adapt to the system colors';
 }
 
-// Path: settings.useCustomAccentColor
-class Translations$settings$useCustomAccentColor$en {
-	Translations$settings$useCustomAccentColor$en.internal(this._root);
+// Path: settings.customAccentColor
+class Translations$settings$customAccentColor$en {
+	Translations$settings$customAccentColor$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -576,10 +577,25 @@ class Translations$settings$useCustomAccentColor$en {
 	/// en: 'Customize the accent color of the app theme'
 	String get subtitle => 'Customize the accent color of the app theme';
 
-	late final Translations$settings$useCustomAccentColor$pickColorDialog$en pickColorDialog = Translations$settings$useCustomAccentColor$pickColorDialog$en.internal(_root);
+	late final Translations$settings$customAccentColor$pickColorDialog$en pickColorDialog = Translations$settings$customAccentColor$pickColorDialog$en.internal(_root);
 
 	/// en: 'Disable system colors to customize.'
 	String get disabledTooltip => 'Disable system colors to customize.';
+}
+
+// Path: settings.fontSize
+class Translations$settings$fontSize$en {
+	Translations$settings$fontSize$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Font Size'
+	String get title => 'Font Size';
+
+	/// en: 'Adjust the font size relative to system settings'
+	String get subtitle => 'Adjust the font size relative to system settings';
 }
 
 // Path: settings.useAnimatedGraphics
@@ -1017,9 +1033,9 @@ class Translations$settings$themeMode$options$en {
 	String get light => 'Light';
 }
 
-// Path: settings.useCustomAccentColor.pickColorDialog
-class Translations$settings$useCustomAccentColor$pickColorDialog$en {
-	Translations$settings$useCustomAccentColor$pickColorDialog$en.internal(this._root);
+// Path: settings.customAccentColor.pickColorDialog
+class Translations$settings$customAccentColor$pickColorDialog$en {
+	Translations$settings$customAccentColor$pickColorDialog$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1647,11 +1663,13 @@ extension on Translations {
 			'settings.themeMode.options.light' => 'Light',
 			'settings.useSystemColors.title' => 'Inherit System Colors',
 			'settings.useSystemColors.subtitle' => 'Automatically adapt to the system colors',
-			'settings.useCustomAccentColor.title' => 'Custom Accent Color',
-			'settings.useCustomAccentColor.subtitle' => 'Customize the accent color of the app theme',
-			'settings.useCustomAccentColor.pickColorDialog.title' => 'Pick a Color',
-			'settings.useCustomAccentColor.pickColorDialog.close' => 'Close',
-			'settings.useCustomAccentColor.disabledTooltip' => 'Disable system colors to customize.',
+			'settings.customAccentColor.title' => 'Custom Accent Color',
+			'settings.customAccentColor.subtitle' => 'Customize the accent color of the app theme',
+			'settings.customAccentColor.pickColorDialog.title' => 'Pick a Color',
+			'settings.customAccentColor.pickColorDialog.close' => 'Close',
+			'settings.customAccentColor.disabledTooltip' => 'Disable system colors to customize.',
+			'settings.fontSize.title' => 'Font Size',
+			'settings.fontSize.subtitle' => 'Adjust the font size relative to system settings',
 			'settings.useAnimatedGraphics.title' => 'Animated Graphics',
 			'settings.useAnimatedGraphics.subtitle' => 'Displays animations instead of static icons',
 			'settings.sendCrashReports.title' => 'Send Crash Reports',

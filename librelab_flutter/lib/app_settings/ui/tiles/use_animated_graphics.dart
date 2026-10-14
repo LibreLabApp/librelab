@@ -3,6 +3,7 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+/// A list tile for configuring whether animated graphics should be used.
 class const UseAnimatedGraphicsListTile({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -223,7 +223,7 @@
       "title": "Inherit System Colors",
       "subtitle": "Automatically adapt to the system colors"
     },
-    "useCustomAccentColor": {
+    "customAccentColor": {
       "title": "Custom Accent Color",
       "subtitle": "Customize the accent color of the app theme",
       "pickColorDialog": {
@@ -231,6 +231,10 @@
         "close": "Close"
       },
       "disabledTooltip": "Disable system colors to customize."
+    },
+    "fontSize": {
+      "title": "Font Size",
+      "subtitle": "Adjust the font size relative to system settings"
     },
     "useAnimatedGraphics": {
       "title": "Animated Graphics",

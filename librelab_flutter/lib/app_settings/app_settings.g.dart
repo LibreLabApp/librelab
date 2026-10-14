@@ -33,15 +33,17 @@ AppAppearance _$AppAppearanceFromJson(Map<String, dynamic> json) =>
       useSystemColors: json['useSystemColors'] as bool? ?? true,
       useAccentColor: json['useAccentColor'] as bool? ?? false,
       accentColor: (json['accentColor'] as num?)?.toInt() ?? 4294922834,
+      fontSizeScale: (json['fontSizeScale'] as num?)?.toDouble() ?? 1.0,
       useAnimatedGraphics: json['useAnimatedGraphics'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$AppAppearanceToJson(AppAppearance instance) =>
     <String, dynamic>{
-      'themeMode': _$AppThemeModeEnumMap[instance.themeMode],
+      'themeMode': _$AppThemeModeEnumMap[instance.themeMode]!,
       'useSystemColors': instance.useSystemColors,
       'useAccentColor': instance.useAccentColor,
       'accentColor': instance.accentColor,
+      'fontSizeScale': instance.fontSizeScale,
       'useAnimatedGraphics': instance.useAnimatedGraphics,
     };
 
