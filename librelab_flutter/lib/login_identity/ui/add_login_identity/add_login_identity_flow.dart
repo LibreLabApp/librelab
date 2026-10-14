@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/app_locale.dart';
+import 'package:librelab_flutter/app_settings/ui/tiles/custom_accent_color.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/send_crash_reports.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/theme_mode.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_animated_graphics.dart';
-import 'package:librelab_flutter/app_settings/ui/tiles/use_custom_accent_color.dart';
 import 'package:librelab_flutter/app_settings/ui/tiles/use_system_theme_color.dart';
 import 'package:librelab_flutter/auth/login_cubit/login_cubit.dart'
     hide Success;
@@ -123,7 +123,7 @@ class _AddLoginIdentityFlowState extends State<AddLoginIdentityFlow> {
                 AppLocaleListTile(),
                 ThemeModeListTile(),
                 UseSystemThemeColorListTile(),
-                UseCustomAccentColorListTile(),
+                CustomAccentColorListTile(),
                 if (AnimatedVisual.supported) UseAnimatedGraphicsListTile(),
                 SendCrashReportsListTile(),
               ],

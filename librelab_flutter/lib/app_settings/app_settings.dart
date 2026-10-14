@@ -6,7 +6,7 @@ part 'app_settings.freezed.dart';
 
 enum AppLocale() {
   en,
-  ar;
+  ar,
 }
 
 @immutable
@@ -44,6 +44,9 @@ class const AppAppearance({
   required final AppThemeMode themeMode,
   @JsonKey(defaultValue: true) required final bool useSystemColors,
 
+  /// Whether to use the custom accent color.
+  ///
+  /// Ignored when [useSystemColors] is `true`.
   @JsonKey(defaultValue: false) required final bool useAccentColor,
 
   /// Stored as ARGB int

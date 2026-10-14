@@ -411,6 +411,7 @@ class _Translations$settings$useCustomAccentColor$ar extends Translations$settin
 	@override String get title => 'لون مميز مخصص';
 	@override String get subtitle => 'تخصيص لون التمييز للتطبيق';
 	@override late final _Translations$settings$useCustomAccentColor$pickColorDialog$ar pickColorDialog = _Translations$settings$useCustomAccentColor$pickColorDialog$ar._(_root);
+	@override String get disabledTooltip => 'عطل ألوان النظام للتخصيص.';
 }
 
 // Path: settings.useAnimatedGraphics
@@ -1238,6 +1239,7 @@ extension on TranslationsAr {
 			'settings.useCustomAccentColor.subtitle' => 'تخصيص لون التمييز للتطبيق',
 			'settings.useCustomAccentColor.pickColorDialog.title' => 'اختر لونًا',
 			'settings.useCustomAccentColor.pickColorDialog.close' => 'إغلاق',
+			'settings.useCustomAccentColor.disabledTooltip' => 'عطل ألوان النظام للتخصيص.',
 			'settings.useAnimatedGraphics.title' => 'الرسومات المتحركة',
 			'settings.useAnimatedGraphics.subtitle' => 'يعرض رسومات متحركة بدلا من الأيقونات الثابتة',
 			'settings.sendCrashReports.title' => 'إرسال تقارير الأعطال',

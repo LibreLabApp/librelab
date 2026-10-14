@@ -229,7 +229,8 @@
       "pickColorDialog": {
         "title": "Pick a Color",
         "close": "Close"
-      }
+      },
+      "disabledTooltip": "Disable system colors to customize."
     },
     "useAnimatedGraphics": {
       "title": "Animated Graphics",

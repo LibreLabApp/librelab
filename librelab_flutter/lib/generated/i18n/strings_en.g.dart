@@ -577,6 +577,9 @@ class Translations$settings$useCustomAccentColor$en {
 	String get subtitle => 'Customize the accent color of the app theme';
 
 	late final Translations$settings$useCustomAccentColor$pickColorDialog$en pickColorDialog = Translations$settings$useCustomAccentColor$pickColorDialog$en.internal(_root);
+
+	/// en: 'Disable system colors to customize.'
+	String get disabledTooltip => 'Disable system colors to customize.';
 }
 
 // Path: settings.useAnimatedGraphics
@@ -1648,6 +1651,7 @@ extension on Translations {
 			'settings.useCustomAccentColor.subtitle' => 'Customize the accent color of the app theme',
 			'settings.useCustomAccentColor.pickColorDialog.title' => 'Pick a Color',
 			'settings.useCustomAccentColor.pickColorDialog.close' => 'Close',
+			'settings.useCustomAccentColor.disabledTooltip' => 'Disable system colors to customize.',
 			'settings.useAnimatedGraphics.title' => 'Animated Graphics',
 			'settings.useAnimatedGraphics.subtitle' => 'Displays animations instead of static icons',
 			'settings.sendCrashReports.title' => 'Send Crash Reports',

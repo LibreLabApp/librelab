@@ -222,7 +222,8 @@
             "pickColorDialog": {
                 "title": "اختر لونًا",
                 "close": "إغلاق"
-            }
+            },
+            "disabledTooltip": "عطل ألوان النظام للتخصيص."
         },
         "useAnimatedGraphics": {
             "title": "الرسومات المتحركة",
