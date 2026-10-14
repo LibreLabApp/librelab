@@ -16,7 +16,7 @@ class const AppLocaleListTile({super.key}) extends StatelessWidget {
     return ListTile(
       title: Text(t.title),
       leading: const Icon(Icons.language),
-      // TODO: The trailing is taking too much width on real mobile devices when
+      // TODO: The trailing is taking too much width on some real mobile devices when
       //  the font size is bigger than usual, leaving little space for the text
       trailing: DropdownMenu(
         initialSelection: appLocale,
