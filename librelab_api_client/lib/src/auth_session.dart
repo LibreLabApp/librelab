@@ -8,13 +8,13 @@ import 'package:meta/meta.dart';
 /// browser to manage authentication through HttpOnly cookies.
 @immutable
 sealed class const AuthSession({required final String userId}) {
-  const factory AuthSession.memory({
+  const factory memory({
     required String userId,
     required AuthToken accessToken,
     required AuthToken refreshToken,
   }) = AuthSessionMemory;
 
-  const factory AuthSession.browserCookie({required String userId}) =
+  const factory browserCookie({required String userId}) =
       AuthSessionBrowserCookie;
 }
 

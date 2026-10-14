@@ -6,9 +6,7 @@ import 'package:stepper_flow/src/stepper_view/stepper_view.dart';
 
 part 'sidebar.dart';
 
-sealed class StepAccessDecision {
-  const StepAccessDecision();
-
+sealed class const StepAccessDecision() {
   String? get disabledReason {
     return switch (this) {
       StepAllowed() || StepFinal() => null,

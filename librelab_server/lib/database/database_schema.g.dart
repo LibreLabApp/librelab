@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: unnecessary_parenthesis
+// ignore_for_file: unnecessary_type_name_in_constructor, unnecessary_const_in_enum_constructor, unnecessary_parenthesis
 /// Generated code. Do not modify directly.
 /// Instead, modify and then run: dart scripts/database_schema/generate.dart
 library;

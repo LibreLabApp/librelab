@@ -1,26 +1,20 @@
 import 'package:librelab_shared/result.dart';
 
-sealed class LoginFailure extends Failure {
-  const LoginFailure(super.message);
+sealed class const LoginFailure(super.message) extends Failure;
+
+final class const UserNotFoundFailure() extends LoginFailure {
+  this : super('User not found (by email)');
 }
 
-final class UserNotFoundFailure extends LoginFailure {
-  const UserNotFoundFailure() : super('User not found (by email)');
+final class const InvalidPasswordFailure({required final String targetUserId})
+    extends LoginFailure {
+  this : super('Invalid password');
 }
 
-final class InvalidPasswordFailure extends LoginFailure {
-  const InvalidPasswordFailure({required this.targetUserId})
-    : super('Invalid password');
-
-  final String targetUserId;
+final class const InvalidLoginInputFailure() extends LoginFailure {
+  this : super('Invalid email address format or password length');
 }
 
-final class InvalidLoginInputFailure extends LoginFailure {
-  const InvalidLoginInputFailure()
-    : super('Invalid email address format or password length');
-}
-
-final class LoginDisabledFailure extends LoginFailure {
-  const LoginDisabledFailure()
-    : super('Login is disabled. Contact system administrator to enable it.');
+final class const LoginDisabledFailure() extends LoginFailure {
+  this : super('Login is disabled. Contact system administrator to enable it.');
 }

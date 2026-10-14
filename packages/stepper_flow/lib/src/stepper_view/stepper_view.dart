@@ -67,12 +67,10 @@ class const StepperView({
   }
 }
 
-class _StepIcon extends StatelessWidget {
-  const _StepIcon({required this.index, required this.state});
-
-  final int index;
-  final _StepState state;
-
+class const _StepIcon({
+  required final int index,
+  required final _StepState state,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

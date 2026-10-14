@@ -114,3 +114,9 @@ linter:
     - avoid_catches_without_on_clauses
     - avoid_bool_literals_in_conditional_expressions
     - always_put_control_body_on_new_line
+    - empty_container_bodies
+    - initialize_in_field_declaration
+    - unnecessary_const_in_enum_constructor
+    - unnecessary_primary_constructor_body
+    - unnecessary_type_name_in_constructor
+    - use_declaring_parameters

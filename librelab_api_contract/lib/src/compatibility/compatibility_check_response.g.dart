@@ -23,7 +23,7 @@ Map<String, dynamic> _$CompatibilityCheckResponseToJson(
 ) => <String, dynamic>{
   'serverBuildNumber': instance.serverBuildNumber,
   'serverVersion': instance.serverVersion,
-  'status': _$ApiContractCompatibilityStatusEnumMap[instance.status]!,
+  'status': _$ApiContractCompatibilityStatusEnumMap[instance.status],
 };
 
 const _$ApiContractCompatibilityStatusEnumMap = {

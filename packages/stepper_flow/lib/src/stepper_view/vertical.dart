@@ -23,7 +23,7 @@ extension StepperViewVertical on StepperView {
 }
 
 class _VerticalStepTile extends StatelessWidget {
-  const _VerticalStepTile({required this.stepData});
+  const new({required this.stepData});
 
   final _StepTileData stepData;
 

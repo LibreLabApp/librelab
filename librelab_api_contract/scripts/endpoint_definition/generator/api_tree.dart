@@ -1,17 +1,12 @@
 part of 'generator.dart';
 
-sealed class ApiNode {
-  const ApiNode();
-}
+sealed class const ApiNode();
 
-final class ApiGroup extends ApiNode {
-  const ApiGroup(this.segment, this.children);
-  final String? segment;
-  final List<ApiNode> children;
-}
+final class const ApiGroup(final String? segment, final List<ApiNode> children)
+    extends ApiNode;
 
 sealed class EndpointDefinition extends ApiNode {
-  EndpointDefinition(
+  new(
     // String | List<String> | null
     Object? path,
   ) : path = switch (path) {
@@ -30,13 +25,13 @@ sealed class EndpointDefinition extends ApiNode {
 }
 
 final class HttpEndpoint extends EndpointDefinition {
-  HttpEndpoint(this.method, super.path);
+  new(this.method, super.path);
 
   final HttpMethod method;
 }
 
 final class WebSocketEndpoint extends EndpointDefinition {
-  WebSocketEndpoint(super.path);
+  new(super.path);
 }
 
 /// Formats a parameter name as a path placeholder.

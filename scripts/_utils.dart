@@ -1,10 +1,10 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 
-// ignore: depend_on_referenced_packages
 import 'package:librelab_server/utils/platform_check.dart';
 import 'package:path/path.dart' as p;
 
-// ignore: depend_on_referenced_packages
 export 'package:librelab_server/utils/platform_check.dart';
 
 void ensureWorkingDirectory(String packageName) {

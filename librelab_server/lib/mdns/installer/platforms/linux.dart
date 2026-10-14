@@ -7,7 +7,7 @@ import 'package:librelab_server/utils/linux/linux_package_manager.dart';
 import 'package:librelab_server/utils/shutdown/shutdown.dart';
 
 final class AvahiLinuxInstaller implements MdnsPlatformInstaller {
-  AvahiLinuxInstaller({required this._packageManager, required this.shutdown});
+  new({required this._packageManager, required this.shutdown});
 
   final LinuxPackageManager _packageManager;
   final Shutdown shutdown;

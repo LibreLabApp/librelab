@@ -11,7 +11,6 @@ void main() async {
   final client = LibreLabApiClient(
     apiClient: HttpApiClientDart(httpClient),
     logger: Logger('LibreLabApiClient'),
-    onAuthSessionRefreshed: (_) async {},
   );
 
   final serverBaseUrl = Uri.http('localhost:45123', '/api');

@@ -1,8 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
-// ignore: depend_on_referenced_packages
 import 'package:dbus/dbus.dart';
-// ignore: depend_on_referenced_packages
 import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 /// These services are commonly provided on Linux desktop systems and are used by

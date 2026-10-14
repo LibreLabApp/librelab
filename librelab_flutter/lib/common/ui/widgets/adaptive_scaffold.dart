@@ -70,7 +70,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
     return Row(
       children: [
         NavigationRail(
-          labelType: .selected,
+          labelType: .all,
           onDestinationSelected: (index) =>
               setState(() => _selectedIndex = index),
           destinations: widget.navigationItems

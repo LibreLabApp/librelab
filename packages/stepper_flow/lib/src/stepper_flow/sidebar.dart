@@ -3,7 +3,7 @@ part of 'stepper_flow.dart';
 /// Displays [_StepProgressIndicator] vertically (medium/large screens)
 /// and potentially a Lottie animation at the bottom if available height is sufficient.
 class _StepProgressIndicatorSidebar extends StatelessWidget {
-  const _StepProgressIndicatorSidebar({
+  const new({
     required this.currentStepIndex,
     required this.onStepChanged,
     required this.steps,
@@ -87,7 +87,7 @@ class _StepProgressIndicatorSidebar extends StatelessWidget {
 }
 
 class _DecorativeAnimation extends StatelessWidget {
-  const _DecorativeAnimation({required this.child});
+  const new({required this.child});
 
   final Widget child;
 

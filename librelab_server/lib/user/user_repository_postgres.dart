@@ -233,13 +233,9 @@ RETURNING ${_U.id}
   }
 }
 
-enum _UserIdentifier {
+enum _UserIdentifier({required final String columnName}) {
   email(columnName: _U.email),
-  id(columnName: _U.id);
-
-  const _UserIdentifier({required this.columnName});
-
-  final String columnName;
+  id(columnName: _U.id),
 }
 
 extension on UsersRow {

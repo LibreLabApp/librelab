@@ -27,16 +27,12 @@ Future<bool> _handler(BuildContext context) async {
 
   final shouldExit = await showDialog<bool>(
     context: context,
-    builder: (context) {
-      return const _ConfirmExitDialog();
-    },
+    builder: (context) => const _ConfirmExitDialog(),
   );
   return shouldExit ?? false;
 }
 
-class _ConfirmExitDialog extends StatefulWidget {
-  const _ConfirmExitDialog();
-
+class const _ConfirmExitDialog() extends StatefulWidget {
   @override
   State<_ConfirmExitDialog> createState() => _ConfirmExitDialogState();
 }
@@ -59,22 +55,23 @@ class _ConfirmExitDialogState extends State<_ConfirmExitDialog> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final colorScheme = theme.colorScheme;
+
     return AlertDialog(
       title: Text(context.t.confirmProgramExitDialog.title),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: .min,
+        crossAxisAlignment: .start,
         children: [
           ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 300),
+            constraints: const .new(maxWidth: 300),
             child: Text(context.t.confirmProgramExitDialog.message),
           ),
           const SizedBox(height: 20),
           CheckboxListTile(
-            contentPadding: EdgeInsets.zero,
+            contentPadding: .zero,
             title: Text(context.t.confirmProgramExitDialog.backupCheckbox),
             value: _shouldBackup,
-            controlAffinity: ListTileControlAffinity.leading,
+            controlAffinity: .leading,
             onChanged: (bool? value) {
               setState(() => _shouldBackup = value ?? false);
             },

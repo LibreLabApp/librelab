@@ -12,10 +12,12 @@ class const AppLocaleListTile({super.key}) extends StatelessWidget {
       (AppSettingsCubit v) => v.state.settings.locale,
     );
     final t = context.t.settings.locale;
+
     return ListTile(
       title: Text(t.title),
       leading: const Icon(Icons.language),
-      // TODO: The trailing is taking too much width on some real devices, leaving little space for the text
+      // TODO: The trailing is taking too much width on real mobile devices when
+      //  the font size is bigger than usual, leaving little space for the text
       trailing: DropdownMenu(
         initialSelection: appLocale,
         onSelected: (value) {

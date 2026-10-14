@@ -6,9 +6,8 @@ import 'package:meta/meta.dart';
 export 'package:librelab_server/auth/security/jwt/jwt_validation_failures.dart';
 
 class JwtService({required String tokenSecret}) {
-  this : _tokenSecret = SecretKey(tokenSecret);
 
-  final SecretKey _tokenSecret;
+  final SecretKey _tokenSecret = SecretKey(tokenSecret);
 
   String issueToken(JwtPayload payload, {Duration? expiresIn}) {
     final jwt = JWT(payload.toMap());

@@ -7,7 +7,7 @@ import 'package:postgres/postgres.dart';
 export 'package:postgres/postgres.dart' show PgException, ServerException;
 
 abstract interface class SqlDatabaseAccess
-    implements SqlExecutor, TransactionRunner {}
+    implements SqlExecutor, TransactionRunner;
 
 class DatabaseClient implements SqlDatabaseAccess {
   new pool({
@@ -36,7 +36,7 @@ class DatabaseClient implements SqlDatabaseAccess {
          ),
        );
 
-  DatabaseClient._(this._pool)
+  new _(this._pool)
     : _executor = SqlExecutorPostgres(_pool),
       _transactionRunner = TransactionRunnerPostgres(_pool);
 

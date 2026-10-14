@@ -155,7 +155,7 @@ class _LocalServerDiscoveryCardState extends State<LocalServerDiscoveryCard> {
 }
 
 class _NoServersFound extends StatelessWidget {
-  const _NoServersFound({required this.isLoading});
+  const new({required this.isLoading});
 
   final bool isLoading;
 
@@ -259,7 +259,7 @@ class _NoServersFound extends StatelessWidget {
 }
 
 class _DiscoveredServersList extends StatelessWidget {
-  const _DiscoveredServersList({
+  const new({
     required this.isLoading,
     required this.discoveredServers,
   });

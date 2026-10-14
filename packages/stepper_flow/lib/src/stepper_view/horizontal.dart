@@ -23,11 +23,8 @@ extension StepperViewHorizontal on StepperView {
   }
 }
 
-class _HorizontalStepTile extends StatelessWidget {
-  const _HorizontalStepTile({required this.stepData});
-
-  final _StepTileData stepData;
-
+class const _HorizontalStepTile({required final _StepTileData stepData})
+    extends StatelessWidget {
   double _dividerWidth({required double screenWidth}) {
     if (screenWidth <= 366) {
       return 0;

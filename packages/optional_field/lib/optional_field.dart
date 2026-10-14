@@ -6,7 +6,7 @@ sealed class const Field<T>() {
   const factory absent() = Absent<T>;
 
   /// Assumes `null` means [Absent] and a non-null value means [Present].
-  factory Field.fromNullable(T? value) {
+  factory fromNullable(T? value) {
     if (value != null) {
       return .value(value);
     }

@@ -49,7 +49,7 @@ Future<void> main() async {
 }
 
 class _DatabaseAccessConnection implements SqlDatabaseAccess {
-  _DatabaseAccessConnection._(Connection connection)
+  new _(Connection connection)
     : _executor = SqlExecutorPostgres(connection),
       _runner = TransactionRunnerPostgres(connection);
 
