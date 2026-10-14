@@ -3,6 +3,8 @@ import 'package:librelab_flutter/app_settings/ui/cubit/app_settings_cubit.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:material_ui/material_ui.dart';
 
+/// A list tile for adjusting the application's font size relative to
+/// system settings.
 class const FontSizeListTile({super.key}) extends StatelessWidget {
   static const _minFontSizeScale = 0.7;
   static const _maxFontSizeScale = 1.3;
