@@ -57,6 +57,26 @@ over:
 someMethod(context.read());
 ```
 
+## Preserve Stack Traces When Mapping Exceptions
+
+When catching an `Exception` to map it to another `Exception` type,
+use `Error.throwWithStackTrace()` to preserve the original stack trace.
+
+For example:
+
+```dart
+try {
+  // Read and parse data.
+} on FormatException catch (e, stackTrace) {
+  Error.throwWithStackTrace(
+    DataLoadException(e),
+    stackTrace,
+  );
+}
+```
+
+Preserving the original stack trace helps identify where the underlying failure occurred rather than pointing only to the rethrow location.
+
 ## Follow [Unix philosophy]: "do one thing and do it well"
 
 Keep classes, functions, packages, and other components focused on a clear responsibility. This concerns the responsibility of a component, not its size or number of lines.

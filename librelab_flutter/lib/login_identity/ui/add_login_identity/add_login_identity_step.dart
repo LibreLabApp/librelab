@@ -4,7 +4,6 @@ library;
 
 import 'package:flutter/widgets.dart';
 import 'package:librelab_flutter/common/ui/build_context_ext.dart';
-import 'package:librelab_flutter/generated/assets.gen.dart';
 import 'package:material_ui/material_ui.dart' show Icons;
 import 'package:stepper_flow/stepper_flow.dart';
 
@@ -51,15 +50,6 @@ extension InitialSetupStepExt on AddLoginIdentityStep {
       .complete => steps.complete.nav.subtitle,
     };
     return .new(title, subtitle);
-  }
-
-  String getLottieAsset() {
-    return switch (this) {
-      .preferences => Assets.lottie.settings,
-      .serverSelection => Assets.lottie.server,
-      .login => Assets.lottie.account,
-      .complete => Assets.lottie.rocket,
-    };
   }
 
   IconData getIcon() {

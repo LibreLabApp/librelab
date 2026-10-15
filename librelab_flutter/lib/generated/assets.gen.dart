@@ -27,24 +27,12 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/server.json
   String get server => 'assets/lottie/server.json';
 
-  /// File path: assets/lottie/settings.json
-  String get settings => 'assets/lottie/settings.json';
-
-  /// File path: assets/lottie/under_construction.json
-  String get underConstruction => 'assets/lottie/under_construction.json';
-
   /// List of all assets
-  List<String> get values => [
-    account,
-    emptyResult,
-    radar,
-    rocket,
-    server,
-    settings,
-    underConstruction,
-  ];
+  List<String> get values => [account, emptyResult, radar, rocket, server];
 }
 
-abstract final class Assets {
+class Assets {
+  const Assets._();
+
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
 }

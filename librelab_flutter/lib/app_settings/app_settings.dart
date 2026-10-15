@@ -23,7 +23,7 @@ class const AppSettings({
   factory fromJsonWithDefaults(JsonMap? json) {
     final JsonMap map = json ?? emptyJson;
 
-    return AppSettings.fromJson({
+    return .fromJson({
       'locale': map['locale'],
       'appearance': map['appearance'] ?? emptyJson,
       'telemetry': map['telemetry'] ?? emptyJson,

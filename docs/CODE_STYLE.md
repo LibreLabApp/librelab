@@ -77,4 +77,18 @@ final loginIdentities = json == null
 
 Use dot shorthand when it improves readability without making the expression ambiguous or harder to understand. Do not use it where the omitted type or member would be unclear from the surrounding context.
 
+## Exception Variable Naming
+
+Use `e` as the exception variable name in `catch` clauses, following [Dart's documentation](https://dart.dev/language/error-handling#catch) and common conventions.
+
+For example:
+
+```dart
+try {
+  // ...
+} on Exception catch (e, stackTrace) {
+  // ...
+}
+```
+
 [`package:librelab_api_contract`]: ../librelab_api_contract/

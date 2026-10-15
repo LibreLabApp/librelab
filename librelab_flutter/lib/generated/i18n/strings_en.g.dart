@@ -64,6 +64,11 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$technicalFailureDetails$en technicalFailureDetails = Translations$technicalFailureDetails$en.internal(_root);
 	late final Translations$loginIdentitySelectorMenuAnchor$en loginIdentitySelectorMenuAnchor = Translations$loginIdentitySelectorMenuAnchor$en.internal(_root);
 	late final Translations$authenticationRequiredPage$en authenticationRequiredPage = Translations$authenticationRequiredPage$en.internal(_root);
+
+	/// en: 'Report Bug'
+	String get reportBug => 'Report Bug';
+
+	late final Translations$settingsLoadFailed$en settingsLoadFailed = Translations$settingsLoadFailed$en.internal(_root);
 }
 
 // Path: addLoginIdentityFlow
@@ -391,6 +396,23 @@ class Translations$authenticationRequiredPage$en {
 
 	/// en: 'Failed to update the account.'
 	String get updateAccountFailure => 'Failed to update the account.';
+}
+
+// Path: settingsLoadFailed
+class Translations$settingsLoadFailed$en {
+	Translations$settingsLoadFailed$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Unable to start the application'
+	String get title => 'Unable to start the application';
+
+	/// en: 'Failed to load the settings. Please close and reopen the app to try again.'
+	String get subtitle => 'Failed to load the settings. Please close and reopen the app to try again.';
+
+	late final Translations$settingsLoadFailed$resetSettings$en resetSettings = Translations$settingsLoadFailed$resetSettings$en.internal(_root);
 }
 
 // Path: addLoginIdentityFlow.steps
@@ -802,8 +824,26 @@ class Translations$technicalFailureDetails$dialog$en {
 	/// en: 'Technical details'
 	String get title => 'Technical details';
 
-	/// en: 'Technical details about the error are provided below. You can copy them when reporting the issue to support.'
-	String get description => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.';
+	/// en: 'The following information may help diagnose the issue. You can copy these details when reporting the issue to support.'
+	String get description => 'The following information may help diagnose the issue. You can copy these details when reporting the issue to support.';
+}
+
+// Path: settingsLoadFailed.resetSettings
+class Translations$settingsLoadFailed$resetSettings$en {
+	Translations$settingsLoadFailed$resetSettings$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Reset Settings'
+	String get buttonLabel => 'Reset Settings';
+
+	/// en: 'Settings reset. Please restart the app to apply the changes.'
+	String get successMessage => 'Settings reset. Please restart the app to apply the changes.';
+
+	/// en: 'Failed to reset the settings'
+	String get failureMessage => 'Failed to reset the settings';
 }
 
 // Path: addLoginIdentityFlow.steps.preferences
@@ -1742,7 +1782,7 @@ extension on Translations {
 			'homePage.actions.logout.logoutFailure' => 'Failed to logout.',
 			'technicalFailureDetails.showDialog' => 'Show error details',
 			'technicalFailureDetails.dialog.title' => 'Technical details',
-			'technicalFailureDetails.dialog.description' => 'Technical details about the error are provided below. You can copy them when reporting the issue to support.',
+			'technicalFailureDetails.dialog.description' => 'The following information may help diagnose the issue. You can copy these details when reporting the issue to support.',
 			'loginIdentitySelectorMenuAnchor.switchAccount' => 'Switch account',
 			'loginIdentitySelectorMenuAnchor.addButton' => 'Add account',
 			'authenticationRequiredPage.title' => 'Authentication required',
@@ -1750,6 +1790,12 @@ extension on Translations {
 			'authenticationRequiredPage.or' => 'OR',
 			'authenticationRequiredPage.continueButton' => 'Continue',
 			'authenticationRequiredPage.updateAccountFailure' => 'Failed to update the account.',
+			'reportBug' => 'Report Bug',
+			'settingsLoadFailed.title' => 'Unable to start the application',
+			'settingsLoadFailed.subtitle' => 'Failed to load the settings. Please close and reopen the app to try again.',
+			'settingsLoadFailed.resetSettings.buttonLabel' => 'Reset Settings',
+			'settingsLoadFailed.resetSettings.successMessage' => 'Settings reset. Please restart the app to apply the changes.',
+			'settingsLoadFailed.resetSettings.failureMessage' => 'Failed to reset the settings',
 			_ => null,
 		};
 	}

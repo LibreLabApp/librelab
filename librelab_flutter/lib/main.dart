@@ -21,10 +21,14 @@ import 'package:librelab_flutter/common/platform/platform_check.dart';
 import 'package:librelab_flutter/common/secure_storage/freedesktop_secret_service_checker.dart';
 import 'package:librelab_flutter/common/secure_storage/secure_storage.dart';
 import 'package:librelab_flutter/common/secure_storage/secure_storage_availability_checker.dart';
+import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/go_router_utils.dart';
+import 'package:librelab_flutter/common/ui/widgets/failure/show_technical_failure_details_snack_bar_action.dart';
+import 'package:librelab_flutter/common/ui/widgets/failure/unexpected_failure_view.dart';
 import 'package:librelab_flutter/common/ui/window_close_handler.dart';
 import 'package:librelab_flutter/file_storage/file_storage_repository.dart';
-import 'package:librelab_flutter/generated/i18n/strings.g.dart' hide AppLocale;
+import 'package:librelab_flutter/generated/i18n/strings.g.dart'
+    hide AppLocale, BuildContextTranslationsExtension;
 import 'package:librelab_flutter/home/home_page.dart';
 import 'package:librelab_flutter/initial_setup/initial_setup_page.dart';
 import 'package:librelab_flutter/login_identity/cubit/login_identity_cubit.dart';
@@ -126,9 +130,28 @@ void main() async {
     storageId: filePaths.settings,
   );
 
-  // TODO: Handle loading/parsing failure (since it loads a file from disk).
-  await settingsRepository.load();
-  final settings = settingsRepository.cached;
+  final AppSettings settings;
+  try {
+    await settingsRepository.load();
+    settings = settingsRepository.cached;
+  } on Exception catch (e, stackTrace) {
+    _logger.severe('Failed to load application settings.', e, stackTrace);
+
+    runApp(
+      TranslationProvider(
+        child: _MinimalApp(
+          home: Scaffold(
+            body: _SettingsLoadFailureView(
+              exceptionWithStackTrace: (e, stackTrace),
+              onResetSettings: () =>
+                  settingsRepository.save(.fromJsonWithDefaults(null)),
+            ),
+          ),
+        ),
+      ),
+    );
+    return;
+  }
 
   await _setLocale(settings.locale);
 
@@ -451,4 +474,64 @@ final class const _AdjustedTextScaler({
   // Note: Remove this getter override once it is removed from TextScaler.
   // ignore: deprecated_member_use
   double get textScaleFactor => systemScaler.textScaleFactor * factor;
+}
+
+class const _SettingsLoadFailureView({
+  required final (Exception, StackTrace) exceptionWithStackTrace,
+  required final Future<void> Function() onResetSettings,
+}) extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final t = context.t.settingsLoadFailed;
+
+    return UnexpectedFailureView(
+      title: Text(t.title),
+      subtitle: Text(t.subtitle),
+      primaryButton: FilledButton.icon(
+        onPressed: () async {
+          try {
+            await onResetSettings();
+
+            if (context.mounted) {
+              context.showSnackBarMessage(t.resetSettings.successMessage);
+            }
+          } on Exception catch (e, stackTrace) {
+            _logger.severe('Failed to reset the settings', e, stackTrace);
+
+            if (context.mounted) {
+              context.showSnackBarMessage(
+                t.resetSettings.failureMessage,
+                action: ShowTechnicalFailureDetailsSnackBarAction(
+                  context: context,
+                  failureDetails: e.toString(),
+                ),
+              );
+            }
+          }
+        },
+        label: Text(t.resetSettings.buttonLabel),
+        icon: const Icon(Icons.refresh),
+      ),
+      exceptionWithStackTrace: exceptionWithStackTrace,
+    );
+  }
+}
+
+/// A minimal application widget for displaying initialization failures before
+/// the [MainApp] starts.
+class const _MinimalApp({required final Widget home}) extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: ProjectConstants.displayName,
+      debugShowCheckedModeBanner: false,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      theme: .light(),
+      darkTheme: .dark(),
+      themeMode: .light,
+      home: home,
+    );
+  }
 }

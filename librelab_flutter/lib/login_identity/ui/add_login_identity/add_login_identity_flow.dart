@@ -13,6 +13,8 @@ import 'package:librelab_flutter/common/ui/build_context_ext.dart';
 import 'package:librelab_flutter/common/ui/widgets/animated_visual.dart';
 import 'package:librelab_flutter/common/ui/widgets/decorative_icon.dart';
 import 'package:librelab_flutter/common/ui/widgets/failure/show_technical_failure_details_snack_bar_action.dart';
+import 'package:librelab_flutter/common/ui/widgets/illustrations/gears.dart';
+import 'package:librelab_flutter/generated/assets.gen.dart' show Assets;
 import 'package:librelab_flutter/lab_settings/cubit/lab_settings_cubit.dart';
 import 'package:librelab_flutter/lab_settings/lab_settings_deps_provider.dart';
 import 'package:librelab_flutter/lab_settings/ui/lab_settings_form.dart';
@@ -150,11 +152,29 @@ class _AddLoginIdentityFlowState extends State<AddLoginIdentityFlow> {
         subtitle: t.decorativeAnimation.subtitle,
         animationWidget: AnimatedVisual(
           key: ValueKey(_currentStep),
-          animated: (context) => Lottie.asset(
-            _currentStep.getLottieAsset(),
-            height: 100,
-            fit: .cover,
-          ),
+          animated: (context) {
+            LottieBuilder lottie(
+              String assetPath,
+
+              LottieDelegates? delegates,
+            ) => Lottie.asset(
+              assetPath,
+              height: 100,
+              fit: .cover,
+              delegates: delegates,
+            );
+
+            // TODO: Update all Lottie assets to adapt to the app theme
+
+            return switch (_currentStep) {
+              AddLoginIdentityStep.preferences => const GearsIllustration(
+                size: 120,
+              ),
+              .serverSelection => lottie(Assets.lottie.server, null),
+              .login => lottie(Assets.lottie.account, null),
+              .complete => lottie(Assets.lottie.rocket, null),
+            };
+          },
           fallback: (context) => DecorativeIcon(_currentStep.getIcon()),
         ),
       ),

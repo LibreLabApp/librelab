@@ -367,7 +367,7 @@
     "showDialog": "Show error details",
     "dialog": {
       "title": "Technical details",
-      "description": "Technical details about the error are provided below. You can copy them when reporting the issue to support."
+      "description": "The following information may help diagnose the issue. You can copy these details when reporting the issue to support."
     }
   },
   "loginIdentitySelectorMenuAnchor": {
@@ -380,5 +380,15 @@
     "or": "OR",
     "continueButton": "Continue",
     "updateAccountFailure": "Failed to update the account."
+  },
+  "reportBug": "Report Bug",
+  "settingsLoadFailed": {
+    "title": "Unable to start the application",
+    "subtitle": "Failed to load the settings. Please close and reopen the app to try again.",
+    "resetSettings": {
+      "buttonLabel": "Reset Settings",
+      "successMessage": "Settings reset. Please restart the app to apply the changes.",
+      "failureMessage": "Failed to reset the settings"
+    }
   }
 }

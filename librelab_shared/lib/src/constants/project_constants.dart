@@ -6,6 +6,7 @@ abstract final class ProjectConstants {
   // (LATER) TODO: Replace the placeholder link once we have a website
   static const String hostServerGuideLink =
       '$_repo/guides/how-to-host-a-server.md';
+  static const reportBugLink = '$_repo/issues/new';
 
   static const String displayName = 'LibreLab';
   static const String userAgentAppName = displayName;

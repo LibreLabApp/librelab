@@ -890,10 +890,10 @@ packages:
     dependency: transitive
     description:
       name: json_safe
-      sha256: "9ea57e6a2842f76077ae05205e6f388c68931fedeb78e6d441b9db2f97dfeefe"
+      sha256: "14ccdef6942ef0db8b23bacf52aebc9542fe78b3c7b0f4171d9d73434ce083f0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "0.0.3"
   json_serializable:
     dependency: transitive
     description:
@@ -1649,10 +1649,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "5f37239c4851efcef929cea7824e76df7f2f0970aef85d66bbc430afa40e72f0"
+      sha256: "89b11d62e1040ee681af3b4f1c97a803ecbf010c6e8b9c5896ee5b08c3bf7b78"
       url: "https://pub.dev"
     source: hosted
-    version: "15.3.0"
+    version: "15.4.0"
   watcher:
     dependency: transitive
     description:

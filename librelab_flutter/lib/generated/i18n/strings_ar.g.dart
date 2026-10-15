@@ -57,6 +57,8 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$technicalFailureDetails$ar technicalFailureDetails = _Translations$technicalFailureDetails$ar._(_root);
 	@override late final _Translations$loginIdentitySelectorMenuAnchor$ar loginIdentitySelectorMenuAnchor = _Translations$loginIdentitySelectorMenuAnchor$ar._(_root);
 	@override late final _Translations$authenticationRequiredPage$ar authenticationRequiredPage = _Translations$authenticationRequiredPage$ar._(_root);
+	@override String get reportBug => 'الإبلاغ عن الخطأ';
+	@override late final _Translations$settingsLoadFailed$ar settingsLoadFailed = _Translations$settingsLoadFailed$ar._(_root);
 }
 
 // Path: addLoginIdentityFlow
@@ -274,6 +276,18 @@ class _Translations$authenticationRequiredPage$ar extends Translations$authentic
 	@override String get or => 'أو';
 	@override String get continueButton => 'متابعة';
 	@override String get updateAccountFailure => 'فشل تحديث الحساب';
+}
+
+// Path: settingsLoadFailed
+class _Translations$settingsLoadFailed$ar extends Translations$settingsLoadFailed$en {
+	_Translations$settingsLoadFailed$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'تعذر بدء تشغيل التطبيق';
+	@override String get subtitle => 'فشل تحميل الإعدادات. يُرجى إغلاق التطبيق وإعادة فتحه للمحاولة مرة أخرى.';
+	@override late final _Translations$settingsLoadFailed$resetSettings$ar resetSettings = _Translations$settingsLoadFailed$resetSettings$ar._(_root);
 }
 
 // Path: addLoginIdentityFlow.steps
@@ -580,7 +594,19 @@ class _Translations$technicalFailureDetails$dialog$ar extends Translations$techn
 
 	// Translations
 	@override String get title => 'التفاصيل التقنية';
-	@override String get description => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.';
+	@override String get description => 'قد تساعد المعلومات التالية في تشخيص المشكلة. يمكنك نسخ هذه التفاصيل عند الإبلاغ عن المشكلة لفريق الدعم.';
+}
+
+// Path: settingsLoadFailed.resetSettings
+class _Translations$settingsLoadFailed$resetSettings$ar extends Translations$settingsLoadFailed$resetSettings$en {
+	_Translations$settingsLoadFailed$resetSettings$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get buttonLabel => 'إعادة ضبط الإعدادات';
+	@override String get successMessage => 'تمت إعادة ضبط الإعدادات. يُرجى إعادة تشغيل التطبيق لتطبيق التغييرات.';
+	@override String get failureMessage => 'فشلت إعادة ضبط الإعدادات';
 }
 
 // Path: addLoginIdentityFlow.steps.preferences
@@ -1326,7 +1352,7 @@ extension on TranslationsAr {
 			'homePage.actions.logout.logoutFailure' => 'فشل تسجيل الخروج.',
 			'technicalFailureDetails.showDialog' => 'عرض تفاصيل الخطأ',
 			'technicalFailureDetails.dialog.title' => 'التفاصيل التقنية',
-			'technicalFailureDetails.dialog.description' => 'تظهر أدناه التفاصيل التقنية المتعلقة بالخطأ. يمكنك نسخها عند الإبلاغ عن المشكلة إلى الدعم.',
+			'technicalFailureDetails.dialog.description' => 'قد تساعد المعلومات التالية في تشخيص المشكلة. يمكنك نسخ هذه التفاصيل عند الإبلاغ عن المشكلة لفريق الدعم.',
 			'loginIdentitySelectorMenuAnchor.switchAccount' => 'تبديل الحساب',
 			'loginIdentitySelectorMenuAnchor.addButton' => 'إضافة حساب',
 			'authenticationRequiredPage.title' => 'المصادقة مطلوبة',
@@ -1334,6 +1360,12 @@ extension on TranslationsAr {
 			'authenticationRequiredPage.or' => 'أو',
 			'authenticationRequiredPage.continueButton' => 'متابعة',
 			'authenticationRequiredPage.updateAccountFailure' => 'فشل تحديث الحساب',
+			'reportBug' => 'الإبلاغ عن الخطأ',
+			'settingsLoadFailed.title' => 'تعذر بدء تشغيل التطبيق',
+			'settingsLoadFailed.subtitle' => 'فشل تحميل الإعدادات. يُرجى إغلاق التطبيق وإعادة فتحه للمحاولة مرة أخرى.',
+			'settingsLoadFailed.resetSettings.buttonLabel' => 'إعادة ضبط الإعدادات',
+			'settingsLoadFailed.resetSettings.successMessage' => 'تمت إعادة ضبط الإعدادات. يُرجى إعادة تشغيل التطبيق لتطبيق التغييرات.',
+			'settingsLoadFailed.resetSettings.failureMessage' => 'فشلت إعادة ضبط الإعدادات',
 			_ => null,
 		};
 	}

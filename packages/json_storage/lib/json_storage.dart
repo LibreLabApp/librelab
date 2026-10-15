@@ -7,7 +7,6 @@ class JsonStorage({
   required final bool _prettyJson,
   required final Logger? _logger,
 }) {
-  /// Silently returns `null` in case of [FormatException] (corrupted or invalid JSON).
   Future<JsonMap?> read(String key) async {
     final content = await _storage.read(key);
     if (content == null) {
@@ -15,12 +14,13 @@ class JsonStorage({
     }
     try {
       return decodeJsonStringToMap(content);
-    } on JsonParseException catch (e) {
+    } on JsonParseException catch (e, stackTrace) {
       _logger?.warning(
-        'Unexpected file content format (${_storage.resolvePath(key)})',
+        'Unexpected file content format: ${_storage.resolvePath(key)}',
         e,
+        stackTrace,
       );
-      return null;
+      rethrow;
     }
   }
 
