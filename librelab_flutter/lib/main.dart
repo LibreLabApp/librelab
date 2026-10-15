@@ -225,7 +225,7 @@ void main() async {
       }),
     ]),
     redirect: (context, state) {
-      _logger.fine('Redirects: ${state.matchedLocation}');
+      _logger.fine('Evaluating redirect for: ${state.matchedLocation}');
 
       if (state.matchedLocation == AddLoginIdentityPage.routePath) {
         return null;
@@ -239,13 +239,17 @@ void main() async {
 
       final selectedLoginIdentity = loginIdentityState.selectedLoginIdentity;
 
-      if (selectedLoginIdentity != null) {
-        return selectedLoginIdentity.loginIdentity.reauthRequired
-            ? AuthenticationRequiredPage.routePath
-            : HomePage.routePath;
-      }
+      final String targetPath = () {
+        if (selectedLoginIdentity != null) {
+          return selectedLoginIdentity.loginIdentity.reauthRequired
+              ? AuthenticationRequiredPage.routePath
+              : HomePage.routePath;
+        }
 
-      return InitialSetupPage.routePath;
+        return InitialSetupPage.routePath;
+      }();
+
+      return state.matchedLocation == targetPath ? null : targetPath;
     },
   );
 
@@ -372,7 +376,8 @@ class const MainApp({
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
             builder: (context, child) {
-              child!;
+              final appWidget =
+                  child ?? (throw StateError('MaterialApp child is null.'));
 
               final fontSizeScale = context.select(
                 (AppSettingsCubit v) =>
@@ -380,7 +385,7 @@ class const MainApp({
               );
 
               if (fontSizeScale == 1.0) {
-                return child;
+                return appWidget;
               }
 
               final mediaQuery = MediaQuery.of(context);
@@ -392,7 +397,7 @@ class const MainApp({
                     factor: fontSizeScale,
                   ),
                 ),
-                child: child,
+                child: appWidget,
               );
             },
           );
