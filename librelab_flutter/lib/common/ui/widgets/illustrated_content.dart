@@ -13,7 +13,7 @@ class const IllustratedContent({
   final double titleSubtitleSpacing = 16,
   final double subtitleContentSpacing = 32,
 }) extends StatelessWidget {
-  static const _verticalLayoutBreakpoint = 700.0;
+  static const _verticalLayoutBreakpoint = 780.0;
 
   @override
   Widget build(BuildContext context) {
