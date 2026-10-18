@@ -17,8 +17,8 @@ class FileStorageEndpoints(final LibreLabApiClient _client) {
         ApiEndpointDefinitions.storage_file$GET(id: id),
       );
 
-  /// Returns the file metadata of the storage object identified by [id].
-  Future<LibreLabApiResult<StorageObject>> getFileMetadata(String id) =>
+  /// Returns the storage object identified by [id].
+  Future<LibreLabApiResult<StorageObject>> get(String id) =>
       _client.requestAuthenticated(
         ApiEndpointDefinitions.storage$GET(id: id),
         deserializeSuccess: (response) => .fromJson(response.body),
