@@ -7,7 +7,7 @@ final List<ApiNode> _input = [
     HttpEndpoint(.post, 'login'),
     HttpEndpoint(.post, 'logout'),
     HttpEndpoint(.post, 'refresh'),
-    // Important: 'auth/browser/' is hardcoded in auth_browser_routes.dart
+    // Important: 'auth/browser/' is hardcoded in auth_browser_controller.dart
     ApiGroup('browser', [
       // These endpoints exist because their authentication contract
       // depends on browser-specific capabilities (i.e., HttpOnly cookies).
