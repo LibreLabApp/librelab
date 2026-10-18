@@ -91,4 +91,30 @@ try {
 }
 ```
 
+## Resource-First Class Naming
+
+When a class name combines a primary resource, domain, or concept name with a qualifier, place the primary name first. This keeps related class names and file names grouped together and easier to scan.
+
+Prefer:
+
+```dart
+class PatientCreateRequest();
+class PatientUpdateRequest();
+class PatientRepositoryPostgres();
+class UserRepositoryPostgres();
+class RoleCreate();
+```
+
+Over:
+
+```dart
+class CreatePatientRequest();
+class UpdatePatientRequest();
+class PostgresPatientRepository();
+class PostgresUserRepository();
+class CreateRole();
+```
+
+Apply this convention consistently across the codebase, including interfaces, implementations, DTOs, request and response models, and other classes. Prioritize consistent naming and grouping over natural English word order.
+
 [`package:librelab_api_contract`]: ../librelab_api_contract/

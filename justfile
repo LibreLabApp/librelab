@@ -45,3 +45,7 @@ app-icons:
 # Builds the Flutter web application and outputs it to the server's web build for local development
 app-build-web-local:
   cd librelab_flutter && flutter build web --release --wasm --output="../librelab_server/run_workdir/web"
+
+# Checks local links in Markdown files
+check-markdown-links-offline:
+  lychee --offline --extensions md .

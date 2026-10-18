@@ -1,4 +1,4 @@
-# Architecture
+# ADR
 
 Architecture decision records (ADR).
 
@@ -20,9 +20,7 @@ Given that this system is intentionally SQL-based, the explicit
 > [!NOTE]
 > [`SqlExecutor`] is a driver-independent abstraction for executing SQL statements and is unit-testable.
 
-[`SqlExecutor`]: librelab_server/lib/database/sql_executor/sql_executor.dart
-
-## Domain Audit Snapshots (`toAuditJson()` methods)
+### Domain Audit Snapshots (`toAuditJson()` methods)
 
 `toAuditJson()` produces human-readable snapshots stored in `audit_logs` database table.
 
@@ -31,3 +29,5 @@ This is not an API contract and is not intended for API clients or machine parsi
 Audit values are append-only and serve as descriptive history rather than a stable schema.
 
 This is not an infrastructure concern leaking into domain models. It is intended for lab operator visibility. Changes to response DTOs or transport layers (e.g., JSON to gRPC) do not affect it.
+
+[`SqlExecutor`]: ../librelab_server/lib/database/sql_executor/sql_executor.dart
