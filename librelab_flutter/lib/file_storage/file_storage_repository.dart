@@ -45,8 +45,8 @@ class FileStorageRepository({
 
   /// Returns the file content of the storage object identified by [id] as a
   /// stream of bytes.
-  Future<ApiRequestResult<FileDownload>> get(String id) => _handler.execute(
-    () => _endpoints.get(id),
+  Future<ApiRequestResult<FileDownload>> getFile(String id) => _handler.execute(
+    () => _endpoints.getFile(id),
     mapSuccess: (response) =>
         .new(stream: response.body, length: response.contentLength),
   );

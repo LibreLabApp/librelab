@@ -22,7 +22,10 @@ final List<ApiNode> _input = [
     HttpEndpoint(.patch, null),
   ]),
   ApiGroup('storage', [
-    HttpEndpoint(.get, pathParam('id')),
+    ApiGroup(pathParam('id'), [
+      HttpEndpoint(.get, null),
+      HttpEndpoint(.get, 'file'),
+    ]),
     HttpEndpoint(.post, null),
     HttpEndpoint(.put, pathParam('id')),
     HttpEndpoint(.delete, pathParam('id')),

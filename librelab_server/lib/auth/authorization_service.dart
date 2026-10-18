@@ -21,6 +21,9 @@ import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
 
+// TODO: Consider throwing exceptions and handling them in the global handler,
+//  rather than requiring consumers of this class to explicitly return
+
 /// Intended exclusively for API server authorization layer (Shelf, HTTP responses).
 /// Returns HTTP responses directly (not transport-agnostic).
 class AuthorizationService({required final AuthService _authService}) {

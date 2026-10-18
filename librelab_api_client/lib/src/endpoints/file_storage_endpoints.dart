@@ -7,13 +7,22 @@ class FileStorageEndpoints(final LibreLabApiClient _client) {
   // Returns the URL for accessing the file content of the storage object
   /// identified by [storageObjectId].
   Uri downloadUrl(String storageObjectId) => _client.endpointUrl(
-    ApiEndpointDefinitions.storage$GET(id: storageObjectId),
+    ApiEndpointDefinitions.storage_file$GET(id: storageObjectId),
   );
 
   /// Returns the file content of the storage object identified by [id] as a
   /// stream of bytes.
-  Future<LibreLabApiResult<Stream<List<int>>>> get(String id) => _client
-      .requestAuthenticatedStreamed(ApiEndpointDefinitions.storage$GET(id: id));
+  Future<LibreLabApiResult<Stream<List<int>>>> getFile(String id) =>
+      _client.requestAuthenticatedStreamed(
+        ApiEndpointDefinitions.storage_file$GET(id: id),
+      );
+
+  /// Returns the file metadata of the storage object identified by [id].
+  Future<LibreLabApiResult<StorageObject>> getFileMetadata(String id) =>
+      _client.requestAuthenticated(
+        ApiEndpointDefinitions.storage$GET(id: id),
+        deserializeSuccess: (response) => .fromJson(response.body),
+      );
 
   Future<LibreLabApiResult<StorageObject>> upload({
     required MultipartFile file,

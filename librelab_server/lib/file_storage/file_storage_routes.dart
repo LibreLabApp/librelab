@@ -36,8 +36,12 @@ class FileStorageRoutes({
   @override
   Router get router => .new()
     ..register(
+      ApiEndpointDefinitions.storage_file$GET(id: RouteParams.idPath),
+      _getFileHandler,
+    )
+    ..register(
       ApiEndpointDefinitions.storage$GET(id: RouteParams.idPath),
-      _getHandler,
+      _getFileMetadataHandler,
     )
     ..register(ApiEndpointDefinitions.storage$POST, _postHandler)
     ..register(
@@ -49,7 +53,7 @@ class FileStorageRoutes({
       _deleteHandler,
     );
 
-  Future<Response> _getHandler(Request request) =>
+  Future<Response> _getFileHandler(Request request) =>
       _authorization.withAuthUser(request, (user) async {
         final id = request.idParameter;
 
@@ -97,6 +101,28 @@ class FileStorageRoutes({
             details: {'failureMessage': e.toString()},
           ).toJson().httpResponse(.internalServerError);
         }
+      });
+
+  Future<Response> _getFileMetadataHandler(Request request) async =>
+      _authorization.withAuthUser(request, (user) async {
+        final id = request.idParameter;
+
+        final storageObject = await _storageService.findById(id);
+
+        if (storageObject == null) {
+          return _storageObjectNotFoundResponse(id);
+        }
+
+        if (_storageAuthorization.authorize(
+              purpose: storageObject.purpose,
+              operation: .read,
+              userAccess: .fromAuthUser(user),
+            )
+            case final authorizationResponse?) {
+          return authorizationResponse;
+        }
+
+        return storageObject.toResponse().toJson().httpResponse(.ok);
       });
 
   Future<Response> _postHandler(

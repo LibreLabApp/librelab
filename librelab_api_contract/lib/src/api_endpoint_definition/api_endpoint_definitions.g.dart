@@ -90,6 +90,10 @@ abstract final class ApiEndpointDefinitions {
   static HttpEndpoint storage$GET({required String id}) =>
       HttpEndpoint(method: HttpMethod.get, path: 'storage/${id}');
 
+  /// HTTP GET storage/{id}/file
+  static HttpEndpoint storage_file$GET({required String id}) =>
+      HttpEndpoint(method: HttpMethod.get, path: 'storage/${id}/file');
+
   /// HTTP PUT storage/{id}
   static HttpEndpoint storage$PUT({required String id}) =>
       HttpEndpoint(method: HttpMethod.put, path: 'storage/${id}');

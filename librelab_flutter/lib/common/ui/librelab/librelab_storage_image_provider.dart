@@ -76,7 +76,7 @@ class const LibreLabStorageImage({
     try {
       assert(key == this, 'The image key must match the image provider.');
 
-      final result = await fileStorageRepository.get(key.storageObjectId);
+      final result = await fileStorageRepository.getFile(key.storageObjectId);
 
       switch (result) {
         case SuccessResult(value: final file):
