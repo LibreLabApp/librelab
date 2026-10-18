@@ -1,52 +1,26 @@
-import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
-import 'package:librelab_server/auth/browser/auth_browser_routes.dart';
+import 'package:librelab_server/auth/http/browser/auth_browser_controller.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
-import 'package:librelab_server/server/route_module.dart';
-import 'package:librelab_server/server/router_ext.dart';
 import 'package:librelab_server/user/response_mappers.dart';
 import 'package:librelab_shared/result.dart';
 import 'package:shelf/shelf.dart';
-import 'package:shelf_router/shelf_router.dart';
 
-class AuthRoutes({
+class AuthController({
   required final AuthService _service,
   required final bool cookiesRequireSecureConnection,
   required final bool Function() _isLoginDisabled,
-}) implements RouteModule {
-  late final AuthBrowserRoutes _browserRoutes = .new(
+}) {
+  late final AuthBrowserController browser = .new(
     cookiesRequireSecureConnection: cookiesRequireSecureConnection,
     login: _login,
     logout: _logout,
     refresh: _refresh,
   );
 
-  @override
-  Router get router => .new()
-    ..register(ApiEndpointDefinitions.auth_login$POST, _loginHandler)
-    ..register(ApiEndpointDefinitions.auth_logout$POST, _logoutHandler)
-    ..register(ApiEndpointDefinitions.auth_refresh$POST, _refreshHandler)
-    ..register(
-      ApiEndpointDefinitions.auth_browser_login$POST,
-      _browserRoutes.loginHandler,
-    )
-    ..register(
-      ApiEndpointDefinitions.auth_browser_logout$POST,
-      _browserRoutes.logoutHandler,
-    )
-    ..register(
-      ApiEndpointDefinitions.auth_browser_refresh$POST,
-      _browserRoutes.refreshHandler,
-    )
-    ..register(
-      ApiEndpointDefinitions.auth_login_status$GET,
-      _loginStatusHandler,
-    );
-
-  Future<Response> _loginHandler(Request request) => _login(
+  Future<Response> login(Request request) => _login(
     request,
     success: (session) {
       final (user, tokens) = session;
@@ -61,7 +35,7 @@ class AuthRoutes({
     },
   );
 
-  /// Shared between [_loginHandler] and [AuthBrowserRoutes.loginHandler]
+  /// Shared between [login] and [AuthBrowserController.login]
   Future<Response> _login(
     Request request, {
     required Response Function(AuthenticatedSession session) success,
@@ -100,7 +74,7 @@ class AuthRoutes({
     }
   }
 
-  Future<Response> _logoutHandler(Request request) async {
+  Future<Response> logout(Request request) async {
     return _logout(
       request,
       readRefreshToken: () async {
@@ -113,7 +87,7 @@ class AuthRoutes({
     );
   }
 
-  /// Shared between [_logoutHandler] and [AuthBrowserRoutes.logoutHandler]
+  /// Shared between [logout] and [AuthBrowserController.logout]
   Future<Response> _logout(
     Request request, {
     required Future<String> Function() readRefreshToken,
@@ -132,7 +106,7 @@ class AuthRoutes({
         .httpResponse(.ok, headers: successHeaders?.call());
   }
 
-  Future<Response> _refreshHandler(Request request) async {
+  Future<Response> refresh(Request request) async {
     return _refresh(
       request,
       readRefreshToken: () async {
@@ -150,7 +124,7 @@ class AuthRoutes({
     );
   }
 
-  /// Shared between [_refreshHandler] and [AuthBrowserRoutes.refreshHandler]
+  /// Shared between [refresh] and [AuthBrowserController.refresh]
   Future<Response> _refresh(
     Request request, {
     required Future<String> Function() readRefreshToken,
@@ -201,7 +175,7 @@ class AuthRoutes({
     }
   }
 
-  Future<Response> _loginStatusHandler(Request request) async {
+  Future<Response> loginStatus(Request request) async {
     return LoginStatusResponse(isLoginDisabled: _isLoginDisabled())
         .toJson()
         .httpResponse(.ok);

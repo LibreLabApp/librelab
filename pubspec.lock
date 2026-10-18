@@ -626,10 +626,10 @@ packages:
     dependency: transitive
     description:
       name: freedesktop_secret
-      sha256: a294ce7650c3d9c79e0ebd2c7cdfb80eb5abc93e47de085d841dc15a3b108e38
+      sha256: b3b549d13f5fa662d91781a42b395d34a1b75f3af3f571e9e7ad7592cf554cbb
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.5"
+    version: "0.1.6"
   freezed:
     dependency: transitive
     description:

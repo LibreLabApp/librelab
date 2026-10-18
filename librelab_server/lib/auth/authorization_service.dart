@@ -8,8 +8,8 @@ import 'package:librelab_api_contract/librelab_api_contract.dart'
         PermissionJson,
         ServerErrorResponse;
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
-import 'package:librelab_server/auth/browser/auth_cookie_names.dart';
-import 'package:librelab_server/auth/browser/request_cookies.dart';
+import 'package:librelab_server/auth/http/browser/auth_cookie_names.dart';
+import 'package:librelab_server/auth/http/browser/request_cookies.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';

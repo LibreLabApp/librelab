@@ -5,7 +5,6 @@ import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/file_storage/exceptions.dart';
 import 'package:librelab_server/server/cors_headers.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
-import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server_error_exception.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/validation/id_validation.dart'
@@ -23,7 +22,7 @@ final _logger = Logger('Server');
 Future<HttpServer> startServer({
   required int port,
   required String address,
-  required List<RouteModule> routeModules,
+  required List<Router> apiRouters,
   required bool webClientHostingEnabled,
   required String webDirFileSystemPath,
 }) async {
@@ -41,8 +40,8 @@ Future<HttpServer> startServer({
     ).toJson().httpResponse(.notFound),
   );
 
-  for (final module in routeModules) {
-    apiRouter.mount('/', module.router.call);
+  for (final router in apiRouters) {
+    apiRouter.mount('/', router.call);
   }
 
   router.mount(ApiDeployment.rootPath, apiRouter.call);

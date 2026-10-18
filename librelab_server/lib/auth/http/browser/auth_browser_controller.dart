@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart';
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
-import 'package:librelab_server/auth/browser/auth_cookie_names.dart';
-import 'package:librelab_server/auth/browser/cookie_operation.dart';
-import 'package:librelab_server/auth/browser/request_cookies.dart';
+import 'package:librelab_server/auth/http/browser/auth_cookie_names.dart';
+import 'package:librelab_server/auth/http/browser/cookie_operation.dart';
+import 'package:librelab_server/auth/http/browser/request_cookies.dart';
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/user/response_mappers.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:shelf/shelf.dart';
 
-class AuthBrowserRoutes({
+class AuthBrowserController({
   required final bool _cookiesRequireSecureConnection,
   required final Future<Response> Function(
     Request request, {
@@ -31,7 +31,7 @@ class AuthBrowserRoutes({
   })
   _refresh,
 }) {
-  Future<Response> loginHandler(Request request) async {
+  Future<Response> login(Request request) async {
     return _login(
       request,
       success: (session) {
@@ -70,7 +70,7 @@ class AuthBrowserRoutes({
     return cookies.valueOf(AuthCookieNames.refreshToken);
   }
 
-  Future<Response> logoutHandler(Request request) async {
+  Future<Response> logout(Request request) async {
     final headers = {
       HttpHeaders.setCookieHeader: <String>[
         _accessTokenCookie(const .remove()).toString(),
@@ -94,7 +94,7 @@ class AuthBrowserRoutes({
     );
   }
 
-  Future<Response> refreshHandler(Request request) async {
+  Future<Response> refresh(Request request) async {
     final cookies = request.cookies;
     final refreshToken = _refreshTokenFromCookies(cookies);
     if (refreshToken == null) {

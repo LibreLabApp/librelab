@@ -5,9 +5,9 @@ import 'package:file/local.dart';
 import 'package:librelab_server/app_file_paths.dart';
 import 'package:librelab_server/audit_log/audit_log_repository.dart';
 import 'package:librelab_server/audit_log/audit_log_repository_postgres.dart';
-import 'package:librelab_server/auth/auth_routes.dart';
 import 'package:librelab_server/auth/auth_service/auth_service.dart';
 import 'package:librelab_server/auth/authorization_service.dart';
+import 'package:librelab_server/auth/http/auth_routes.dart';
 import 'package:librelab_server/auth/login_attempt/login_attempt_repository_postgres.dart';
 import 'package:librelab_server/auth/refresh_token/user_refresh_token_repository_postgres.dart';
 import 'package:librelab_server/auth/security/jwt/jwt_service.dart';
@@ -15,26 +15,25 @@ import 'package:librelab_server/auth/security/password_hasher/bcrypt_password_ha
 import 'package:librelab_server/auth/superuser_initializer.dart';
 import 'package:librelab_server/cli/arg_parser.dart';
 import 'package:librelab_server/cli/cli_constants.dart';
-import 'package:librelab_server/compatibility/compatibility_routes.dart';
+import 'package:librelab_server/compatibility/http/compatibility_routes.dart';
 import 'package:librelab_server/config/config.dart';
 import 'package:librelab_server/database/database_connect.dart';
 import 'package:librelab_server/database/database_migration_runner.dart';
 import 'package:librelab_server/database/database_migrations.g.dart';
 import 'package:librelab_server/database/postgres_installer/postgres_installer.dart';
-import 'package:librelab_server/file_storage/file_storage_routes.dart';
+import 'package:librelab_server/file_storage/http/file_storage_routes.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object_repository.dart';
 import 'package:librelab_server/file_storage/storage_object/storage_object_repository_postgres.dart';
 import 'package:librelab_server/generated/pubspec.g.dart';
+import 'package:librelab_server/lab_settings/http/lab_settings_routes.dart';
 import 'package:librelab_server/lab_settings/lab_settings.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository.dart';
 import 'package:librelab_server/lab_settings/lab_settings_repository_postgres.dart';
-import 'package:librelab_server/lab_settings/lab_settings_routes.dart';
 import 'package:librelab_server/mdns/mdns.dart';
-import 'package:librelab_server/server/route_module.dart';
 import 'package:librelab_server/server/server.dart';
+import 'package:librelab_server/user/http/user_routes.dart';
 import 'package:librelab_server/user/user_repository.dart';
 import 'package:librelab_server/user/user_repository_postgres.dart';
-import 'package:librelab_server/user/user_routes.dart';
 import 'package:librelab_server/utils/is_debug_mode.dart';
 import 'package:librelab_server/utils/platform_check.dart';
 import 'package:librelab_server/utils/server_port_availability.dart';
@@ -42,6 +41,7 @@ import 'package:librelab_server/utils/shutdown/shutdown.dart';
 import 'package:librelab_server/utils/shutdown/shutdown_hook_registry.dart';
 import 'package:librelab_shared/librelab_shared.dart';
 import 'package:logging/logging.dart';
+import 'package:shelf_router/shelf_router.dart';
 import 'package:string_storage/string_storage.dart';
 import 'package:string_storage/string_storage_file.dart';
 import 'package:yaml_storage/yaml_storage.dart';
@@ -225,35 +225,41 @@ Future<void> run(List<String> args) async {
   final server = await startServer(
     port: httpServerPort,
     address: httpServerAddress,
-    routeModules: <RouteModule>[
-      CompatibilityRoutes(),
-      AuthRoutes(
-        service: authService,
-        cookiesRequireSecureConnection: config.httpServer.api.cookies.secure,
-        isLoginDisabled: () => labSettingsRepository.cached.loginDisabled,
-      ),
-      UserRoutes(authorization: authorizationService),
-      LabSettingsRoutes(
-        authorization: authorizationService,
-        service: .new(
-          db: databaseClient,
-          labSettingsRepository: labSettingsRepository,
-          auditLogRepository: auditLogRepository,
-          storageObjectRepository: storageObjectRepository,
+    apiRouters: <Router>[
+      compatibilityRoutes(.new()),
+      authRoutes(
+        .new(
+          service: authService,
+          cookiesRequireSecureConnection: config.httpServer.api.cookies.secure,
+          isLoginDisabled: () => labSettingsRepository.cached.loginDisabled,
         ),
       ),
-      FileStorageRoutes(
-        authorization: authorizationService,
-        storageService: .new(
-          db: databaseClient,
-          storageObjectRepository: storageObjectRepository,
-          fs: fs,
-          storageDirectoryPath: appFilePaths.storageDir,
-          auditLogRepository: auditLogRepository,
+      userRoutes(.new(authorization: authorizationService)),
+      labSettingsRoutes(
+        .new(
+          authorization: authorizationService,
+          service: .new(
+            db: databaseClient,
+            labSettingsRepository: labSettingsRepository,
+            auditLogRepository: auditLogRepository,
+            storageObjectRepository: storageObjectRepository,
+          ),
         ),
-        storageAuthorization: .new(authorization: authorizationService),
-        mimeTypeValidator: .new(),
-        logger: .new('FileStorageRoutes'),
+      ),
+      fileStorageRoutes(
+        .new(
+          authorization: authorizationService,
+          storageService: .new(
+            db: databaseClient,
+            storageObjectRepository: storageObjectRepository,
+            fs: fs,
+            storageDirectoryPath: appFilePaths.storageDir,
+            auditLogRepository: auditLogRepository,
+          ),
+          storageAuthorization: .new(authorization: authorizationService),
+          mimeTypeValidator: .new(),
+          logger: .new('FileStorageController'),
+        ),
       ),
     ],
     webClientHostingEnabled: config.httpServer.webClientHosting.enabled,

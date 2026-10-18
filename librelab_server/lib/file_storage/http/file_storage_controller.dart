@@ -1,4 +1,3 @@
-import 'package:librelab_api_contract/api_endpoint_definition.dart';
 import 'package:librelab_api_contract/librelab_api_contract.dart'
     show ApiHttpHeaders, ServerErrorResponse, StorageErrorCodes;
 import 'package:librelab_api_contract/librelab_api_contract.dart' as api;
@@ -11,49 +10,24 @@ import 'package:librelab_server/file_storage/storage_object/storage_object.dart'
     show StorageObject;
 import 'package:librelab_server/server/json_http_extensions.dart';
 import 'package:librelab_server/server/request_ext.dart';
-import 'package:librelab_server/server/route_module.dart';
-import 'package:librelab_server/server/router_ext.dart';
 import 'package:librelab_server/utils/json_types.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_multipart/shelf_multipart.dart';
-import 'package:shelf_router/shelf_router.dart';
 
-// TODO: Consider moving some logic from FileStorageRoutes into FileStorageService.
+// TODO: Consider moving some logic from FileStorageController into FileStorageService.
 //  Review all route classes to ensure a clean boundary between HTTP/controller
-//  responsibilities and service responsibilities. Consider avoiding the "Routes"
-//  suffix for these HTTP-layer classes, and refactor route method names such as
-//  _getHandler.
+//  responsibilities and service responsibilities.
 
-class FileStorageRoutes({
+class FileStorageController({
   required final AuthorizationService _authorization,
   required final FileStorageAuthorizationService _storageAuthorization,
   required final FileStorageService _storageService,
   required final FileStorageMimeTypeValidator _mimeTypeValidator,
   required final Logger _logger,
-}) implements RouteModule {
-  @override
-  Router get router => .new()
-    ..register(
-      ApiEndpointDefinitions.storage_file$GET(id: RouteParams.idPath),
-      _getFileHandler,
-    )
-    ..register(
-      ApiEndpointDefinitions.storage$GET(id: RouteParams.idPath),
-      _getFileMetadataHandler,
-    )
-    ..register(ApiEndpointDefinitions.storage$POST, _postHandler)
-    ..register(
-      ApiEndpointDefinitions.storage$PUT(id: RouteParams.idPath),
-      _putHandler,
-    )
-    ..register(
-      ApiEndpointDefinitions.storage$DELETE(id: RouteParams.idPath),
-      _deleteHandler,
-    );
-
-  Future<Response> _getFileHandler(Request request) =>
+}) {
+  Future<Response> getFile(Request request) =>
       _authorization.withAuthUser(request, (user) async {
         final id = request.idParameter;
 
@@ -103,7 +77,7 @@ class FileStorageRoutes({
         }
       });
 
-  Future<Response> _getFileMetadataHandler(Request request) async =>
+  Future<Response> get(Request request) async =>
       _authorization.withAuthUser(request, (user) async {
         final id = request.idParameter;
 
@@ -125,7 +99,7 @@ class FileStorageRoutes({
         return storageObject.toResponse().toJson().httpResponse(.ok);
       });
 
-  Future<Response> _postHandler(
+  Future<Response> upload(
     Request request,
   ) => _authorization.withAuthUser(request, (user) async {
     final multipartFormData = request.formData();
@@ -226,7 +200,7 @@ class FileStorageRoutes({
     }
   });
 
-  Future<Response> _putHandler(
+  Future<Response> update(
     Request request,
   ) async => _authorization.withAuthUser(request, (user) async {
     final id = request.idParameter;
@@ -318,7 +292,7 @@ class FileStorageRoutes({
     }
   });
 
-  Future<Response> _deleteHandler(Request request) =>
+  Future<Response> delete(Request request) =>
       _authorization.withAuthUser(request, (user) async {
         final id = request.idParameter;
 
